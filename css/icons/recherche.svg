@@ -1,0 +1,24 @@
+<svg id="Groupe_854" data-name="Groupe 854" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 17.8 23.8">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #434a54;
+      }
+
+      .cls-2 {
+        fill: none;
+        stroke: #f4f5f5;
+        stroke-linecap: round;
+        stroke-miterlimit: 10;
+        stroke-width: 0.5px;
+      }
+    </style>
+  </defs>
+  <path id="Tracé_793" data-name="Tracé 793" class="cls-1" d="M5.3,20.9a3.569,3.569,0,0,0,3.6,2.9,3.665,3.665,0,0,0,3.6-2.9Z"/>
+  <g id="Groupe_853" data-name="Groupe 853">
+    <path id="Tracé_794" data-name="Tracé 794" class="cls-1" d="M8.9,0A8.92,8.92,0,0,0,0,8.9a8.739,8.739,0,0,0,4.2,7.5v2.2a1.538,1.538,0,0,0,1.5,1.5H12a1.538,1.538,0,0,0,1.5-1.5V16.5a8.778,8.778,0,0,0,4.3-7.6A8.92,8.92,0,0,0,8.9,0Z"/>
+    <path id="Tracé_795" data-name="Tracé 795" class="cls-2" d="M7.4,16.2S8.1,10,5.3,7.5"/>
+    <path id="Tracé_796" data-name="Tracé 796" class="cls-2" d="M10.5,16.2S9.8,10,12.6,7.5"/>
+    <path id="Tracé_797" data-name="Tracé 797" class="cls-2" d="M5.2,7.4,6.5,8.8,7.6,7.1,8.7,8.5l1.9-1.4.8,1.7,1.2-1.2"/>
+  </g>
+</svg>

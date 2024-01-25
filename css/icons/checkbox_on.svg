@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #434a54;
+      }
+
+      .cls-2 {
+        fill: #fff;
+        fill-rule: evenodd;
+      }
+
+      .cls-3, .cls-4 {
+        stroke: none;
+      }
+
+      .cls-4 {
+        fill: #d1d2d3;
+      }
+    </style>
+  </defs>
+  <g id="Groupe_867" data-name="Groupe 867" transform="translate(468 1722)">
+    <g id="Tracé_808" data-name="Tracé 808" class="cls-1" transform="translate(-468 -1722)">
+      <path class="cls-3" d="M 13.5 13.5 L 0.5 13.5 L 0.5 0.5 L 13.5 0.5 L 13.5 13.5 Z"/>
+      <path class="cls-4" d="M 1 1 L 1 13 L 13 13 L 13 1 L 1 1 M 0 0 L 14 0 L 14 14 L 0 14 L 0 0 Z"/>
+    </g>
+    <g id="Groupe_866" data-name="Groupe 866" transform="translate(-165.967 -2062.652) rotate(90)">
+      <path id="path" class="cls-2" d="M6.7,8.979,9.024,6.858l-1-1L4,9.69l5.69,5.69,1-1L6.7,10.4,5.944,9.69Z" transform="translate(355.686 305.381) rotate(180)"/>
+    </g>
+  </g>
+</svg>

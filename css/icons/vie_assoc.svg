@@ -1,0 +1,28 @@
+<svg id="Groupe_857" data-name="Groupe 857" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 23.9 19">
+  <defs>
+    <style>
+      .cls-1, .cls-2 {
+        fill: #434a54;
+      }
+
+      .cls-2 {
+        stroke: #f4f5f5;
+        stroke-miterlimit: 10;
+      }
+    </style>
+  </defs>
+  <g id="Groupe_856" data-name="Groupe 856">
+    <g id="Groupe_861_3_" transform="translate(-3395 546)">
+      <ellipse id="Ellipse_18_3_" class="cls-1" cx="3.5" cy="4.1" rx="3.5" ry="4.1" transform="translate(3399.3 -546)"/>
+      <path id="Intersection_1_3_" class="cls-1" d="M3395-532.7a11.109,11.109,0,0,1,15.5,0v3.6H3395Z"/>
+    </g>
+    <g id="Groupe_861_2_" transform="translate(-3395 546)">
+      <ellipse id="Ellipse_18_2_" class="cls-1" cx="3.5" cy="4.1" rx="3.5" ry="4.1" transform="translate(3407.7 -546)"/>
+      <path id="Intersection_1_2_" class="cls-1" d="M3403.4-532.7a11.109,11.109,0,0,1,15.5,0v3.6h-15.5Z"/>
+    </g>
+    <g id="Groupe_861_1_" transform="translate(-3395 546)">
+      <ellipse id="Ellipse_18_1_" class="cls-2" cx="3.5" cy="4.1" rx="3.5" ry="4.1" transform="translate(3403.4 -544.5)"/>
+      <path id="Intersection_1_1_" class="cls-2" d="M3399.2-531.1a11.109,11.109,0,0,1,15.5,0v3.6h-15.5Z"/>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,19 @@
+<svg id="Groupe_860" data-name="Groupe 860" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 13.4 26.5">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #434a54;
+      }
+
+      .cls-2 {
+        fill: #f4f5f5;
+      }
+    </style>
+  </defs>
+  <rect id="Rectangle_988" data-name="Rectangle 988" class="cls-1" width="13.4" height="24.2"/>
+  <g id="Groupe_859" data-name="Groupe 859">
+    <path id="Tracé_803" data-name="Tracé 803" class="cls-2" d="M.5,23.7V.6L11.1,2.8V26Z"/>
+    <path id="Tracé_804" data-name="Tracé 804" class="cls-1" d="M1,1.2l9.6,2V25.3L1,23.3V1.2M0,0V24.1l11.6,2.4V2.4L0,0Z"/>
+  </g>
+  <circle id="Ellipse_17" data-name="Ellipse 17" class="cls-1" cx="1" cy="1" r="1" transform="translate(7.6 12.5)"/>
+</svg>
