@@ -1,25 +1,17 @@
-// Importation du token fond de carte MapTiler au début de la fonction IIFE
-import {mapToken} from './token.js';
-
 (function ($) {
-  
   function getQueryStringValue(key) {
     return decodeURIComponent(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + encodeURIComponent(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
   }
-  
   var overlay = getQueryStringValue("layer").toString();
   var overlayPoint = getQueryStringValue("point").toString();
-  
   ///////////////////////////////////////  Initialisation du fond de carte //////////////////////////////////
-
-  // Adapter le zoom, et la largeur / placement des raccourcis spatiaux en fonction de l'écran
+// Adapter le zoom, et la largeur / placement des raccourcis spatiaux en fonction de l'écran
   var device = null;
   var largeurEcran = screen.width
   var zoomBase = 15.8;
   var BoutonsD = document.getElementById("DDD")
   var Bouton2D = document.createElement('button');
   Bouton2D.setAttribute("class", "btn btn-primary");
-
   //par défaut bouton2D actif
   Bouton2D.classList.add("active");
   Bouton2D.setAttribute("id", "DDButton");
@@ -52,27 +44,18 @@ import {mapToken} from './token.js';
     document.getElementById('Mazier').style.width = '33%';
     document.getElementById('campus').style.marginLeft = '-20%';
   }
-
   //Limites de vue en fonction du campus visité
   //Villejean / La Harpe
   var rennesBounds = [
     [-1.787293, 48.067191], // Southwest coordinates
     [-1.525772, 48.169255]  // Northeast coordinates
   ];
-  
   //Mazier
   var mazierBounds = [
     [-2.810090, 48.488519],
     [-2.668165, 48.534886]
   ];
-  
   // Appel du fond de carte
-
-    //Appel d'un token maptiler
-    //var mapToken1 = mapToken
-
-  //var mapToken = 'zXodaO9ZW510ceX2WoPL';
-  
   var map = new maplibregl.Map({
     container: 'map', // container id
     style: 'https://api.maptiler.com/maps/voyager/style.json?key='+mapToken, // stylesheet location
@@ -90,8 +73,6 @@ import {mapToken} from './token.js';
   } else {
     map.getCanvas().style.height = screen.height - 108 - 330;
   }
-
-
   ///////////////////////////////////////  initialisation des variables overlay //////////////////////////////////
   //var case1 = '../css/icons/case1.png'; // Lien vers l'image case non cochée
   //var case2 = '../css/icons/case2.png'; // Lien vers l'image case cochée
