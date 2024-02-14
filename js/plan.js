@@ -3,6 +3,7 @@ import {mapToken} from './token.js';
 
 (function ($) {
   
+  //ci-dessous l'extraction d'une valeur d'un paramètre d'URL (avec expression régulière)
   function getQueryStringValue(key) {
     return decodeURIComponent(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + encodeURIComponent(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
   }
@@ -24,10 +25,14 @@ import {mapToken} from './token.js';
   Bouton2D.classList.add("active");
   Bouton2D.setAttribute("id", "DDButton");
   Bouton2D.innerHTML = '2D';
+
+  //déclaration bouton 3D
   var Bouton3D = document.createElement('button');
   Bouton3D.setAttribute("class", "btn btn-primary");
   Bouton3D.setAttribute("id", "DDDButton");
   Bouton3D.innerHTML = '3D';
+
+  //configuration page selon dimension de la fenetre du navigateur
   if (largeurEcran < 500) {
     device = 'phone';
     document.getElementById('map').style.height = '80vh';
@@ -67,12 +72,6 @@ import {mapToken} from './token.js';
   ];
   
   // Appel du fond de carte
-
-    //Appel d'un token maptiler
-    //var mapToken1 = mapToken
-
-  //var mapToken = 'zXodaO9ZW510ceX2WoPL';
-  
   var map = new maplibregl.Map({
     container: 'map', // container id
     style: 'https://api.maptiler.com/maps/voyager/style.json?key='+mapToken, // stylesheet location
@@ -91,55 +90,62 @@ import {mapToken} from './token.js';
     map.getCanvas().style.height = screen.height - 108 - 330;
   }
 
-
   ///////////////////////////////////////  initialisation des variables overlay //////////////////////////////////
   //var case1 = '../css/icons/case1.png'; // Lien vers l'image case non cochée
   //var case2 = '../css/icons/case2.png'; // Lien vers l'image case cochée
+
   // Taille overlay:
   var tailleMarker = [1, 13, 0.1, 25, 1.5]; // taille adaptative des éléments type marker /!\ NE PAS MODIFIER : pour toute modification de taille, changer la taille du .png
-//    var taillePetitMarker = [1,13,0.05,25,1] // taille adaptative des éléments type marker /!\ NE PAS MODIFIER : pour toute modification de taille, changer la taille du .png
-//même taille pour tous les markers
-  var taillePetitMarker = [1, 13, 0.1, 25, 1.5] // taille adaptative des éléments type marker /!\ NE PAS MODIFIER : pour toute modification de taille, changer la taille du .png
+  //var taillePetitMarker = [1,13,0.05,25,1] // taille adaptative des éléments type marker /!\ NE PAS MODIFIER : pour toute modification de taille, changer la taille du .png
+  //même taille pour tous les markers
+  var taillePetitMarker = [1, 13, 0.1, 25, 1.5]; // taille adaptative des éléments type marker /!\ NE PAS MODIFIER : pour toute modification de taille, changer la taille du .png
   var tailleLine = [1.5, 13, 2, 22, 18]; // taille des éléments type ligne
   var taillePoint = [1.5, 13, 2, 22, 60]; // taille adaptative des éléments type point
   var taillePicto = [1.5, 13, 0.25, 22, 1.7]; // taille adaptative des éléments type pictogramme
   var Etiquette = []; // Liste des couches ayant des étiquettes (exemple amphithéâtres)
-  var activeLayerBackground = '#EEEEEE' // couleur du background des lignes
+  var activeLayerBackground = '#EEEEEE'; // couleur du background des lignes
 
   /////////////// VARIABLES COUCHES ////////////////////
+
   // Couche amphithéâtres
   var amphiCount = 0; // initialisation du compteur
   var amphitheatresLink = document.getElementById('Amphithéâtre'); // Recherche de la balise html liée à la couche
   Etiquette.push('Amphithéâtre'); // Ajout des etiquettes
   var amphiURL = '../css/icons/layers_icons/amphi_marker.png';
+  
   // Couche salles informatique
   var sallesInfoCount = 0;
   var sallesInfoLink = document.getElementById('Salle informatique');
   var sallesInfoURL = '../css/icons/layers_icons/salle_info_marker.png';
+  
   // Couche salles spécifiques
   var sallesSpeCount = 0;
   var listeSallesSpecifiques = []; // Création dynamique de la liste des salles à partir du jeu de données
   var sallesSpecifiquesLink = document.getElementById('Salles spécifiques');
   var insertSallesSpecifiques = document.getElementById('insertSallesSpecifiques');
   var sallesSpeURL = '../css/icons/layers_icons/sallespe_marker.png';
+  
   // Services centraux
   var ServicescenCount = 0;
   var listeServicescen = []; // Création dynamique de la liste des salles à partir du jeu de données
   var ServicescenLink = document.getElementById('Services centraux');
   var insertServicescen = document.getElementById('insertServicescen');
   var ServicescenURL = '../css/icons/layers_icons/servicescen_marker.png';
+  
   // Services commun
   var ServicescomCount = 0;
   var listeServicescom = []; // Création dynamique de la liste des salles à partir du jeu de données
   var ServicescomLink = document.getElementById('Services communs');
   var insertServicescom = document.getElementById('insertServicescom');
   var ServicescomURL = '../css/icons/layers_icons/servicescom_marker.png';
+  
   // Services généraux
   var ServicesgenCount = 0;
   var listeServicesgen = []; // Création dynamique de la liste des salles à partir du jeu de données
   var ServicesgenLink = document.getElementById('Services généraux');
   var insertServicesgen = document.getElementById('insertServicesgen');
   var ServicesgenURL = '../css/icons/layers_icons/servicesgen_marker.png';
+  
   //formations
   // Formation UFR Sciences Humaines
   var FUFRSHCount = 0;
@@ -177,7 +183,8 @@ import {mapToken} from './token.js';
   var AutresFormationsLink = document.getElementById('Autres Formations');
   var insertAutresFormations = document.getElementById('insertAutresFormations');
   var AutresFormationsURL = '../css/icons/layers_icons/formation_marker.png';
-// recherche
+
+  // recherche
   // Recherche UFR Sciences Sociales
   var RUFRSSCount = 0;
   var listeRUFRSS = [];
@@ -208,16 +215,19 @@ import {mapToken} from './token.js';
   var RUFRSHLink = document.getElementById('Recherche UFRSH');
   var insertRUFRSH = document.getElementById('insertRUFRSH');
   var RUFRSHURL = '../css/icons/layers_icons/recherche_marker.png';
+
   // Couche bibliothèques
   var bibliothequesCount = 0; // initialisation du compteur de clics
   var bibliothequesLink = document.getElementById("Bibliothèques");
   var bibliothequesURL = '../css/icons/layers_icons/biblio_marker.png';
+
   // Couche Lieu culturel
   var lieuCulturelCount = 0; // initialisation du compteur de clics
   var lieuCulturelLink = document.getElementById('Lieux culturels');
   var listelieuCulturel = []; // Création dynamique de la liste des salles à partir du jeu de données
   var insertLieuCulturel = document.getElementById('insertLieuCulturel');
   var lieuCulturelURL = '../css/icons/layers_icons/culture_marker.png';
+
   // Couche oeuvres d'arts
   var oeuvreArtsCount = 0; // initialisation du compteur de clics
   var oeuvreArtsLink = document.getElementById('Oeuvre');
@@ -227,108 +237,133 @@ import {mapToken} from './token.js';
   var equipementSportifCount = 0; // initialisation du compteur de clics
   var equipementSportifLink = document.getElementById('Equipement sportif');
   var equipementSportifURL = '../css/icons/layers_icons/sport_marker.png';
+
   // Couche toilettes
   var toilettesCount = 0; // initialisation du compteur de clics
   var toilettesLink = document.getElementById('Toilettes');
   var toilettesURL = '../css/icons/layers_icons/wc_marker.png';
+
   // Couche copieurs
   var copieurCount = 0; // initialisation du compteur de clics
   var copieurLink = document.getElementById('Copieur');
   var copieursURL = '../css/icons/layers_icons/copieur_marker.png';
+
   // Couche espace détente
   var espaceDetenteCount = 0; // initialisation du compteur de clics
   var espaceDetenteLink = document.getElementById('Espace détente');
   var espaceDetenteURL = '../css/icons/layers_icons/espacedetente_marker.png';
+
   // Couche cafeterias
   var cafeteriasCount = 0; // initialisation du compteur de clics
   var cafeteriasLink = document.getElementById('Cafétéria');
   var cafeteriasURL = '../css/icons/layers_icons/cafeteria_marker.png';
+
   // Couche Micro-ondes
   var microOndesCount = 0; // initialisation du compteur de clics
   var microOndesLink = document.getElementById('Micro-ondes');
   var microOndesURL = '../css/icons/layers_icons/microondes_marker.png';
+
   // Couche Résidences universitaires
   var resUnivCount = 0; // initialisation du compteur de clics
   var resUnivLink = document.getElementById("Résidence Universitaire");
   var resUnivURL = '../css/icons/layers_icons/resuniv_marker.png';
+
   // Couche Restaurants universitaires
   var restoUnivCount = 0; // initialisation du compteur de clics
   var restoUnivLink = document.getElementById("Restaurant Universitaire");
   var restoUnivURL = '../css/icons/layers_icons/restauu_marker.png';
+
   // Couche Associations de filières
   var associationsfilieresCount = 0; // initialisation du compteur de clics
   var associationsfilieresLink = document.getElementById('Associations de filières');
   var associationsfilieresURL = '../css/icons/layers_icons/association_marker.png';
+
   // Couche Associations de Masters et Doctorats
   var associationsmasterCount = 0; // initialisation du compteur de clics
   var associationsmasterLink = document.getElementById('Associations de Masters et Doctorats');
   var associationsmasterURL = '../css/icons/layers_icons/association_marker2.png';
+
   // Couche Associations briochines
   var associationsbriochinesCount = 0; // initialisation du compteur de clics
   var associationsbriochinesLink = document.getElementById('Associations briochines');
   var associationsbriochinesURL = '../css/icons/layers_icons/association_marker3.png';
+
   // Couche Associations culturelles, artistiques et sportives
   var associationscasCount = 0; // initialisation du compteur de clics
   var associationscasLink = document.getElementById('Associations culturelles, artistiques et sportives');
   var associationscasURL = '../css/icons/layers_icons/association_marker4.png';
+
   // Couche Associations de solidarité et de sensibilisation
   var associationssolidariteCount = 0; // initialisation du compteur de clics
   var associationssolidariteLink = document.getElementById('Associations de solidarité et de sensibilisation');
   var associationssolidariteURL = '../css/icons/layers_icons/association_marker5.png';
+
   // Couche Associations autres
   var associationsCount = 0; // initialisation du compteur de clics
   var associationsLink = document.getElementById('Autres');
   var associationsURL = '../css/icons/layers_icons/association_marker6.png';
+
   // Couche ascenseur
   var ascenseurCount = 0; // initialisation du compteur de clics
   var ascenseurLink = document.getElementById('Ascenseur');
   var ascenseurColor = '#1da34a';
   var ascenseurIconSize = [1.5, 13, 2, 22, 60];
+
   // Couche parking
   var parkingCount = 0; // initialisation du compteur de clics
   var parkingLink = document.getElementById('Parking');
   var parkingURL = '../css/icons/layers_icons/paking_picto.png';
+
   // Couche parking PMR
   var parkingPMRCount = 0; // initialisation du compteur de clics
   var parkingPMRURL = '../css/icons/layers_icons/parkingH_picto.png';
+
   // Couche parking vélo
   var parkingVeloCount = 0; // initialisation du compteur de clics
   var parkingVeloLink = document.getElementById("Parking vélo");
   var parkingVeloColor = 'purple';
   var parkingVeloIconSize = [1.5, 13, 2, 22, 60];
+
   // Couche Pole santé
   var polesanteCount = 0; // initialisation du compteur de clics
   var polesanteLink = document.getElementById('Pole santé');
   var polesanteURL = '../css/icons/layers_icons/sante_marker.png';
+
   // Lineaire PMR
   var lineairePMRCount = 0; // initialisation du compteur de clics
   var lineairePMRLink = document.getElementById("Cheminements accessibles");
   var lineairePMRColor = '#138fad';
-  var lineairePMRType = 'line'
+  var lineairePMRType = 'line';
+
   // Couche Accès PMR
   var accesPMRCount = 0; // initialisation du compteur de clics
   var accesPMRColor = '#138fad';
-  var accesPMRIconSize = [1.5, 13, 2, 22, 60]
+  var accesPMRIconSize = [1.5, 13, 2, 22, 60];
+
   // Lineaire Metro
   var lineaireMetroCount = 0; // initialisation du compteur de clics
   var metroLink = document.getElementById("Métro");
   var lineaireMetroColor = 'red';
   var lineaireMetroIconSize = [1.5, 13, 2, 22, 60];
   var lineaireMetroType = 'line';
+  
   // Couche arrets metro
   var metroCount = 0; // initialisation du compteur de clics
   var metroColor = 'red';
   var metroIconSize = [1.5, 13, 4, 22, 80];
   var metroURL = '../css/icons/layers_icons/metro_picto.png';
+  
   // Couche arrets bus
   var busCount = 0; // initialisation du compteur de clics
   var busColor = 'green';
   var busIconSize = [1.5, 13, 4, 22, 80];
   var busURL = '../css/icons/layers_icons/bus_marker.png';
+  
   // Couche vélostar
   var velostarCount = 0; // initialisation du compteur de clics
   var velostarLink = document.getElementById("Station Vélostar");
   var velostarColor = 'green';
+  
   // Couche bus
   var busLineCount = 0; // initialisation du compteur de clics
   var busLineLink = document.getElementById("Bus");
@@ -339,33 +374,42 @@ import {mapToken} from './token.js';
   setInterval(function () {
     ServicescenLinkState = ServicescenLink.nextElementSibling.className;
   }, 500);
+
   var ServicesgenLinkState = null;
   setInterval(function () {
     ServicesgenLinkState = ServicesgenLink.nextElementSibling.className;
   }, 500);
+
   var ServicescomLinkState = null;
   setInterval(function () {
     ServicescomLinkState = ServicescomLink.nextElementSibling.className;
   }, 500);
+
+  var sallesSpeLinkState = null;
   setInterval(function () {
     sallesSpeLinkState = sallesSpecifiquesLink.nextElementSibling.className;
   }, 500);
+
   var FUFRLLinkState = null;
   setInterval(function () {
     FUFRLLinkState = FUFRLLink.nextElementSibling.className;
   }, 500);
+
   var FUFRSHLinkState = null;
   setInterval(function () {
     FUFRSHLinkState = FUFRSHLink.nextElementSibling.className;
   }, 500);
+
   var FUFRSSLinkState = null;
   setInterval(function () {
     FUFRSSLinkState = FUFRSSLink.nextElementSibling.className;
   }, 500);
+
   var FUFRSTAPSLinkState = null;
   setInterval(function () {
     FUFRSTAPSLinkState = FUFRSTAPSLink.nextElementSibling.className;
   }, 500);
+
   var AutresFormationsLinkState = null;
   setInterval(function () {
     AutresFormationsLinkState = AutresFormationsLink.nextElementSibling.className;
@@ -375,18 +419,22 @@ import {mapToken} from './token.js';
   setInterval(function () {
     RUFRLLinkState = RUFRLLink.nextElementSibling.className;
   }, 500);
+
   var RUFRSHLinkState = null;
   setInterval(function () {
     RUFRSHLinkState = RUFRSHLink.nextElementSibling.className;
   }, 500);
+
   var RUFRSSLinkState = null;
   setInterval(function () {
     RUFRSSLinkState = RUFRSSLink.nextElementSibling.className;
   }, 500);
+
   var RUFRSTAPSLinkState = null;
   setInterval(function () {
     RUFRSTAPSLinkState = RUFRSTAPSLink.nextElementSibling.className;
   }, 500);
+
   var RUFRALCLinkState = null;
   setInterval(function () {
     RUFRALCLinkState = RUFRALCLink.nextElementSibling.className;
@@ -635,7 +683,7 @@ import {mapToken} from './token.js';
   }
   ;
 
-  switchPOI = function (value) {
+  var switchPOI = function (value) {
     value = value.split("!").join("'");
     salleRecherchee = null;
     salleRX = null;
@@ -2443,6 +2491,7 @@ import {mapToken} from './token.js';
       DDDButton.classList.remove('active');
     }
   })
+
 //////////////////////////////////   Ajout de l'habillage de la carte //////////////////////////////////////
   var nav = new maplibregl.NavigationControl();
   map.addControl(nav, 'top-left');
@@ -2457,7 +2506,7 @@ import {mapToken} from './token.js';
     trackUserLocation: true
   }));
   if (screen.width > 700) {
-    attributionContainer = document.createElement('div');
+    var attributionContainer = document.createElement('div');
     attributionContainer.classList.add('attribution-container');
     /*attributionContainer.style.backgroundColor = 'white';
      attributionContainer.style.position = 'absolute';
@@ -2466,19 +2515,19 @@ import {mapToken} from './token.js';
      attributionContainer.style.right = '0';
      attributionContainer.style.display = 'inline-block';
      attributionContainer.style.zIndex = '9999';*/
-    attributionLink1 = document.createElement('a');
+    var attributionLink1 = document.createElement('a');
     attributionLink1.innerHTML = '© OpenMapTiles '
     attributionLink1.setAttribute("class", "attribution");
     attributionLink1.setAttribute('href', 'https://openmaptiles.org');
-    attributionLink2 = document.createElement('a');
+    var attributionLink2 = document.createElement('a');
     attributionLink2.innerHTML = '© OpenStreetMap contributors ';
     attributionLink2.setAttribute("class", "attribution");
     attributionLink2.setAttribute('href', 'http://www.openstreetmap.org/about');
-    attributionLink3 = document.createElement('a');
+    var attributionLink3 = document.createElement('a');
     attributionLink3.innerHTML = '© MapLibre ';
     attributionLink3.setAttribute("class", "attribution");
     attributionLink3.setAttribute('href', 'https://maplibre.org/');
-    attributionLink4 = document.createElement('a');
+    var attributionLink4 = document.createElement('a');
     attributionLink4.innerHTML = '© Master SIGAT';
     attributionLink4.setAttribute("class", "attribution");
     attributionLink4.setAttribute('href', 'https://esigat.wordpress.com');
