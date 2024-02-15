@@ -6,3 +6,13 @@ Dans un premier temps, le code initial est pris en main et modifié pour gérer 
 2) création d'un module token et import du module dans la fichier plan.js. Cela permet l'affichage du fond de plan et une mise à jour facilité de la clé
 3) ajout de "var" devant des variables non-déclarées (plan.js)
 4) aération du code HTML
+
+
+Point Hadrien Pavie - 15/02 - éléments
+1) Visionneuse - Mabox GL JS ou Malibre GL JS
+2) Fournisseurs tuiles - Maptiler / Mapbox / Maps
+3) Données R2
+
+> Campus Rennes & Saint Brieuc
+10-20 tuiles
+> geojson.io (éditeur web permet de modifier du code geojson en mode interactif)
