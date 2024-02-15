@@ -1,6 +1,8 @@
 <!DOCTYPE html>
+
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -19,70 +21,74 @@
     <link href="./css/plan.css" rel='stylesheet' />
     <script src="https://static.univ-rennes2.fr/barre-portail/jquery.barre-portail-R2.js?v=2.1" type="text/javascript"></script>
     <link rel="stylesheet" type="text/css" href="https://static.univ-rennes2.fr/barre-portail/jquery.barre-portail-R2.min.css?v=2.1" />
-<!-- Matomo -->
-<script type="text/javascript">
-  var _paq = _paq || [];
-  /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
-  _paq.push(['trackPageView']);
-  _paq.push(['enableLinkTracking']);
-  (function() {
-    var u="//webstat.univ-rennes2.fr/";
-    _paq.push(['setTrackerUrl', u+'piwik.php']);
-    _paq.push(['setSiteId', '38']);
-    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
-  })();
-</script>
-<!-- End Matomo Code -->
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-  </head>
+  
+  <!-- Matomo -->
+  <script type="text/javascript">
+    var _paq = _paq || [];
+    /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    (function() {
+      var u="//webstat.univ-rennes2.fr/";
+      _paq.push(['setTrackerUrl', u+'piwik.php']);
+      _paq.push(['setSiteId', '38']);
+      var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+      g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+    })();
+  </script>
+  <!-- End Matomo Code -->
+  
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+  <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+  
+</head>
 
   <body>
 
     <!-- MAPBOX GL -->
     <script src='./js/maplibre-gl-v1-14-0.js'></script>
     <!--<script src="https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.0/mapbox-gl.js"></script>-->
+   
     <!-- JQUERY  -->
     <script src="./js/jquery.min.js"></script>
-    <!--<script src="https://code.jquery.com/jquery-1.11.2.js" integrity="sha256-WMJwNbei5YnfOX5dfgVCS5C4waqvc+/0fV7W2uy3DyU=" crossorigin="anonymous"></script>--
-    <!-- library for search box -->
-    <script src= "./EasyAutocomplete-1.3.5/jquery.easy-autocomplete.min.js"></script>
-    <!-- Bootstrap Core JavaScript -->
-    <script src="./js/bootstrap.min.js"></script>
-    <!-- Metis Menu Plugin JavaScript -->
-    <script src="./js/metisMenu.min.js"></script>
-    <!-- Custom Theme JavaScript -->
-    <script src="./js/startmin.js"></script>
-    <!-- LOADER -->
-    <div class = "loader"><center><img id = "loader-img" src = 'css/ajax-loader.gif'><h1>Chargement de la page</h1></center></div>
+    <!-- <script src="https://code.jquery.com/jquery-1.11.2.js" integrity="sha256-WMJwNbei5YnfOX5dfgVCS5C4waqvc+/0fV7W2uy3DyU=" crossorigin="anonymous"></script> -->
+   
+    <script src= "./EasyAutocomplete-1.3.5/jquery.easy-autocomplete.min.js"></script> <!-- library for search box -->
+    <script src="./js/bootstrap.min.js"></script> <!-- Bootstrap Core JavaScript -->
+    <script src="./js/metisMenu.min.js"></script> <!-- Metis Menu Plugin JavaScript -->
+    <script src="./js/startmin.js"></script> <!-- Custom Theme JavaScript -->
+    <div class = "loader"><center><img id = "loader-img" src = 'css/ajax-loader.gif'><h1>Chargement de la page</h1></center></div> <!-- LOADER -->
+
     
     <header>
-
       <div class="header-container clearfix">
 
         <div class="image-fond"></div>
         
         <div class="header-content">
+
           <div class="region region-logo  col-xs-5">
             <img class="logo" src="css/icons/logo.svg" alt="Accueil">
           </div>
+          
           <div class="region region-right-header col-xs-7">
             <h1 class="sitename">Plan des campus</h1>
           </div>
+
         </div>
       
       </div>
-    
     </header>
     
     <div id="wrapper" >
+
       <!-- Navigation -->
       <nav class="nav nav-stacked " role="navigation" >
+
         <!-- Gestion du menu de couches -->
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
           <span class="sr-only">Toggle navigation</span>
@@ -90,11 +96,15 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
+        
         <!-- Sidebar -->
         <div class="navbar-default sidebar" role="navigation">
+          
           <div class="sidebar-nav navbar-collapse">
-            <!-- Search bar -->
+
             <ul class="nav" id="side-menu">
+               
+              <!-- Search bar -->
               <li class="sidebar-search">
                 <div id = "searchFieldContainer" class="input-group custom-search-form">
                   <input id= "searchfield" type="text" placeholder="Rechercher..." >
@@ -105,36 +115,54 @@
                   </span>
                 </div>
               </li>
+              
               <!-- Gestion des couches -->
+
+              <!-- Amphis et salles spécifiques -->
               <li>
-                <a href="#"><span class="section-name">Amphis et salles spécifiques</span>
-                  <span class="section-image"><img  src = "css/icons/amphitheatre.svg"/></span><span class="fa arrow"></span></a>
+                <a href="#">
+                  <span class="section-name">Amphis et salles spécifiques</span>
+                  <span class="section-image"><img  src = "css/icons/amphitheatre.svg"/></span>
+                  <span class="fa arrow"></span>
+                </a>
+
                 <ul class="nav nav-second-level">
+
                   <li id = "Amphithéâtre">
                     <a class="case" href="#">Amphithéâtres</a>
                   </li>
+
                   <li id = "Salle informatique">
                     <a class="case" href="#">Salles informatique</a>
                   </li>
+
                   <li >
                     <a  class="case" id = "Salles spécifiques" href="#">Salles spécifiques<span class="fa arrow"></span></a>
                     <ul class="nav nav-third-level" id = "insertSallesSpecifiques"></ul>
                   </li>
+
                 </ul>
               </li>
 
+              <!-- Structures et services -->
               <li>
-                <a href="#"><span class="section-name">Structures et services</span>
-                  <span class="section-image"><img  src = "css/icons/structures.svg"/></span><span class="fa arrow"></span></a>
+                <a href="#">
+                  <span class="section-name">Structures et services</span>
+                  <span class="section-image"><img  src = "css/icons/structures.svg"/></span>
+                  <span class="fa arrow"></span>
+                </a>
+                
                 <ul class="nav nav-second-level">
                   <li >
                     <a  class="case" id = "Services centraux" href="#">Services centraux<span class="fa arrow"></span></a>
                     <ul class="nav nav-third-level" id = "insertServicescen"></ul>
                   </li>
+
                   <li >
                     <a class="case" id = "Services généraux" href="#">Services généraux<span class="fa arrow"></span></a>
                     <ul class="nav nav-third-level" id = "insertServicesgen"></ul>
                   </li>
+
                   <li >
                     <a class="case" id = "Services communs" href="#">Services communs<span class="fa arrow"></span></a>
                     <ul class="nav nav-third-level" id = "insertServicescom"></ul>
@@ -142,56 +170,77 @@
 
                 </ul>
               </li>
+
+              <!-- Formation -->
               <li>
-                <a href="#"><span class="section-name">Formation </span>
+
+                <a href="#"><span class="section-name">Formation</span>
                   <span class="section-image"> <img src = "css/icons/formation.svg"/></span><span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
+
                   <li >
                     <a  class="case" id = "Formation UFRL" href="#">UFR Langues<span class="fa arrow"></span></a>
                     <ul class="nav nav-third-level" id = "insertFUFRL"></ul>
                   </li>
+
                   <li >
                     <a class="case"  id = "Formation UFRSH" href="#">UFR Sciences Humaines<span class="fa arrow"></span></a>
                     <ul class="nav nav-third-level" id = "insertFUFRSH"></ul>
                   </li>
+
                   <li >
                     <a class="case"  id = "Formation UFRSS" href="#">UFR Sciences Sociales<span class="fa arrow"></span></a>
                     <ul class="nav nav-third-level" id = "insertFUFRSS"></ul>
                   </li>
+
                   <li >
                     <a  class="case" id = "Formation UFRSTAPS" href="#">UFR STAPS<span class="fa arrow"></span></a>
                     <ul class="nav nav-third-level" id = "insertFUFRSTAPS"></ul>
                   </li>
+
                   <li >
                     <a class="case"  id = "Formation UFRALC" href="#">UFR ALC<span class="fa arrow"></span></a>
                     <ul class="nav nav-third-level" id = "insertFUFRALC"></ul>
                   </li>
+
                   <li >
                     <a class="case"  id = "Autres Formations" href="#">Autres structures de Formation<span class="fa arrow"></span></a>
                     <ul class="nav nav-third-level" id = "insertAutresFormations"></ul>
                   </li>
+                  
                 </ul>
               </li>
+
+              <!-- Recherche -->
               <li>
+ 
                 <a href="#"><span class="section-name">Recherche </span>
-                  <span class="section-image"><img src = "css/icons/recherche.svg"/></span><span class="fa arrow"></span></a>
+                  <span class="section-image"><img src = "css/icons/recherche.svg"/></span>
+                  <span class="fa arrow"></span>
+                </a>
+                
                 <ul class="nav nav-second-level">
+                
                   <li >
                     <a class="case" id = "Recherche UFRL" href="#">UFR Langues<span class="fa arrow"></span></a>
                     <ul class="nav nav-third-level" id = "insertRUFRL"></ul>
                   </li>
+                
                   <li >
                     <a class="case" id = "Recherche UFRSH" href="#">UFR Sciences Humaines<span class="fa arrow"></span></a>
                     <ul class="nav nav-third-level" id = "insertRUFRSH"></ul>
                   </li>
+                
                   <li >
                     <a class="case" id = "Recherche UFRSS" href="#">UFR Sciences Sociales<span class="fa arrow"></span></a>
                     <ul class="nav nav-third-level" id = "insertRUFRSS"></ul>
                   </li>
+                
                   <li >
                     <a class="case" id = "Recherche UFRSTAPS" href="#">UFR STAPS<span class="fa arrow"></span></a>
                     <ul class="nav nav-third-level" id = "insertRUFRSTAPS"></ul>
                   </li>
+                
                   <li >
                     <a class="case"  id = "Recherche UFRALC" href="#">UFR ALC<span class="fa arrow"></span></a>
                     <ul class="nav nav-third-level" id = "insertRUFRALC"></ul>
@@ -199,125 +248,202 @@
 
                 </ul>
               </li>
+              
+              <!-- Bibliothèques et Culture -->
               <li>
                 <a href="#"><span class="section-name">Bibliothèques et Culture</span>
-                  <span class="section-image"><img src = "css/icons/bibli.svg"/></span><span class="fa arrow"></span></a>
+                  <span class="section-image"><img src = "css/icons/bibli.svg"/></span>
+                  <span class="fa arrow"></span>
+                </a>
+                
                 <ul class="nav nav-second-level">
+                
                   <li id = "Bibliothèques">
                     <a class = "case" href="#">Bibliothèques</a>
                   </li>
+                
                   <li>
                     <a class = "case" id = "Lieux culturels" href="#">Lieux culturels<span class="fa arrow"></span></a>
                     <ul class="nav nav-third-level" id = "insertLieuCulturel"></ul>
                   </li>
+                
                   <li id = "Oeuvre">
                     <a class = "case" href="#">Œuvres d'art</a>
+                
                   </li>
                 </ul>
               </li>
+
+              <!-- Restauration et logement -->
               <li>
+
                 <a href="#"><span class="section-name">Restauration et logement</span>
-                  <span class="section-image"><img  src = "css/icons/restauration.svg"/></span><span class="fa arrow"></span></a>
+                  <span class="section-image"><img  src = "css/icons/restauration.svg"/></span>
+                  <span class="fa arrow"></span>
+                </a>
+                
                 <ul class="nav nav-second-level">
+              
                   <li id = "Restaurant Universitaire">
                     <a class = "case"  href="#" >Restaurants universitaires</a>
                   </li>
+              
                   <li id = "Cafétéria">
                     <a class = "case" href="#" >Cafétérias/Distributeurs</a>
                   </li>
+              
                   <li id = "Micro-ondes">
                     <a class = "case" href="#" >Micro-ondes</a>
                   </li>
+              
                   <li id = "Résidence Universitaire">
                     <a class="case" href="#" >Résidences universitaires</a>
                   </li>
+              
                 </ul>
               </li>
+
+              <!-- Sport et santé -->
               <li>
+
                 <a href="#"><span class="section-name">Sport et santé</span>
-                  <span class="section-image"><img  src = "css/icons/sport.svg"/></span><span class="fa arrow"></span></a>
+                  <span class="section-image"><img  src = "css/icons/sport.svg"/></span>
+                  <span class="fa arrow"></span>
+                </a>
+                
                 <ul class="nav nav-second-level">
+
                   <li id = "Equipement sportif">
                     <a class="case" href="#" >Equipements sportifs</a>
                   </li>
+                  
                   <li id = "Pole santé">
                     <a class="case" href="#" >Pole santé</a>
                   </li>
+
                 </ul>
+              
               </li>
+              
+              <!-- Vie associative -->
               <li>
+
                 <a href="#"><span class="section-name">Vie associative</span>
-                  <span class="section-image"><img  src = "css/icons/vie_assoc.svg"/></span><span class="fa arrow"></span></a>
+                  <span class="section-image"><img  src = "css/icons/vie_assoc.svg"/></span>
+                  <span class="fa arrow"></span>
+                </a>
+
                 <ul class="nav nav-second-level">
+                
                   <li  id = "Associations de filières">
                     <a class="case" href="#">Associations de filières</a>
                   </li>
+                
                   <li id = "Associations de Masters et Doctorats">
                     <a class="case" href="#" >Associations de Masters et Doctorats</a>
                   </li>
+                
                   <li id = "Associations culturelles, artistiques et sportives">
                     <a class="case" href="#" >Associations culturelles, artistiques et sportives</a>
                   </li>
+                
                   <li id = "Associations de solidarité et de sensibilisation">
                     <a class="case" href="#" >Associations de solidarité et de sensibilisation</a>
                   </li>
+                
                   <li id = "Associations briochines">
                    <a class="case" href="#" >Associations briochines  (Campus Mazier)</a>
                   </li>
+                
                   <li id = "Autres">
                     <a class="case" href="#" >Autres</a>
                   </li>
+                
                 </ul>
               </li>
+
+              <!-- Divers -->
               <li>
+
                 <a href="#"><span class="section-name">Divers</span>
-                  <span class="section-image"> <img  src = "css/icons/divers.svg"/></span><span class="fa arrow"></span></a>
+                  <span class="section-image"> <img  src = "css/icons/divers.svg"/></span> 
+                  <span class="fa arrow"></span>
+                </a>
+                
                 <ul class="nav nav-second-level" >
+                
                   <li id = "Copieur">
                    <a class="case" href="#" >Copieurs</a>
                   </li>
+                
                   <li id = "Espace détente">
                     <a class="case" href="#" >Espace détente</a>
                   </li>
+                
                 </ul>
               </li>
+              
+              <!-- Mobilités et accessibilité -->
               <li>
+
                 <a href="#"><span class="section-name">Mobilités et accessibilité</span>
-                  <span class="section-image"> <img src = "css/icons/mobilite.svg"/></span><span class="fa arrow"></span></a>
+                  <span class="section-image"> <img src = "css/icons/mobilite.svg"/></span>
+                  <span class="fa arrow"></span>
+                </a>
+                
                 <ul class="nav nav-second-level">
+
                   <li>
                     <a href="#">Se déplacer sur le campus <span class="fa arrow"></span></a>
+
                     <ul class="nav nav-third-level">
+
                       <li id= "Ascenseur">
                        <a class="case" href="#" >Ascenseurs</a>
                       </li>
+
                       <li id = "Cheminements accessibles">
                        <a class="case" href="#" >Cheminement personnes à mobilité réduite (PMR)</a>
                       </li>
+
                     </ul>
                   </li>
+
+
                   <li>
                     <a href="#">Accéder au campus <span class="fa arrow"></span></a>
+                    
                     <ul class="nav nav-third-level">
+                    
                       <li id = "Bus">
                         <a class="case" href="#" >Réseau de bus</a>
                       </li>
+                    
                       <li id = "Métro">
                         <a class="case" href="#" >Métro</a>
                       </li>
+                    
                       <li id = "Parking vélo">
                        <a class="case" href="#" >Parkings vélo</a>
                       </li>
+                    
                       <li id = "Station Vélostar">
                         <a class="case" href="#" >Stations vélostar</a>
                       </li>
+                    
                       <li id = "Parking">
                         <a class="case" href="#" >Parkings voiture</a>
                       </li>
                     </ul>
+                  
                   </li>
+                
                 </ul>
+              
               </li>
+              <!-- FIN Gestion des couches -->
+
+              <!-- Retirer les filtres-->
               <li class="sidebar-remove-filters">
                 <button id="btnRemovefilters" type="button" class="btn btn-primary btn-sm">Réinitialiser les filtres</button>
               </li>
@@ -325,7 +451,12 @@
             </ul>
           </div>
         </div>
+        <!-- FIN Sidebar -->
       </nav>
+      <!-- FIN Navigation -->
+
+
+      <!-- Onglets géographiques-->
       <div id="page-wrapper" >
         <div class="container-fluid">
           <div id="map" >
@@ -339,7 +470,10 @@
           </div>
         </div>
       </div>
+      <!-- FIN Onglets géographiques-->
+
     </div>
+    
   <!--   <footer class="footer" role="contentinfo">
         <div class="region region-footer">
           <div class="container" id="footer-up">
@@ -426,11 +560,14 @@
 
       </footer>-->
 
+    <!-- SCRIPTS JS-->
     <script type="module" src="./js/token.js"></script>
     <script type="module" src="./js/plan.js"></script>
+
     <script>jQuery(window).load(function () {
         jQuery(".loader").fadeOut("200");
-      });</script>
+      });
+    </script>
 
   </body>
 </html>
