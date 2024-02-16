@@ -1,22 +1,34 @@
 @import "fontfaces.css";
-html, body{overflow-x:hidden;}
 
+html, body{
+  overflow-x:hidden; /*cache ce qui dépasse horizontalement*/
+} 
+
+/*---CHARGEMENT DE LA PAGE---*/
 .loader{
-  background-color : white;cursor: wait;height: 100%;left: 0;position: fixed;top: 0;width: 100%;z-index: 999999;
+        background-color : white;cursor: wait;height: 100%;left: 0;position: fixed;top: 0;width: 100%;z-index: 999999;
 }
+
 #loader-img{
-  position:absolute;left: 50%;top: 50%;width: 30px;height: 30px;margin-left: -15px; margin-top: -15px; 
+  position:absolute;left: 50%;top: 50%;width: 30px;height: 30px;margin-left: -15px; margin-top: -15px;
 }
+
 .loader h1{
-  position : absolute;background: none;border: none;color: #45739B;font-size: 15px;top:60%;left : 50%;font-family: "Open Sans",sans-serif;font-variant: small-caps;font-weight: 700;height: 30px;width: 200px;margin-top : -15px;margin-left : -100px;text-align: center;
+    position : absolute;background: none;border: none;color: #45739B;font-size: 15px;top:60%;left : 50%;font-family: "Open Sans",sans-serif;font-variant: small-caps;font-weight: 700;height: 30px;width: 200px;margin-top : -15px;margin-left : -100px;text-align: center;
 }
+/*FIN CHARGEMENT DE LA PAGE*/
+
+
+/*BOUTONS LISTE*/
 a {
-  color: #7239AB; 
+  color: #7239AB;
 }
+
 a:focus, a:hover {
   color: #7239AB;
 }
-/*logo rennes 2*/
+
+/* BANDEAU 'Plan des campus' */
 .header-container {
   height: 108px;    
   background-color: #000;
@@ -24,7 +36,8 @@ a:focus, a:hover {
   vertical-align: middle;
   width: 100vw;
   position: relative;
-}
+  }
+
 .header-container .image-fond {
   background: url('/css/icons/img_fd_plan.jpg') 50% 50% no-repeat;
   background-size: 100% 100%;
@@ -32,27 +45,32 @@ a:focus, a:hover {
   height: 108px;  
   width: 100vw;
 }
+
 .header-container .header-content {
   position: absolute;
   top: 0;
   width: 100%;
 }
+
 .header-container .region-logo {
   position: relative;
   display: inline-block;
 }
+
 .header-container .region-logo img.logo {
   height: 80px;
   max-height:80px;
   float: right;
   margin-top: 14px;
-
 }
+
 /* nom du site */
 .header-container .region-right-header {
   height: 108px;    
 }
-h1.sitename {
+
+/*H1 'Plan des Campus'*/
+h1.sitename { 
   transition: opacity 0.5s, height 0.5s;
   font-family: "Ubuntu";
   font-size: 30px;
@@ -61,15 +79,16 @@ h1.sitename {
   text-align: left;
   color: #fff;
   margin:auto;
-
   vertical-align: middle;
   position: absolute;
   top: 50%;
   transform: translateY(-50%); 
 }
+
 #wrapper {
   background-color: #F4F5F5;;
 }
+
 #page-wrapper {
   padding:0;
   margin-left: 381px;
@@ -79,10 +98,12 @@ h1.sitename {
 .container-fluid {
   padding-left:0;padding-right:0;padding-top : 0;padding-bottom : 0;margin-right: 0;margin-top : 0;margin-left:0;margin-bottom : 0;    
 }
+
 #map {
   position:relative;margin-top:0;margin-right:0;margin-left:0;margin-bottom:0;padding-right : 0;padding-left : 0; padding-top:0;padding-bottom:0;z-index:1;
   height:80vh;
 }
+
 .mapboxgl-ctrl > button {
   height: 33px;
   width: 33px;
@@ -93,41 +114,51 @@ h1.sitename {
   background-repeat: no-repeat;
   background-position: center;
 } 
+
 .mapboxgl-ctrl-group {
   border-radius: 0;
   box-shadow: none;
 }
+
 mapboxgl-ctrl-group > button {
   border: 1px solid #e5e5e5;
 }
+
 .mapboxgl-ctrl-icon.mapboxgl-ctrl-compass > .mapboxgl-ctrl-compass-arrow {
   background-image: url("/css/icons/plan_boussole.svg");
   margin-left: 40%;
 }    
+
 .mapboxgl-ctrl-icon.mapboxgl-ctrl-zoom-in {
   background-image: url("/css/icons/plan_zoom_plus.svg");
 }
+
 .mapboxgl-ctrl-icon.mapboxgl-ctrl-zoom-out {
   background-image: url("/css/icons/plan_zoom_moins.svg");
 }
+
 .easy-autocomplete input {
   box-shadow: 0;
   border: none;
 }
+
 .navbar-default {
   background-color: #F4F5F5;
   border: none;
   width: 381px;
 }
+
 .sidebar .sidebar-nav.navbar-collapse {
   height: 100%;
   background-color: #F4F5F5;
   padding: 25px 20px;
 }
+
 .sidebar {
   background-color: #F4F5F5;
   margin-top: 0;
 }
+
 .sidebar ul li{
   font-family: "Roboto";
   font-size: 16px;
@@ -135,47 +166,56 @@ mapboxgl-ctrl-group > button {
   background-color: #F4F5F5;
   line-height: 36px;
 }
+
 .sidebar ul li a {
    border-bottom: 1px solid #CACCCD;
 }
+
 .nav li a {
   font-family: "Roboto";
   font-size: 16px;
   font-weight: 400;
   padding-left: 0;
 }
+
 .nav > li > a > img {
   float:  left;
   position: relative;
   height: 18px;
   font-size: 18px;
 }
+
 .nav li a {
   color: #434A54;
 }
+
 .nav li a .section-name {
   padding-left:10px;
-
 }
+
 .nav li a .section-image {
   float: left;
   width: 30px;
   vertical-align: middle;
   text-align: center;
 }
+
 .nav li a .section-image img {
   height: 20px;
   top: auto;
   left: auto;
   position: relative;
 }
+
 #DDD {
   top: 25px;
 }
+
 #DDD .btn.active, #DDD button:hover  {
   background-color: #7239AB;
   color: #fff;
 }
+
 #DDD button {
   background-color: #fff;
   color: #7239AB;
@@ -188,12 +228,15 @@ mapboxgl-ctrl-group > button {
   top: 25px;
   opacity: 1;
 }
+
 .mapboxgl-ctrl-top-left{
   top: 16px;
 }
+
 .mapboxgl-ctrl-top-right {
   top: 16px;
 }
+
 #campus button {
   font-size: 18px;
   font-family: "Roboto";
@@ -202,6 +245,7 @@ mapboxgl-ctrl-group > button {
   background-color:#fff;
   border: 1px solid #E5E5E5;
 }
+
 #campus button.active {
   font-size: 18px;
   font-family: "Roboto";
@@ -209,6 +253,7 @@ mapboxgl-ctrl-group > button {
   background-color: #7239AB;
   color:#fff;
 }
+
 .easy-autocomplete input {
   border: none;
   border-radius: 0;
@@ -220,14 +265,15 @@ mapboxgl-ctrl-group > button {
   font-size: 14px;
   font-family: "Roboto";
   font-weight: 400;
-
 }
+
 .btn-primary {
   background-color: #fff;
   color: #7239AB;
   border-color: #7239AB;
   border-radius: 0;
 }
+
 #searchButton.btn-primary {
   background-color: #7239AB;
   color:#fff;
@@ -238,12 +284,15 @@ mapboxgl-ctrl-group > button {
   background-repeat: no-repeat;
   background-size: 20px 20px;
 }
+
 #searchButton.btn-primary.off {
   background-image: url('/css/icons/plan_loupe_off.svg');
 }
+
 #searchButton:hover {
   background-color: #7239AB;
 }
+
 .sidebar .sidebar-search {
   padding: 0 0 20px 0;
   border: none;
@@ -253,76 +302,92 @@ mapboxgl-ctrl-group > button {
 .sidebar-search .input-group-btn:focus {
   height: 33px;
 }
+
 .btn-primary:focus, .btn-primary:hover {
   color: #fff;
   background-color: #7239AB;
   border: none;
   border-radius: 0;
 }
+
 .side-menu span.arrow {
   margin-top: 3%;
 }
+
 .sidebar .active > a > .fa.arrow::before {
   content: "\f107";
   color: #7239AB;
 }
+
 .sidebar .fa.arrow {
   margin-top: 10px;
 }
+
 .sidebar .fa.arrow::before {
   content: "\f105";
   color: #7239AB;
 }
+
 .nav-second-level {
   padding-left: 15px;
 }
+
 .nav-second-level .side-menu li.active a {
   background-color: #fff;
 }
+
 .nav-second-level .side-menu li.active .nav-second-level li.active a {
   background-color: #fff;
 }
+
 .nav-second-level .side-menu li.active .nav-second-level li.active .nav-third-level li.active a {
   background-color: #fff;
 }
+
 .nav-third-level {
   padding-left: 15px;
   background-color: #F4F5F5;
 }
+
 .sidebar .nav-third-level li a {
   padding: 10px 10px 10px 35px;
   font-size:14px; 
   line-height:18px;
 }
+
 .case {
   background-image: url('/css/icons/checkbox_off.svg');
   background-repeat: no-repeat;
   background-size: 14px 14px;
   background-position: 10px center;
-
 }
+
 .case.active {
   background-image: url('/css/icons/checkbox_on.svg');
   background-color: #fff;
 }
+
 .collapse .nav-second-level li.active .case.active {
   background-image: url('/css/icons/checkbox_on.svg');
   background-color: #fff;
 }
+
 a.active {
   background-color: #fff;
 }
+
 .sidebar-remove-filters {
   width: 100%;
   margin-top: 20px;
 }
+
 .sidebar-remove-filters #btnRemovefilters {
   width: 100%;
   font-size: 18px;
   font-family: "Roboto";
   font-weight: 400;
-
 }
+
 .leaf {
   background-image: url('/css/icons/radio_off.svg');
   background-size: 14px 14px;
@@ -330,10 +395,12 @@ a.active {
   background-repeat: no-repeat;
   background-position: 10px 50%;
 }
+
 .leaf.active {
   background-color: #fff;
   background-image: url('/css/icons/radio_on.svg');
 }
+
 .mapboxgl-popup {
 	opacity: 1;
     top: 40px;
@@ -359,6 +426,7 @@ a.active {
   line-height: 16px;
   color: #434A54;
 }
+
 .mapboxgl-popup-content h1 {
   background-color: #434A54;
   font-size: 14px;
@@ -368,15 +436,19 @@ a.active {
   color: #fff;
   border-radius: 0;
 }
+
 .mapboxgl-popup-content .description {
   padding: 10px;
 }
+
 .mapboxgl-popup-content p {
   font-size: 14px;
 }
+
 .mapboxgl-ctrl-top-right {
   margin-top: 15px;
 }
+
 .mapboxgl-ctrl-icon.mapboxgl-ctrl-geolocate {
   background-image: url("/css/icons/plan_localisation.svg");
   background-size: 20px 20px;
@@ -385,6 +457,7 @@ a.active {
   box-shadow: none;
   border: 1px solid #e5e5e5;   
 }
+
 .attribution-container {
   background-color: rgba(255,255,255, 0.5);
   position : absolute;
@@ -393,9 +466,11 @@ a.active {
   display:inline-block;
   z-index: 9999;
 }
+
 .mapboxgl-popup-anchor-top > .mapboxgl-popup-tip {
     border-bottom-color: #fff;
 }
+
 /*footer*/
 footer.footer {
   padding-top: 30px;
@@ -407,10 +482,12 @@ footer.footer {
   margin-top: 0;
   z-index: 99;
 }
+
 footer.footer #footer-up {
   margin-bottom: 30px;
   font-size: 16px;
 }  
+
 #block-blocadresserennes2 {
   background-color: #434A54;
   color: #F4F5F5;
@@ -418,29 +495,36 @@ footer.footer #footer-up {
   padding-bottom: 6px;
   margin-top: 20px;
 }
+
 .footer .block .infos-contact .logo img {
   height: 77px;
   float: left;
   margin-top: 7px;
 }
+
 .footer .block .infos-contact .coordonnees {
   display: inline-block;
   margin-left: 10px;
 }
+
 .footer .block .infos-contact .coordonnees span {
   display: block;
   line-height: 1.35em;
 }
+
 .footer .block .infos-contact span.nom {
   font-weight: bold;
 }
+
 .footer .block .infos-contact span.adresse {
   font-style: normal;
 } 
+
 footer.footer #block-accesdirects {
   border-left: 1px #fff solid;
   border-right: 1px #fff solid;
 }
+
 footer.footer #block-accesdirects h2 {
   font-size: 24px;
   width: 50%;
@@ -449,38 +533,47 @@ footer.footer #block-accesdirects h2 {
   margin-top: 0;
   font-weight: 300;
 }
+
 footer.footer #block-accesdirects ul {
   margin-left: auto;
   margin-right: auto;
   width: 80%;
 }
+
 footer.footer #block-accesdirects ul li {
   text-align: left;
 }
+
 footer.footer #block-accesdirects ul a {
   padding: 5px 0;
   font-size: 16px;
 } 
+
 footer.footer #block-suivez-nous {
   text-align: center;
   padding-left: 0;
 }
+
 footer.footer #block-suivez-nous h2 {
   font-size: 24px;
   margin-top: 0;
 }
+
 .social-media-links--platforms {
   padding-left: 0;
 }
+
 .social-media-links--platforms.horizontal li {
   display: inline-block;
   text-align: center;
   padding: .2em .35em;
 }
+
 footer.footer #footer-up a {
   color: #F4F5F5;
   background-color: #434A54;
 }   
+
 footer.footer #block-suivez-nous ul li a.ext .fa, footer.footer #block-suivez-nous ul li a .fa {
   color: #434A54;
   background-color: #ccd1d9;
@@ -490,27 +583,33 @@ footer.footer #block-suivez-nous ul li a.ext .fa, footer.footer #block-suivez-no
   font-size: 20px;
   padding-top: 10px;
 }
+
 .fa-instagram::before {
   content: "\f16d";
 }
+
 .fa-twitter::before {
   content: "\f099";
 }
+
 .fa-linkedin::before {
   content: "\f0e1";
 }
 .fa-facebook-f::before, .fa-facebook::before {
   content: "\f09a";
 }
+
 #block-bootstrap-rennes2-less-footer {
   background-color: #292E34;
   color: #F4F5F5;
   clear: both;
 }
+
 footer.footer #block-bootstrap-rennes2-less-footer a {
   color: #F4F5F5;
   background-color: #292E34;
 }
+
 #block-bootstrap-rennes2-less-footer ul li a {
   color: #F4F5F5;
   font-size: 14px;
@@ -518,11 +617,13 @@ footer.footer #block-bootstrap-rennes2-less-footer a {
   text-transform: uppercase;
   padding: 0;
 }
+
 footer.footer #block-bootstrap-rennes2-less-footer a:hover {
   color: #F4F5F5;
   background-color: #292E34;
   text-decoration: underline;
 }
+
 #block-bootstrap-rennes2-less-footer ul li {
   display: inline-block;
   padding-top: 25px;
@@ -532,12 +633,15 @@ footer.footer #block-bootstrap-rennes2-less-footer a:hover {
 .nav-stacked {
   background-color:  #F4F5F5;
 }
+
 button.navbar-toggle {
   background-color:  #F4F5F5;
 }
+
 .navbar-toggle .icon-bar {
   background-color: #000; 
 }
+
 @media (max-width: 750px) {
   #wrapper {
     max-height: none;
@@ -560,7 +664,7 @@ button.navbar-toggle {
   }
   footer.footer {
     display: none;
-  }
+  } 
   .header-container .image-fond {
     background-size: auto 100%; 
   }
@@ -607,8 +711,8 @@ button.navbar-toggle {
   .mapboxgl-ctrl-top-right {
     margin-top: 40px;
   }
-
 }
+
 @media (min-width: 992px) {
   .mCSB_dragger {
     display: none;
