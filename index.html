@@ -10,19 +10,36 @@
     <meta name="author" content="">
     <title>Plan interactif Rennes 2</title>
     <link rel="shortcut icon" href="favicon.png" type="image/png">
+   
     <!-- API MAPBOX GL-->
     <link href="./css/maplibre-gl-v1-14-0.css" rel='stylesheet' />
+   
     <!-- CHARGEMENT DES FEUILLES DE STYLE CSS -->
-    <link href="./css/bootstrap.min.css" rel="stylesheet">  <!-- TEMPLATE -->
-    <link href="./css/startmin.css" rel="stylesheet"> <!-- FEUILLE DE STYLE PERSO -->
-    <link href="./css/font-awesome.min.css" rel="stylesheet" type="text/css">  <!-- AJOUT DES FLECHES MENU -->
-    <link href="./css/jquery.mCustomScrollbar.min.css" rel="stylesheet" type="text/css">  <!-- AJOUT DES FLECHES MENU -->
-    <link href="./EasyAutocomplete-1.3.5/easy-autocomplete.min.css" rel="stylesheet"> <!-- BARRE DE RECHERCHE -->
-    <link href="./css/plan.css" rel='stylesheet' />
-    <script src="https://static.univ-rennes2.fr/barre-portail/jquery.barre-portail-R2.js?v=2.1" type="text/javascript"></script>
-    <link rel="stylesheet" type="text/css" href="https://static.univ-rennes2.fr/barre-portail/jquery.barre-portail-R2.min.css?v=2.1" />
-  
-  <!-- Matomo -->
+
+      <!--boostrap-->
+      <!--<link href="./css/bootstrap.min.css" rel="stylesheet">  <!-- TEMPLATE -->
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+      
+      <!-- FEUILLE DE STYLE PERSO -->
+      <link href="./css/startmin.css" rel="stylesheet"> 
+      
+      <!--flèches liste-->
+      <link href="./css/font-awesome.min.css" rel="stylesheet" type="text/css">  <!-- AJOUT DES FLECHES MENU -->
+      
+      <!--barre de défilement-->
+      <link href="./css/jquery.mCustomScrollbar.min.css" rel="stylesheet" type="text/css">  <!-- AJOUT DES FLECHES MENU -->
+      
+      <!-- barre de recherche -->
+      <link href="./EasyAutocomplete-1.3.5/easy-autocomplete.min.css" rel="stylesheet"> <!-- BARRE DE RECHERCHE -->
+      
+      <!-- style de la carte -->
+      <link href="./css/plan.css" rel='stylesheet' />
+      
+      <!--barre menu université Rennes 2-->
+      <script src="https://static.univ-rennes2.fr/barre-portail/jquery.barre-portail-R2.js?v=2.1" type="text/javascript"></script>
+      <link rel="stylesheet" type="text/css" href="https://static.univ-rennes2.fr/barre-portail/jquery.barre-portail-R2.min.css?v=2.1" />
+    
+  <!-- Matomo Partie tracking -->
   <script type="text/javascript">
     var _paq = _paq || [];
     /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
@@ -51,30 +68,43 @@
 
     <!-- MAPBOX GL -->
     <script src='./js/maplibre-gl-v1-14-0.js'></script>
-    <!--<script src="https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.0/mapbox-gl.js"></script>-->
+    <!-- KO : <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.0/mapbox-gl.js"></script>-->
    
     <!-- JQUERY  -->
     <script src="./js/jquery.min.js"></script>
     <!-- <script src="https://code.jquery.com/jquery-1.11.2.js" integrity="sha256-WMJwNbei5YnfOX5dfgVCS5C4waqvc+/0fV7W2uy3DyU=" crossorigin="anonymous"></script> -->
    
+    <!-- barre de recherche -->
     <script src= "./EasyAutocomplete-1.3.5/jquery.easy-autocomplete.min.js"></script> <!-- library for search box -->
-    <script src="./js/bootstrap.min.js"></script> <!-- Bootstrap Core JavaScript -->
+    
+    <!-- Bootstrap Core JavaScript -->
+    <script src="./js/bootstrap.min.js"></script>
+     <!-- KO : <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.2/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+      <!--  les liste ne se déroulent plus / integrity verifie l'intégrité du fichier css, crossorigin gère l'utilisation de cookies de sessions ou pas -->
+   
+    <!-- Menu étendu/réduit -->
     <script src="./js/metisMenu.min.js"></script> <!-- Metis Menu Plugin JavaScript -->
     <script src="./js/startmin.js"></script> <!-- Custom Theme JavaScript -->
+   
+    <!-- Image et message de chargement de la carte -->
     <div class = "loader"><center><img id = "loader-img" src = 'css/ajax-loader.gif'><h1>Chargement de la page</h1></center></div> <!-- LOADER -->
 
     
     <header>
+
+      <!--Bandeau plan des campus texte, image, logo-->
       <div class="header-container clearfix">
 
-        <div class="image-fond"></div>
+        <div class="image-fond"></div><!--image du bandeau-->
         
-        <div class="header-content">
+        <div class="header-content"><!--contenu (par-dessus l'image)-->
 
+          <!--Emplacement et appel du logo-->
           <div class="region region-logo  col-xs-5">
             <img class="logo" src="css/icons/logo.svg" alt="Accueil">
           </div>
           
+          <!--Toute la partie droite restante du bandeau-->
           <div class="region region-right-header col-xs-7">
             <h1 class="sitename">Plan des campus</h1>
           </div>
@@ -84,12 +114,15 @@
       </div>
     </header>
     
+    <!-- Bloc restant de la page (en dessous du bandeau) carte + menu -->
     <div id="wrapper" >
 
       <!-- Navigation -->
       <nav class="nav nav-stacked " role="navigation" >
 
-        <!-- Gestion du menu de couches -->
+        <!-- Burger menu button - 
+        visible uniquement quand la fenetre est réduite 
+        permet de réduire le menu -->
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
           <span class="sr-only">Toggle navigation</span>
           <span class="icon-bar"></span>
@@ -97,9 +130,10 @@
           <span class="icon-bar"></span>
         </button>
         
-        <!-- Sidebar -->
+        <!-- Sidebar aka Menu de navigation (à gauche) -->
         <div class="navbar-default sidebar" role="navigation">
           
+          <!-- partie collapsable par le bouton burger-->
           <div class="sidebar-nav navbar-collapse">
 
             <ul class="nav" id="side-menu">
@@ -116,7 +150,7 @@
                 </div>
               </li>
               
-              <!-- Gestion des couches -->
+            <!-- Gestion des couches -->
 
               <!-- Amphis et salles spécifiques -->
               <li>
@@ -138,7 +172,7 @@
 
                   <li >
                     <a  class="case" id = "Salles spécifiques" href="#">Salles spécifiques<span class="fa arrow"></span></a>
-                    <ul class="nav nav-third-level" id = "insertSallesSpecifiques"></ul>
+                    <ul class="nav nav-third-level" id = "insertSallesSpecifiques"></ul><!-- Les salles sont ajoutées dynamiquement (JS) en cas d'Overlay, voir plan.js -->
                   </li>
 
                 </ul>
@@ -155,7 +189,7 @@
                 <ul class="nav nav-second-level">
                   <li >
                     <a  class="case" id = "Services centraux" href="#">Services centraux<span class="fa arrow"></span></a>
-                    <ul class="nav nav-third-level" id = "insertServicescen"></ul>
+                    <ul class="nav nav-third-level" id = "insertServicescen"></ul><!-- Les salles sont ajoutées dynamiquement (JS) en cas d'Overlay, voir plan.js -->
                   </li>
 
                   <li >
@@ -165,7 +199,7 @@
 
                   <li >
                     <a class="case" id = "Services communs" href="#">Services communs<span class="fa arrow"></span></a>
-                    <ul class="nav nav-third-level" id = "insertServicescom"></ul>
+                    <ul class="nav nav-third-level" id = "insertServicescom"></ul><!-- Les salles sont ajoutées dynamiquement (JS) en cas d'Overlay, voir plan.js -->
                   </li>
 
                 </ul>
@@ -180,32 +214,32 @@
 
                   <li >
                     <a  class="case" id = "Formation UFRL" href="#">UFR Langues<span class="fa arrow"></span></a>
-                    <ul class="nav nav-third-level" id = "insertFUFRL"></ul>
+                    <ul class="nav nav-third-level" id = "insertFUFRL"></ul><!-- Les salles sont ajoutées dynamiquement (JS) en cas d'Overlay, voir plan.js -->
                   </li>
 
                   <li >
                     <a class="case"  id = "Formation UFRSH" href="#">UFR Sciences Humaines<span class="fa arrow"></span></a>
-                    <ul class="nav nav-third-level" id = "insertFUFRSH"></ul>
+                    <ul class="nav nav-third-level" id = "insertFUFRSH"></ul><!-- Les salles sont ajoutées dynamiquement (JS) en cas d'Overlay, voir plan.js -->
                   </li>
 
                   <li >
                     <a class="case"  id = "Formation UFRSS" href="#">UFR Sciences Sociales<span class="fa arrow"></span></a>
-                    <ul class="nav nav-third-level" id = "insertFUFRSS"></ul>
+                    <ul class="nav nav-third-level" id = "insertFUFRSS"></ul><!-- Les salles sont ajoutées dynamiquement (JS) en cas d'Overlay, voir plan.js -->
                   </li>
 
                   <li >
                     <a  class="case" id = "Formation UFRSTAPS" href="#">UFR STAPS<span class="fa arrow"></span></a>
-                    <ul class="nav nav-third-level" id = "insertFUFRSTAPS"></ul>
+                    <ul class="nav nav-third-level" id = "insertFUFRSTAPS"></ul><!-- Les salles sont ajoutées dynamiquement (JS) en cas d'Overlay, voir plan.js -->
                   </li>
 
                   <li >
                     <a class="case"  id = "Formation UFRALC" href="#">UFR ALC<span class="fa arrow"></span></a>
-                    <ul class="nav nav-third-level" id = "insertFUFRALC"></ul>
+                    <ul class="nav nav-third-level" id = "insertFUFRALC"></ul><!-- Les salles sont ajoutées dynamiquement (JS) en cas d'Overlay, voir plan.js -->
                   </li>
 
                   <li >
                     <a class="case"  id = "Autres Formations" href="#">Autres structures de Formation<span class="fa arrow"></span></a>
-                    <ul class="nav nav-third-level" id = "insertAutresFormations"></ul>
+                    <ul class="nav nav-third-level" id = "insertAutresFormations"></ul><!-- Les salles sont ajoutées dynamiquement (JS) en cas d'Overlay, voir plan.js -->
                   </li>
                   
                 </ul>
@@ -223,27 +257,27 @@
                 
                   <li >
                     <a class="case" id = "Recherche UFRL" href="#">UFR Langues<span class="fa arrow"></span></a>
-                    <ul class="nav nav-third-level" id = "insertRUFRL"></ul>
+                    <ul class="nav nav-third-level" id = "insertRUFRL"></ul><!-- Les salles sont ajoutées dynamiquement (JS) en cas d'Overlay, voir plan.js -->
                   </li>
                 
                   <li >
                     <a class="case" id = "Recherche UFRSH" href="#">UFR Sciences Humaines<span class="fa arrow"></span></a>
-                    <ul class="nav nav-third-level" id = "insertRUFRSH"></ul>
+                    <ul class="nav nav-third-level" id = "insertRUFRSH"></ul><!-- Les salles sont ajoutées dynamiquement (JS) en cas d'Overlay, voir plan.js -->
                   </li>
                 
                   <li >
                     <a class="case" id = "Recherche UFRSS" href="#">UFR Sciences Sociales<span class="fa arrow"></span></a>
-                    <ul class="nav nav-third-level" id = "insertRUFRSS"></ul>
+                    <ul class="nav nav-third-level" id = "insertRUFRSS"></ul><!-- Les salles sont ajoutées dynamiquement (JS) en cas d'Overlay, voir plan.js -->
                   </li>
                 
                   <li >
                     <a class="case" id = "Recherche UFRSTAPS" href="#">UFR STAPS<span class="fa arrow"></span></a>
-                    <ul class="nav nav-third-level" id = "insertRUFRSTAPS"></ul>
+                    <ul class="nav nav-third-level" id = "insertRUFRSTAPS"></ul><!-- Les salles sont ajoutées dynamiquement (JS) en cas d'Overlay, voir plan.js -->
                   </li>
                 
                   <li >
                     <a class="case"  id = "Recherche UFRALC" href="#">UFR ALC<span class="fa arrow"></span></a>
-                    <ul class="nav nav-third-level" id = "insertRUFRALC"></ul>
+                    <ul class="nav nav-third-level" id = "insertRUFRALC"></ul><!-- Les salles sont ajoutées dynamiquement (JS) en cas d'Overlay, voir plan.js -->
                   </li>
 
                 </ul>
@@ -264,7 +298,7 @@
                 
                   <li>
                     <a class = "case" id = "Lieux culturels" href="#">Lieux culturels<span class="fa arrow"></span></a>
-                    <ul class="nav nav-third-level" id = "insertLieuCulturel"></ul>
+                    <ul class="nav nav-third-level" id = "insertLieuCulturel"></ul><!-- Les salles sont ajoutées dynamiquement (JS) en cas d'Overlay, voir plan.js -->
                   </li>
                 
                   <li id = "Oeuvre">
