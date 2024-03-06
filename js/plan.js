@@ -10,7 +10,170 @@ import {mapToken} from './token.js';
   
   var overlay = getQueryStringValue("layer").toString();
   var overlayPoint = getQueryStringValue("point").toString();
+
+
+
+  ////////////////////test url //////////////////
   
+  // $(document).ready(function() {
+  //   // Écoutez les clics sur les liens avec la classe "case"
+  //   $('.case').on('click', function(event) {
+  //      event.preventDefault(); // Empêche le comportement par défaut du lien (ici #)
+
+  //     // Obtenez l'ID de l'élément parent <li>
+  //     var categoryID = $(this).parent().attr('id');
+
+  //     // Mettez à jour window.location.hash avec l'ID de la catégorie
+  //     window.location.hash = categoryID;
+  //   });
+
+  //   // Chargez les paramètres de l'URL au chargement initial
+  //   var urlParams = new URLSearchParams(window.location.hash);
+  //   var categoryID = urlParams.get('categories');
+
+  //   // Sélectionnez l'élément avec l'ID correspondant et ajoutez une classe pour indiquer la sélection
+  //   $('#' + categoryID).addClass('selected');
+  // });
+
+  
+/////////////////v2 essaie avec actions 
+
+// $(document).ready(function () {
+//   // Chargez les paramètres de l'URL au chargement initial
+//   var urlParams = new URLSearchParams(window.location.hash.slice(1));
+//   var categoryID = urlParams.get('categories');
+
+//   // Écoutez les clics sur les liens avec la classe "case"
+//   $('.case').on('click', function (event) {
+//     event.preventDefault(); // Empêche le comportement par défaut du lien
+
+//     // Obtenez l'ID de l'élément parent <li>
+//     var categoryID = $(this).parent().attr('id');
+
+//     // Exécutez l'action pour la catégorie et mettez à jour l'URL
+//     performActionForCategory(categoryID, true);
+//   });
+
+//   // Si la catégorie est définie dans l'URL, exécutez l'action correspondante
+//   if (categoryID) {
+//     performActionForCategory(categoryID, false);
+//   }
+
+//   // Débogage : Affichez les valeurs pour vérifier
+//   console.log('Document ready!');
+//   console.log('Category ID from URL:', categoryID);
+
+//   // Ajoutez une temporisation pour s'assurer que la carte a le temps de se charger
+//   setTimeout(function () {
+//     console.log('Performing action for category:', categoryID);
+//   }, 2000);
+// });
+
+// function performActionForCategory(categoryID, updateURL) {
+//   console.log('Performing action for category:', categoryID);
+
+//   // Exemple : Cochez la case correspondante
+//   $('#' + categoryID).addClass('selected');
+//   console.log('Checkbox checked for category:', categoryID);
+
+//   // ... Autres actions spécifiques à la catégorie ...
+
+//   console.log('Action completed for category:', categoryID);
+
+//   // Mettez à jour l'URL si nécessaire
+//   if (updateURL) {
+//     window.location.hash = 'categories=' + categoryID;
+//   }
+// }
+
+// fetch('../points.geojson')
+//   .then(response => response.geoson())
+//   .then(data => {
+//     console.log('GeoJSON Data:', data);
+//     // ... (restez dans la logique de chargement des marqueurs)
+//   })
+//   .catch(error => console.error('Erreur lors du chargement des données GeoJSON:', error));
+ 
+ 
+// quand il y a des sous menus, il ne fait pas de lien 
+// les sous-menus ne s'ouvre pas pb interne avant 
+// actuellement le code permet de créer des urls mais l'url ne contient pas d'information 
+
+
+// comment faire des urls pour un objet ?? 
+// est-ce que matomo fait bien le rapport et calcul la fréquence pour chaque lien ? 
+// pouvoir ajouter 2 catégories ensembles ? 
+
+
+console.log(location); // affiche "https://developer.mozilla.org/fr/docs/Web/API/Window/location" dans la console
+
+ 
+$(document).ready(function () {
+  // Chargez les paramètres de l'URL au chargement initial
+  var urlParams = new URLSearchParams(window.location.hash.slice(1));
+  var categoryID = urlParams.get('categories');
+
+  // Écoutez les clics sur les liens avec la classe "case"
+  $('.case').on('click', function (event) {
+    event.preventDefault(); // Empêche le comportement par défaut du lien
+
+    // Obtenez l'ID de l'élément parent <li>
+    var categoryID = $(this).parent().attr('id');
+
+    // Exécutez l'action pour la catégorie et mettez à jour l'URL
+    performActionForCategory(categoryID, true);
+  });
+
+  // Si la catégorie est définie dans l'URL, exécutez l'action correspondante
+  if (categoryID) {
+    performActionForCategory(categoryID, false);
+  }
+
+  // Débogage : Affichez les valeurs pour vérifier
+  console.log('Document ready!');
+  console.log('Category ID from URL:', categoryID);
+
+  // Ajoutez une temporisation pour s'assurer que la carte a le temps de se charger
+  setTimeout(function () {
+    console.log('Performing action for category:', categoryID);
+  }, 2000);
+});
+
+function performActionForCategory(categoryID, updateURL) {
+  console.log('Performing action for category:', categoryID);
+
+  // Exemple : Cochez la case correspondante
+  $('#' + categoryID).addClass('selected');
+  console.log('Checkbox checked for category:', categoryID);
+
+  // ... Autres actions spécifiques à la catégorie ...
+
+  console.log('Action completed for category:', categoryID);
+
+  // Mettez à jour l'URL si nécessaire
+  if (updateURL) {
+    updateURLParam('categories', categoryID);
+  }
+}
+
+function updateURLParam(key, value) {
+  // Mettez à jour l'URL avec le nouveau paramètre
+  var urlParams = new URLSearchParams(window.location.hash.slice(1));
+  urlParams.set(key, value);
+
+  // Remplacez l'URL dans l'historique sans rechargement de la page
+  history.replaceState(null, null, '#' + urlParams.toString());
+}
+
+fetch('../points.geojson')
+  .then(response => response.json()) // Correction de la faute de frappe (geoson() à json())
+  .then(data => {
+    console.log('GeoJSON Data:', data);
+    // ... (restez dans la logique de chargement des marqueurs)
+  })
+  .catch(error => console.error('Erreur lors du chargement des données GeoJSON:', error));
+
+
   ///////////////////////////////////////  Initialisation du fond de carte //////////////////////////////////
 
   // Adapter le zoom, et la largeur / placement des raccourcis spatiaux en fonction de l'écran
