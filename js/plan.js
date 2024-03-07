@@ -1328,10 +1328,10 @@ import {mapToken} from './token.js';
     }
     if (feature.properties.Niveau !== "null" && feature.properties.Niveau !== null && feature.properties.Niveau !== "") {
       if (feature.properties.Batiment !== "null" && feature.properties.Batiment !== null && feature.properties.Batiment !== "") {
-        popupContent += ', niveau ' + feature.properties.Niveau ;
+        popupContent += ', ' + feature.properties.Niveau ;
       }
       else {
-        popupContent += '<p>niveau ' + feature.properties.Niveau ;
+        popupContent += '<p>' + feature.properties.Niveau ;
       }
     }
     if ((feature.properties.Batiment !== "null" && feature.properties.Batiment !== null && feature.properties.Batiment !== "")
@@ -2291,10 +2291,10 @@ import {mapToken} from './token.js';
     ;
     if (searchItem.properties.Niveau != null) {
       if (searchItem.properties.Batiment != null){
-        popupContent += ', niveau ' + searchItem.properties.Niveau ;
+        popupContent += ', ' + searchItem.properties.Niveau ;
       }
       else {
-      popupContent += '<p>Niveau ' + searchItem.properties.Niveau ;
+      popupContent += '<p> ' + searchItem.properties.Niveau ;
       }
     }
     if (searchItem.properties.Batiment != null || searchItem.properties.Niveau != null){
