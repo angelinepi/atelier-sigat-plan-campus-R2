@@ -10,7 +10,8 @@ import {mapToken} from './token.js';
   
   var overlay = getQueryStringValue("layer").toString();
   var overlayPoint = getQueryStringValue("point").toString();
-  
+  var version = document.getElementById("plan").getAttribute("data-version");
+
   ///////////////////////////////////////  Initialisation du fond de carte //////////////////////////////////
 
   // Adapter le zoom, et la largeur / placement des raccourcis spatiaux en fonction de l'écran
@@ -324,10 +325,20 @@ import {mapToken} from './token.js';
   var parkingVeloColor = 'purple';
   var parkingVeloIconSize = [1.5, 13, 2, 22, 60];
 
-  // Couche Pole santé
+  // Couche Pole santé et prévention
   var polesanteCount = 0; // initialisation du compteur de clics
-  var polesanteLink = document.getElementById('Pole santé');
+  var polesanteLink = document.getElementById('Pôle santé et prévention');
   var polesanteURL = '../css/icons/layers_icons/sante_marker.png';
+
+  // Couche Assistants de prévention
+  var assistantpreventionCount = 0; // initialisation du compteur de clics
+  var assistantpreventionLink = document.getElementById('Assistants de prévention');
+  var assistantpreventionURL = '../css/icons/layers_icons/sante_marker.png';
+  
+  // Couche Assistants de prévention
+  var rhsanteCount = 0; // initialisation du compteur de clics
+  var rhsanteLink = document.getElementById('Ressources humaines');
+  var rhsanteURL = '../css/icons/layers_icons/sante_marker.png';
 
   // Lineaire PMR
   var lineairePMRCount = 0; // initialisation du compteur de clics
@@ -482,7 +493,7 @@ import {mapToken} from './token.js';
     etiqBati3DId = 'etiqBati3DId' + bati3DCount;
     map.addSource("bati3D", {
       type: "geojson",
-      data: "../data/bati/Bati_3D.geojson"
+      data: "../data/bati/Bati_3D.geojson?v="+version
     });
     map.addLayer({
       id: bati3DId,
@@ -526,7 +537,7 @@ import {mapToken} from './token.js';
           popupTitle = e.features[0].properties.Nom;
         }
         if (e.features[0].properties.Photo !== "null") {
-          popupContent += '<img src = \'' + e.features[0].properties.Photo + '\'/>'
+          popupContent += '<img src = \'' + e.features[0].properties.Photo + '?v='+version+'\'/>'
         }
         if (e.features[0].properties.Infos !== "null") {
           popupContent += '<p>' + e.features[0].properties.Infos + '<p>';
@@ -590,7 +601,7 @@ import {mapToken} from './token.js';
     etiqBati2DId = 'etiqBati2DId' + bati2DCount;
     map.addSource("bati2D", {
       type: "geojson",
-      data: "../data/bati/Bati_2D.geojson"
+      data: "../data/bati/Bati_2D.geojson?v="+version
     });
     map.addLayer({
       id: bati2DId,
@@ -620,7 +631,7 @@ import {mapToken} from './token.js';
           popupTitle = e.features[0].properties.Nom;
         }
         if (e.features[0].properties.Photo !== "null") {
-          popupContent += '<img src = \'' + e.features[0].properties.Photo + '\'/>'
+          popupContent += '<img src = \'' + e.features[0].properties.Photo + '?v=' + version + '\'/>'
         }
         if (e.features[0].properties.Info !== "null") {
           popupContent += '<p>' + e.features[0].properties.Info + '<p>';
@@ -765,7 +776,7 @@ import {mapToken} from './token.js';
         "type": "symbol",
         "source": {
           "type": "geojson",
-          "data": "../data/fondcarte/biblio.geojson"
+          "data": "../data/fondcarte/biblio.geojson?v="+version
         },
         "layout": {
           "visibility": 'visible',
@@ -788,7 +799,7 @@ import {mapToken} from './token.js';
         "type": "symbol",
         "source": {
           "type": "geojson",
-          "data": "../data/fondcarte/cafeteria.geojson"
+          "data": "../data/fondcarte/cafeteria.geojson?v="+version
         },
         "layout": {
           "visibility": 'visible',
@@ -812,7 +823,7 @@ import {mapToken} from './token.js';
         "type": "symbol",
         "source": {
           "type": "geojson",
-          "data": "../data/fondcarte/ru.geojson"
+          "data": "../data/fondcarte/ru.geojson?v="+version
         },
         "layout": {
           "visibility": 'visible',
@@ -835,7 +846,7 @@ import {mapToken} from './token.js';
         "type": "symbol",
         "source": {
           "type": "geojson",
-          "data": "../data/fondcarte/parking.geojson"
+          "data": "../data/fondcarte/parking.geojson?v="+version
         },
         "layout": {
           "visibility": 'visible',
@@ -858,7 +869,7 @@ import {mapToken} from './token.js';
         "type": "symbol",
         "source": {
           "type": "geojson",
-          "data": "../data/fondcarte/metro.geojson"
+          "data": "../data/fondcarte/metro.geojson?v="+version
         },
         "layout": {
           "visibility": 'visible',
@@ -881,7 +892,7 @@ import {mapToken} from './token.js';
         "type": "symbol",
         "source": {
           "type": "geojson",
-          "data": "../data/fondcarte/polesante.geojson"
+          "data": "../data/fondcarte/polesante.geojson?v="+version
         },
         "layout": {
           "visibility": 'visible',
@@ -904,7 +915,7 @@ import {mapToken} from './token.js';
         "type": "symbol",
         "source": {
           "type": "geojson",
-          "data": "../data/fondcarte/piscine.geojson"
+          "data": "../data/fondcarte/piscine.geojson?v="+version
         },
         "layout": {
           "visibility": 'visible',
@@ -927,7 +938,7 @@ import {mapToken} from './token.js';
         "type": "symbol",
         "source": {
           "type": "geojson",
-          "data": "../data/fondcarte/bus.geojson"
+          "data": "../data/fondcarte/bus.geojson?v="+version
         },
         "layout": {
           "visibility": 'visible',
@@ -1327,11 +1338,17 @@ import {mapToken} from './token.js';
       popupContent += '<p>Bâtiment ' + feature.properties.Batiment ;
     }
     if (feature.properties.Niveau !== "null" && feature.properties.Niveau !== null && feature.properties.Niveau !== "") {
+      if (feature.properties.Niveau.toString().startsWith('niveau')){
+        var niveau = feature.properties.Niveau;
+      }
+      else{
+        var niveau = 'niveau ' + feature.properties.Niveau;
+      }
       if (feature.properties.Batiment !== "null" && feature.properties.Batiment !== null && feature.properties.Batiment !== "") {
-        popupContent += ', niveau ' + feature.properties.Niveau ;
+        popupContent += ', ' + niveau ;
       }
       else {
-        popupContent += '<p>niveau ' + feature.properties.Niveau ;
+        popupContent += '<p>' + niveau ;
       }
     }
     if ((feature.properties.Batiment !== "null" && feature.properties.Batiment !== null && feature.properties.Batiment !== "")
@@ -1360,13 +1377,13 @@ import {mapToken} from './token.js';
     }
     if (feature.properties.Image !== "null" && feature.properties.Image !== null && feature.properties.Image !== "") {
       if (feature.properties.Categorie == 'Département de formation') {
-        popupTitle += '<img style = \'height : 60px; position : absolute; right : 0;top:0\' src = \'' + feature.properties.Image + '\'/>'
+        popupTitle += '<img style = \'height : 60px; position : absolute; right : 0;top:0\' src = \'' + feature.properties.Image + '?v=' + version +'\'/>'
       }
       else if (feature.properties.Categorie == 'Oeuvre') {
-        popupContent += '<img style = \'height : auto; width : 96%; margin-left:2%; margin-right:2%; margin-bottom: 4px;\' src = \'' + feature.properties.Image + '\'/>'
+        popupContent += '<img style = \'height : auto; width : 96%; margin-left:2%; margin-right:2%; margin-bottom: 4px;\' src = \'' + feature.properties.Image + '?v=' + version +'\'/>'
       }
       else {
-        popupContent += '<img style = \'height : 60px; left : 50%\' src = \'' + feature.properties.Image + '\'/>'
+        popupContent += '<img style = \'height : 60px; left : 50%\' src = \'' + feature.properties.Image + '?v=' + version +'\'/>'
       }
     }
   }
@@ -1489,7 +1506,7 @@ import {mapToken} from './token.js';
     $.ajax({
       'async': false,
       'global': false,
-      'url': "../data/points.geojson",
+      'url': "../data/points.geojson?v="+version,
       'dataType': "json",
       'success': function (data) {
         json = data;
@@ -1509,7 +1526,7 @@ import {mapToken} from './token.js';
     $.ajax({
       'async': false,
       'global': false,
-      'url': "../data/lineaire.geojson",
+      'url': "../data/lineaire.geojson?v="+version,
       'dataType': "json",
       'success': function (data) {
         jsonLines = data;
@@ -1526,7 +1543,7 @@ import {mapToken} from './token.js';
       type: "fill",
       source: {
         type: "geojson",
-        data: "../data/habillage/grass.geojson"
+        data: "../data/habillage/grass.geojson?v="+version
       },
       paint: {
         'fill-color': '#A4E463',
@@ -1543,7 +1560,7 @@ import {mapToken} from './token.js';
       type: "fill",
       source: {
         type: "geojson",
-        data: "../data/habillage/piste_athle.geojson"
+        data: "../data/habillage/piste_athle.geojson?v="+version
       },
       paint: {
         'fill-color': '#C09C83',
@@ -1555,7 +1572,7 @@ import {mapToken} from './token.js';
       type: "line",
       source: {
         type: "geojson",
-        data: "../data/habillage/terrain_football.geojson"
+        data: "../data/habillage/terrain_football.geojson?v="+version
       },
       "paint": {
         'line-color': '#FFFFFF',
@@ -1891,15 +1908,31 @@ import {mapToken} from './token.js';
       equipementSportifCount += 1;
     }
 
-    if (overlay == 'Pole santé') {
-      addCategoryOverlay(polesanteLink, 'Pole santé', 'layer', 'marker', polesanteURL, tailleMarker, polesanteCount);
+    if (overlay == 'Pôle santé et prévention') {
+      addCategoryOverlay(polesanteLink, 'Pôle santé et prévention', 'layer', 'marker', polesanteURL, tailleMarker, polesanteCount);
       polesanteCount += 1;
     }
     polesanteLink.onclick = function (e) {
-      addCategoryOverlay(polesanteLink, 'Pole santé', 'layer', 'marker', polesanteURL, tailleMarker, polesanteCount);
+      addCategoryOverlay(polesanteLink, 'Pôle santé et prévention', 'layer', 'marker', polesanteURL, tailleMarker, polesanteCount);
       polesanteCount += 1;
     }
 
+    if (overlay == 'Assistants de prévention') {
+      addCategoryOverlay(assistantpreventionLink, 'Assistants de prévention', 'layer', 'marker', assistantpreventionURL, tailleMarker, assistantpreventionCount);
+      assistantpreventionCount += 1;
+    }
+    assistantpreventionLink.onclick = function (e) {
+      addCategoryOverlay(assistantpreventionLink, 'Assistants de prévention', 'layer', 'marker', assistantpreventionURL, tailleMarker, assistantpreventionCount);
+      assistantpreventionCount += 1;
+    }
+    if (overlay == 'Ressources humaines') {
+      addCategoryOverlay(rhsanteLink, 'Ressources humaines', 'layer', 'marker', rhsanteURL, tailleMarker, rhCount);
+      rhsanteCount += 1;
+    }
+    rhsanteLink.onclick = function (e) {
+      addCategoryOverlay(rhsanteLink, 'Ressources humaines', 'layer', 'marker', rhsanteURL, tailleMarker, rhsanteCount);
+      rhsanteCount += 1;
+    }
 
 //////////////////////////////////  Vie associative ///////////////////////////////////////
 
@@ -2291,10 +2324,16 @@ import {mapToken} from './token.js';
     ;
     if (searchItem.properties.Niveau != null) {
       if (searchItem.properties.Batiment != null){
-        popupContent += ', niveau ' + searchItem.properties.Niveau ;
+        if (searchItem.properties.Niveau.toString().startsWith('niveau')){
+          var niveau = searchItem.properties.Niveau;
+        }
+        else {
+          var niveau = 'niveau ' + searchItem.properties.Niveau;
+        }
+        popupContent += ', ' + niveau ;
       }
       else {
-      popupContent += '<p>Niveau ' + searchItem.properties.Niveau ;
+      popupContent += '<p>' + niveau ;
       }
     }
     if (searchItem.properties.Batiment != null || searchItem.properties.Niveau != null){
@@ -2323,15 +2362,15 @@ import {mapToken} from './token.js';
     ;
     if (searchItem.properties.Image != null) {
       if (searchItem.properties.Categorie == 'Département de formation') {
-        popupTitle += '<img style = \'height : 60px ; position : absolute ; right : 0\' src = \'' + searchItem.properties.Image + '\'/>';
+        popupTitle += '<img style = \'height : 60px ; position : absolute ; right : 0\' src = \'' + searchItem.properties.Image + '?v=' + version +'\'/>';
       } else {
-        popupContent += '<img style = \'height : 50px\' src = \'' + searchItem.properties.Image + '\'/>';
+        popupContent += '<img style = \'height : 50px\' src = \'' + searchItem.properties.Image + '?v=' + version +'\'/>';
       }
     }
     ;
     searchPopup = new maplibregl.Popup({
       offset: [0, -45],
-      closeButton: false
+      closeButton: false  
     })
             .setLngLat(searchItem.geometry.coordinates)
             .setHTML('<h1>' + popupTitle + '</h1><div class="description">' + popupContent + '</div>')

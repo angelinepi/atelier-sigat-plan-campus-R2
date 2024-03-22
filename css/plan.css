@@ -157,6 +157,13 @@ mapboxgl-ctrl-group > button {
   padding-left:10px;
 
 }
+
+/*ci-après un test pour modifier la vue des sections-name quand la souris passe dessus
+.nav li a .section-name:hover {
+font-size: 25px;
+color: green;
+} */
+
 .nav li a .section-image {
   float: left;
   width: 30px;
