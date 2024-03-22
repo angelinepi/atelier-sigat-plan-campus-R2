@@ -16,3 +16,7 @@ Point Hadrien Pavie - 15/02 - éléments
 > Campus Rennes & Saint Brieuc
 10-20 tuiles
 > geojson.io (éditeur web permet de modifier du code geojson en mode interactif)
+
+Les issues en status "wontfix" ne seront pas traitées en tout cas pas pour le moment.
+Il s'agit soit d'améliorations du code (le laisser en l'état ne bloque pas son fonctionnement),
+soit de bugs identifiés, mais qui seront corrigé via les modifications prévues du code (réagencement, nouvelle sidebar, etc).

@@ -1,17 +1,23 @@
 // Importation du token fond de carte MapTiler au début de la fonction IIFE
 import {mapToken} from './token.js';
 
+//fonction IIFE - Immediately Invoked Function Expression - exécute la fonction au moment où elle est lue
 (function ($) {
   
-  //ci-dessous l'extraction d'une valeur d'un paramètre d'URL (avec expression régulière)
+  //définition d'une fonction permettant l'extraction d'une valeur d'un paramètre d'URL (avec expression régulière)
   function getQueryStringValue(key) {
     return decodeURIComponent(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + encodeURIComponent(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
+    //window.location.search : indique la barre où se trouve l'URL, puis concatenation de :
+      //la RegExp recherche n'importe quel caractère suivi de ? ou & (replace(/[\.\+\*]/g, "\\$&"))
+      //encodage de la valeur du paramètre d'URL (encodeURIComponent(key))
+      //replace remplace les caractères spéciaux en caractères échappés "(?:\\=([^&]*))?)?.*$"
+      //"i" = insensible à la casse  
   }
   
-  var overlay = getQueryStringValue("layer").toString();
-  var overlayPoint = getQueryStringValue("point").toString();
-  var version = document.getElementById("plan").getAttribute("data-version");
 
+  var overlay = getQueryStringValue("layer").toString(); //extraction de la valeur du paramètre d'URL "layer"
+  var overlayPoint = getQueryStringValue("point").toString(); //extraction de la valeur du paramètre d'URL "point"
+  var version = document.getElementById("plan").getAttribute("data-version");  
   ///////////////////////////////////////  Initialisation du fond de carte //////////////////////////////////
 
   // Adapter le zoom, et la largeur / placement des raccourcis spatiaux en fonction de l'écran
@@ -19,25 +25,26 @@ import {mapToken} from './token.js';
   var largeurEcran = screen.width
   var zoomBase = 15.8;
   var BoutonsD = document.getElementById("DDD")
-  var Bouton2D = document.createElement('button');
-  Bouton2D.setAttribute("class", "btn btn-primary");
 
-  //par défaut bouton2D actif
-  Bouton2D.classList.add("active");
+  //création du bouton 2D
+  var Bouton2D = document.createElement('button'); 
+  Bouton2D.setAttribute("class", "btn btn-primary");
+  Bouton2D.classList.add("active"); //par défaut bouton2D actif
   Bouton2D.setAttribute("id", "DDButton");
   Bouton2D.innerHTML = '2D';
 
-  //déclaration bouton 3D
-  var Bouton3D = document.createElement('button');
+  //création du bouton 3D
+  var Bouton3D = document.createElement('button'); 
   Bouton3D.setAttribute("class", "btn btn-primary");
   Bouton3D.setAttribute("id", "DDDButton");
   Bouton3D.innerHTML = '3D';
 
-  //configuration page selon dimension de la fenetre du navigateur
+  //configuration page selon dimension de la fenetre du navigateur selon le device utilisé (téléphone ou autre)
   if (largeurEcran < 500) {
     device = 'phone';
-    document.getElementById('map').style.height = '80vh';
-    zoomBase = 14.8;
+    document.getElementById('map').style.height = '80vh'; //la carte
+    zoomBase = 14.8; //le zoom
+    //emplacement boutons 2D/3D :
     BoutonsD.style.position = 'absolute';
     BoutonsD.style.height = '50px';
     BoutonsD.style.width = '100px';
@@ -52,6 +59,7 @@ import {mapToken} from './token.js';
     BoutonsD.appendChild(Bouton3D);
   }
   if (largeurEcran > 1000) {
+    //emplacement onglets géographiques :
     document.getElementById('campus').style.width = '40%';
     document.getElementById('Villejean').style.width = '33%';
     document.getElementById('LaHarpe').style.width = '33%';
@@ -60,13 +68,12 @@ import {mapToken} from './token.js';
   }
 
   //Limites de vue en fonction du campus visité
-  //Villejean / La Harpe
+  //pour les campus villejean / La Harpe - boundingbox englobant Rennes+ :
   var rennesBounds = [
     [-1.787293, 48.067191], // Southwest coordinates
     [-1.525772, 48.169255]  // Northeast coordinates
   ];
-  
-  //Mazier
+  //Mazier - boundingbox englobant Saint-Brieuc+ ::
   var mazierBounds = [
     [-2.810090, 48.488519],
     [-2.668165, 48.534886]
@@ -75,7 +82,7 @@ import {mapToken} from './token.js';
   // Appel du fond de carte
   var map = new maplibregl.Map({
     container: 'map', // container id
-    style: 'https://api.maptiler.com/maps/voyager/style.json?key='+mapToken, // stylesheet location
+    style: 'https://api.maptiler.com/maps/voyager/style.json?key='+mapToken, // stylesheet location + token déclaré dans token.js
     center: [-1.7015402487767233, 48.11941846173602], // starting position [lng, lat]
     //center: [-1.702499, 48.118181], // starting position [lng, lat]
     zoom: zoomBase,
@@ -114,12 +121,12 @@ import {mapToken} from './token.js';
   Etiquette.push('Amphithéâtre'); // Ajout des etiquettes
   var amphiURL = '../css/icons/layers_icons/amphi_marker.png';
   
-  // Couche salles informatique
+  // Salles informatique
   var sallesInfoCount = 0;
   var sallesInfoLink = document.getElementById('Salle informatique');
   var sallesInfoURL = '../css/icons/layers_icons/salle_info_marker.png';
   
-  // Couche salles spécifiques
+  // Salles spécifiques
   var sallesSpeCount = 0;
   var listeSallesSpecifiques = []; // Création dynamique de la liste des salles à partir du jeu de données
   var sallesSpecifiquesLink = document.getElementById('Salles spécifiques');
@@ -133,7 +140,7 @@ import {mapToken} from './token.js';
   var insertServicescen = document.getElementById('insertServicescen');
   var ServicescenURL = '../css/icons/layers_icons/servicescen_marker.png';
   
-  // Services commun
+  // Services communs
   var ServicescomCount = 0;
   var listeServicescom = []; // Création dynamique de la liste des salles à partir du jeu de données
   var ServicescomLink = document.getElementById('Services communs');
@@ -204,7 +211,7 @@ import {mapToken} from './token.js';
   var RUFRALCLink = document.getElementById('Recherche UFRALC');
   var insertRUFRALC = document.getElementById('insertRUFRALC');
   var RUFRALCURL = '../css/icons/layers_icons/recherche_marker.png';
-  // Recherche UFR Langue
+  // Recherche UFR Langues
   var RUFRLCount = 0;
   var listeRUFRL = [];
   var RUFRLLink = document.getElementById('Recherche UFRL');
@@ -217,115 +224,117 @@ import {mapToken} from './token.js';
   var insertRUFRSH = document.getElementById('insertRUFRSH');
   var RUFRSHURL = '../css/icons/layers_icons/recherche_marker.png';
 
-  // Couche bibliothèques
+  // Bibliothèques
   var bibliothequesCount = 0; // initialisation du compteur de clics
   var bibliothequesLink = document.getElementById("Bibliothèques");
   var bibliothequesURL = '../css/icons/layers_icons/biblio_marker.png';
 
-  // Couche Lieu culturel
+  // Lieux culturels
   var lieuCulturelCount = 0; // initialisation du compteur de clics
   var lieuCulturelLink = document.getElementById('Lieux culturels');
   var listelieuCulturel = []; // Création dynamique de la liste des salles à partir du jeu de données
   var insertLieuCulturel = document.getElementById('insertLieuCulturel');
   var lieuCulturelURL = '../css/icons/layers_icons/culture_marker.png';
 
-  // Couche oeuvres d'arts
+  // Oeuvres d'arts
   var oeuvreArtsCount = 0; // initialisation du compteur de clics
   var oeuvreArtsLink = document.getElementById('Oeuvre');
   var oeuvreArtsURL = '../css/icons/layers_icons/oeuvre_marker.png';
 
-  // Couche équipements sportifs
+  // Equipements sportifs
   var equipementSportifCount = 0; // initialisation du compteur de clics
   var equipementSportifLink = document.getElementById('Equipement sportif');
   var equipementSportifURL = '../css/icons/layers_icons/sport_marker.png';
 
-  // Couche toilettes
+  // Toilettes
   var toilettesCount = 0; // initialisation du compteur de clics
   var toilettesLink = document.getElementById('Toilettes');
   var toilettesURL = '../css/icons/layers_icons/wc_marker.png';
 
-  // Couche copieurs
+  // Copieurs
   var copieurCount = 0; // initialisation du compteur de clics
   var copieurLink = document.getElementById('Copieur');
   var copieursURL = '../css/icons/layers_icons/copieur_marker.png';
 
-  // Couche espace détente
+  // Espace détente
   var espaceDetenteCount = 0; // initialisation du compteur de clics
   var espaceDetenteLink = document.getElementById('Espace détente');
   var espaceDetenteURL = '../css/icons/layers_icons/espacedetente_marker.png';
 
-  // Couche cafeterias
+  // Cafeterias
   var cafeteriasCount = 0; // initialisation du compteur de clics
   var cafeteriasLink = document.getElementById('Cafétéria');
   var cafeteriasURL = '../css/icons/layers_icons/cafeteria_marker.png';
 
-  // Couche Micro-ondes
+  // Micro-ondes
   var microOndesCount = 0; // initialisation du compteur de clics
   var microOndesLink = document.getElementById('Micro-ondes');
   var microOndesURL = '../css/icons/layers_icons/microondes_marker.png';
 
-  // Couche Résidences universitaires
+  // Résidences universitaires
   var resUnivCount = 0; // initialisation du compteur de clics
   var resUnivLink = document.getElementById("Résidence Universitaire");
   var resUnivURL = '../css/icons/layers_icons/resuniv_marker.png';
 
-  // Couche Restaurants universitaires
+  // Restaurants universitaires
   var restoUnivCount = 0; // initialisation du compteur de clics
   var restoUnivLink = document.getElementById("Restaurant Universitaire");
   var restoUnivURL = '../css/icons/layers_icons/restauu_marker.png';
 
-  // Couche Associations de filières
+  // Associations de filières
   var associationsfilieresCount = 0; // initialisation du compteur de clics
   var associationsfilieresLink = document.getElementById('Associations de filières');
   var associationsfilieresURL = '../css/icons/layers_icons/association_marker.png';
 
-  // Couche Associations de Masters et Doctorats
+  // Associations de Masters et Doctorats
   var associationsmasterCount = 0; // initialisation du compteur de clics
   var associationsmasterLink = document.getElementById('Associations de Masters et Doctorats');
   var associationsmasterURL = '../css/icons/layers_icons/association_marker2.png';
 
-  // Couche Associations briochines
+  // Associations briochines
   var associationsbriochinesCount = 0; // initialisation du compteur de clics
   var associationsbriochinesLink = document.getElementById('Associations briochines');
   var associationsbriochinesURL = '../css/icons/layers_icons/association_marker3.png';
 
-  // Couche Associations culturelles, artistiques et sportives
+  // Associations culturelles, artistiques et sportives
   var associationscasCount = 0; // initialisation du compteur de clics
   var associationscasLink = document.getElementById('Associations culturelles, artistiques et sportives');
   var associationscasURL = '../css/icons/layers_icons/association_marker4.png';
 
-  // Couche Associations de solidarité et de sensibilisation
+  // Associations de solidarité et de sensibilisation
   var associationssolidariteCount = 0; // initialisation du compteur de clics
   var associationssolidariteLink = document.getElementById('Associations de solidarité et de sensibilisation');
   var associationssolidariteURL = '../css/icons/layers_icons/association_marker5.png';
 
-  // Couche Associations autres
+  // Associations autres
   var associationsCount = 0; // initialisation du compteur de clics
   var associationsLink = document.getElementById('Autres');
   var associationsURL = '../css/icons/layers_icons/association_marker6.png';
 
-  // Couche ascenseur
+  // Ascenseur
   var ascenseurCount = 0; // initialisation du compteur de clics
   var ascenseurLink = document.getElementById('Ascenseur');
   var ascenseurColor = '#1da34a';
   var ascenseurIconSize = [1.5, 13, 2, 22, 60];
 
-  // Couche parking
+  // Parking
   var parkingCount = 0; // initialisation du compteur de clics
   var parkingLink = document.getElementById('Parking');
   var parkingURL = '../css/icons/layers_icons/paking_picto.png';
 
-  // Couche parking PMR
+  // Parking PMR
   var parkingPMRCount = 0; // initialisation du compteur de clics
   var parkingPMRURL = '../css/icons/layers_icons/parkingH_picto.png';
 
-  // Couche parking vélo
+  // Parking vélo
   var parkingVeloCount = 0; // initialisation du compteur de clics
   var parkingVeloLink = document.getElementById("Parking vélo");
   var parkingVeloColor = 'purple';
   var parkingVeloIconSize = [1.5, 13, 2, 22, 60];
 
+
   // Couche Pole santé et prévention
+
   var polesanteCount = 0; // initialisation du compteur de clics
   var polesanteLink = document.getElementById('Pôle santé et prévention');
   var polesanteURL = '../css/icons/layers_icons/sante_marker.png';
@@ -346,7 +355,7 @@ import {mapToken} from './token.js';
   var lineairePMRColor = '#138fad';
   var lineairePMRType = 'line';
 
-  // Couche Accès PMR
+  // Accès PMR
   var accesPMRCount = 0; // initialisation du compteur de clics
   var accesPMRColor = '#138fad';
   var accesPMRIconSize = [1.5, 13, 2, 22, 60];
@@ -358,33 +367,33 @@ import {mapToken} from './token.js';
   var lineaireMetroIconSize = [1.5, 13, 2, 22, 60];
   var lineaireMetroType = 'line';
   
-  // Couche arrets metro
+  // Arrets metro
   var metroCount = 0; // initialisation du compteur de clics
   var metroColor = 'red';
   var metroIconSize = [1.5, 13, 4, 22, 80];
   var metroURL = '../css/icons/layers_icons/metro_picto.png';
   
-  // Couche arrets bus
+  // Linéaire Bus
+  var busLineCount = 0; // initialisation du compteur de clics
+  var busLineLink = document.getElementById("Bus");
+  var busLineColor = '#3893F5';
+
+  // Arrets bus
   var busCount = 0; // initialisation du compteur de clics
   var busColor = 'green';
   var busIconSize = [1.5, 13, 4, 22, 80];
   var busURL = '../css/icons/layers_icons/bus_marker.png';
   
-  // Couche vélostar
+  // Vélostar
   var velostarCount = 0; // initialisation du compteur de clics
   var velostarLink = document.getElementById("Station Vélostar");
   var velostarColor = 'green';
-  
-  // Couche bus
-  var busLineCount = 0; // initialisation du compteur de clics
-  var busLineLink = document.getElementById("Bus");
-  var busLineColor = '#3893F5';
 
   //// Récupération en continu de l'état des menus des couches suivantes :
   var ServicescenLinkState = null;
   setInterval(function () {
     ServicescenLinkState = ServicescenLink.nextElementSibling.className;
-  }, 500);
+  }, 500); //refresh toutes les 500milis
 
   var ServicesgenLinkState = null;
   setInterval(function () {
@@ -461,7 +470,8 @@ import {mapToken} from './token.js';
   var salleRX = null;
   var salleRY = null;
   var pictoCount = 0;
-  //////////////////////////////////   Initialisation de de fonctions //////////////////////////////////////
+
+  //////////////////////////////////   Initialisation des fonctions //////////////////////////////////////
 
   //Variables nécessaires à la fonctionnalité de changement de vue (2D -> 3D)
   var DDD = false; // Vue de base en 2D
@@ -478,23 +488,29 @@ import {mapToken} from './token.js';
     closeOnClick: false
   });
   var popupContent = null;
-  // Fonction pour afficher le référentiel bati 3D
+
+////////// Fonction pour afficher le référentiel bati 3D //////////
   function getBati3D() {
+
+    //vérifie si la vue est en 2D, si oui retire les vues 2D
     if (bati2DCount != 0) {
       map.removeLayer(bati2DId);
       map.removeLayer(bati2DHId);
       map.removeLayer(etiqBati2DId);
-    }
-    ;
+    };
+
     pictoCount += 1;
     bati3DCount += 1;
     bati3DId = 'bati3DId' + bati3DCount;
     bati3DHId = 'bati3DHId' + bati3DCount;
     etiqBati3DId = 'etiqBati3DId' + bati3DCount;
+    
+    //data batiments en 3D
     map.addSource("bati3D", {
       type: "geojson",
       data: "../data/bati/Bati_3D.geojson?v="+version
     });
+
     map.addLayer({
       id: bati3DId,
       type: "fill-extrusion",
@@ -511,6 +527,8 @@ import {mapToken} from './token.js';
         'fill-extrusion-opacity': 0.8
       }
     }, Layers[0]);
+
+
     map.addLayer({
       id: bati3DHId,
       type: "fill-extrusion",
@@ -528,6 +546,8 @@ import {mapToken} from './token.js';
         'fill-extrusion-opacity': 0.8
       }
     }, Layers[0]);
+
+
     map.on("mousemove", bati3DId, function (e) {
       map.setFilter(bati3DHId, ["==", "Id", e.features[0].properties.Id]);
       var popupTitle = '';
@@ -561,11 +581,14 @@ import {mapToken} from './token.js';
         }
       }
     });
-    // Reset the state-fills-hover layer's filter when the mouse leaves the layer.
+
+    //Reset la coloration du polygone batiment quand la souris quitte la couche
     map.on("mouseleave", bati3DHId, function () {
       map.setFilter(bati3DHId, ["==", "Id", ""]);
       popupBati.remove();
     });
+
+    //ajout d'une couche 
     map.addLayer({
       id: etiqBati3DId,
       type: "symbol",
@@ -582,12 +605,17 @@ import {mapToken} from './token.js';
       },
       minzoom: 14,
     });
+
+    //ajout des pictos permanents
     addPictoFondDeCarte()
   }
   ;
   var popupContent = null;
-  // Fonction pour afficher le référentiel bati 2D
+// fin de la definition de la fonction getBati3D() //
+
+////////// Fonction pour afficher le référentiel bati 2D //////////
   function getBati2D() {
+
     if (bati3DCount != 0) {
       map.removeLayer(bati3DId);
       map.removeLayer(bati3DHId);
@@ -599,10 +627,13 @@ import {mapToken} from './token.js';
     bati2DId = 'bati2DId' + bati2DCount;
     bati2DHId = 'bati2DHId' + bati2DCount;
     etiqBati2DId = 'etiqBati2DId' + bati2DCount;
+
+    //ajout de couches
     map.addSource("bati2D", {
       type: "geojson",
       data: "../data/bati/Bati_2D.geojson?v="+version
     });
+
     map.addLayer({
       id: bati2DId,
       type: "fill",
@@ -612,6 +643,7 @@ import {mapToken} from './token.js';
         'fill-opacity': 0.8
       }
     }, Layers[0]);
+
     map.addLayer({
       id: bati2DHId,
       type: "fill",
@@ -622,6 +654,8 @@ import {mapToken} from './token.js';
         'fill-opacity': 0.5
       }
     }, Layers[0]);
+
+    //interactivité
     map.on("mousemove", bati2DId, function (e) {
       map.setFilter(bati2DHId, ["==", "Id", e.features[0].properties.Id]);
       var popupTitle = '';
@@ -657,11 +691,13 @@ import {mapToken} from './token.js';
 
     });
 
-    // Reset the state-fills-hover layer's filter when the mouse leaves the layer.
+    //Reset la coloration du polygone batiment quand la souris quitte la couche.
     map.on("mouseleave", bati2DHId, function () {
       map.setFilter(bati2DHId, ["==", "Id", ""]);
       popupBati.remove();
     });
+
+    //ajout d'une couche
     map.addLayer({
       id: etiqBati2DId,
       type: "symbol",
@@ -681,7 +717,9 @@ import {mapToken} from './token.js';
     addPictoFondDeCarte()
   }
   ;
-// Fonctions pour zoomer sur l'item sélectionné dans la liste
+// fin de la definition de la fonction getBati2D() //
+
+////////// Fonction pour zoomer sur l'item sélectionné dans la liste (barre de recherche) ////////// 
   function getSwitchPopup() {
     getPopupContent(salleRecherchee);
     popupList = new maplibregl.Popup({
@@ -693,7 +731,9 @@ import {mapToken} from './token.js';
             .addTo(map);
   }
   ;
+// fin de la definition de la fonction getSwitchPopup() //
 
+////////// Variable switchPOI ////////// 
   var switchPOI = function (value) {
     value = value.split("!").join("'");
     salleRecherchee = null;
@@ -762,9 +802,10 @@ import {mapToken} from './token.js';
     getSwitchPopup();
   }
 
+////////// Fonction ajoutant une liste de picto de manière permanente sur le fond de carte ////////// 
   function addPictoFondDeCarte() {
     //picto fond de carte
-    //Bibliothèque
+    //Picto permanent Bibliothèque
     map.loadImage("../css/icons/iconfond/biblio.png", function (error, image) {
       if (error)
         throw error;
@@ -787,7 +828,7 @@ import {mapToken} from './token.js';
       });
     });
 
-    //Caféteria
+    //Picto permanent Caféteria
     map.loadImage("../css/icons/iconfond/cafe.png", function (error, image) {
       if (error)
         throw error;
@@ -811,7 +852,7 @@ import {mapToken} from './token.js';
     });
 
 
-    //Restaurant U
+    //Picto permanent Restaurant U
     map.loadImage("../css/icons/iconfond/resto.png", function (error, image) {
       if (error)
         throw error;
@@ -834,7 +875,7 @@ import {mapToken} from './token.js';
       });
     });
 
-    //Parking
+    //Picto permanent Parking
     map.loadImage("../css/icons/iconfond/parking.png", function (error, image) {
       if (error)
         throw error;
@@ -857,7 +898,7 @@ import {mapToken} from './token.js';
       });
     });
 
-    //Metro
+    //Picto permanent Metro
     map.loadImage("../css/icons/iconfond/metro.png", function (error, image) {
       if (error)
         throw error;
@@ -880,7 +921,7 @@ import {mapToken} from './token.js';
       });
     });
 
-    //Pôle Sante
+    //Picto permanent Pôle Sante
     map.loadImage("../css/icons/iconfond/sante.png", function (error, image) {
       if (error)
         throw error;
@@ -903,7 +944,7 @@ import {mapToken} from './token.js';
       });
     });
 
-    //Piscine
+    //Picto permanent Piscine
     map.loadImage("../css/icons/iconfond/piscine.png", function (error, image) {
       if (error)
         throw error;
@@ -926,7 +967,7 @@ import {mapToken} from './token.js';
       });
     });
 
-    //Bus
+    //Picto permanent Bus
     map.loadImage("../css/icons/iconfond/bus.png", function (error, image) {
       if (error)
         throw error;
@@ -949,7 +990,11 @@ import {mapToken} from './token.js';
       });
     });
   }
+// fin de la definition de la fonction addPictoFondDecarte() //
+
+////////// Fonction ajoutant un point (de type épingle) ////////// 
   function addPointOverlay(name, iconSize) {
+
     var iconURL = '../css/icons/layers_icons/recherche.png'
     var markerOffset = [-15, -20];
     if (iconSize.toString() === '1,13,0.1,25,1.5') {
@@ -957,6 +1002,7 @@ import {mapToken} from './token.js';
     } else if (iconSize.toString() === '1,13,0.05,25,1') {
       markerOffset = [-40, -50]
     }
+
     map.loadImage(iconURL, function (error, image) {
       if (error)
         throw error;
@@ -981,17 +1027,22 @@ import {mapToken} from './token.js';
 
       });
     });
+
     Layers.push(name);
     var couche = name;
     var type = 'marker';
-
   }
+// fin de la définition de la fonction addPointOverlay() //
 
+////////// Fonction ajoutant des couches géographiques de superpositions selon un filtre 'Categorie' ////////// 
   function addCategoryOverlay(htmllink, nomDeLaCouche, ordre, type, colorOrUrl, iconSize, overlayCount, minZoom, maxZoom) {
-    ////////// AJOUT DES DONNEES TYPE LINEAIRE ////////////
 
+    ////////// AJOUT DES DONNEES TYPE LINEAIRE ////////////
     if (type == 'line') {
+
+      //Si aucune couche n'est déjà sélectionnée
       if (overlayCount === 0) {
+
         map.addLayer({
           id: nomDeLaCouche,
           type: "line",
@@ -999,7 +1050,6 @@ import {mapToken} from './token.js';
             type: "geojson",
             data: lines
           },
-
           layout: {
             "line-join": "round",
             "line-cap": "round"
@@ -1010,39 +1060,53 @@ import {mapToken} from './token.js';
             "line-width": {'base': iconSize[0], 'stops': [[iconSize[1], iconSize[2]], [iconSize[3], iconSize[4]]]}
           }
         });
-        Layers.push(nomDeLaCouche);
+
+        Layers.push(nomDeLaCouche); //ajoute la couche dans un tableau "Layers"
+        
+        // ici on parcourt les noeuds enfants HTML passé en paramètres htmllink 
         for (var i = 0; i < htmllink.childNodes.length; i++) {
-          if (htmllink.childNodes[i].className === "case") {
-            htmllink.childNodes[i].classList.add('active');
+          if (htmllink.childNodes[i].className === "case") { //on choisit ceux en classe 'case'
+            htmllink.childNodes[i].classList.add('active'); //on les marque comme actifs
             break;
           }
         }
+
         //htmllink.style.backgroundColor = activeLayerBackground;
-        htmllink.classList.add('active');
+        htmllink.classList.add('active'); // on marque comme actif le paramètre htmllink aussi
+      
+      //Si des couches sont déjà sélectionnées :
       } else {
         var visibility = map.getLayoutProperty(nomDeLaCouche, 'visibility');
+
+        //Si la couche en question est déjà sélectionnée, alors la désactive :
         if (visibility === 'visible') {
+
           for (var i = 0; i < htmllink.childNodes.length; i++) {
-            if (htmllink.childNodes[i].className === "case active") {
-              htmllink.childNodes[i].classList.remove('active');
+            if (htmllink.childNodes[i].className === "case active") { 
+              htmllink.childNodes[i].classList.remove('active'); //retire le paramètre 'active' des noeuds enfants
               ;
               break;
             }
           }
-          htmllink.classList.remove('active');
-          map.setLayoutProperty(nomDeLaCouche, 'visibility', 'none');
-          Layers = Layers.filter(item => item != nomDeLaCouche);
+          
+          htmllink.classList.remove('active'); //retire le paramètre 'active' de l'htmllink
+          map.setLayoutProperty(nomDeLaCouche, 'visibility', 'none'); //passe le paramètre de la couche en visibility 'none'
+          Layers = Layers.filter(item => item != nomDeLaCouche); //supprime le nom de la couche du tableau Layers
+
           if (etiquette) {
-            map.setLayoutProperty(nomDeLaCoucheEtiquette, 'visibility', 'none');
-            Layers = Layers.filter(item => item != nomDeLaCoucheEtiquette);
+            map.setLayoutProperty(nomDeLaCoucheEtiquette, 'visibility', 'none'); //passe le paramètre de l'étiquette en visibility 'none'
+            Layers = Layers.filter(item => item != nomDeLaCoucheEtiquette); //supprime le nom des étiquettes du tableau Layers
           }
+
+        //Si la couche en question n'est pas déjà sélectionnée, alors l'active :
         } else {
           map.setLayoutProperty(nomDeLaCouche, 'visibility', 'visible');
-          Layers.push(nomDeLaCouche);
-
+          Layers.push(nomDeLaCouche); //et l'ajoute à la liste Layers
+          
+          //et passe les paramètres des noeuds enfants html et de l'hmtllink en statut 'active'
           for (var i = 0; i < htmllink.childNodes.length; i++) {
-            if (htmllink.childNodes[i].className == "case") {
-              htmllink.childNodes[i].classList.add('active');
+            if (htmllink.childNodes[i].className == "case") { 
+              htmllink.childNodes[i].classList.add('active'); 
               //notes.setAttribute('src', case2);
               //notes.classList.add('active');
               break;
@@ -1053,8 +1117,12 @@ import {mapToken} from './token.js';
         }
       }
       ;
+      // FIN TYPE LIGNE //
+
       ////////// AJOUT DES DONNEES PONCTUELLES ////////////
     } else {
+
+      // activation des étiquettes de la couche //
       var etiquette = false;
       for (var i = 0; i < Etiquette.length; i++) {
         if (Etiquette[i] === nomDeLaCouche) {
@@ -1062,17 +1130,19 @@ import {mapToken} from './token.js';
           var nomDeLaCoucheEtiquette = nomDeLaCouche + 'etiquette'
         }
       }
+
+      // si aucune couche sélectionnée :
       if (overlayCount === 0) {
-        ////////// AJOUT DES DONNEES PONCTUELLES (MARKER) ////////////
+
+        // définition de la position des markers
         if (type == 'marker') {
-          var markerOffset = [-13, -17];
+          var markerOffset = [-13, -17]; //définit un décalage du marker par rapport aux coordonnées du points
           if (iconSize.toString() === '1,13,0.1,25,1.5') {
             markerOffset = [-23, -40];
 //	        			console.log(markerOffset)
           } else if (iconSize.toString() === '1,13,0.05,25,1') {
             markerOffset = [-35, -43]
 //	        			console.log(markerOffset)
-
           }
 
           map.loadImage(colorOrUrl, function (error, image) {
@@ -1099,9 +1169,12 @@ import {mapToken} from './token.js';
 
             });
           });
-          Layers.push(nomDeLaCouche);
+
+          Layers.push(nomDeLaCouche); // la couche est ajoutée à un tableau 'Layers'
 
           if (etiquette) {
+
+            ////////// Definition de la première fonction etiqOverlay() //////////
             function etiqOverlay() {
               overlayEtiquette = map.addLayer({
                 id: nomDeLaCoucheEtiquette,
@@ -1128,12 +1201,14 @@ import {mapToken} from './token.js';
               });
               map.moveLayer(nomDeLaCouche + 'etiquette', 0)
             }
-            setTimeout(etiqOverlay, 1000);
-            Layers.push(nomDeLaCoucheEtiquette);
+            ////////// fin de la définition de la première fonction etiqOverlay() //////////
 
+            setTimeout(etiqOverlay, 1000); //la fonction est appellée après 1000 milisecondes
+            Layers.push(nomDeLaCoucheEtiquette); //la couche d'étiquette est ajoutée au tableau Layers
           }
           ////////// AJOUT DES DONNEES PONCTUELLES (POINTS) ////////////
         }
+        
         if (type == 'point') {
 
           map.addLayer({
@@ -1151,6 +1226,7 @@ import {mapToken} from './token.js';
               "circle-opacity": 0.9
             }
           });
+
           if (etiquette) {
             overlayEtiquette = map.addLayer({
               id: nomDeLaCoucheEtiquette,
@@ -1200,6 +1276,8 @@ import {mapToken} from './token.js';
           });
           Layers.push(nomDeLaCouche);
           if (etiquette) {
+
+            ////////// Definition de la deuxième fonction etiqOverlay() ////////// 
             function etiqOverlay() {
               overlayEtiquette = map.addLayer({
                 id: nomDeLaCoucheEtiquette,
@@ -1222,10 +1300,13 @@ import {mapToken} from './token.js';
               });
               map.moveLayer(nomDeLaCouche + 'etiquette', 0)
             }
+            // fin de la définition de la deuxième fonction etiqOverlay() //
+
             setTimeout(etiqOverlay, 1000);
             Layers.push(nomDeLaCoucheEtiquette);
           }
         }
+
         Layers.push(nomDeLaCouche);
         if (htmllink.nodeName === 'LI') {
           for (var i = 0; i < htmllink.childNodes.length; i++) {
@@ -1319,12 +1400,16 @@ import {mapToken} from './token.js';
       });
     }
   }
+// fin de la définition de la fonction addCategoryOverlay() //
 
   var popupTitle = null;
   var popupContent = [];
+
+////////// Fonction allant chercher le contenu ////////// 
   function getPopupContent(feature) {
     popupTitle = null;
     popupContent = [];
+
     //Titre de la popup
     if (feature.properties.Categorie !== "null" && feature.properties.Categorie !== null && feature.properties.Categorie !== "") {
       popupTitle = feature.properties.Categorie;
@@ -1332,8 +1417,9 @@ import {mapToken} from './token.js';
     if (feature.properties.Nom !== "null" && feature.properties.Nom !== null && feature.properties.Nom !== "") {
       popupTitle = feature.properties.Nom;
     }
-    // Contenu de la popup
-//        console.log(feature.properties.Batiment)
+
+    // Ecrit le contenu de la popup selon des conditions (ex. Bâtiment A, niveau : 0)
+    //console.log(feature.properties.Batiment)
     if (feature.properties.Batiment !== "null" && feature.properties.Batiment !== null && feature.properties.Batiment !== "") {
       popupContent += '<p>Bâtiment ' + feature.properties.Batiment ;
     }
@@ -1387,8 +1473,9 @@ import {mapToken} from './token.js';
       }
     }
   }
+// fin de la définition de la fonction getPopupContent() //
 
-
+////////// Fonction affichage la popup ////////// 
   function getPopup(couche, iconURL, type) {
     map.on('click', function (e) {
       var features = map.queryRenderedFeatures(e.point, {
@@ -1423,9 +1510,11 @@ import {mapToken} from './token.js';
 
     });
   }
-
+// fin de la définition de la fonction getPopup() //
 
   var salleRecherchee = null;
+
+////////// Fonction affichage la popup ////////// 
   function createHTMLList(categorie, listeDeNoms, elementCible, overlayCount) {
     salleRecherchee = null;
 
@@ -1458,6 +1547,7 @@ import {mapToken} from './token.js';
       }
     }
   }
+// fin de la définition de la fonction createHTMLList() //
 
 //////////////////////////////////   Interactivité menus //////////////////////////////////////
   // ZOOMS sur les campus
@@ -1500,6 +1590,7 @@ import {mapToken} from './token.js';
     zoomVillejean.classList.remove('active');
     zoomLaHarpe.classList.remove('active');
   });
+
 //////////////////////////////////   Initialisation des données carte //////////////////////////////////////
   var POIBrut = (function () {
     var json = null;
@@ -2031,6 +2122,7 @@ import {mapToken} from './token.js';
       addRealTimeBus();
     }
   });
+
 //////////////////////////////////// couches temps réel //////////////////////////////////////////////
 // Velostar
   var geojsonVelos = null;
