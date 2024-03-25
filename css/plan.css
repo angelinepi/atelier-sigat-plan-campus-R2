@@ -1,523 +1,667 @@
+/* Importation du fichier fontfaces.css */
 @import "fontfaces.css";
-html, body{overflow-x:hidden;}
 
-.loader{
-  background-color : white;cursor: wait;height: 100%;left: 0;position: fixed;top: 0;width: 100%;z-index: 999999;
+/* Styles pour l'élément HTML et le corps de la page */
+html, body {
+    overflow-x: hidden; /* Empêche le défilement horizontal */
 }
-#loader-img{
-  position:absolute;left: 50%;top: 50%;width: 30px;height: 30px;margin-left: -15px; margin-top: -15px; 
+
+/* Styles pour l'élément de chargement */
+.loader {
+    background-color: white; /* Couleur de fond */
+    cursor: wait; /* Curseur en mode attente */
+    height: 100%; /* Hauteur de 100% de la fenêtre */
+    left: 0; /* Positionnement à gauche */
+    position: fixed; /* Position fixe */
+    top: 0; /* Positionnement en haut */
+    width: 100%; /* Largeur de 100% de la fenêtre */
+    z-index: 999999; /* Indice de positionnement */
 }
-.loader h1{
-  position : absolute;background: none;border: none;color: #45739B;font-size: 15px;top:60%;left : 50%;font-family: "Open Sans",sans-serif;font-variant: small-caps;font-weight: 700;height: 30px;width: 200px;margin-top : -15px;margin-left : -100px;text-align: center;
+
+/* Styles pour l'image de chargement */
+#loader-img {
+    position: absolute; /* Position absolue */
+    left: 50%; /* Décalage à 50% de la largeur de l'élément parent */
+    top: 50%; /* Décalage à 50% de la hauteur de l'élément parent */
+    width: 30px; /* Largeur */
+    height: 30px; /* Hauteur */
+    margin-left: -15px; /* Décalage de la moitié de la largeur */
+    margin-top: -15px; /* Décalage de la moitié de la hauteur */
 }
+
+/* Styles pour le texte du chargement */
+.loader h1 {
+    position: absolute; /* Position absolue */
+    background: none; /* Fond transparent */
+    border: none; /* Pas de bordure */
+    color: #45739B; /* Couleur du texte */
+    font-size: 15px; /* Taille de police */
+    top: 60%; /* Positionnement vertical */
+    left: 50%; /* Positionnement horizontal */
+    font-family: "Open Sans", sans-serif; /* Police de caractère */
+    font-variant: small-caps; /* Variantes de police */
+    font-weight: 700; /* Poids de la police */
+    height: 30px; /* Hauteur */
+    width: 200px; /* Largeur */
+    margin-top: -15px; /* Décalage vertical */
+    margin-left: -100px; /* Décalage horizontal */
+    text-align: center; /* Alignement du texte */
+}
+
+/* Styles pour les liens */
 a {
-  color: #7239AB; 
+    color: #7239AB; /* Couleur du lien */
 }
-a:focus, a:hover {
-  color: #7239AB;
+
+/* Styles pour les liens au focus ou au survol */
+a:focus,
+a:hover {
+    color: #7239AB; /* Couleur du lien au focus ou au survol */
 }
-/*logo rennes 2*/
+
+/* Styles pour le conteneur d'en-tête */
 .header-container {
-  height: 108px;    
-  background-color: #000;
-  display: table-cell; /* comportement visuel de cellule */
-  vertical-align: middle;
-  width: 100vw;
-  position: relative;
+    height: 108px; /* Hauteur */
+    background-color: #000; /* Couleur de fond */
+    display: table-cell; /* Affichage en tant que cellule de tableau */
+    vertical-align: middle; /* Alignement vertical */
+    width: 100vw; /* Largeur de 100% de la fenêtre */
+    position: relative; /* Position relative */
 }
+
+/* Styles pour l'image de fond de l'en-tête */
 .header-container .image-fond {
-  background: url('/css/icons/img_fd_plan.jpg') 50% 50% no-repeat;
-  background-size: 100% 100%;
-  opacity: 0.6;
-  height: 108px;  
-  width: 100vw;
+    background: url('/css/icons/img_fd_plan.jpg') 50% 50% no-repeat; /* Image de fond */
+    background-size: 100% 100%; /* Taille de l'image de fond */
+    opacity: 0.6; /* Opacité */
+    height: 108px; /* Hauteur */
+    width: 100vw; /* Largeur */
 }
+
+/* Styles pour le contenu de l'en-tête */
 .header-container .header-content {
-  position: absolute;
-  top: 0;
-  width: 100%;
+    position: absolute; /* Position absolue */
+    top: 0; /* Positionnement en haut */
+    width: 100%; /* Largeur de 100% */
 }
+
+/* Styles pour le logo de la région */
 .header-container .region-logo {
-  position: relative;
-  display: inline-block;
+    position: relative; /* Position relative */
+    display: inline-block; /* Affichage en ligne */
 }
+
+/* Styles pour l'image du logo */
 .header-container .region-logo img.logo {
-  height: 80px;
-  max-height:80px;
-  float: right;
-  margin-top: 14px;
-
+    height: 80px; /* Hauteur */
+    max-height: 80px; /* Hauteur maximale */
+    float: right; /* Alignement à droite */
+    margin-top: 14px; /* Marge supérieure */
 }
-/* nom du site */
+
+/* Styles pour le nom du site */
 .header-container .region-right-header {
-  height: 108px;    
+    height: 108px; /* Hauteur */
 }
+
 h1.sitename {
-  transition: opacity 0.5s, height 0.5s;
-  font-family: "Ubuntu";
-  font-size: 30px;
-  font-weight: 300;
-  text-transform: uppercase;
-  text-align: left;
-  color: #fff;
-  margin:auto;
-
-  vertical-align: middle;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%); 
+    transition: opacity 0.5s, height 0.5s; /* Transition d'opacité et de hauteur */
+    font-family: "Ubuntu"; /* Police de caractère */
+    font-size: 30px; /* Taille de police */
+    font-weight: 300; /* Poids de la police */
+    text-transform: uppercase; /* Transformation en majuscules */
+    text-align: left; /* Alignement à gauche */
+    color: #fff; /* Couleur du texte */
+    margin: auto; /* Marge automatique */
+    vertical-align: middle; /* Alignement vertical */
+    position: absolute; /* Position absolue */
+    top: 50%; /* Positionnement vertical */
+    transform: translateY(-50%); /* Décalage vertical */
 }
+
+/* Styles pour le conteneur principal */
 #wrapper {
-  background-color: #F4F5F5;;
+    background-color: #F4F5F5; /* Couleur de fond */
 }
+
+/* Styles pour la zone de la page */
 #page-wrapper {
-  padding:0;
-  margin-left: 381px;
-  background-color: #F4F5F5;;
+    padding: 0; /* Rembourrage */
+    margin-left: 381px; /* Marge à gauche */
+    background-color: #F4F5F5; /* Couleur de fond */
 }
 
+/* Styles pour le conteneur fluide */
 .container-fluid {
-  padding-left:0;padding-right:0;padding-top : 0;padding-bottom : 0;margin-right: 0;margin-top : 0;margin-left:0;margin-bottom : 0;    
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-left: 0;
+    margin-bottom: 0;
 }
-#map {
-  position:relative;margin-top:0;margin-right:0;margin-left:0;margin-bottom:0;padding-right : 0;padding-left : 0; padding-top:0;padding-bottom:0;z-index:1;
-  height:80vh;
-}
-.mapboxgl-ctrl > button {
-  height: 33px;
-  width: 33px;
-  background-color: #fff;
-  border: 1px solid #e5e5e5;
-  border-radius: 0;
-  background-size: 40%;
-  background-repeat: no-repeat;
-  background-position: center;
-} 
-.mapboxgl-ctrl-group {
-  border-radius: 0;
-  box-shadow: none;
-}
-mapboxgl-ctrl-group > button {
-  border: 1px solid #e5e5e5;
-}
-.mapboxgl-ctrl-icon.mapboxgl-ctrl-compass > .mapboxgl-ctrl-compass-arrow {
-  background-image: url("/css/icons/plan_boussole.svg");
-  margin-left: 40%;
-}    
-.mapboxgl-ctrl-icon.mapboxgl-ctrl-zoom-in {
-  background-image: url("/css/icons/plan_zoom_plus.svg");
-}
-.mapboxgl-ctrl-icon.mapboxgl-ctrl-zoom-out {
-  background-image: url("/css/icons/plan_zoom_moins.svg");
-}
-.easy-autocomplete input {
-  box-shadow: 0;
-  border: none;
-}
-.navbar-default {
-  background-color: #F4F5F5;
-  border: none;
-  width: 381px;
-}
-.sidebar .sidebar-nav.navbar-collapse {
-  height: 100%;
-  background-color: #F4F5F5;
-  padding: 25px 20px;
-}
-.sidebar {
-  background-color: #F4F5F5;
-  margin-top: 0;
-}
-.sidebar ul li{
-  font-family: "Roboto";
-  font-size: 16px;
-  font-weight: 400;
-  background-color: #F4F5F5;
-  line-height: 36px;
-}
-.sidebar ul li a {
-   border-bottom: 1px solid #CACCCD;
-}
-.nav li a {
-  font-family: "Roboto";
-  font-size: 16px;
-  font-weight: 400;
-  padding-left: 0;
-}
-.nav > li > a > img {
-  float:  left;
-  position: relative;
-  height: 18px;
-  font-size: 18px;
-}
-.nav li a {
-  color: #434A54;
-}
-.nav li a .section-name {
-  padding-left:10px;
 
+/* Styles pour la carte */
+#map {
+    position: relative; /* Position relative */
+    margin: 0; /* Marge */
+    padding: 0; /* Rembourrage */
+    z-index: 1; /* Indice de positionnement */
+    height: 80vh; /* Hauteur de 80% de la fenêtre */
 }
+
+/* Styles pour les boutons dans mapboxgl */
+.mapboxgl-ctrl > button {
+    height: 33px; /* Hauteur */
+    width: 33px; /* Largeur */
+    background-color: #fff; /* Couleur de fond */
+    border: 1px solid #e5e5e5; /* Bordure */
+    border-radius: 0; /* Rayon de bordure */
+    background-size: 40%; /* Taille de l'arrière-plan */
+    background-repeat: no-repeat; /* Pas de répétition de l'arrière-plan */
+    background-position: center; /* Position de l'arrière-plan */
+}
+/* Styles pour le groupe de contrôles mapboxgl */
+.mapboxgl-ctrl-group {
+  border-radius: 0; /* Rayon de bordure */
+  box-shadow: none; /* Pas d'ombre */
+}
+
+/* Styles pour les boutons dans le groupe de contrôles mapboxgl */
+mapboxgl-ctrl-group > button {
+  border: 1px solid #e5e5e5; /* Bordure */
+}
+
+/* Styles pour la boussole dans le groupe de contrôles mapboxgl */
+.mapboxgl-ctrl-icon.mapboxgl-ctrl-compass > .mapboxgl-ctrl-compass-arrow {
+  background-image: url("/css/icons/plan_boussole.svg"); /* Image de fond */
+  margin-left: 40%; /* Marge à gauche */
+}
+
+/* Styles pour le bouton de zoom avant dans mapboxgl */
+.mapboxgl-ctrl-icon.mapboxgl-ctrl-zoom-in {
+  background-image: url("/css/icons/plan_zoom_plus.svg"); /* Image de fond */
+}
+
+/* Styles pour le bouton de zoom arrière dans mapboxgl */
+.mapboxgl-ctrl-icon.mapboxgl-ctrl-zoom-out {
+  background-image: url("/css/icons/plan_zoom_moins.svg"); /* Image de fond */
+}
+
+/* Styles pour l'entrée de recherche easy-autocomplete */
+.easy-autocomplete input {
+  box-shadow: 0; /* Pas d'ombre */
+  border: none; /* Pas de bordure */
+}
+
+/* Styles pour la barre de navigation par défaut */
+.navbar-default {
+  background-color: #F4F5F5; /* Couleur de fond */
+  border: none; /* Pas de bordure */
+  width: 381px; /* Largeur */
+}
+
+/* Styles pour la navigation latérale */
+.sidebar .sidebar-nav.navbar-collapse {
+  height: 100%; /* Hauteur de 100% */
+  background-color: #F4F5F5; /* Couleur de fond */
+  padding: 25px 20px; /* Rembourrage */
+}
+
+/* Styles pour la barre latérale */
+.sidebar {
+  background-color: #F4F5F5; /* Couleur de fond */
+  margin-top: 0; /* Marge supérieure */
+}
+
+/* Styles pour les éléments de liste dans la barre latérale */
+.sidebar ul li {
+  font-family: "Roboto"; /* Police de caractère */
+  font-size: 16px; /* Taille de police */
+  font-weight: 400; /* Poids de la police */
+  background-color: #F4F5F5; /* Couleur de fond */
+  line-height: 36px; /* Hauteur de ligne */
+}
+
+/* Styles pour les liens dans les éléments de liste de la barre latérale */
+.sidebar ul li a {
+  border-bottom: 1px solid #CACCCD; /* Bordure inférieure */
+}
+
+/* Styles pour les liens dans la barre de navigation */
+.nav li a {
+  font-family: "Roboto"; /* Police de caractère */
+  font-size: 16px; /* Taille de police */
+  font-weight: 400; /* Poids de la police */
+  padding-left: 0; /* Rembourrage à gauche */
+}
+
+/* Styles pour les images dans les éléments de liste de navigation */
+.nav > li > a > img {
+  float: left; /* Flottant à gauche */
+  position: relative; /* Position relative */
+  height: 18px; /* Hauteur */
+  font-size: 18px; /* Taille de police */
+}
+
+/* Styles pour les liens dans la navigation */
+.nav li a {
+  color: #434A54; /* Couleur du texte */
+}
+
+/* Styles pour le nom de section dans les liens de navigation */
+.nav li a .section-name {
+  padding-left: 10px; /* Rembourrage à gauche */
+}
+
+
 
 /*ci-après un test pour modifier la vue des sections-name quand la souris passe dessus
 .nav li a .section-name:hover {
 font-size: 25px;
 color: green;
 } */
-
+/* Styles pour l'image de section dans les liens de navigation */
 .nav li a .section-image {
-  float: left;
-  width: 30px;
-  vertical-align: middle;
-  text-align: center;
+  float: left; /* Flottant à gauche */
+  width: 30px; /* Largeur */
+  vertical-align: middle; /* Alignement vertical */
+  text-align: center; /* Alignement du texte */
 }
+
+/* Styles pour les images dans les éléments de section des liens de navigation */
 .nav li a .section-image img {
-  height: 20px;
-  top: auto;
-  left: auto;
-  position: relative;
+  height: 20px; /* Hauteur */
+  top: auto; /* Position automatique */
+  left: auto; /* Position automatique */
+  position: relative; /* Position relative */
 }
+
+/* Styles pour l'élément avec l'ID DDD */
 #DDD {
-  top: 25px;
+  top: 25px; /* Position à 25px du haut */
 }
-#DDD .btn.active, #DDD button:hover  {
-  background-color: #7239AB;
-  color: #fff;
+
+/* Styles pour les boutons actifs et survolés dans l'élément avec l'ID DDD */
+#DDD .btn.active,
+#DDD button:hover {
+  background-color: #7239AB; /* Couleur de fond */
+  color: #fff; /* Couleur du texte */
 }
+
+/* Styles pour les boutons dans l'élément avec l'ID DDD */
 #DDD button {
-  background-color: #fff;
-  color: #7239AB;
-  border: 1px solid #E5E5E5;
-  border-radius: 0;
-  box-shadow: none;
+  background-color: #fff; /* Couleur de fond */
+  color: #7239AB; /* Couleur du texte */
+  border: 1px solid #E5E5E5; /* Bordure */
+  border-radius: 0; /* Rayon de bordure */
+  box-shadow: none; /* Pas d'ombre */
 }
 
+/* Styles pour l'élément avec l'ID campus */
 #campus {
-  top: 25px;
-  opacity: 1;
+  top: 25px; /* Position à 25px du haut */
+  opacity: 1; /* Opacité */
 }
-.mapboxgl-ctrl-top-left{
-  top: 16px;
-}
-.mapboxgl-ctrl-top-right {
-  top: 16px;
-}
+
+/* Styles pour les boutons dans l'élément avec l'ID campus */
 #campus button {
-  font-size: 18px;
-  font-family: "Roboto";
-  font-weight: 400;
-  color: #7239AB;
-  background-color:#fff;
-  border: 1px solid #E5E5E5;
+  font-size: 18px; /* Taille de police */
+  font-family: "Roboto"; /* Police de caractère */
+  font-weight: 400; /* Poids de la police */
+  color: #7239AB; /* Couleur du texte */
+  background-color: #fff; /* Couleur de fond */
+  border: 1px solid #E5E5E5; /* Bordure */
 }
+
+/* Styles pour les boutons actifs dans l'élément avec l'ID campus */
 #campus button.active {
-  font-size: 18px;
-  font-family: "Roboto";
-  font-weight: 400;
-  background-color: #7239AB;
-  color:#fff;
+  font-size: 18px; /* Taille de police */
+  font-family: "Roboto"; /* Police de caractère */
+  font-weight: 400; /* Poids de la police */
+  background-color: #7239AB; /* Couleur de fond */
+  color: #fff; /* Couleur du texte */
 }
+
+/* Styles pour l'entrée de recherche easy-autocomplete */
 .easy-autocomplete input {
-  border: none;
-  border-radius: 0;
-  box-shadow: none;
-  color: #7239AB;
-  float: none;
-  padding: 10px;
-  background-color: #fff;
-  font-size: 14px;
-  font-family: "Roboto";
-  font-weight: 400;
-
+  border: none; /* Pas de bordure */
+  border-radius: 0; /* Rayon de bordure */
+  box-shadow: none; /* Pas d'ombre */
+  color: #7239AB; /* Couleur du texte */
+  float: none; /* Pas de flottant */
+  padding: 10px; /* Rembourrage */
+  background-color: #fff; /* Couleur de fond */
+  font-size: 14px; /* Taille de police */
+  font-family: "Roboto"; /* Police de caractère */
+  font-weight: 400; /* Poids de la police */
 }
+
+/* Styles pour les boutons primaires */
 .btn-primary {
-  background-color: #fff;
-  color: #7239AB;
-  border-color: #7239AB;
-  border-radius: 0;
+  background-color: #fff; /* Couleur de fond */
+  color: #7239AB; /* Couleur du texte */
+  border-color: #7239AB; /* Couleur de la bordure */
+  border-radius: 0; /* Rayon de bordure */
 }
+
+/* Styles pour le bouton de recherche avec l'ID searchButton */
 #searchButton.btn-primary {
-  background-color: #7239AB;
-  color:#fff;
-  height: 40px;
-  width: 40px;
-  background-image: url('/css/icons/plan_loupe.svg');
-  background-position: 50% 50%;
-  background-repeat: no-repeat;
-  background-size: 20px 20px;
+  background-color: #7239AB; /* Couleur de fond */
+  color: #fff; /* Couleur du texte */
+  height: 40px; /* Hauteur */
+  width: 40px; /* Largeur */
+  background-image: url('/css/icons/plan_loupe.svg'); /* Image de fond */
+  background-position: 50% 50%; /* Position de l'image de fond */
+  background-repeat: no-repeat; /* Pas de répétition de l'image de fond */
+  background-size: 20px 20px; /* Taille de l'image de fond */
 }
+
+/* Styles pour le bouton de recherche désactivé avec l'ID searchButton */
 #searchButton.btn-primary.off {
-  background-image: url('/css/icons/plan_loupe_off.svg');
+  background-image: url('/css/icons/plan_loupe_off.svg'); /* Image de fond */
 }
+
+/* Styles pour le survol du bouton de recherche avec l'ID searchButton */
 #searchButton:hover {
-  background-color: #7239AB;
+  background-color: #7239AB; /* Couleur de fond */
 }
+
+/* Styles pour la barre de recherche dans la barre latérale */
 .sidebar .sidebar-search {
-  padding: 0 0 20px 0;
-  border: none;
-  line-height: 20px;
+  padding: 0 0 20px 0; /* Rembourrage */
+  border: none; /* Pas de bordure */
+  line-height: 20px; /* Hauteur de ligne */
 }
-
+/* Styles pour le bouton de recherche dans la barre latérale lorsqu'il est en focus */
 .sidebar-search .input-group-btn:focus {
-  height: 33px;
+  height: 33px; /* Hauteur */
 }
-.btn-primary:focus, .btn-primary:hover {
-  color: #fff;
-  background-color: #7239AB;
-  border: none;
-  border-radius: 0;
+
+/* Styles pour les boutons primaires lorsqu'ils sont en focus ou survolés */
+.btn-primary:focus,
+.btn-primary:hover {
+  color: #fff; /* Couleur du texte */
+  background-color: #7239AB; /* Couleur de fond */
+  border: none; /* Pas de bordure */
+  border-radius: 0; /* Rayon de bordure */
 }
-.side-menu span.arrow {
-  margin-top: 3%;
+
+/* Styles pour la flèche dans le menu latéral */
+.side-menu span.arrow {
+  margin-top: 3%; /* Marge supérieure */
 }
+
+/* Styles pour l'icône de flèche active dans le menu latéral */
 .sidebar .active > a > .fa.arrow::before {
-  content: "\f107";
-  color: #7239AB;
+  content: "\f107"; /* Contenu */
+  color: #7239AB; /* Couleur */
 }
+
+/* Styles pour l'icône de flèche dans le menu latéral */
 .sidebar .fa.arrow {
-  margin-top: 10px;
+  margin-top: 10px; /* Marge supérieure */
 }
+
+/* Styles pour l'icône de flèche inactive dans le menu latéral */
 .sidebar .fa.arrow::before {
-  content: "\f105";
-  color: #7239AB;
+  content: "\f105"; /* Contenu */
+  color: #7239AB; /* Couleur */
 }
+
+/* Styles pour les éléments de la deuxième niveau de navigation */
 .nav-second-level {
-  padding-left: 15px;
+  padding-left: 15px; /* Rembourrage à gauche */
 }
+
+/* Styles pour les liens actifs de la deuxième niveau de navigation */
 .nav-second-level .side-menu li.active a {
-  background-color: #fff;
+  background-color: #fff; /* Couleur de fond */
 }
+
+/* Styles pour les liens actifs de la troisième niveau de navigation */
 .nav-second-level .side-menu li.active .nav-second-level li.active a {
-  background-color: #fff;
+  background-color: #fff; /* Couleur de fond */
 }
+
+/* Styles pour les liens actifs de la quatrième niveau de navigation */
 .nav-second-level .side-menu li.active .nav-second-level li.active .nav-third-level li.active a {
-  background-color: #fff;
+  background-color: #fff; /* Couleur de fond */
 }
+
+/* Styles pour les éléments de la troisième niveau de navigation */
 .nav-third-level {
-  padding-left: 15px;
-  background-color: #F4F5F5;
+  padding-left: 15px; /* Rembourrage à gauche */
+  background-color: #F4F5F5; /* Couleur de fond */
 }
+
+/* Styles pour les liens de la troisième niveau de navigation */
 .sidebar .nav-third-level li a {
-  padding: 10px 10px 10px 35px;
-  font-size:14px; 
-  line-height:18px;
+  padding: 10px 10px 10px 35px; /* Rembourrage */
+  font-size: 14px; /* Taille de police */
+  line-height: 18px; /* Hauteur de ligne */
 }
+
+/* Styles pour les cases à cocher */
 .case {
-  background-image: url('/css/icons/checkbox_off.svg');
-  background-repeat: no-repeat;
-  background-size: 14px 14px;
-  background-position: 10px center;
-
+  background-image: url('/css/icons/checkbox_off.svg'); /* Image de fond */
+  background-repeat: no-repeat; /* Pas de répétition */
+  background-size: 14px 14px; /* Taille de l'image de fond */
+  background-position: 10px center; /* Position de l'image de fond */
 }
+
+/* Styles pour les cases à cocher actives */
 .case.active {
-  background-image: url('/css/icons/checkbox_on.svg');
-  background-color: #fff;
+  background-image: url('/css/icons/checkbox_on.svg'); /* Image de fond */
+  background-color: #fff; /* Couleur de fond */
 }
+
+/* Styles pour les cases à cocher actives dans un menu déroulant */
 .collapse .nav-second-level li.active .case.active {
-  background-image: url('/css/icons/checkbox_on.svg');
-  background-color: #fff;
+  background-image: url('/css/icons/checkbox_on.svg'); /* Image de fond */
+  background-color: #fff; /* Couleur de fond */
 }
+
+/* Styles pour les liens actifs */
 a.active {
-  background-color: #fff;
+  background-color: #fff; /* Couleur de fond */
 }
+
+/* Styles pour le bouton de suppression des filtres dans la barre latérale */
 .sidebar-remove-filters {
-  width: 100%;
-  margin-top: 20px;
+  width: 100%; /* Largeur de 100% */
+  margin-top: 20px; /* Marge supérieure */
 }
+
+/* Styles pour le bouton de suppression des filtres dans la barre latérale */
 .sidebar-remove-filters #btnRemovefilters {
-  width: 100%;
-  font-size: 18px;
-  font-family: "Roboto";
-  font-weight: 400;
-
+  width: 100%; /* Largeur de 100% */
+  font-size: 18px; /* Taille de police */
+  font-family: "Roboto"; /* Police de caractère */
+  font-weight: 400; /* Poids de la police */
 }
+
+/* Styles pour les boutons radio */
 .leaf {
-  background-image: url('/css/icons/radio_off.svg');
-  background-size: 14px 14px;
-  background-color: #F4F5F5;
-  background-repeat: no-repeat;
-  background-position: 10px 50%;
-}
-.leaf.active {
-  background-color: #fff;
-  background-image: url('/css/icons/radio_on.svg');
-}
-.mapboxgl-popup {
-	opacity: 1;
-    top: 40px;
-  max-width: 550px;
-  max-height: 400px;
+  background-image: url('/css/icons/radio_off.svg'); /* Image de fond */
+  background-size: 14px 14px; /* Taille de l'image de fond */
+  background-color: #F4F5F5; /* Couleur de fond */
+  background-repeat: no-repeat; /* Pas de répétition */
+  background-position: 10px 50%; /* Position de l'image de fond */
 }
 
+/* Styles pour les boutons radio actifs */
+.leaf.active {
+  background-color: #fff; /* Couleur de fond */
+  background-image: url('/css/icons/radio_on.svg'); /* Image de fond */
+}
+/* Styles pour la popup de la carte mapboxgl */
+.mapboxgl-popup {
+  opacity: 1; /* Opacité */
+  top: 40px; /* Position depuis le haut */
+  max-width: 550px; /* Largeur maximale */
+  max-height: 400px; /* Hauteur maximale */
+}
+
+/* Styles spécifiques pour la popup de la carte avec la classe popup-bati */
 .mapboxgl-popup.popup-bati,
 .mapboxgl-popup.popup-bati * {
-  pointer-events: none;
+  pointer-events: none; /* Désactiver les événements pointeur pour les éléments de la popup */
 }
 
+/* Styles pour les images dans la popup de la carte */
 .mapboxgl-popup img {
-  height: 225px;
+  height: 225px; /* Hauteur */
 }
 
+/* Styles pour le contenu de la popup de la carte */
 .mapboxgl-popup-content {
-  box-shadow: none;
-  border-radius: 0;
-  font-size: 14px;
-  font-family: "Roboto";
-  font-weight: 400;
-  line-height: 16px;
-  color: #434A54;
+  box-shadow: none; /* Pas d'ombre */
+  border-radius: 0; /* Pas de bordure arrondie */
+  font-size: 14px; /* Taille de police */
+  font-family: "Roboto"; /* Police de caractère */
+  font-weight: 400; /* Poids de la police */
+  line-height: 16px; /* Hauteur de ligne */
+  color: #434A54; /* Couleur du texte */
 }
+
+/* Styles pour les titres dans le contenu de la popup de la carte */
 .mapboxgl-popup-content h1 {
-  background-color: #434A54;
-  font-size: 14px;
-  font-family: "Roboto";
-  font-weight: 500;
-  padding: 10px;
-  color: #fff;
-  border-radius: 0;
+  background-color: #434A54; /* Couleur de fond */
+  font-size: 14px; /* Taille de police */
+  font-family: "Roboto"; /* Police de caractère */
+  font-weight: 500; /* Poids de la police */
+  padding: 10px; /* Rembourrage */
+  color: #fff; /* Couleur du texte */
+  border-radius: 0; /* Pas de bordure arrondie */
 }
+
+/* Styles pour la description dans le contenu de la popup de la carte */
 .mapboxgl-popup-content .description {
-  padding: 10px;
+  padding: 10px; /* Rembourrage */
 }
+
+/* Styles pour les paragraphes dans le contenu de la popup de la carte */
 .mapboxgl-popup-content p {
-  font-size: 14px;
+  font-size: 14px; /* Taille de police */
 }
-.mapboxgl-ctrl-top-right {
-  margin-top: 15px;
-}
+
+/* Styles pour le contrôle de géolocalisation de mapbox */
 .mapboxgl-ctrl-icon.mapboxgl-ctrl-geolocate {
-  background-image: url("/css/icons/plan_localisation.svg");
-  background-size: 20px 20px;
-  background-repeat: no-repeat;
-  background-position: center center;
-  box-shadow: none;
-  border: 1px solid #e5e5e5;   
+  background-image: url("/css/icons/plan_localisation.svg"); /* Image de fond */
+  background-size: 20px 20px; /* Taille de l'image de fond */
+  background-repeat: no-repeat; /* Pas de répétition */
+  background-position: center center; /* Position de l'image de fond */
+  box-shadow: none; /* Pas d'ombre */
+  border: 1px solid #e5e5e5; /* Bordure */
 }
+
+/* Styles pour le conteneur d'attribution */
 .attribution-container {
-  background-color: rgba(255,255,255, 0.5);
-  position : absolute;
-  bottom: 0;
-  right: 0;
-  display:inline-block;
-  z-index: 9999;
+  background-color: rgba(255,255,255, 0.5); /* Couleur de fond avec transparence */
+  position: absolute; /* Position absolue */
+  bottom: 0; /* Position depuis le bas */
+  right: 0; /* Position depuis la droite */
+  display: inline-block; /* Affichage en ligne */
+  z-index: 9999; /* Z-index */
 }
+
+/* Styles pour la pointe de la popup lorsque ancrée en haut */
 .mapboxgl-popup-anchor-top > .mapboxgl-popup-tip {
-    border-bottom-color: #fff;
+  border-bottom-color: #fff; /* Couleur de la bordure inférieure */
 }
-/*footer*/
+
+/* Styles pour le footer */
 footer.footer {
-  padding-top: 30px;
-  padding-bottom: 0;
-  background-color: #434A54;
-  font-family: "Roboto";
-  font-weight: 400;
-  color: #F4F5F5;
-  margin-top: 0;
-  z-index: 99;
+  padding-top: 30px; /* Rembourrage en haut */
+  padding-bottom: 0; /* Pas de rembourrage en bas */
+  background-color: #434A54; /* Couleur de fond */
+  font-family: "Roboto"; /* Police de caractère */
+  font-weight: 400; /* Poids de la police */
+  color: #F4F5F5; /* Couleur du texte */
+  margin-top: 0; /* Pas de marge supérieure */
+  z-index: 99; /* Z-index */
 }
-footer.footer #footer-up {
-  margin-bottom: 30px;
-  font-size: 16px;
-}  
+
+/* Styles pour le bloc de l'adresse Rennes 2 */
 #block-blocadresserennes2 {
-  background-color: #434A54;
-  color: #F4F5F5;
-  padding-top: 6px;
-  padding-bottom: 6px;
-  margin-top: 20px;
+  background-color: #434A54; /* Couleur de fond */
+  color: #F4F5F5; /* Couleur du texte */
+  padding-top: 6px; /* Rembourrage en haut */
+  padding-bottom: 6px; /* Rembourrage en bas */
+  margin-top: 20px; /* Marge supérieure */
 }
+
+/* Styles pour les informations de contact dans le footer */
 .footer .block .infos-contact .logo img {
-  height: 77px;
-  float: left;
-  margin-top: 7px;
+  height: 77px; /* Hauteur */
+  float: left; /* Flottant à gauche */
+  margin-top: 7px; /* Marge supérieure */
 }
+
+/* Styles pour les coordonnées dans le footer */
 .footer .block .infos-contact .coordonnees {
-  display: inline-block;
-  margin-left: 10px;
+  display: inline-block; /* Affichage en ligne */
+  margin-left: 10px; /* Marge à gauche */
 }
-.footer .block .infos-contact .coordonnees span {
-  display: block;
-  line-height: 1.35em;
-}
-.footer .block .infos-contact span.nom {
-  font-weight: bold;
-}
-.footer .block .infos-contact span.adresse {
-  font-style: normal;
-} 
-footer.footer #block-accesdirects {
-  border-left: 1px #fff solid;
-  border-right: 1px #fff solid;
-}
-footer.footer #block-accesdirects h2 {
-  font-size: 24px;
-  width: 50%;
-  margin-right: auto;
-  margin-left: auto;
-  margin-top: 0;
-  font-weight: 300;
-}
-footer.footer #block-accesdirects ul {
-  margin-left: auto;
-  margin-right: auto;
-  width: 80%;
-}
+
+/* Styles pour les éléments de la liste d'accès directs dans le footer */
 footer.footer #block-accesdirects ul li {
-  text-align: left;
+  text-align: left; /* Alignement du texte à gauche */
 }
+
+/* Styles pour les liens de la liste d'accès directs dans le footer */
 footer.footer #block-accesdirects ul a {
-  padding: 5px 0;
-  font-size: 16px;
-} 
-footer.footer #block-suivez-nous {
-  text-align: center;
-  padding-left: 0;
+  padding: 5px 0; /* Rembourrage */
+  font-size: 16px; /* Taille de police */
 }
-footer.footer #block-suivez-nous h2 {
-  font-size: 24px;
-  margin-top: 0;
+
+/* Styles pour les icônes de réseaux sociaux dans le footer */
+footer.footer #block-suivez-nous ul li a.ext .fa,
+footer.footer #block-suivez-nous ul li a .fa {
+  color: #434A54; /* Couleur du texte */
+  background-color: #ccd1d9; /* Couleur de fond */
+  border-radius: 5em; /* Rayon de bordure */
+  height: 38px; /* Hauteur */
+  width: 38px; /* Largeur */
+  font-size: 20px; /* Taille de police */
+  padding-top: 10px; /* Rembourrage en haut */
 }
-.social-media-links--platforms {
-  padding-left: 0;
-}
-.social-media-links--platforms.horizontal li {
-  display: inline-block;
-  text-align: center;
-  padding: .2em .35em;
-}
-footer.footer #footer-up a {
-  color: #F4F5F5;
-  background-color: #434A54;
-}   
-footer.footer #block-suivez-nous ul li a.ext .fa, footer.footer #block-suivez-nous ul li a .fa {
-  color: #434A54;
-  background-color: #ccd1d9;
-  border-radius: 5em;
-  height: 38px;
-  width: 38px;
-  font-size: 20px;
-  padding-top: 10px;
-}
+
+/* Styles pour les icônes de réseaux sociaux spécifiques */
 .fa-instagram::before {
-  content: "\f16d";
+  content: "\f16d"; /* Contenu */
 }
+
 .fa-twitter::before {
-  content: "\f099";
+  content: "\f099"; /* Contenu */
 }
+
 .fa-linkedin::before {
-  content: "\f0e1";
+  content: "\f0e1"; /* Contenu */
 }
+
 .fa-facebook-f::before, .fa-facebook::before {
-  content: "\f09a";
+  content: "\f09a"; /* Contenu */
 }
+
+/* Styles pour le bloc du footer en bas */
 #block-bootstrap-rennes2-less-footer {
-  background-color: #292E34;
-  color: #F4F5F5;
-  clear: both;
+  background-color: #292E34; /* Couleur de fond */
+  color: #F4F5F5; /* Couleur du texte */
+  clear: both; /* Réinitialisation des flottants */
 }
+
+
+/* Styles pour les liens dans le bloc du footer en bas */
 footer.footer #block-bootstrap-rennes2-less-footer a {
   color: #F4F5F5;
   background-color: #292E34;
 }
+
+/* Styles pour les liens de la liste dans le bloc du footer en bas */
 #block-bootstrap-rennes2-less-footer ul li a {
   color: #F4F5F5;
   font-size: 14px;
@@ -525,99 +669,116 @@ footer.footer #block-bootstrap-rennes2-less-footer a {
   text-transform: uppercase;
   padding: 0;
 }
+
+/* Styles pour les liens lors du survol dans le bloc du footer en bas */
 footer.footer #block-bootstrap-rennes2-less-footer a:hover {
   color: #F4F5F5;
   background-color: #292E34;
   text-decoration: underline;
 }
+
+/* Styles pour les éléments de liste dans le bloc du footer en bas */
 #block-bootstrap-rennes2-less-footer ul li {
   display: inline-block;
   padding-top: 25px;
   padding-bottom: 25px;
 }
 
+/* Styles pour le menu empilé */
 .nav-stacked {
-  background-color:  #F4F5F5;
+  background-color: #F4F5F5;
 }
+
+/* Styles pour le bouton de navigation de la barre de navigation */
 button.navbar-toggle {
-  background-color:  #F4F5F5;
+  background-color: #F4F5F5;
 }
+
+/* Styles pour les barres du bouton de navigation */
 .navbar-toggle .icon-bar {
-  background-color: #000; 
+  background-color: #000;
 }
+
+/* Médias-query pour les écrans de petite taille */
 @media (max-width: 750px) {
   #wrapper {
-    max-height: none;
-    height: auto;
+      max-height: none;
+      height: auto;
   }
   #page-wrapper {
-    margin-left: 0;
-    height: auto;
+      margin-left: 0;
+      height: auto;
   }
   .navbar-default {
-    width: 100vw;
-    margin-left: 0;
-    clear: both;
+      width: 100vw;
+      margin-left: 0;
+      clear: both;
   }
   .sidebar .sidebar-nav.navbar-collapse {
-    padding-left: 0;
+      padding-left: 0;
   }
-  .side-menu li{
-    padding-left: 20px;
+  .side-menu li {
+      padding-left: 20px;
   }
   footer.footer {
-    display: none;
+      display: none;
   }
   .header-container .image-fond {
-    background-size: auto 100%; 
+      background-size: auto 100%;
   }
-  .mCustomScrollBox.mCS-minimal + .mCSB_scrollTools + .mCSB_scrollTools.mCSB_scrollTools_horizontal, .mCustomScrollBox.mCS-minimal + .mCSB_scrollTools.mCSB_scrollTools_horizontal, .mCustomScrollBox.mCS-minimal-dark + .mCSB_scrollTools + .mCSB_scrollTools.mCSB_scrollTools_horizontal, .mCustomScrollBox.mCS-minimal-dark + .mCSB_scrollTools.mCSB_scrollTools_horizontal {
-    bottom: 0;
-    margin: 0 12px;
+  .mCustomScrollBox.mCS-minimal + .mCSB_scrollTools + .mCSB_scrollTools.mCSB_scrollTools_horizontal,
+  .mCustomScrollBox.mCS-minimal + .mCSB_scrollTools.mCSB_scrollTools_horizontal,
+  .mCustomScrollBox.mCS-minimal-dark + .mCSB_scrollTools + .mCSB_scrollTools.mCSB_scrollTools_horizontal,
+  .mCustomScrollBox.mCS-minimal-dark + .mCSB_scrollTools.mCSB_scrollTools_horizontal {
+      bottom: 0;
+      margin: 0 12px;
   }
-  .mCS-autoHide > .mCustomScrollBox > .mCSB_scrollTools, .mCS-autoHide > .mCustomScrollBox ~ .mCSB_scrollTools {
-    opacity: 0;
-    filter: "alpha(opacity=0)";
-    -ms-filter: "alpha(opacity=0)";
+  .mCS-autoHide > .mCustomScrollBox > .mCSB_scrollTools,
+  .mCS-autoHide > .mCustomScrollBox ~ .mCSB_scrollTools {
+      opacity: 0;
+      filter: "alpha(opacity=0)";
+      -ms-filter: "alpha(opacity=0)";
   }
   .mCSB_scrollTools.mCSB_scrollTools_horizontal {
-    width: auto;
-    height: 16px;
-    top: auto;
-    right: 0;
-    bottom: 0;
-    left: 0;
+      width: auto;
+      height: 16px;
+      top: auto;
+      right: 0;
+      bottom: 0;
+      left: 0;
   }
   .mCSB_scrollTools .mCSB_draggerContainer {
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    height: auto;
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      height: auto;
   }
   nav#block-nosportails {
-    margin-left: 0;
-    width: auto;
+      margin-left: 0;
+      width: auto;
   }
   #campus {
-    position: relative;
-    top: auto;
-    left : 30%;
-    padding-left:8%;
-    background-color: #F4F5F5;
-    width: 100%;
+      position: relative;
+      top: auto;
+      left: 30%;
+      padding-left: 8%;
+      background-color: #F4F5F5;
+      width: 100%;
   }
   .mapboxgl-ctrl-top-left {
-    top: 40px;
+      top: 40px;
   }
   .mapboxgl-ctrl-top-right {
-    margin-top: 40px;
+      margin-top: 40px;
   }
-
 }
+
+/* Médias-query pour les écrans de grande taille */
 @media (min-width: 992px) {
+  /* Cacher le dragger de la barre de défilement */
   .mCSB_dragger {
-    display: none;
+      display: none;
   }
 }
