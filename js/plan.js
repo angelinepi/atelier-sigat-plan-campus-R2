@@ -2149,9 +2149,11 @@ var popupContent = [];
   var geojsonVelos = null;
   var previousDataVelos = {times: [], stations: []};
   var prevInfo = null;
-  var velostarTRCount = 0
-  var nomLayer = null
+  var velostarTRCount = 0;
+  var nomLayer = null;
   var velostarLink = document.getElementById('Station Vélostar');
+
+////////// définition de la fonction addRealTimeVelostar //////////
   function addRealTimeVelostar() {
     velostarTRCount += 1;
     if (velostarTRCount === 1) {
@@ -2224,17 +2226,18 @@ var popupContent = [];
         // Supprime les couches obsolètes de la liste des couches
         Layers = Layers.filter(item => item != "bikes" + (previousDataVelos.times.length - 1));
       }
-      
+      ;
+
       function showBikeData() {
         //On supprime les données précédentes
         if (previousDataVelos.times.length > 1) {
           map.removeLayer("bikes" + (previousDataVelos.times.length - 1));
         }
 
-        //On créé un nouveau calque de données
-        nomLayer = "bikes" + previousDataVelos.times.length;
-        Layers.push(nomLayer);
-        map.addLayer({
+        nomLayer = "bikes" + previousDataVelos.times.length; //On créé une nouvelle couche de données
+        Layers.push(nomLayer); //On l'ajoute à la liste Layers
+
+        map.addLayer({ //et on l'ajoute au canva map
           id: nomLayer,
           type: "circle",
           source: {
@@ -2248,17 +2251,19 @@ var popupContent = [];
           }
         });
       }
-    } else {
-      var clickedLayer = this.textContent;
+      ;
 
+    } else { 
+      //ci-après : si la couche était visible, alors devient invisible et inversement.
+      var clickedLayer = this.textContent;
       var visibility = map.getLayoutProperty(nomLayer, 'visibility');
       if (visibility === 'visible') {
 //        	console.log("hey")
-        map.setLayoutProperty(nomLayer, 'visibility', 'none');
-        Layers = Layers.filter(item => item != nomLayer);
+        map.setLayoutProperty(nomLayer, 'visibility', 'none'); 
+        Layers = Layers.filter(item => item != nomLayer); // si la couche passe en invisible, la retire de Layers,
       } else {
         map.setLayoutProperty(nomLayer, 'visibility', 'visible');
-        Layers.push(nomLayer);
+        Layers.push(nomLayer); // si la couche passe en visible l'ajoute à Layers
       }
     }
     ;
@@ -2279,11 +2284,13 @@ var popupContent = [];
               .setHTML('<h1> Station vélostar : ' + feature.properties.nom + '</h1><p>Nombre de vélos disponibles : ' + feature.properties.nombrevelosdisponibles + '<br>Nombre d\'emplacements disponibles : ' + feature.properties.nombreemplacementsdisponibles + '</p>')
               .addTo(map);
     });
+
     map.on('mousemove', function (e) {
       var features = map.queryRenderedFeatures(e.point, {layers: Layers});
       map.getCanvas().style.cursor = (features.length) ? 'pointer' : '';
     });
   }
+////////// fin de la définition de la fonction addRealTimeVelostar //////////
 
 // Couche des BUS
   var geojsonBus = null;
@@ -2292,6 +2299,7 @@ var popupContent = [];
   var busTRCount = 0
   var nomLayerBus = null
   var busLink = document.getElementById('Bus');
+////////// définition de la fonction addRealTimeBus //////////
   function addRealTimeBus() {
     busTRCount += 1;
     if (busTRCount === 1) {
@@ -2336,7 +2344,6 @@ var popupContent = [];
         //On change la structure des données pour simplifier l'utilisation
         var stations = {};
         var prevStationData = null;
-
 
         previousDataBus.times.push(Date.now());
         previousDataBus.stations.push(stations);
@@ -2401,6 +2408,7 @@ var popupContent = [];
       map.getCanvas().style.cursor = (features.length) ? 'pointer' : '';
     });
   }
+////////// fin de la définition de la fonction addRealTimeBus //////////
 
 //////////////////////////////////  Barre de recherche //////////////////////////////////////
 
