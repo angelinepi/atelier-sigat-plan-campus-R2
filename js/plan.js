@@ -18,6 +18,7 @@ import {mapToken} from './token.js';
   var overlay = getQueryStringValue("layer").toString(); //extraction de la valeur du paramètre d'URL "layer"
   var overlayPoint = getQueryStringValue("point").toString(); //extraction de la valeur du paramètre d'URL "point"
   var version = document.getElementById("plan").getAttribute("data-version");
+
   ///////////////////////////////////////  Initialisation du fond de carte //////////////////////////////////
 
   // Adapter le zoom, et la largeur / placement des raccourcis spatiaux en fonction de l'écran
@@ -2444,16 +2445,20 @@ var popupContent = [];
   };
   $("#searchfield").easyAutocomplete(options);
 
+  ////////// définition de la fonction getSearchPopup //////////
   function getSearchPopup() {
     var popupTitle = searchItem.properties.Nom;
     var popupContent = '';
 
+    //Batiment n'est pas null :
     if (searchItem.properties.Batiment != null) {
       popupContent += '<p>Bâtiment ' + searchItem.properties.Batiment;
     }
     ;
+
+    //Niveau n'est pas nul :
     if (searchItem.properties.Niveau != null) {
-      if (searchItem.properties.Batiment != null){
+      if (searchItem.properties.Batiment != null){ //... Batiment n'est pas null :
         if (searchItem.properties.Niveau.toString().startsWith('niveau')){
           var niveau = searchItem.properties.Niveau;
         }
@@ -2466,30 +2471,38 @@ var popupContent = [];
       popupContent += '<p>' + niveau ;
       }
     }
+
+    //Batiment OU Niveau n'est pas null :
     if (searchItem.properties.Batiment != null || searchItem.properties.Niveau != null){
       popupContent += '</p>';
     }
     ;
+    //Info n'est pas null :
     if (searchItem.properties.Info != null) {
       popupContent += '<p>' + searchItem.properties.Info + '<p>';
     }
     ;
+    //Capacité n'est pas null :
     if (searchItem.properties.Capacite != null) {
       popupContent += '<p>' + searchItem.properties.Capacite + '<p>';
     }
     ;
+    //Lien n'est pas null :
     if (searchItem.properties.Lien != null) {
       popupContent += '<p><a href="' + searchItem.properties.Lien + '" target=\"_blank\">Site internet</a></p>';
     }
     ;
+    //Mail n'est pas null :
     if (searchItem.properties.Mail != null) {
       popupContent += '<p>Contacter par mail : <a href="maito:' + searchItem.properties.Mail + '">'+searchItem.properties.Mail+'</a></p>';
     }
     ;
+    //Téléphone n'est pas null :
     if (searchItem.properties.Tel != null) {
       popupContent += '<p>Contacter par téléphone : <a href="tel:' + searchItem.properties.Tel + '">'+searchItem.properties.Tel+ '</a></p>';
     }
     ;
+    //Image n'est pas null :
     if (searchItem.properties.Image != null) {
       if (searchItem.properties.Categorie == 'Département de formation') {
         popupTitle += '<img style = \'height : 60px ; position : absolute ; right : 0\' src = \'' + searchItem.properties.Image + '?v=' + version +'\'/>';
@@ -2498,6 +2511,7 @@ var popupContent = [];
       }
     }
     ;
+    //Création d'un objet searchPopup
     searchPopup = new maplibregl.Popup({
       offset: [0, -45],
       closeButton: false  
@@ -2507,37 +2521,44 @@ var popupContent = [];
             .addTo(map);
   }
   ;
+  ////////// fin de la définition de la fonction getSearchPopup //////////
+
   var searchBarCrossPresence = null;
+
+  ////////// définition de la fonction getSearchedItem //////////
   function getSearchedItem(item) {
 
-
+    //initialisation des variables si une requête a été faite 
     if (searchValue !== null) {
       searchValue = null
       searchItem = [];
       searchX = null;
       searchY = null;
-      Layers = Layers.filter(item => item != searchLayerId);
-      searchLayerCount += 1;
-      searchPopup.remove();
-      map.removeLayer(searchLayerId)
+      Layers = Layers.filter(item => item != searchLayerId); //la couche de recherche précédente est supprimée de Layers...
+      searchLayerCount += 1; //le compteur de couche de recherche est incrémenté
+      searchPopup.remove(); 
+      map.removeLayer(searchLayerId) //... et supprimée de la carte 
       searchLayerId = 'searchResult' + searchLayerCount;
-    }
-    ;
-    if (item) {
-      searchValue = item;
+    };
+
+    if (item) { //si un item a été passé à la fonction
+      searchValue = item; //searchValue est défini sur cet item. 
     } else {
-      searchValue = document.getElementById("searchfield").value;
+      searchValue = document.getElementById("searchfield").value; // sinon sinon, il est extrait de la valeur d'un élément HTML avec l'ID "searchfield".
     }
+
+
     for (var i = 0; i < POI.length; i++) {
       if (POI[i].properties.Nom === searchValue) {
-        searchItem = POI[i];
+        searchItem = POI[i]; //Si un POI correspondant est trouvé (dans la liste POI), il est assigné à searchItem
 
-
-
+        //charge une image qui sera utilisée comme icône pour le POI recherché
         map.loadImage('../css/icons/layers_icons/recherche.png', function (error, image) {
           if (error)
             throw error;
           map.addImage(searchLayerId + 'image', image);
+
+          //ajoute une nouvelle couche de symboles à la carte pour afficher le POI recherché
           map.addLayer({
             "id": searchLayerId,
             "type": "symbol",
@@ -2557,33 +2578,40 @@ var popupContent = [];
           });
         });
 
-
         Layers.push(searchLayerId);
+
+        //le curseur passe en mode main (pointer) plutôt que flèche
         map.on('mousemove', function (e) {
           var features = map.queryRenderedFeatures(e.point, {layers: Layers});
           map.getCanvas().style.cursor = (features.length) ? 'pointer' : '';
         });
+
         searchX = searchItem.geometry.coordinates[0];
         searchY = searchItem.geometry.coordinates[1];
+        // Configuration de la carte pour le campus Mazier
         if (POI[i].properties.Campus === 'Mazier') {
           map.setMaxBounds(mazierBounds);
           zoomVillejean.classList.remove('active');
           zoomMazier.classList.add('active');
           zoomLaHarpe.classList.remove('active');
         }
+         // Configuration de la carte pour le campus Villejean
         if (POI[i].properties.Campus === 'Villejean') {
           map.setMaxBounds(rennesBounds);
           zoomVillejean.classList.add('active');
           zoomMazier.classList.remove('active');
           zoomLaHarpe.classList.remove('active');
         }
+        // Configuration de la carte pour le campus La Harpe 
         if (POI[i].properties.Campus === 'La Harpe') {
           map.setMaxBounds(rennesBounds);
           zoomVillejean.classList.remove('active');
           zoomMazier.classList.remove('active');
           zoomLaHarpe.classList.add('active');
         }
+
         if (DDD) {
+          // Configuration de la carte pour le mode 3D
           map.flyTo({
             center: [searchX, searchY],
             zoom: 16.5,
@@ -2591,6 +2619,7 @@ var popupContent = [];
             speed: 0.6
           });
         } else {
+          // Configuration de la carte pour le mode 2D
           map.flyTo({
             center: [searchX, searchY],
             zoom: 16.5,
@@ -2598,7 +2627,10 @@ var popupContent = [];
             speed: 0.6
           });
         }
+
         getSearchPopup();
+        
+        //Evenement fermer la popup : si l'utilisateur clique ailleurs sur la carte alors que le popup est ouvert
         map.on('click', function (e) {
           if (searchPopup.isOpen() == true) {
             searchPopup.remove();
@@ -2608,7 +2640,7 @@ var popupContent = [];
       }
     }
   }
-
+////////// fin de la définition de la fonction getSearchedItem //////////
 
 
 //////////////////////////////////   3D   //////////////////////////////////////
