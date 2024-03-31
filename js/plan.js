@@ -712,12 +712,15 @@ document.addEventListener('DOMContentLoaded', function() {
       if (Layers.length == 0) {
         if (e.features[0].properties.Nom !== "null") {
           popupTitle = e.features[0].properties.Nom;
+          console.log(popupTitle);
         }
         if (e.features[0].properties.Photo !== "null") {
-          popupContent += '<img src = \'' + e.features[0].properties.Photo + '\'/>'
+          popupContent += '<img src = \"./' + e.features[0].properties.Photo + '\">' // Affichage de la photo
+          console.log(popupContent)
         }
         if (e.features[0].properties.Info !== "null") {
           popupContent += '<p>' + e.features[0].properties.Info + '<p>';
+          console.log(popupContent) 
         }
         if (popupBati !== null) {
           popupBati.remove();
