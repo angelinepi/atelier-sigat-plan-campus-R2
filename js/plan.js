@@ -2,177 +2,107 @@
 import {mapToken} from './token.js';
 
 (function ($) {
+  ///////////////////////////// code origine ////////////////////////////
+  //ci-dessous l'extraction d'une valeur d'un paramètre d'URL (avec expression régulière) 
+
+  // function getQueryStringValue(key) {
+  //   return decodeURIComponent(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + encodeURIComponent(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
+  // } 
   
-  //ci-dessous l'extraction d'une valeur d'un paramètre d'URL (avec expression régulière)
-  function getQueryStringValue(key) {
-    return decodeURIComponent(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + encodeURIComponent(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
-  }
-  
-  var overlay = getQueryStringValue("layer").toString();
-  var overlayPoint = getQueryStringValue("point").toString();
+  // var overlay = getQueryStringValue("layer").toString();
+  // var overlayPoint = getQueryStringValue("point").toString();
+////////////////////////////// fin code origine ////////////////////////////
 
 
 
-  ////////////////////test url //////////////////
-  
-  // $(document).ready(function() {
-  //   // Écoutez les clics sur les liens avec la classe "case"
-  //   $('.case').on('click', function(event) {
-  //      event.preventDefault(); // Empêche le comportement par défaut du lien (ici #)
+/////////////////////////////////// code pour changer de campus /////////////////////////////
 
-  //     // Obtenez l'ID de l'élément parent <li>
-  //     var categoryID = $(this).parent().attr('id');
+// Fonction pour créer une URL avec un paramètre de campus et mettre à jour l'URL de la page
+function createLinkAndUpdateURL(campus) {
+  let url = `http://127.0.0.1:5500/?`;
+  url += `campus=${encodeURIComponent(campus)}`;
 
-  //     // Mettez à jour window.location.hash avec l'ID de la catégorie
-  //     window.location.hash = categoryID;
-  //   });
+  // Mettre à jour l'URL sans recharger la page
+  history.pushState({ campus: campus }, campus, url);
+  return url;
+}
 
-  //   // Chargez les paramètres de l'URL au chargement initial
-  //   var urlParams = new URLSearchParams(window.location.hash);
-  //   var categoryID = urlParams.get('categories');
+// Sélectionner tous les boutons de campus
+const campusButtons = document.querySelectorAll('.btn.btn-primary');
 
-  //   // Sélectionnez l'élément avec l'ID correspondant et ajoutez une classe pour indiquer la sélection
-  //   $('#' + categoryID).addClass('selected');
-  // });
-
-  
-/////////////////v2 essaie avec actions 
-
-// $(document).ready(function () {
-//   // Chargez les paramètres de l'URL au chargement initial
-//   var urlParams = new URLSearchParams(window.location.hash.slice(1));
-//   var categoryID = urlParams.get('categories');
-
-//   // Écoutez les clics sur les liens avec la classe "case"
-//   $('.case').on('click', function (event) {
-//     event.preventDefault(); // Empêche le comportement par défaut du lien
-
-//     // Obtenez l'ID de l'élément parent <li>
-//     var categoryID = $(this).parent().attr('id');
-
-//     // Exécutez l'action pour la catégorie et mettez à jour l'URL
-//     performActionForCategory(categoryID, true);
-//   });
-
-//   // Si la catégorie est définie dans l'URL, exécutez l'action correspondante
-//   if (categoryID) {
-//     performActionForCategory(categoryID, false);
-//   }
-
-//   // Débogage : Affichez les valeurs pour vérifier
-//   console.log('Document ready!');
-//   console.log('Category ID from URL:', categoryID);
-
-//   // Ajoutez une temporisation pour s'assurer que la carte a le temps de se charger
-//   setTimeout(function () {
-//     console.log('Performing action for category:', categoryID);
-//   }, 2000);
-// });
-
-// function performActionForCategory(categoryID, updateURL) {
-//   console.log('Performing action for category:', categoryID);
-
-//   // Exemple : Cochez la case correspondante
-//   $('#' + categoryID).addClass('selected');
-//   console.log('Checkbox checked for category:', categoryID);
-
-//   // ... Autres actions spécifiques à la catégorie ...
-
-//   console.log('Action completed for category:', categoryID);
-
-//   // Mettez à jour l'URL si nécessaire
-//   if (updateURL) {
-//     window.location.hash = 'categories=' + categoryID;
-//   }
-// }
-
-// fetch('../points.geojson')
-//   .then(response => response.geoson())
-//   .then(data => {
-//     console.log('GeoJSON Data:', data);
-//     // ... (restez dans la logique de chargement des marqueurs)
-//   })
-//   .catch(error => console.error('Erreur lors du chargement des données GeoJSON:', error));
- 
- 
-// quand il y a des sous menus, il ne fait pas de lien 
-// les sous-menus ne s'ouvre pas pb interne avant 
-// actuellement le code permet de créer des urls mais l'url ne contient pas d'information 
-
-
-// comment faire des urls pour un objet ?? 
-// est-ce que matomo fait bien le rapport et calcul la fréquence pour chaque lien ? 
-// pouvoir ajouter 2 catégories ensembles ? 
-
-
-console.log(location); // affiche "https://developer.mozilla.org/fr/docs/Web/API/Window/location" dans la console
-
- 
-$(document).ready(function () {
-  // Chargez les paramètres de l'URL au chargement initial
-  var urlParams = new URLSearchParams(window.location.hash.slice(1));
-  var categoryID = urlParams.get('categories');
-
-  // Écoutez les clics sur les liens avec la classe "case"
-  $('.case').on('click', function (event) {
-    event.preventDefault(); // Empêche le comportement par défaut du lien
-
-    // Obtenez l'ID de l'élément parent <li>
-    var categoryID = $(this).parent().attr('id');
-
-    // Exécutez l'action pour la catégorie et mettez à jour l'URL
-    performActionForCategory(categoryID, true);
+// Ajouter un gestionnaire d'événements à chaque bouton de campus
+campusButtons.forEach(function(button) {
+  button.addEventListener('click', function(event) {
+    const campusName = event.target.textContent.trim(); // Récupérer le nom du campus à partir du bouton cliqué
+    createLinkAndUpdateURL(campusName); // Appeler la fonction pour changer le campus et l'URL
   });
-
-  // Si la catégorie est définie dans l'URL, exécutez l'action correspondante
-  if (categoryID) {
-    performActionForCategory(categoryID, false);
-  }
-
-  // Débogage : Affichez les valeurs pour vérifier
-  console.log('Document ready!');
-  console.log('Category ID from URL:', categoryID);
-
-  // Ajoutez une temporisation pour s'assurer que la carte a le temps de se charger
-  setTimeout(function () {
-    console.log('Performing action for category:', categoryID);
-  }, 2000);
 });
 
-function performActionForCategory(categoryID, updateURL) {
-  console.log('Performing action for category:', categoryID);
+// Fonction pour obtenir le nom du campus à partir de l'URL
+function getCampusFromURL() {
+  const urlParams = new URLSearchParams(window.location.search);
+  return urlParams.get('campus');
+}
 
-  // Exemple : Cochez la case correspondante
-  $('#' + categoryID).addClass('selected');
-  console.log('Checkbox checked for category:', categoryID);
+// Fonction pour activer le bouton correspondant au nom du campus
+function activateCampusButton(campusName) {
+  const campusButtons = document.querySelectorAll('.btn.btn-primary');
+  campusButtons.forEach(function(button) {
+    if (button.textContent.trim() === campusName) {
+      button.classList.add('active'); // Ajouter la classe active au bouton 
 
-  // ... Autres actions spécifiques à la catégorie ...
+      // Ajouter la logique pour définir le zoom en fonction du campus
+      if (campusName === 'Mazier') {
+        map.setMaxBounds(mazierBounds);
+        map.flyTo({
+          zoom: zoomBase,
+          center: [-2.7410000, 48.513033]
+        });
+      } else if (campusName === 'Villejean') {
+        map.setMaxBounds(rennesBounds);
+        map.flyTo({
+          zoom: zoomBase,
+          center: [-1.7013, 48.119365]
+        });
+      } else if (campusName === 'La Harpe') {
+        map.setMaxBounds(rennesBounds);
+        map.flyTo({
+          zoom: zoomBase,
+          center: [-1.7091, 48.1254]
+        });
+      }
 
-  console.log('Action completed for category:', categoryID);
+    } else {
+      button.classList.remove('active');
+    }
+  });
+}
 
-  // Mettez à jour l'URL si nécessaire
-  if (updateURL) {
-    updateURLParam('categories', categoryID);
+// Lorsque la page se charge, récupérez le nom du campus dans l'URL et activez le bouton correspondant
+document.addEventListener('DOMContentLoaded', function() {
+  const campusName = getCampusFromURL();
+  if (campusName) {
+    activateCampusButton(campusName);
+    console.log('Campus:', campusName);
   }
-}
+});
 
-function updateURLParam(key, value) {
-  // Mettez à jour l'URL avec le nouveau paramètre
-  var urlParams = new URLSearchParams(window.location.hash.slice(1));
-  urlParams.set(key, value);
+/////////////////////////// fin du code pour changer de campus /////////////////////////////
 
-  // Remplacez l'URL dans l'historique sans rechargement de la page
-  history.replaceState(null, null, '#' + urlParams.toString());
-}
 
-fetch('../points.geojson')
-  .then(response => response.json()) // Correction de la faute de frappe (geoson() à json())
-  .then(data => {
-    console.log('GeoJSON Data:', data);
-    // ... (restez dans la logique de chargement des marqueurs)
-  })
-  .catch(error => console.error('Erreur lors du chargement des données GeoJSON:', error));
 
+// dire que quand y un espace %20
+// changer le lien directement dans l'url OK 
+// simplification + compréhension du code 
+
+
+
+////////////////////////////////// version 3 /////////////////////////////
+
+
+
+// IDEE : 
+  // faire une selection suivant le type d'élément / création d'une constante 
 
   ///////////////////////////////////////  Initialisation du fond de carte //////////////////////////////////
 
@@ -744,6 +674,7 @@ fetch('../points.geojson')
       map.removeLayer(bati3DId);
       map.removeLayer(bati3DHId);
       map.removeLayer(etiqBati3DId);
+      console.log('bati3DId');
     }
     ;
     pictoCount += 1;
@@ -756,7 +687,7 @@ fetch('../points.geojson')
       data: "../data/bati/Bati_2D.geojson"
     });
     map.addLayer({
-      id: bati2DId,
+      id: bati2DId, // Identifiant de la couche
       type: "fill",
       source: "bati2D",
       paint: {
@@ -851,7 +782,7 @@ fetch('../points.geojson')
     salleRecherchee = null;
     salleRX = null;
     salleRY = null;
-    var htmlPOI = document.getElementById(value);
+    var htmlPOI = document.getElementById(value);  
     // var htmlPOIParent = htmlPOI.parentNode;
 
     /* if (document.getElementById('fleche')) {
@@ -2606,11 +2537,11 @@ fetch('../points.geojson')
 
 
 //////////////////////////////////   3D   //////////////////////////////////////
-  DDButton = document.getElementById('DDButton');
-  DDDButton = document.getElementById('DDDButton');
-  DDD = false;
+  DDButton = document.getElementById('DDButton'); // Bouton pour passer en 2D
+  DDDButton = document.getElementById('DDDButton'); // Bouton pour passer en 3D
+  DDD = false; // Variable pour savoir si on est en 3D ou non
 
-  DDDButton.addEventListener('click', function () {
+  DDDButton.addEventListener('click', function () { // Action du bouton 3D
     var X = map.getCenter()["lng"];
     var Y = map.getCenter()["lat"];
     var currentZoom = map.getZoom()
@@ -2630,30 +2561,30 @@ fetch('../points.geojson')
       DDButton.classList.remove('active');
     }
   })
-  DDButton.addEventListener('click', function () {
+  DDButton.addEventListener('click', function () { // Action du bouton 2D
     var X = map.getCenter()["lng"];
-    var Y = map.getCenter()["lat"];
-    var currentZoom = map.getZoom()
-    var button = document.getElementById('DDDButton');
-    if (DDD) {
+    var Y = map.getCenter()["lat"]; // Récupération des coordonnées du centre de la carte
+    var currentZoom = map.getZoom() // Récupération du zoom actuel
+    var button = document.getElementById('DDDButton'); // Récupération du bouton 3D
+    if (DDD) { // Si on est en 3D
       Y = Y + 0.00021;
-      getBati2D();
+      getBati2D(); // On enlève les bâtiments en 3D
       zoomCible = currentZoom - 0.5;
       map.flyTo({
         center: [X, Y],
-        pitch: 0,
+        pitch: 0, 
         speed: 0.08,
-        zoom: zoomCible
+        zoom: zoomCible 
       });
-      map.dragRotate.disable();
+      map.dragRotate.disable(); // On désactive la rotation de la carte
 
-      DDButton.classList.add('active');
-      DDD = false;
+      DDButton.classList.add('active'); // On active le bouton 2D
+      DDD = false;  // On passe en 2D
 
-      map.dragRotate.enable();
-      DDDButton.classList.remove('active');
+      map.dragRotate.enable(); // On active la rotation de la carte
+      DDDButton.classList.remove('active'); // On désactive le bouton 3D
     }
-  })
+  }) 
 
 //////////////////////////////////   Ajout de l'habillage de la carte //////////////////////////////////////
   var nav = new maplibregl.NavigationControl();
