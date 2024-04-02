@@ -663,9 +663,11 @@ import {mapToken} from './token.js';
       if (Layers.length == 0) {
         if (e.features[0].properties.Nom !== "null") {
           popupTitle = e.features[0].properties.Nom;
+          // console.log(popupTitle);
         }
         if (e.features[0].properties.Photo !== "null") {
           popupContent += '<img src = \'' + e.features[0].properties.Photo + '?v=' + version + '\'/>'
+          // console.log(popupContent); // verification du lien de l'image
         }
         if (e.features[0].properties.Info !== "null") {
           popupContent += '<p>' + e.features[0].properties.Info + '<p>';
