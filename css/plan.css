@@ -170,7 +170,7 @@ h1.sitename {
 }
 
 /* Styles pour les boutons dans le groupe de contrôles mapboxgl */
-mapboxgl-ctrl-group > button {
+.mapboxgl-ctrl-group > button {
   border: 1px solid #e5e5e5; /* Bordure */
 }
 

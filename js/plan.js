@@ -759,7 +759,7 @@
 
     if (document.getElementsByClassName('leaf active')) {
       var previousActiveLeaves = document.getElementsByClassName('leaf active');
-      for (i = 0; i < previousActiveLeaves.length; i++) {
+      for (let i = 0; i < previousActiveLeaves.length; i++) {
         previousActiveLeaves[i].classList.remove('active');
       }
     }
@@ -1279,7 +1279,7 @@
 
             ////////// Definition de la deuxième fonction etiqOverlay() ////////// 
             function etiqOverlay() {
-              overlayEtiquette = map.addLayer({
+              var overlayEtiquette = map.addLayer({
                 id: nomDeLaCoucheEtiquette,
                 type: "symbol",
                 source: {
