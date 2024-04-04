@@ -1,9 +1,3 @@
-// Importation du token fond de carte MapTiler au début de la fonction IIFE
-import {mapToken} from './token.js';
-
-//fonction IIFE - Immediately Invoked Function Expression - exécute la fonction au moment où elle est lue
-(function ($) {
-  
   //définition d'une fonction permettant l'extraction d'une valeur d'un paramètre d'URL (avec expression régulière)
   function getQueryStringValue(key) {
     return decodeURIComponent(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + encodeURIComponent(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
@@ -2813,4 +2807,3 @@ var elLink, elList;
     });
 
   });
-})(jQuery);
