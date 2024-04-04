@@ -85,9 +85,6 @@
     <!-- Menu étendu/réduit -->
     <script src="./js/metisMenu.min.js"></script> <!-- Metis Menu Plugin JavaScript -->
     <script src="./js/startmin.js"></script> <!-- Custom Theme JavaScript -->
-   
-    <!-- Image et message de chargement de la carte -->
-    <div class = "loader"><center><img id = "loader-img" src = 'css/ajax-loader.gif'><h1>Chargement de la page</h1></center></div> <!-- LOADER -->
 
     
     <header>
@@ -608,14 +605,7 @@
       </footer>-->
 
     <!-- SCRIPTS JS-->
-    <script type="module" src="./js/token.js"></script> <!--les tokens du fond de plan-->
-    <script type="module" src="./js/plan.js"></script> <!--la carte et le menu-->
+    <script src="./js/token.js"></script> <!--les tokens du fond de plan-->
     <script id="plan" data-version="14032024" src="/js/plan.js?v=14032024"></script>
-      
-    <script>jQuery(window).load(function () {
-        jQuery(".loader").fadeOut("200");
-      });
-    </script>
-
   </body>
 </html>

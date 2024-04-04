@@ -1,9 +1,3 @@
-// Importation du token fond de carte MapTiler au début de la fonction IIFE
-import {mapToken} from './token.js';
-
-//fonction IIFE - Immediately Invoked Function Expression - exécute la fonction au moment où elle est lue
-(function ($) {
-  
   //définition d'une fonction permettant l'extraction d'une valeur d'un paramètre d'URL (avec expression régulière)
   function getQueryStringValue(key) {
     return decodeURIComponent(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + encodeURIComponent(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
@@ -507,10 +501,12 @@ import {mapToken} from './token.js';
     etiqBati3DId = 'etiqBati3DId' + bati3DCount;
     
     //data batiments en 3D
-    map.addSource("bati3D", {
-      type: "geojson",
-      data: "../data/bati/Bati_3D.geojson?v="+version
-    });
+    if(!map.getSource("bati3D")) {
+      map.addSource("bati3D", {
+        type: "geojson",
+        data: "../data/bati/Bati_3D.geojson?v="+version
+      });
+    }
 
     map.addLayer({
       id: bati3DId,
@@ -630,10 +626,12 @@ import {mapToken} from './token.js';
     etiqBati2DId = 'etiqBati2DId' + bati2DCount;
 
     //ajout de couches
-    map.addSource("bati2D", {
-      type: "geojson",
-      data: "../data/bati/Bati_2D.geojson?v="+version
-    });
+    if(!map.getSource("bati2D")) {
+      map.addSource("bati2D", {
+        type: "geojson",
+        data: "../data/bati/Bati_2D.geojson?v="+version
+      });
+    }
 
     map.addLayer({
       id: bati2DId,
@@ -1538,6 +1536,7 @@ var popupContent = [];
   var salleRecherchee = null;
 
 ////////// Fonction fonction createHTMLList() ////////// 
+var elLink, elList;
   function createHTMLList(categorie, listeDeNoms, elementCible, overlayCount) {
     // initialisation de variables :
     salleRecherchee = null;
@@ -1549,11 +1548,11 @@ var popupContent = [];
       var data = fproperties.filter(function (e) { //filtre les données sur la catégorie sélectionnée
         return e.Categorie === categorie;
       })
-      for (i = 0; i < data.length; i++) {
+      for (let i = 0; i < data.length; i++) {
         listeDeNoms.push(data[i]['Nom']); //pousse les noms de chaque entité dans une listeDeNoms
       }
-      for (i = 0; i < listeDeNoms.length; i++) { //pour chaque élément de la liste
-        currentName = listeDeNoms[i].split("'").join("!"); //remplace les ' par !
+      for (let i = 0; i < listeDeNoms.length; i++) { //pour chaque élément de la liste
+        var currentName = listeDeNoms[i].split("'").join("!"); //remplace les ' par !
         elList = document.createElement('li'); //créer un élément <li>
         elementCible.appendChild(elList); //elList ajouté comme enfant de elementCible
         elLink = document.createElement('a'); //créer un élément <a>
@@ -1561,12 +1560,10 @@ var popupContent = [];
         elLink.setAttribute('id', listeDeNoms[i]); //définit l'id de <a>
         elLink.setAttribute('href', '#'); //définit le href de <a>
         elLink.classList.add('leaf'); //ajoute la classe 'leaf' à <a>
-        var theFunction = 'switchPOI(' + '\'' + currentName + '\');return false;' // définit la fonction à appeler onclick 
-        //          elLink.setAttribute('href',theFunction);
-        elLink.setAttribute('onclick', theFunction); //ajoute une interactivité onclick à <a>
+        elLink.addEventListener("click", () => switchPOI(currentName));
         elList.appendChild(elLink);  //elLink ajouté comme enfant de elList, on a donc une liste (li) de liens (a)
       }
-      for (i = 0; i < listeDeNoms.length; i++) {
+      for (let i = 0; i < listeDeNoms.length; i++) {
         listeLink.push(document.getElementById(listeDeNoms[i])) //on obtient ici la liste de liens dans l'élément cible HTML
       }
     }
@@ -1583,7 +1580,7 @@ var popupContent = [];
   var zoomLaHarpe = document.getElementById("LaHarpe")
   zoomLaHarpe.addEventListener('click', function () {
     map.setMaxBounds(rennesBounds);
-    map.flyTo({
+    map.jumpTo({
       zoom: zoomBase,
       center: [-1.7091, 48.1254]
     });
@@ -1595,7 +1592,7 @@ var popupContent = [];
   zoomVillejean.classList.add('active');
   zoomVillejean.addEventListener('click', function () {
     map.setMaxBounds(rennesBounds);
-    map.flyTo({
+    map.jumpTo({
       zoom: zoomBase,
       center: [-1.7013, 48.119365]
     });
@@ -1606,7 +1603,7 @@ var popupContent = [];
   var zoomMazier = document.getElementById("Mazier")
   zoomMazier.addEventListener('click', function () {
     map.setMaxBounds(mazierBounds);
-    map.flyTo({
+    map.jumpTo({
       zoom: zoomBase,
       center: [-2.7410000, 48.513033]
     });
@@ -2649,6 +2646,7 @@ var popupContent = [];
   DDButton = document.getElementById('DDButton');
   DDDButton = document.getElementById('DDDButton');
   DDD = false;
+  var zoomCible;
 
   DDDButton.addEventListener('click', function () {
     var X = map.getCenter()["lng"];
@@ -2809,4 +2807,3 @@ var popupContent = [];
     });
 
   });
-})(jQuery);
