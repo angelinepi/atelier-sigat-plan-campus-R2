@@ -278,11 +278,16 @@ color: green;
   position: relative; /* Position relative */
 }
 
+/* --- LES BOUTONS --- */
+/* Styles pour les boutons primaires */
+.btn-primary {
+  background-color: #fff; /* Couleur de fond */
+  color: #7239AB; /* Couleur du texte */
+  border-color: #7239AB; /* Couleur de la bordure */
+  border-radius: 0; /* Rayon de bordure */
+}
 
-
-/* --- PARTIE SUR LES BOUTONS --- */
-
-/* BOUTONS 2D/3D...*/
+/* --- BOUTONS 2D/3D ---*/
 #DDD {
   top: 25px; /* Position à 25px du haut */
 }
@@ -292,7 +297,7 @@ color: green;
   background-color: #7239AB; /* Couleur de fond */
   color: #fff; /* Couleur du texte */
 }
-#DDD button { /*...styles des boutons*/
+#DDD button { /*... styles des boutons*/
   background-color: #fff; /* Couleur de fond */
   color: #7239AB; /* Couleur du texte */
   border: 1px solid #E5E5E5; /* Bordure */
@@ -300,7 +305,7 @@ color: green;
   box-shadow: none; /* Pas d'ombre */
 }
 
-/* ONGLETS GEOGRAPHIQUES...*/
+/* --- ONGLETS GEOGRAPHIQUES ---*/
 #campus {
   top: 25px; /* Position à 25px du haut */
   opacity: 1; /* Opacité */
@@ -321,8 +326,20 @@ color: green;
   color: #fff; /* Couleur du texte */
 }
 
+/*--- BOUTON IMPRIMER LA CARTE ---*/
+#print button{
+  top : 160px;
+  left : 11px;
+  background-image: url('/css/icons/printer.svg');
+  background-color: #7239AB;
+  background-size: 30px 30px;
+  z-index: 1000;
+  padding: 6px 12px;
+    padding-top: 24px;
+    padding-right: 18px;
+}
 
-/* --- PARTIE SUR LA SEARCH BAR --- */
+/* --- LA BARRE DE RECHERCHE AKA SEARCHBAR --- */
 /* Styles pour l'entrée de recherche easy-autocomplete */
 .easy-autocomplete input {
   border: none; /* Pas de bordure */
@@ -336,17 +353,7 @@ color: green;
   font-family: "Roboto"; /* Police de caractère */
   font-weight: 400; /* Poids de la police */
 }
-
-/* Styles pour les boutons primaires */
-.btn-primary {
-  background-color: #fff; /* Couleur de fond */
-  color: #7239AB; /* Couleur du texte */
-  border-color: #7239AB; /* Couleur de la bordure */
-  border-radius: 0; /* Rayon de bordure */
-}
-
-/* Styles pour le bouton de recherche avec l'ID searchButton */
-#searchButton.btn-primary {
+#searchButton.btn-primary { /*...styles dU bouton*/
   background-color: #7239AB; /* Couleur de fond */
   color: #fff; /* Couleur du texte */
   height: 40px; /* Hauteur */
@@ -356,29 +363,24 @@ color: green;
   background-repeat: no-repeat; /* Pas de répétition de l'image de fond */
   background-size: 20px 20px; /* Taille de l'image de fond */
 }
-
-/* Styles pour le bouton de recherche désactivé avec l'ID searchButton */
-#searchButton.btn-primary.off {
+#searchButton.btn-primary.off { /*...bouton de recherche désactivé */
   background-image: url('/css/icons/plan_loupe_off.svg'); /* Image de fond */
 }
-
-/* Styles pour le survol du bouton de recherche avec l'ID searchButton */
-#searchButton:hover {
+#searchButton:hover { /*...bouton de recherche survolé */
   background-color: #7239AB; /* Couleur de fond */
 }
 
-/* Styles pour la barre de recherche dans la barre latérale */
+/* --- LA BARRE LATERALE AKA SIDEBAR --- */
 .sidebar .sidebar-search {
   padding: 0 0 20px 0; /* Rembourrage */
   border: none; /* Pas de bordure */
   line-height: 20px; /* Hauteur de ligne */
 }
-/* Styles pour le bouton de recherche dans la barre latérale lorsqu'il est en focus */
-.sidebar-search .input-group-btn:focus {
+.sidebar-search .input-group-btn:focus { /*quand le bouton de recherche est en focus */
   height: 33px; /* Hauteur */
 }
 
-/* Styles pour les boutons primaires lorsqu'ils sont en focus ou survolés */
+/* quand les boutons sont en focus ou survolés */
 .btn-primary:focus,
 .btn-primary:hover {
   color: #fff; /* Couleur du texte */
@@ -765,6 +767,9 @@ button.navbar-toggle {
       background-color: #F4F5F5;
       width: 100%;
   }
+  /* #print {
+      right : 84%;
+  } */
   .mapboxgl-ctrl-top-left {
       top: 40px;
   }

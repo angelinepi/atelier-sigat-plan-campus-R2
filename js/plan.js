@@ -7,7 +7,6 @@
       //replace remplace les caractères spéciaux en caractères échappés "(?:\\=([^&]*))?)?.*$"
       //"i" = insensible à la casse  
   }
-  
 
   var overlay = getQueryStringValue("layer").toString(); //extraction de la valeur du paramètre d'URL "layer"
   var overlayPoint = getQueryStringValue("point").toString(); //extraction de la valeur du paramètre d'URL "point"
@@ -20,6 +19,7 @@
   var largeurEcran = screen.width
   var zoomBase = 15.8;
   var BoutonsD = document.getElementById("DDD")
+  var BoutonP = document.getElementById("print")
 
   //création du bouton 2D
   var Bouton2D = document.createElement('button'); 
@@ -33,6 +33,11 @@
   Bouton3D.setAttribute("class", "btn btn-primary");
   Bouton3D.setAttribute("id", "DDDButton");
   Bouton3D.innerHTML = '3D';
+
+  //création du bouton imprimer
+  var BoutonPrint = document.createElement('button'); 
+  BoutonPrint.setAttribute("class", "btn btn-primary");
+  BoutonPrint.setAttribute("id", "printButton");
 
   //configuration page selon dimension de la fenetre du navigateur selon le device utilisé (téléphone ou autre)
   if (largeurEcran < 500) {
@@ -49,9 +54,18 @@
     BoutonsD.style.marginLeft = '-50px';
     BoutonsD.appendChild(Bouton2D);
     BoutonsD.appendChild(Bouton3D);
+    //emplacement bouton imprimer :
+    BoutonP.style.position = 'absolute';
+    //BoutonP.style.height = '50px';
+    //BoutonP.style.width = '100px';
+    BoutonP.style.left = '0.2%';
+    //BoutonP.style.marginTop = '-25px';
+    //BoutonP.style.marginLeft = '-50px';
+    BoutonP.appendChild(BoutonPrint);
   } else {
     BoutonsD.appendChild(Bouton2D);
     BoutonsD.appendChild(Bouton3D);
+    BoutonP.appendChild(BoutonPrint);
   }
   if (largeurEcran > 1000) {
     //emplacement onglets géographiques :
