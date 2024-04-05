@@ -256,13 +256,12 @@ h1.sitename {
   padding-left: 10px; /* Rembourrage à gauche */
 }
 
-
-
 /*ci-après un test pour modifier la vue des sections-name quand la souris passe dessus
 .nav li a .section-name:hover {
 font-size: 25px;
 color: green;
 } */
+
 /* Styles pour l'image de section dans les liens de navigation */
 .nav li a .section-image {
   float: left; /* Flottant à gauche */
@@ -279,20 +278,21 @@ color: green;
   position: relative; /* Position relative */
 }
 
-/* Styles pour l'élément avec l'ID DDD */
+
+
+/* --- PARTIE SUR LES BOUTONS --- */
+
+/* BOUTONS 2D/3D...*/
 #DDD {
   top: 25px; /* Position à 25px du haut */
 }
-
-/* Styles pour les boutons actifs et survolés dans l'élément avec l'ID DDD */
+/*... quand actif et survolé*/
 #DDD .btn.active,
 #DDD button:hover {
   background-color: #7239AB; /* Couleur de fond */
   color: #fff; /* Couleur du texte */
 }
-
-/* Styles pour les boutons dans l'élément avec l'ID DDD */
-#DDD button {
+#DDD button { /*...styles des boutons*/
   background-color: #fff; /* Couleur de fond */
   color: #7239AB; /* Couleur du texte */
   border: 1px solid #E5E5E5; /* Bordure */
@@ -300,14 +300,12 @@ color: green;
   box-shadow: none; /* Pas d'ombre */
 }
 
-/* Styles pour l'élément avec l'ID campus */
+/* ONGLETS GEOGRAPHIQUES...*/
 #campus {
   top: 25px; /* Position à 25px du haut */
   opacity: 1; /* Opacité */
 }
-
-/* Styles pour les boutons dans l'élément avec l'ID campus */
-#campus button {
+#campus button { /*...styles des boutons*/
   font-size: 18px; /* Taille de police */
   font-family: "Roboto"; /* Police de caractère */
   font-weight: 400; /* Poids de la police */
@@ -315,9 +313,7 @@ color: green;
   background-color: #fff; /* Couleur de fond */
   border: 1px solid #E5E5E5; /* Bordure */
 }
-
-/* Styles pour les boutons actifs dans l'élément avec l'ID campus */
-#campus button.active {
+#campus button.active { /*... quand actif*/
   font-size: 18px; /* Taille de police */
   font-family: "Roboto"; /* Police de caractère */
   font-weight: 400; /* Poids de la police */
@@ -325,6 +321,8 @@ color: green;
   color: #fff; /* Couleur du texte */
 }
 
+
+/* --- PARTIE SUR LA SEARCH BAR --- */
 /* Styles pour l'entrée de recherche easy-autocomplete */
 .easy-autocomplete input {
   border: none; /* Pas de bordure */
