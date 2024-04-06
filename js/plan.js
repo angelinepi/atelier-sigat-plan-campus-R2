@@ -1655,7 +1655,7 @@ var elLink, elList;
       type: "fill",
       source: {
         type: "geojson",
-        data: "../data/habillage/grass.geojson?v="+version
+        data: "../data/fondcarte/grass.geojson?v="+version
       },
       paint: {
         'fill-color': '#A4E463',
@@ -1672,7 +1672,7 @@ var elLink, elList;
       type: "fill",
       source: {
         type: "geojson",
-        data: "../data/habillage/piste_athle.geojson?v="+version
+        data: "../data/fondcarte/piste_athle.geojson?v="+version
       },
       paint: {
         'fill-color': '#C09C83',
@@ -1684,7 +1684,7 @@ var elLink, elList;
       type: "line",
       source: {
         type: "geojson",
-        data: "../data/habillage/terrain_football.geojson?v="+version
+        data: "../data/fondcarte/terrain_football.geojson?v="+version
       },
       "paint": {
         'line-color': '#FFFFFF',
@@ -2693,7 +2693,7 @@ var elLink, elList;
     }
   })
 
-//////////////////////////////////   Ajout de l'habillage de la carte //////////////////////////////////////
+//////////////////////////////////   Ajout de l'fondcarte de la carte //////////////////////////////////////
   var nav = new maplibregl.NavigationControl();
   map.addControl(nav, 'top-left');
   map.addControl(new maplibregl.ScaleControl({
