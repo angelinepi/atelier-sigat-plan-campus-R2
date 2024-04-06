@@ -1626,6 +1626,11 @@ var elLink, elList;
     zoomLaHarpe.classList.remove('active');
   });
 
+ //Evénément click pour déclancher l'impression
+const BoutonPrinter = document.getElementById('printButton');
+BoutonPrinter.addEventListener('click', function () {
+  window.print()})
+
 //////////////////////////////////   Initialisation des données carte //////////////////////////////////////
   var POIBrut = (function () {
     var json = null;
