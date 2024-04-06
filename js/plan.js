@@ -1627,8 +1627,8 @@ var elLink, elList;
   });
 
  //Evénément click pour déclancher l'impression
-const BoutonPrinter = document.getElementById('printButton');
-BoutonPrinter.addEventListener('click', function () {
+const boutonPrinter = document.getElementById('printButton');
+boutonPrinter.addEventListener('click', function () {
   window.print()})
 
 //////////////////////////////////   Initialisation des données carte //////////////////////////////////////
@@ -2662,9 +2662,8 @@ BoutonPrinter.addEventListener('click', function () {
 
 
 //////////////////////////////////   3D   //////////////////////////////////////
-  DDButton = document.getElementById('DDButton');
-  DDDButton = document.getElementById('DDDButton');
-  DDD = false;
+  var DDButton = document.getElementById('DDButton');
+  var DDDButton = document.getElementById('DDDButton');
   var zoomCible;
 
   DDDButton.addEventListener('click', function () {
