@@ -699,7 +699,9 @@ button.navbar-toggle {
   background-color: #000;
 }
 
-/* Médias-query pour les écrans de petite taille */
+/* --- LES MEDIAS QUERY --- */
+
+/* Affichage pour les écrans de petite taille */
 @media (max-width: 750px) {
   #wrapper {
       max-height: none;
@@ -767,9 +769,7 @@ button.navbar-toggle {
       background-color: #F4F5F5;
       width: 100%;
   }
-  /* #print {
-      right : 84%;
-  } */
+ 
   .mapboxgl-ctrl-top-left {
       top: 40px;
   }
@@ -778,10 +778,24 @@ button.navbar-toggle {
   }
 }
 
-/* Médias-query pour les écrans de grande taille */
+/* Affichage pour les écrans de grande taille */
 @media (min-width: 992px) {
   /* Cacher le dragger de la barre de défilement */
   .mCSB_dragger {
       display: none;
+  }
+}
+
+
+/* Regles d'élements à afficher ou non pour imprimer le plan */
+@media print {
+  header,nav, .btn-group {
+    display: none;
+    /* width: 0; */
+  }
+  #page-wrapper {
+    margin-left: 0;
+    /* margin-bottom: 0; */
+    height: 100%;
   }
 }
