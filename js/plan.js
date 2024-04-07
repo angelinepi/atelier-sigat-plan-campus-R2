@@ -32,7 +32,8 @@ import {mapToken} from './token.js';
 
 // Fonction pour créer une URL avec un paramètre de campus et mettre à jour l'URL de la page
 function createLinkAndUpdateURL(campus, categories) { // parametre non obligatoire possibles (ex: 2D/3D)
-  let url = `http://127.0.0.1:5500/?`;
+  let url = `http://127.0.0.1:5500/?`; // changer l'adresse du site par le vrai 
+  
   url += `campus=${encodeURIComponent(campus)}`; // Ajouter le paramètre de campus à l'URL encodeURIComponent pour gérer les caractères spéciaux
   
   // attendre la réparation du bug pour activer les boutons 2D et 3D 
@@ -43,7 +44,7 @@ function createLinkAndUpdateURL(campus, categories) { // parametre non obligatoi
   else {
     url += `&D=3D`;
   }
-  //////// attendre la réparation du bug pour activer les boutons 2D et 3D
+  //////// attendre la réparation du bug pour activer les boutons 2D et 3D inutile ? 
 
   url += `&layers=${encodeURIComponent(categories)}`; // Ajouter le paramètre de couche à l'URL 
   // à ajouter : paramêtre multiple pour les catégories
