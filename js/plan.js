@@ -5,44 +5,80 @@ import {mapToken} from './token.js';
   ///////////////////////////// code origine ////////////////////////////
   //ci-dessous l'extraction d'une valeur d'un paramètre d'URL (avec expression régulière) 
 
-  // function getQueryStringValue(key) {
-  //   return decodeURIComponent(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + encodeURIComponent(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
-  // } 
-  
-  // var overlay = getQueryStringValue("layer").toString();
-  // var overlayPoint = getQueryStringValue("point").toString();
+  function getQueryStringValue(key) {
+    console.log('key:', key);
+    console.log('window.location.search:', window.location.search); 
+    return decodeURIComponent(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + encodeURIComponent(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
+
+  } // Fonction pour récupérer la valeur du paramètre de l'URL
+
+  var overlay = getQueryStringValue("layer").toString(); // Récupérer la valeur du paramètre de couche
+  var overlayPoint = getQueryStringValue("point").toString();
+
+  // fonction utilisé lors du chargement 
+
 ////////////////////////////// fin code origine ////////////////////////////
 
 
+/**
+ * Créer un lien vers le site Zone Téléchargement
+ * @param campus Nom du campus
+ * @param categories Nom de la catégorie
+ * les autres paramètres 
+ * @returns {string} URL de recherche
+ */
 
 /////////////////////////////////// code pour changer de campus /////////////////////////////
 
 // Fonction pour créer une URL avec un paramètre de campus et mettre à jour l'URL de la page
-function createLinkAndUpdateURL(campus) {
+function createLinkAndUpdateURL(campus, categories) { // parametre non obligatoire possibles (ex: 2D/3D)
   let url = `http://127.0.0.1:5500/?`;
-  url += `campus=${encodeURIComponent(campus)}`;
+  url += `campus=${encodeURIComponent(campus)}`; // Ajouter le paramètre de campus à l'URL encodeURIComponent pour gérer les caractères spéciaux
+  
+  // attendre la réparation du bug pour activer les boutons 2D et 3D 
+    // pas mis dans la fonction car pas obligatoire (pour le moment)
+  if (BoutonsD == '2D') {
+    url += `&D=2D`;
+  }  //2D ou 3D 
+  else {
+    url += `&D=3D`;
+  }
+  //////// attendre la réparation du bug pour activer les boutons 2D et 3D
+
+  url += `&layers=${encodeURIComponent(categories)}`; // Ajouter le paramètre de couche à l'URL 
+  // à ajouter : paramêtre multiple pour les catégories
+
 
   // Mettre à jour l'URL sans recharger la page
   history.pushState({ campus: campus }, campus, url);
   return url;
 }
 
+
+
 // Sélectionner tous les boutons de campus
 const campusButtons = document.querySelectorAll('.btn.btn-primary');
+const categoriesCase = document.querySelectorAll('.case'); // Sélectionner toutes les cases de catégorie
 
-// Ajouter un gestionnaire d'événements à chaque bouton de campus
+
+// Ajouter un gestionnaire d'événements à chaque bouton de campus + création de lien et mise à jour de l'URL 
 campusButtons.forEach(function(button) {
   button.addEventListener('click', function(event) {
     const campusName = event.target.textContent.trim(); // Récupérer le nom du campus à partir du bouton cliqué
-    createLinkAndUpdateURL(campusName); // Appeler la fonction pour changer le campus et l'URL
+    createLinkAndUpdateURL(campusName); // Passer une chaîne vide pour les catégories car les boutons de campus ne semblent pas concernés par les catégories
   });
 });
+// cf contentpage et essayer de faire pareil, une fonction 
 
-// Fonction pour obtenir le nom du campus à partir de l'URL
-function getCampusFromURL() {
-  const urlParams = new URLSearchParams(window.location.search);
-  return urlParams.get('campus');
-}
+// // Ajouter un gestionnaire d'événements à chaque case de catégorie + création de lien et mise à jour de l'URL 
+// categoriesCase.forEach(function(li) { 
+//   li.addEventListener('click', function(event) {
+//     const categorieName = event.target.textContent.trim(); // Récupérer le nom de la catégorie à partir de la case cliquée
+//     createLinkAndUpdateURL(campusName, categorieName); // Passer une chaîne vide pour le campus car les cases de catégorie ne semblent pas concernées par le campus
+//   });
+// });
+
+
 
 // Fonction pour activer le bouton correspondant au nom du campus
 function activateCampusButton(campusName) {
@@ -77,9 +113,17 @@ function activateCampusButton(campusName) {
     }
   });
 }
+// fonction a revoir, redondance de code ??? 
+
+
+// Fonction pour obtenir le nom du campus à partir de l'URL
+function getCampusFromURL() {
+  const urlParams = new URLSearchParams(window.location.search); // Récupérer les paramètres de l'URL
+  return urlParams.get('campus'); // Récupérer la valeur du paramètre de campus
+}
 
 // Lorsque la page se charge, récupérez le nom du campus dans l'URL et activez le bouton correspondant
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function() { // quand l'url est rechargé alors on récupère le campus si il y en a un alors on active le bouton correspondant
   const campusName = getCampusFromURL();
   if (campusName) {
     activateCampusButton(campusName);
@@ -712,15 +756,15 @@ document.addEventListener('DOMContentLoaded', function() {
       if (Layers.length == 0) {
         if (e.features[0].properties.Nom !== "null") {
           popupTitle = e.features[0].properties.Nom;
-          console.log(popupTitle);
+          //console.log(popupTitle);
         }
         if (e.features[0].properties.Photo !== "null") {
           popupContent += '<img src = \"./' + e.features[0].properties.Photo + '\">' // Affichage de la photo
-          console.log(popupContent)
+          //console.log(popupContent)
         }
         if (e.features[0].properties.Info !== "null") {
           popupContent += '<p>' + e.features[0].properties.Info + '<p>';
-          console.log(popupContent) 
+          
         }
         if (popupBati !== null) {
           popupBati.remove();
