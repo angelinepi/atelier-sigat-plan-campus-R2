@@ -1,0 +1,16 @@
+{
+"type": "FeatureCollection",
+"name": "entree_campus",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "id": null, "Nom": null, "Categorie": "Entrée campus", "Groupe": "Mobilités et accessibilité", "Etiquette": null, "Campus": "La Harpe", "Info": null }, "geometry": { "type": "MultiPoint", "coordinates": [ [ -1.709319482776927, 48.124805729690408 ] ] } },
+{ "type": "Feature", "properties": { "id": null, "Nom": null, "Categorie": "Entrée campus", "Groupe": "Mobilités et accessibilité", "Etiquette": null, "Campus": "La Harpe", "Info": null }, "geometry": { "type": "MultiPoint", "coordinates": [ [ -1.710013346444266, 48.125368530220577 ] ] } },
+{ "type": "Feature", "properties": { "id": null, "Nom": null, "Categorie": "Entrée campus", "Groupe": "Mobilités et accessibilité", "Etiquette": null, "Campus": "Mazier", "Info": null }, "geometry": { "type": "MultiPoint", "coordinates": [ [ -2.739298206016592, 48.512823286995641 ] ] } },
+{ "type": "Feature", "properties": { "id": null, "Nom": null, "Categorie": "Entrée campus", "Groupe": "Mobilités et accessibilité", "Etiquette": null, "Campus": "Mazier", "Info": null }, "geometry": { "type": "MultiPoint", "coordinates": [ [ -2.741114244257036, 48.513919762914398 ] ] } },
+{ "type": "Feature", "properties": { "id": null, "Nom": null, "Categorie": "Entrée campus", "Groupe": "Mobilités et accessibilité", "Etiquette": null, "Campus": "Mazier", "Info": null }, "geometry": { "type": "MultiPoint", "coordinates": [ [ -2.742289529382452, 48.513896634125466 ] ] } },
+{ "type": "Feature", "properties": { "id": null, "Nom": null, "Categorie": "Entrée campus", "Groupe": "Mobilités et accessibilité", "Etiquette": null, "Campus": "Villejean", "Info": null }, "geometry": { "type": "MultiPoint", "coordinates": [ [ -1.703607742693089, 48.117623384111504 ] ] } },
+{ "type": "Feature", "properties": { "id": null, "Nom": null, "Categorie": "Entrée campus", "Groupe": "Mobilités et accessibilité", "Etiquette": null, "Campus": "Villejean", "Info": null }, "geometry": { "type": "MultiPoint", "coordinates": [ [ -1.702299681186882, 48.117595115591726 ] ] } },
+{ "type": "Feature", "properties": { "id": null, "Nom": null, "Categorie": "Entrée campus", "Groupe": "Mobilités et accessibilité", "Etiquette": null, "Campus": "Villejean", "Info": null }, "geometry": { "type": "MultiPoint", "coordinates": [ [ -1.699593612884257, 48.120197104344214 ] ] } },
+{ "type": "Feature", "properties": { "id": null, "Nom": null, "Categorie": "Entrée campus", "Groupe": "Mobilités et accessibilité", "Etiquette": null, "Campus": "Villejean", "Info": null }, "geometry": { "type": "MultiPoint", "coordinates": [ [ -1.704475072277262, 48.120556885505046 ] ] } }
+]
+}
