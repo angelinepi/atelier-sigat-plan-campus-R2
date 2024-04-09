@@ -1,3 +1,4 @@
+
 /* Importation du fichier fontfaces.css */
 @import "fontfaces.css";
 
@@ -327,12 +328,18 @@ color: green;
 }
 
 /*--- BOUTON IMPRIMER LA CARTE ---*/
-#print button{
-  top : 160px;
-  left : 11px;
+.btn-header  {
+  position: absolute;
+  top: 10%;
+  right: 5%;
+  background-color: red;  
+  padding: 10px;
+}
+
+.btn-imprimer {
   background-image: url('/css/icons/printer.svg');
-  background-color: #7239AB;
   background-size: 30px 30px;
+  background-color: #7239AB;
   z-index: 1000;
   padding: 6px 12px;
     padding-top: 24px;
@@ -787,15 +794,13 @@ button.navbar-toggle {
 }
 
 
-/* Regles d'élements à afficher ou non pour imprimer le plan */
+/* Regles d'élements à afficher ou non pour imprimer le plan
 @media print {
   header,nav, .btn-group {
     display: none;
-    /* width: 0; */
   }
   #page-wrapper {
     margin-left: 0;
-    /* margin-bottom: 0; */
     height: 100%;
   }
-}
+} */

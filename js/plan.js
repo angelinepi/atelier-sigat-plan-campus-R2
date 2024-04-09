@@ -54,18 +54,9 @@
     BoutonsD.style.marginLeft = '-50px';
     BoutonsD.appendChild(Bouton2D);
     BoutonsD.appendChild(Bouton3D);
-    //emplacement bouton imprimer :
-    BoutonP.style.position = 'absolute';
-    //BoutonP.style.height = '50px';
-    //BoutonP.style.width = '100px';
-    BoutonP.style.left = '0.2%';
-    //BoutonP.style.marginTop = '-25px';
-    //BoutonP.style.marginLeft = '-50px';
-    BoutonP.appendChild(BoutonPrint);
   } else {
     BoutonsD.appendChild(Bouton2D);
     BoutonsD.appendChild(Bouton3D);
-    BoutonP.appendChild(BoutonPrint);
   }
   if (largeurEcran > 1000) {
     //emplacement onglets géographiques :
@@ -1627,7 +1618,7 @@ var elLink, elList;
   });
 
  //Evénément click pour déclancher l'impression
-const boutonPrinter = document.getElementById('printButton');
+const boutonPrinter = document.getElementById('imprimer');
 boutonPrinter.addEventListener('click', function () {
   window.print()})
 
