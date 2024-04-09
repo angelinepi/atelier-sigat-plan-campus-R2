@@ -556,20 +556,20 @@
       var popupTitle = '';
       popupContent = '';
       if (Layers.length == 0) {
-        if (e.features[0].properties.Nom !== "null") {
+        if (e.features[0].properties.Nom != "null" && e.features[0].properties.Nom != null && e.features[0].properties.Nom != "") {
           popupTitle = e.features[0].properties.Nom;
         }
-        if (e.features[0].properties.Photo !== "null") {
+        if (e.features[0].properties.Photo != "null" && e.features[0].properties.Photo !=null && e.features[0].properties.Photo != "") {
           popupContent += '<img src = \'' + e.features[0].properties.Photo + '?v='+version+'\'/>'
         }
-        if (e.features[0].properties.Infos !== "null") {
+        if (e.features[0].properties.Infos != "null" && e.features[0].properties.Infos != null && e.features[0].properties.Infos != "") {
           popupContent += '<p>' + e.features[0].properties.Infos + '<p>';
         }
         if (popupBati !== null) {
           popupBati.remove();
         }
         ;
-        if (e.features[0].properties.Nom !== "null") {
+        if (e.features[0].properties.Nom != "null" && e.features[0].properties.Nom != null && e.features[0].properties.Nom != "") {
           if ((popup == null || popup.isOpen() == false) && (searchPopup == null || searchPopup.isOpen() === false) && (popupList == null || popupList.isOpen() === false)) {
 
             popupBati = new maplibregl.Popup({
@@ -666,22 +666,29 @@
       var popupTitle = '';
       popupContent = '';
       if (Layers.length == 0) {
-        if (e.features[0].properties.Nom !== "null") {
+        if (e.features[0].properties.Nom != "null" && e.features[0].properties.Nom != null && e.features[0].properties.Nom != "") {
           popupTitle = e.features[0].properties.Nom;
           // console.log(popupTitle);
+          console.log(e.features[0].properties.Nom == "null");
+          console.log(e.features[0].properties.Nom == null);
         }
-        if (e.features[0].properties.Photo !== "null") {
+        if (e.features[0].properties.Photo != "null" && e.features[0].properties.Photo != null && e.features[0].properties.Photo != "") {
           popupContent += '<img src = \'' + e.features[0].properties.Photo + '?v=' + version + '\'/>'
-          // console.log(popupContent); // verification du lien de l'image
+          //console.log(popupContent); // verification du lien de l'image
+          console.log(e.features[0].properties.Photo == "null");
+          console.log(e.features[0].properties.Photo == null);
         }
-        if (e.features[0].properties.Info !== "null") {
+        if (e.features[0].properties.Info != "null" && e.features[0].properties.Info != null && e.features[0].properties.Info != "") {
           popupContent += '<p>' + e.features[0].properties.Info + '<p>';
+          console.log(e.features[0].properties.Info);
+          console.log(e.features[0].properties.Info == "null");
+          console.log(e.features[0].properties.Info == null);
         }
-        if (popupBati !== null) {
+        if (popupBati != null) {
           popupBati.remove();
         }
         ;
-        if (e.features[0].properties.Nom !== "null") {
+        if (e.features[0].properties.Nom != "null" && e.features[0].properties.Nom != null && e.features[0].properties.Nom != "") {
           if ((popup == null || popup.isOpen() == false) && (searchPopup == null || searchPopup.isOpen() === false) && (popupList == null || popupList.isOpen() === false)) {
 
             popupBati = new maplibregl.Popup({
@@ -1422,10 +1429,10 @@ var popupContent = [];
     popupContent = [];
 
     /// Titre de la popup ///
-    if (feature.properties.Categorie !== "null" && feature.properties.Categorie !== null && feature.properties.Categorie !== "") {
+    if (feature.properties.Categorie != "null" && feature.properties.Categorie != null && feature.properties.Categorie != "") {
       popupTitle = feature.properties.Categorie;
     }
-    if (feature.properties.Nom !== "null" && feature.properties.Nom !== null && feature.properties.Nom !== "") {
+    if (feature.properties.Nom != "null" && feature.properties.Nom != null && feature.properties.Nom != "") {
       popupTitle = feature.properties.Nom;
     }
 
@@ -1433,11 +1440,11 @@ var popupContent = [];
     //console.log(feature.properties.Batiment)
 
     //Batiment n'est pas null :
-    if (feature.properties.Batiment !== "null" && feature.properties.Batiment !== null && feature.properties.Batiment !== "") {
+    if (feature.properties.Batiment != "null" && feature.properties.Batiment != null && feature.properties.Batiment != "") {
       popupContent += '<p>Bâtiment ' + feature.properties.Batiment ;
     }
     //Niveau n'est pas null... :
-    if (feature.properties.Niveau !== "null" && feature.properties.Niveau !== null && feature.properties.Niveau !== "") {
+    if (feature.properties.Niveau != "null" && feature.properties.Niveau != null && feature.properties.Niveau != "") {
       if (feature.properties.Niveau.toString().startsWith('niveau')){
         var niveau = feature.properties.Niveau;
       }
@@ -1445,7 +1452,7 @@ var popupContent = [];
         var niveau = 'niveau ' + feature.properties.Niveau;
       }
       //... et Batiment n'est pas null :
-      if (feature.properties.Batiment !== "null" && feature.properties.Batiment !== null && feature.properties.Batiment !== "") {
+      if (feature.properties.Batiment != "null" && feature.properties.Batiment != null && feature.properties.Batiment != "") {
         popupContent += ', ' + niveau ;
       }
       //ou... et Batiment est null :
@@ -1454,20 +1461,20 @@ var popupContent = [];
       }
     }
     //Batiment OU Niveau n'est pas null :
-    if ((feature.properties.Batiment !== "null" && feature.properties.Batiment !== null && feature.properties.Batiment !== "")
-    || (feature.properties.Niveau !== "null" && feature.properties.Niveau !== null && feature.properties.Niveau !== "")) {
+    if ((feature.properties.Batiment != "null" && feature.properties.Batiment != null && feature.properties.Batiment != "")
+    || (feature.properties.Niveau != "null" && feature.properties.Niveau != null && feature.properties.Niveau != "")) {
       popupContent += '</p>';
     }
     //Capacité n'est pas null :
-    if (feature.properties.Capacite !== "null" && feature.properties.Capacite !== null && feature.properties.Capacite !== "") {
+    if (feature.properties.Capacite != "null" && feature.properties.Capacite != null && feature.properties.Capacite != "") {
       popupContent += '<p>' + feature.properties.Capacite + '<p>';
     }
     //Info n'est pas null :
-    if (feature.properties.Info !== "null" && feature.properties.Info !== null && feature.properties.Info !== "") {
+    if (feature.properties.Info != "null" && feature.properties.Info != null && feature.properties.Info != "") {
       popupContent += '<p>' + feature.properties.Info + '<p>';
     }
     //Lien n'est pas null :
-    if (feature.properties.Lien !== "null" && feature.properties.Lien !== null && feature.properties.Lien !== "") {
+    if (feature.properties.Lien != "null" && feature.properties.Lien != null && feature.properties.Lien != "") {
       //Categorie est 'Oeuvre' :
       if (feature.properties.Categorie == 'Oeuvre') {
         popupContent += '<p><a href =" ' + feature.properties.Lien + '" target=\"_blank\">Explorer la storymap</a></p>';
@@ -1477,15 +1484,15 @@ var popupContent = [];
       }
     }
     //Mail n'est pas null :
-    if (feature.properties.Mail !== "null" && feature.properties.Mail !== null && feature.properties.Mail !== "") {
+    if (feature.properties.Mail != "null" && feature.properties.Mail != null && feature.properties.Mail != "") {
       popupContent += '<p>Contacter par mail : <a href="mailto:' + feature.properties.Mail + '">'+feature.properties.Mail+'</a></p>';
     }
     //Tel n'est pas null :
-    if (feature.properties.Tel !== "null" && feature.properties.Tel !== null && feature.properties.Tel !== "") {
+    if (feature.properties.Tel != "null" && feature.properties.Tel != null && feature.properties.Tel != "") {
       popupContent += '<p>Contacter par téléphone : <a href="tel:' + feature.properties.Tel + '">'+feature.properties.Tel+'</a></p>';
     }
     //Image n'est pas null :
-    if (feature.properties.Image !== "null" && feature.properties.Image !== null && feature.properties.Image !== "") {
+    if (feature.properties.Image != "null" && feature.properties.Image != null && feature.properties.Image != "") {
       //Categorie est ''Département de formation' 
       if (feature.properties.Categorie == 'Département de formation') {
         popupTitle += '<img style = \'height : 60px; position : absolute; right : 0;top:0\' src = \'' + feature.properties.Image + '?v=' + version +'\'/>'

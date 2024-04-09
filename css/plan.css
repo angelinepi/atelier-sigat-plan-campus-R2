@@ -153,8 +153,8 @@ h1.sitename {
     height: 80vh; /* Hauteur de 80% de la fenêtre */
 }
 
-/* Styles pour les boutons dans mapboxgl */
-.mapboxgl-ctrl > button {
+/* Styles pour les boutons dans maplibregl */
+.maplibregl-ctrl > button {
     height: 33px; /* Hauteur */
     width: 33px; /* Largeur */
     background-color: #fff; /* Couleur de fond */
@@ -164,30 +164,30 @@ h1.sitename {
     background-repeat: no-repeat; /* Pas de répétition de l'arrière-plan */
     background-position: center; /* Position de l'arrière-plan */
 }
-/* Styles pour le groupe de contrôles mapboxgl */
-.mapboxgl-ctrl-group {
+/* Styles pour le groupe de contrôles maplibregl */
+.maplibregl-ctrl-group {
   border-radius: 0; /* Rayon de bordure */
   box-shadow: none; /* Pas d'ombre */
 }
 
-/* Styles pour les boutons dans le groupe de contrôles mapboxgl */
-.mapboxgl-ctrl-group > button {
+/* Styles pour les boutons dans le groupe de contrôles maplibregl */
+.maplibregl-ctrl-group > button {
   border: 1px solid #e5e5e5; /* Bordure */
 }
 
-/* Styles pour la boussole dans le groupe de contrôles mapboxgl */
-.mapboxgl-ctrl-icon.mapboxgl-ctrl-compass > .mapboxgl-ctrl-compass-arrow {
+/* Styles pour la boussole dans le groupe de contrôles maplibregl */
+.maplibregl-ctrl-icon.maplibregl-ctrl-compass > .maplibregl-ctrl-compass-arrow {
   background-image: url("/css/icons/plan_boussole.svg"); /* Image de fond */
   margin-left: 40%; /* Marge à gauche */
 }
 
-/* Styles pour le bouton de zoom avant dans mapboxgl */
-.mapboxgl-ctrl-icon.mapboxgl-ctrl-zoom-in {
+/* Styles pour le bouton de zoom avant dans maplibregl */
+.maplibregl-ctrl-icon.maplibregl-ctrl-zoom-in {
   background-image: url("/css/icons/plan_zoom_plus.svg"); /* Image de fond */
 }
 
-/* Styles pour le bouton de zoom arrière dans mapboxgl */
-.mapboxgl-ctrl-icon.mapboxgl-ctrl-zoom-out {
+/* Styles pour le bouton de zoom arrière dans maplibregl */
+.maplibregl-ctrl-icon.maplibregl-ctrl-zoom-out {
   background-image: url("/css/icons/plan_zoom_moins.svg"); /* Image de fond */
 }
 
@@ -503,27 +503,35 @@ a.active {
   background-color: #fff; /* Couleur de fond */
   background-image: url('/css/icons/radio_on.svg'); /* Image de fond */
 }
-/* Styles pour la popup de la carte mapboxgl */
-.mapboxgl-popup {
+
+
+/* --- LES POPUPS MAPLIBRE --- */
+/* Styles pour la popup*/
+.maplibregl-popup {
   opacity: 1; /* Opacité */
   top: 40px; /* Position depuis le haut */
   max-width: 550px; /* Largeur maximale */
   max-height: 400px; /* Hauteur maximale */
 }
 
+/* Styles pour la pointe de la popup lorsque ancrée en haut */
+.maplibregl-popup-anchor-top > .maplibregl-popup-tip {
+  border-bottom-color: #fff; /* Couleur de la bordure inférieure */
+}
+
 /* Styles spécifiques pour la popup de la carte avec la classe popup-bati */
-.mapboxgl-popup.popup-bati,
-.mapboxgl-popup.popup-bati * {
+.maplibregl-popup.popup-bati,
+.maplibregl-popup.popup-bati * {
   pointer-events: none; /* Désactiver les événements pointeur pour les éléments de la popup */
 }
 
-/* Styles pour les images dans la popup de la carte */
-.mapboxgl-popup img {
+/*images*/
+.maplibregl-popup img {
   height: 225px; /* Hauteur */
 }
 
 /* Styles pour le contenu de la popup de la carte */
-.mapboxgl-popup-content {
+.maplibregl-popup-content {
   box-shadow: none; /* Pas d'ombre */
   border-radius: 0; /* Pas de bordure arrondie */
   font-size: 14px; /* Taille de police */
@@ -533,29 +541,30 @@ a.active {
   color: #434A54; /* Couleur du texte */
 }
 
-/* Styles pour les titres dans le contenu de la popup de la carte */
-.mapboxgl-popup-content h1 {
+/*titres*/
+.maplibregl-popup-content > h1 {
   background-color: #434A54; /* Couleur de fond */
   font-size: 14px; /* Taille de police */
   font-family: "Roboto"; /* Police de caractère */
   font-weight: 500; /* Poids de la police */
-  padding: 10px; /* Rembourrage */
+  padding: 10px;
   color: #fff; /* Couleur du texte */
   border-radius: 0; /* Pas de bordure arrondie */
 }
 
-/* Styles pour la description dans le contenu de la popup de la carte */
-.mapboxgl-popup-content .description {
-  padding: 10px; /* Rembourrage */
+/*description*/
+.maplibregl-popup-content .description {
+  padding: 10px;
 }
 
-/* Styles pour les paragraphes dans le contenu de la popup de la carte */
-.mapboxgl-popup-content p {
+/*paragraphes*/
+.maplibregl-popup-content p {
   font-size: 14px; /* Taille de police */
 }
 
+/* LES BOUTONS DE CONTROLES MAPLIBRE */
 /* Styles pour le contrôle de géolocalisation de mapbox */
-.mapboxgl-ctrl-icon.mapboxgl-ctrl-geolocate {
+.maplibregl-ctrl-icon.maplibregl-ctrl-geolocate {
   background-image: url("/css/icons/plan_localisation.svg"); /* Image de fond */
   background-size: 20px 20px; /* Taille de l'image de fond */
   background-repeat: no-repeat; /* Pas de répétition */
@@ -572,11 +581,6 @@ a.active {
   right: 0; /* Position depuis la droite */
   display: inline-block; /* Affichage en ligne */
   z-index: 9999; /* Z-index */
-}
-
-/* Styles pour la pointe de la popup lorsque ancrée en haut */
-.mapboxgl-popup-anchor-top > .mapboxgl-popup-tip {
-  border-bottom-color: #fff; /* Couleur de la bordure inférieure */
 }
 
 /* Styles pour le footer */
@@ -776,10 +780,10 @@ button.navbar-toggle {
       width: 100%;
   }
  
-  .mapboxgl-ctrl-top-left {
+  .maplibregl-ctrl-top-left {
       top: 40px;
   }
-  .mapboxgl-ctrl-top-right {
+  .maplibregl-ctrl-top-right {
       margin-top: 40px;
   }
 }
@@ -801,7 +805,7 @@ button.navbar-toggle {
     margin : 0;
     padding: 0;
   }
-  .mapboxgl-ctrl-bottom-left, .mapboxgl-ctrl.mapboxgl-ctrl-scale {
+  .maplibregl-ctrl-bottom-left, .maplibregl-ctrl.maplibregl-ctrl-scale {
     bottom: 5%;
   }
   .attribution-container {
