@@ -7,7 +7,6 @@
       //replace remplace les caractères spéciaux en caractères échappés "(?:\\=([^&]*))?)?.*$"
       //"i" = insensible à la casse  
   }
-  
 
   var overlay = getQueryStringValue("layer").toString(); //extraction de la valeur du paramètre d'URL "layer"
   var overlayPoint = getQueryStringValue("point").toString(); //extraction de la valeur du paramètre d'URL "point"
@@ -20,6 +19,7 @@
   var largeurEcran = screen.width
   var zoomBase = 15.8;
   var BoutonsD = document.getElementById("DDD")
+  var BoutonP = document.getElementById("print")
 
   //création du bouton 2D
   var Bouton2D = document.createElement('button'); 
@@ -33,6 +33,11 @@
   Bouton3D.setAttribute("class", "btn btn-primary");
   Bouton3D.setAttribute("id", "DDDButton");
   Bouton3D.innerHTML = '3D';
+
+  //création du bouton imprimer
+  var BoutonPrint = document.createElement('button'); 
+  BoutonPrint.setAttribute("class", "btn btn-primary");
+  BoutonPrint.setAttribute("id", "printButton");
 
   //configuration page selon dimension de la fenetre du navigateur selon le device utilisé (téléphone ou autre)
   if (largeurEcran < 500) {
@@ -84,7 +89,8 @@
     minZoom: 13, // zoom minimal
     pitch: 0, // inclinaison de base
     maxBounds: rennesBounds,
-    attributionControl: false // starting zoom
+    attributionControl: false, // starting zoom
+    preserveDrawingBuffer : true //permet d'imprimer la carte (sur firefox)
   });
   map.dragRotate.disable(); // vue 2D de base
   if (device == 'phone') {
@@ -759,7 +765,7 @@
 
     if (document.getElementsByClassName('leaf active')) {
       var previousActiveLeaves = document.getElementsByClassName('leaf active');
-      for (i = 0; i < previousActiveLeaves.length; i++) {
+      for (let i = 0; i < previousActiveLeaves.length; i++) {
         previousActiveLeaves[i].classList.remove('active');
       }
     }
@@ -1279,7 +1285,7 @@
 
             ////////// Definition de la deuxième fonction etiqOverlay() ////////// 
             function etiqOverlay() {
-              overlayEtiquette = map.addLayer({
+              var overlayEtiquette = map.addLayer({
                 id: nomDeLaCoucheEtiquette,
                 type: "symbol",
                 source: {
@@ -1611,6 +1617,11 @@ var elLink, elList;
     zoomVillejean.classList.remove('active');
     zoomLaHarpe.classList.remove('active');
   });
+
+ //Evénément click pour déclancher l'impression
+const boutonPrinter = document.getElementById('imprimer');
+boutonPrinter.addEventListener('click', function () {
+  window.print()})
 
 //////////////////////////////////   Initialisation des données carte //////////////////////////////////////
   var POIBrut = (function () {
@@ -2643,9 +2654,8 @@ var elLink, elList;
 
 
 //////////////////////////////////   3D   //////////////////////////////////////
-  DDButton = document.getElementById('DDButton');
-  DDDButton = document.getElementById('DDDButton');
-  DDD = false;
+  var DDButton = document.getElementById('DDButton');
+  var DDDButton = document.getElementById('DDDButton');
   var zoomCible;
 
   DDDButton.addEventListener('click', function () {
