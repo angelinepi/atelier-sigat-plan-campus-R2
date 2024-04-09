@@ -559,13 +559,13 @@
         if (e.features[0].properties.Nom != "null" && e.features[0].properties.Nom != null && e.features[0].properties.Nom != "") {
           popupTitle = e.features[0].properties.Nom;
         }
-        if (e.features[0].properties.Photo != "null" && e.features[0].properties.Photo !=null && e.features[0].properties.Photo != "") {
+        if (e.features[0].properties.Photo != "null" && e.features[0].properties.Photo != null && e.features[0].properties.Photo != "") {
           popupContent += '<img src = \'' + e.features[0].properties.Photo + '?v='+version+'\'/>'
         }
         if (e.features[0].properties.Infos != "null" && e.features[0].properties.Infos != null && e.features[0].properties.Infos != "") {
           popupContent += '<p>' + e.features[0].properties.Infos + '<p>';
         }
-        if (popupBati !== null) {
+        if (popupBati != null) {
           popupBati.remove();
         }
         ;
@@ -666,29 +666,22 @@
       var popupTitle = '';
       popupContent = '';
       if (Layers.length == 0) {
-        if (e.features[0].properties.Nom != "null" && e.features[0].properties.Nom != null && e.features[0].properties.Nom != "") {
+        if (e.features[0].properties.Nom != "null" && e.features[0].properties.Nom != null e.features[0].properties.Nom != "") {
           popupTitle = e.features[0].properties.Nom;
           // console.log(popupTitle);
-          console.log(e.features[0].properties.Nom == "null");
-          console.log(e.features[0].properties.Nom == null);
         }
         if (e.features[0].properties.Photo != "null" && e.features[0].properties.Photo != null && e.features[0].properties.Photo != "") {
           popupContent += '<img src = \'' + e.features[0].properties.Photo + '?v=' + version + '\'/>'
-          //console.log(popupContent); // verification du lien de l'image
-          console.log(e.features[0].properties.Photo == "null");
-          console.log(e.features[0].properties.Photo == null);
+          // console.log(popupContent); // verification du lien de l'image
         }
         if (e.features[0].properties.Info != "null" && e.features[0].properties.Info != null && e.features[0].properties.Info != "") {
           popupContent += '<p>' + e.features[0].properties.Info + '<p>';
-          console.log(e.features[0].properties.Info);
-          console.log(e.features[0].properties.Info == "null");
-          console.log(e.features[0].properties.Info == null);
         }
-        if (popupBati != null) {
+        if (popupBati !== null) {
           popupBati.remove();
         }
         ;
-        if (e.features[0].properties.Nom != "null" && e.features[0].properties.Nom != null && e.features[0].properties.Nom != null) {
+        if (e.features[0].properties.Nom != "null" && e.features[0].properties.Nom != null && e.features[0].properties.Nom != "") {
           if ((popup == null || popup.isOpen() == false) && (searchPopup == null || searchPopup.isOpen() === false) && (popupList == null || popupList.isOpen() === false)) {
 
             popupBati = new maplibregl.Popup({
