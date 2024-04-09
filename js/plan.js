@@ -688,7 +688,7 @@
           popupBati.remove();
         }
         ;
-        if (e.features[0].properties.Nom != "null" && e.features[0].properties.Nom != null && e.features[0].properties.Nom != "") {
+        if (e.features[0].properties.Nom != "null" && e.features[0].properties.Nom != null && e.features[0].properties.Nom != null) {
           if ((popup == null || popup.isOpen() == false) && (searchPopup == null || searchPopup.isOpen() === false) && (popupList == null || popupList.isOpen() === false)) {
 
             popupBati = new maplibregl.Popup({
