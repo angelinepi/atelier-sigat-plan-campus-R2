@@ -89,7 +89,8 @@
     minZoom: 13, // zoom minimal
     pitch: 0, // inclinaison de base
     maxBounds: rennesBounds,
-    attributionControl: false // starting zoom
+    attributionControl: false, // starting zoom
+    preserveDrawingBuffer : true //permet d'imprimer la carte (sur firefox)
   });
   map.dragRotate.disable(); // vue 2D de base
   if (device == 'phone') {

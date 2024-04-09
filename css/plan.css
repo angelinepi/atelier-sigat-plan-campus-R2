@@ -335,7 +335,6 @@ color: green;
   background-color: red;  
   padding: 10px;
 }
-
 .btn-imprimer {
   background-image: url('/css/icons/printer.svg');
   background-size: 30px 30px;
@@ -793,14 +792,22 @@ button.navbar-toggle {
   }
 }
 
-
-/* Regles d'élements à afficher ou non pour imprimer le plan
+/* Paramétrages des éléments imprimés ou non */
 @media print {
-  header,nav, .btn-group {
-    display: none;
+  header, nav, .btn-group  {
+    display : none;
   }
   #page-wrapper {
-    margin-left: 0;
-    height: 100%;
+    margin : 0;
+    padding: 0;
   }
-} */
+  .mapboxgl-ctrl-bottom-left, .mapboxgl-ctrl.mapboxgl-ctrl-scale {
+    bottom: 5%;
+  }
+  .attribution-container {
+    bottom:0;
+  }
+  @page {
+    size: landscape;
+  }
+}
