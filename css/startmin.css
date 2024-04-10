@@ -276,7 +276,8 @@ a {
     line-height: normal
 }
 .maplibregl-popup-content img{
-height : 125px;
+    max-height: 125px;
+    max-width: 100%;
 }
 .maplibregl-popup-content a {
     margin-left : 5px;

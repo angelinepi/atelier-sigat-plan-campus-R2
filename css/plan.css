@@ -532,6 +532,7 @@ a.active {
 
 /* Styles pour le contenu de la popup de la carte */
 .maplibregl-popup-content {
+  text-align: center;
   box-shadow: none; /* Pas d'ombre */
   border-radius: 0; /* Pas de bordure arrondie */
   font-size: 14px; /* Taille de police */
@@ -543,6 +544,7 @@ a.active {
 
 /*titres*/
 .maplibregl-popup-content > h1 {
+  text-align: left;
   background-color: #434A54; /* Couleur de fond */
   font-size: 14px; /* Taille de police */
   font-family: "Roboto"; /* Police de caractère */

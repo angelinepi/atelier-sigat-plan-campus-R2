@@ -666,7 +666,7 @@
       var popupTitle = '';
       popupContent = '';
       if (Layers.length == 0) {
-        if (e.features[0].properties.Nom != "null" && e.features[0].properties.Nom != null e.features[0].properties.Nom != "") {
+        if (e.features[0].properties.Nom != "null" && e.features[0].properties.Nom != null && e.features[0].properties.Nom != "") {
           popupTitle = e.features[0].properties.Nom;
           // console.log(popupTitle);
         }
@@ -813,9 +813,8 @@
   function addPictoFondDeCarte() {
     //picto fond de carte
     //Picto permanent Bibliothèque
-    map.loadImage("../css/icons/iconfond/biblio.png", function (error, image) {
-      if (error)
-        throw error;
+    map.loadImage("../css/icons/iconfond/biblio.png").then(response => {
+      const image = response.data;
       if (!map.hasImage("biblio")) {
         map.addImage('biblio', image);
       }
@@ -836,9 +835,8 @@
     });
 
     //Picto permanent Caféteria
-    map.loadImage("../css/icons/iconfond/cafe.png", function (error, image) {
-      if (error)
-        throw error;
+    map.loadImage("../css/icons/iconfond/cafe.png").then(response => {
+      const image = response.data;
       if (!map.hasImage("cafe")) {
         map.addImage('cafe', image);
       }
@@ -860,9 +858,8 @@
 
 
     //Picto permanent Restaurant U
-    map.loadImage("../css/icons/iconfond/resto.png", function (error, image) {
-      if (error)
-        throw error;
+    map.loadImage("../css/icons/iconfond/resto.png").then(response => {
+      const image = response.data;
       if (!map.hasImage("resto")) {
         map.addImage('resto', image);
       }
@@ -883,9 +880,8 @@
     });
 
     //Picto permanent Parking
-    map.loadImage("../css/icons/iconfond/parking.png", function (error, image) {
-      if (error)
-        throw error;
+    map.loadImage("../css/icons/iconfond/parking.png").then(response => {
+      const image = response.data;
       if (!map.hasImage("parking")) {
         map.addImage('parking', image);
       }
@@ -906,9 +902,8 @@
     });
 
     //Picto permanent Metro
-    map.loadImage("../css/icons/iconfond/metro.png", function (error, image) {
-      if (error)
-        throw error;
+    map.loadImage("../css/icons/iconfond/metro.png").then(response => {
+      const image = response.data;
       if (!map.hasImage("metro")) {
         map.addImage('metro', image);
       }
@@ -929,9 +924,8 @@
     });
 
     //Picto permanent Pôle Sante
-    map.loadImage("../css/icons/iconfond/sante.png", function (error, image) {
-      if (error)
-        throw error;
+    map.loadImage("../css/icons/iconfond/sante.png").then(response => {
+      const image = response.data;
       if (!map.hasImage("sante")) {
         map.addImage('sante', image);
       }
@@ -952,9 +946,8 @@
     });
 
     //Picto permanent Piscine
-    map.loadImage("../css/icons/iconfond/piscine.png", function (error, image) {
-      if (error)
-        throw error;
+    map.loadImage("../css/icons/iconfond/piscine.png").then(response => {
+      const image = response.data;
       if (!map.hasImage("piscine")) {
         map.addImage('piscine', image);
       }
@@ -975,9 +968,8 @@
     });
 
     //Picto permanent Bus
-    map.loadImage("../css/icons/iconfond/bus.png", function (error, image) {
-      if (error)
-        throw error;
+    map.loadImage("../css/icons/iconfond/bus.png").then(response => {
+      const image = response.data;
       if (!map.hasImage("bus")) {
         map.addImage('bus', image);
       }
@@ -1010,9 +1002,8 @@
       markerOffset = [-40, -50]
     }
 
-    map.loadImage(iconURL, function (error, image) {
-      if (error)
-        throw error;
+    map.loadImage(iconURL).then(response => {
+      const image = response.data;
       map.addImage(name + 'image', image);
       map.addLayer({
         "id": name,
@@ -1151,9 +1142,8 @@
 //	        			console.log(markerOffset)
           }
           // symbole associé au marker //  
-          map.loadImage(colorOrUrl, function (error, image) {
-            if (error)
-              throw error;
+          map.loadImage(colorOrUrl).then(response => {
+            const image = response.data;
             map.addImage(nomDeLaCouche + 'image', image);
             map.addLayer({
               "id": nomDeLaCouche,
@@ -1258,9 +1248,8 @@
         }
         if (type == 'picto') {
 //	            	console.log(colorOrUrl);
-          map.loadImage(colorOrUrl, function (error, image) {
-            if (error)
-              throw error;
+          map.loadImage(colorOrUrl).then(response => {
+            const image = response.data;
             map.addImage(nomDeLaCouche + 'image', image);
             map.addLayer({
               "id": nomDeLaCouche,
@@ -2563,9 +2552,8 @@ boutonPrinter.addEventListener('click', function () {
         searchItem = POI[i]; //Si un POI correspondant est trouvé (dans la liste POI), il est assigné à searchItem
 
         //charge une image qui sera utilisée comme icône pour le POI recherché
-        map.loadImage('../css/icons/layers_icons/recherche.png', function (error, image) {
-          if (error)
-            throw error;
+        map.loadImage('../css/icons/layers_icons/recherche.png').then(response => {
+          const image = response.data;
           map.addImage(searchLayerId + 'image', image);
 
           //ajoute une nouvelle couche de symboles à la carte pour afficher le POI recherché
