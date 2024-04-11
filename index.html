@@ -11,10 +11,10 @@
     <title>Plan interactif Rennes 2</title>
     <link rel="shortcut icon" href="favicon.png" type="image/png">
    
-    <!-- API MAPBOX GL-->
-    <link href="./css/maplibre-gl-v1-14-0.css" rel='stylesheet' />
-   
     <!-- CHARGEMENT DES FEUILLES DE STYLE CSS -->
+
+      <!-- API MAPLIBRE GL-->
+      <link href="https://unpkg.com/maplibre-gl/dist/maplibre-gl.css" rel='stylesheet' />
 
       <!--boostrap-->
       <!-- <link href="./css/bootstrap.min.css" rel="stylesheet">   -->
@@ -68,10 +68,9 @@
 
   <body>
 
-    <!-- MAPBOX GL -->
-    <script src='./js/maplibre-gl-v1-14-0.js'></script>
-    <!-- KO : <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.0/mapbox-gl.js"></script>-->
-   
+    <!-- API MAPLIBRE GL -->
+    <script src="https://unpkg.com/maplibre-gl/dist/maplibre-gl.js"></script>
+  
     <!-- JQUERY  -->
     <script src="./js/jquery.min.js"></script>
     <!-- <script src="https://code.jquery.com/jquery-1.11.2.js" integrity="sha256-WMJwNbei5YnfOX5dfgVCS5C4waqvc+/0fV7W2uy3DyU=" crossorigin="anonymous"></script> -->
@@ -87,9 +86,6 @@
     <!-- Menu étendu/réduit -->
     <script src="./js/metisMenu.min.js"></script> <!-- Metis Menu Plugin JavaScript -->
     <script src="./js/startmin.js"></script> <!-- Custom Theme JavaScript -->
-   
-    <!-- Image et message de chargement de la carte -->
-    <div class = "loader"><center><img id = "loader-img" src = 'css/ajax-loader.gif'><h1>Chargement de la page</h1></center></div> <!-- LOADER -->
 
     
     <header>
@@ -114,6 +110,12 @@
         </div>
       
       </div>
+
+      <!-- Bouton Imprimer la carte-->
+      <div id="print" class="btn-header">
+        <button  id="imprimer" class="btn-imprimer" ></button>
+      </div>
+
     </header>
     
     <!-- Bloc restant de la page (en dessous du bandeau) carte + menu -->
@@ -339,26 +341,34 @@
                 </ul>
               </li>
 
-              <!-- Sport et santé -->
+              <!-- Prévention, Santé, Sport -->
               <li>
 
-                <a href="#"><span class="section-name">Sport et santé</span>
-                  <span class="section-image"><img  src = "css/icons/sport.svg"/></span>
+                <a href="#"><span class="section-name">Prévention, Santé, Sport</span>
+                  <span class="section-image"><img  src = "/css/icons/sport.svg"/></span>
                   <span class="fa arrow"></span>
                 </a>
-                
+
                 <ul class="nav nav-second-level">
 
                   <li id = "Equipement sportif">
                     <a class="case" href="#" >Equipements sportifs</a>
                   </li>
-                  
-                  <li id = "Pole santé">
-                    <a class="case" href="#" >Pole santé</a>
+
+                  <li id = "Pôle santé et prévention">
+                    <a class="case" href="#" >Pôle santé et prévention</a>
+                  </li>
+
+                   <li id = "Ressources humaines">
+                    <a class="case" href="#" >Ressources humaines</a>
+                  </li>
+
+                  <li id = "Assistants de prévention">
+                    <a class="case" href="#" >Assistants de prévention</a>
                   </li>
 
                 </ul>
-              
+
               </li>
               
               <!-- Vie associative -->
@@ -491,28 +501,30 @@
       </nav>
       <!-- FIN Navigation -->
 
-
-      <!-- Onglets géographiques-->
       <div id="page-wrapper" >
         <div class="container-fluid">
-          <div id="map" > <!-- Ajout depuis le JS -->
+          <div id="map" >
+
+            <!-- Boutons 2D/3D-->
             <div id="DDD" class="btn-group">
-<!--  bouton 2D / 3D crées dans le js  -->
+                          <!-- Les boutons sont créés dans plan.js -->
             </div>
+
+            <!-- Onglets géographiques-->
             <div id="campus" class="btn-group">
               <button  class="btn btn-primary" id="Villejean">Villejean</button> <!-- enlever le bouton actif pour les liens -->
               <button  class="btn btn-primary" id="LaHarpe">La Harpe</button>
               <button  class="btn btn-primary" id="Mazier">Mazier</button>
             </div>
+
           </div>
 
           <!-- ajout des popups ici surement dans le js -->
         </div>
       </div>
-      <!-- FIN Onglets géographiques-->
-
+      
     </div>
-    
+ 
   <!--   <footer class="footer" role="contentinfo">
         <div class="region region-footer">
           <div class="container" id="footer-up">
@@ -600,13 +612,7 @@
       </footer>-->
 
     <!-- SCRIPTS JS-->
-    <script type="module" src="./js/token.js"></script> <!--les tokens du fond de plan-->
-    <script type="module" src="./js/plan.js"></script> <!--la carte et le menu-->
-
-    <script>jQuery(window).load(function () {
-        jQuery(".loader").fadeOut("200");
-      });
-    </script>
-
+    <script src="./js/token.js"></script> <!--les tokens du fond de plan-->
+    <script id="plan" data-version="14032024" src="/js/plan.js?v=14032024"></script>
   </body>
 </html>
