@@ -1,14 +1,5 @@
   //définition d'une fonction permettant l'extraction d'une valeur d'un paramètre d'URL (avec expression régulière)
-// Importation du token fond de carte MapTiler au début de la fonction IIFE
-import {mapToken} from './token.js';
-
-(function ($) {
-  ///////////////////////////// code origine ////////////////////////////
-  //ci-dessous l'extraction d'une valeur d'un paramètre d'URL (avec expression régulière) 
-
   function getQueryStringValue(key) {
-    console.log('key:', key);
-    console.log('window.location.search:', window.location.search); 
     return decodeURIComponent(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + encodeURIComponent(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
     //window.location.search : indique la barre où se trouve l'URL, puis concatenation de :
       //la RegExp recherche n'importe quel caractère suivi de ? ou & (replace(/[\.\+\*]/g, "\\$&"))
@@ -22,254 +13,249 @@ import {mapToken} from './token.js';
   var version = document.getElementById("plan").getAttribute("data-version");
 
 
-  } // Fonction pour récupérer la valeur du paramètre de l'URL
-
-  var overlay = getQueryStringValue("layer").toString(); // Récupérer la valeur du paramètre de couche
-  var overlayPoint = getQueryStringValue("point").toString();
-
   // fonction utilisé lors du chargement 
 
-////////////////////////////// fin code origine ////////////////////////////
+  ////////////////////////////// fin code origine ////////////////////////////
 
 
-/**
- * Créer un lien vers le site Zone Téléchargement
- * @param campus Nom du campus
- * @param categories Nom de la catégorie
- * @param objet Nom de l'objet/élément 
- * les autres paramètres 
- * @returns {string} URL de recherche
- */
+  /**
+   * Créer un lien vers le site Zone Téléchargement
+   * @param campus Nom du campus
+   * @param categories Nom de la catégorie
+   * @param objet Nom de l'objet/élément 
+   * les autres paramètres 
+   * @returns {string} URL de recherche
+   */
 
-/////////////////////////////////// code pour changer de campus /////////////////////////////
+  /////////////////////////////////// code pour changer de campus /////////////////////////////
 
-// // Fonction pour créer une URL avec un paramètre de campus et mettre à jour l'URL de la page
-// function createLinkAndUpdateURL(campus, categories) { // parametre non obligatoire possibles (ex: 2D/3D)
-//   let url = `http://127.0.0.1:5500/?`; // changer l'adresse du site par le vrai 
-  
-//   url += `campus=${encodeURIComponent(campus)}`; // Ajouter le paramètre de campus à l'URL encodeURIComponent pour gérer les caractères spéciaux
-  
-//   // attendre la réparation du bug pour activer les boutons 2D et 3D 
-//     // pas mis dans la fonction car pas obligatoire (pour le moment)
-//   if (BoutonsD == '2D') {
-//     url += `&D=2D`;
-//   }  //2D ou 3D 
-//   else {
-//     url += `&D=3D`;
-//   }
-//   //////// attendre la réparation du bug pour activer les boutons 2D et 3D inutile ? 
+  // Fonction pour créer une URL avec un paramètre de campus et mettre à jour l'URL de la page
+  function createLinkAndUpdateURL(campus, categories) { // parametre non obligatoire possibles (ex: 2D/3D)
+    let url = `http://127.0.0.1:5500/?`; // changer l'adresse du site par le vrai 
+    
+    url += `campus=${encodeURIComponent(campus)}`; // Ajouter le paramètre de campus à l'URL encodeURIComponent pour gérer les caractères spéciaux
+    
+    // attendre la réparation du bug pour activer les boutons 2D et 3D 
+      // pas mis dans la fonction car pas obligatoire (pour le moment)
+    if (BoutonsD == '2D') {
+      url += `&D=2D`;
+    }  //2D ou 3D 
+    else {
+      url += `&D=3D`;
+    }
+    //////// attendre la réparation du bug pour activer les boutons 2D et 3D inutile ? 
 
-//   url += `&layers=${encodeURIComponent(categories)}`; // Ajouter le paramètre de couche à l'URL 
-//   // à ajouter : paramêtre multiple pour les catégories
-
-
-//   // Mettre à jour l'URL sans recharger la page
-//   history.pushState({ campus: campus }, campus, url);
-//   return url;
-// }
+    url += `&layers=${encodeURIComponent(categories)}`; // Ajouter le paramètre de couche à l'URL 
+    // à ajouter : paramêtre multiple pour les catégories
 
 
-
-// // Sélectionner tous les boutons de campus
-// const campusButtons = document.querySelectorAll('.btn.btn-primary');
-// const categoriesCase = document.querySelectorAll('.case'); // Sélectionner toutes les cases de catégorie
-
-
-// // Ajouter un gestionnaire d'événements à chaque bouton de campus + création de lien et mise à jour de l'URL 
-// campusButtons.forEach(function(button) {
-//   button.addEventListener('click', function(event) {
-//     const campusName = event.target.textContent.trim(); // Récupérer le nom du campus à partir du bouton cliqué
-//     createLinkAndUpdateURL(campusName); // Passer une chaîne vide pour les catégories car les boutons de campus ne semblent pas concernés par les catégories
-//   });
-// });
-// // cf contentpage et essayer de faire pareil, une fonction 
-
-// // // Ajouter un gestionnaire d'événements à chaque case de catégorie + création de lien et mise à jour de l'URL 
-// // categoriesCase.forEach(function(li) { 
-// //   li.addEventListener('click', function(event) {
-// //     const categorieName = event.target.textContent.trim(); // Récupérer le nom de la catégorie à partir de la case cliquée
-// //     createLinkAndUpdateURL(campusName, categorieName); // Passer une chaîne vide pour le campus car les cases de catégorie ne semblent pas concernées par le campus
-// //   });
-// // });
-
-
-
-// // Fonction pour activer le bouton correspondant au nom du campus
-// function activateCampusButton(campusName) {
-//   const campusButtons = document.querySelectorAll('.btn.btn-primary');
-//   campusButtons.forEach(function(button) {
-//     if (button.textContent.trim() === campusName) {
-//       button.classList.add('active'); // Ajouter la classe active au bouton 
-
-//       // Ajouter la logique pour définir le zoom en fonction du campus
-//       if (campusName === 'Mazier') {
-//         map.setMaxBounds(mazierBounds);
-//         map.flyTo({
-//           zoom: zoomBase,
-//           center: [-2.7410000, 48.513033]
-//         });
-//       } else if (campusName === 'Villejean') {
-//         map.setMaxBounds(rennesBounds);
-//         map.flyTo({
-//           zoom: zoomBase,
-//           center: [-1.7013, 48.119365]
-//         });
-//       } else if (campusName === 'La Harpe') {
-//         map.setMaxBounds(rennesBounds);
-//         map.flyTo({
-//           zoom: zoomBase,
-//           center: [-1.7091, 48.1254]
-//         });
-//       }
-
-//     } else {
-//       button.classList.remove('active');
-//     }
-//   });
-// }
-// // fonction a revoir, redondance de code ??? 
-
-
-// // Fonction pour obtenir le nom du campus à partir de l'URL
-// function getCampusFromURL() {
-//   const urlParams = new URLSearchParams(window.location.search); // Récupérer les paramètres de l'URL
-//   return urlParams.get('campus'); // Récupérer la valeur du paramètre de campus
-// }
-
-// // Lorsque la page se charge, récupérez le nom du campus dans l'URL et activez le bouton correspondant
-// document.addEventListener('DOMContentLoaded', function() { // quand l'url est rechargé alors on récupère le campus si il y en a un alors on active le bouton correspondant
-//   const campusName = getCampusFromURL();
-//   if (campusName) {
-//     activateCampusButton(campusName);
-//     console.log('Campus:', campusName);
-//   }
-// });
-
-/////////////////////////// fin du code pour changer de campus /////////////////////////////
-
-
-
-// dire que quand y un espace %20
-// changer le lien directement dans l'url OK 
-// simplification + compréhension du code 
-
-
-
-////////////////////////////////// test popup lien /////////////////////////////
-
-
-
-/////////////////////////////////// code pour changer de campus /////////////////////////////
-
-// Fonction pour créer une URL avec un paramètre de campus et mettre à jour l'URL de la page
-function createLinkAndUpdateURL(objet) {
-  let url = `http://127.0.0.1:5500/?`;
-  url += `&objet=${encodeURIComponent(objet)}`; 
-
-  // Mettre à jour l'URL sans recharger la page
-  history.pushState({ objet: objet }, objet, url);
-  return url;
-}
-
-// // Appeler la fonction avec le paramètre souhaité
-// createLinkAndUpdateURL(objet);
-
-console.log(createLinkAndUpdateURL());
-
-
-// Sélectionner tous les boutons de popup 
-const popupButtons = document.querySelectorAll('.mapboxgl-popup');
-const marker = document.querySelectorAll('.marker');
-
-// verifier si les éléments sont présents sur la page 
-document.addEventListener('click', () => {
-
-  if (marker.length > 0) {
-    console.log("Les éléments marker sont présents sur la page et un clic a été effectué.");
-  } else {
-    console.log("Les éléments marker ne sont pas présents sur la page.");
+    // Mettre à jour l'URL sans recharger la page
+    history.pushState({ campus: campus }, campus, url);
+    return url;
   }
-});
 
 
-// verifier si les éléments sont présents sur la page 
-document.addEventListener('click', () => {
-  const popupButtons = document.querySelectorAll('.mapboxgl-popup');
 
-  if (popupButtons.length > 0) {
-    console.log("Les éléments popup sont présents sur la page et un clic a été effectué.");
-  } else {
-    console.log("Les éléments popup ne sont pas présents sur la page.");
-  }
-});
-
-
-// Ajouter un gestionnaire d'événements à chaque bouton de objet
-document.addEventListener('click', function(event) {
-  const target = event.target;
-  if (target.classList.contains('mapboxgl-popup')) {
-    const objetName = target.querySelector('h1').textContent.trim(); // Récupérer le nom de l'objet à partir du bouton cliqué
-    createLinkAndUpdateURL(objetName); 
-    console.log('test') // Appeler la fonction pour changer le objet et l'URL
-  }
-});
-
-
-// Fonction pour activer le bouton correspondant au nom du campus
-function activateCampusButton(campusName) {
+  // Sélectionner tous les boutons de campus
   const campusButtons = document.querySelectorAll('.btn.btn-primary');
+  const categoriesCase = document.querySelectorAll('.case'); // Sélectionner toutes les cases de catégorie
+
+
+  // Ajouter un gestionnaire d'événements à chaque bouton de campus + création de lien et mise à jour de l'URL 
   campusButtons.forEach(function(button) {
-    if (button.textContent.trim() === campusName) {
-      button.classList.add('active'); // Ajouter la classe active au bouton 
+    button.addEventListener('click', function(event) {
+      const campusName = event.target.textContent.trim(); // Récupérer le nom du campus à partir du bouton cliqué
+      createLinkAndUpdateURL(campusName); // Passer une chaîne vide pour les catégories car les boutons de campus ne semblent pas concernés par les catégories
+    });
+  });
+  // cf contentpage et essayer de faire pareil, une fonction 
 
-      // Ajouter la logique pour définir le zoom en fonction du campus
-      if (campusName === 'Mazier') {
-        map.setMaxBounds(mazierBounds);
-        map.flyTo({
-          zoom: zoomBase,
-          center: [-2.7410000, 48.513033]
-        });
-      } else if (campusName === 'Villejean') {
-        map.setMaxBounds(rennesBounds);
-        map.flyTo({
-          zoom: zoomBase,
-          center: [-1.7013, 48.119365]
-        });
-      } else if (campusName === 'La Harpe') {
-        map.setMaxBounds(rennesBounds);
-        map.flyTo({
-          zoom: zoomBase,
-          center: [-1.7091, 48.1254]
-        });
+  // // Ajouter un gestionnaire d'événements à chaque case de catégorie + création de lien et mise à jour de l'URL 
+  // categoriesCase.forEach(function(li) { 
+  //   li.addEventListener('click', function(event) {
+  //     const categorieName = event.target.textContent.trim(); // Récupérer le nom de la catégorie à partir de la case cliquée
+  //     createLinkAndUpdateURL(campusName, categorieName); // Passer une chaîne vide pour le campus car les cases de catégorie ne semblent pas concernées par le campus
+  //   });
+  // });
+
+
+
+  // Fonction pour activer le bouton correspondant au nom du campus
+  function activateCampusButton(campusName) {
+    const campusButtons = document.querySelectorAll('.btn.btn-primary');
+    campusButtons.forEach(function(button) {
+      if (button.textContent.trim() === campusName) {
+        button.classList.add('active'); // Ajouter la classe active au bouton 
+
+        // Ajouter la logique pour définir le zoom en fonction du campus
+        if (campusName === 'Mazier') {
+          map.setMaxBounds(mazierBounds);
+          map.flyTo({
+            zoom: zoomBase,
+            center: [-2.7410000, 48.513033]
+          });
+        } else if (campusName === 'Villejean') {
+          map.setMaxBounds(rennesBounds);
+          map.flyTo({
+            zoom: zoomBase,
+            center: [-1.7013, 48.119365]
+          });
+        } else if (campusName === 'La Harpe') {
+          map.setMaxBounds(rennesBounds);
+          map.flyTo({
+            zoom: zoomBase,
+            center: [-1.7091, 48.1254]
+          });
+        }
+
+      } else {
+        button.classList.remove('active');
       }
+    });
+  }
+  // fonction a revoir, redondance de code ??? 
 
-    } else {
-      button.classList.remove('active');
+
+  // Fonction pour obtenir le nom du campus à partir de l'URL
+  function getCampusFromURL() {
+    const urlParams = new URLSearchParams(window.location.search); // Récupérer les paramètres de l'URL
+    return urlParams.get('campus'); // Récupérer la valeur du paramètre de campus
+  }
+
+  // Lorsque la page se charge, récupérez le nom du campus dans l'URL et activez le bouton correspondant
+  document.addEventListener('DOMContentLoaded', function() { // quand l'url est rechargé alors on récupère le campus si il y en a un alors on active le bouton correspondant
+    const campusName = getCampusFromURL();
+    if (campusName) {
+      activateCampusButton(campusName);
+      console.log('Campus:', campusName);
     }
   });
-}
 
-// Fonction pour obtenir le nom du campus à partir de l'URL
-function getCampusFromURL() {
-  const urlParams = new URLSearchParams(window.location.search);
-  return urlParams.get('campus');
-}
-
-// Lorsque la page se charge, récupérez le nom du campus dans l'URL et activez le bouton correspondant
-document.addEventListener('DOMContentLoaded', function() {
-  const campusName = getCampusFromURL();
-  if (campusName) {
-    activateCampusButton(campusName);
-    console.log('Campus:', campusName);
-  }
-});
-
-/////////////////////////// fin du code pour changer de campus /////////////////////////////
+  /////////////////////////// fin du code pour changer de campus /////////////////////////////
 
 
 
-// IDEE : 
-  // faire une selection suivant le type d'élément / création d'une constante 
+  // dire que quand y un espace %20
+  // changer le lien directement dans l'url OK 
+  // simplification + compréhension du code 
+
+
+
+  ////////////////////////////////// test popup lien /////////////////////////////
+
+
+
+  /////////////////////////////////// code pour changer de campus /////////////////////////////
+
+  // // Fonction pour créer une URL avec un paramètre de campus et mettre à jour l'URL de la page
+  // function createLinkAndUpdateURL(objet) {
+  //   let url = `http://127.0.0.1:5500/?`;
+  //   url += `&objet=${encodeURIComponent(objet)}`; 
+
+  //   // Mettre à jour l'URL sans recharger la page
+  //   history.pushState({ objet: objet }, objet, url);
+  //   return url;
+  // }
+
+  // // // Appeler la fonction avec le paramètre souhaité
+  // // createLinkAndUpdateURL(objet);
+
+  // console.log(createLinkAndUpdateURL());
+
+
+  // // Sélectionner tous les boutons de popup 
+  // const popupButtons = document.querySelectorAll('.mapboxgl-popup');
+  // const marker = document.querySelectorAll('.marker');
+
+  // // verifier si les éléments sont présents sur la page 
+  // document.addEventListener('click', () => {
+
+  //   if (marker.length > 0) {
+  //     console.log("Les éléments marker sont présents sur la page et un clic a été effectué.");
+  //   } else {
+  //     console.log("Les éléments marker ne sont pas présents sur la page.");
+  //   }
+  // });
+
+
+  // // verifier si les éléments sont présents sur la page 
+  // document.addEventListener('click', () => {
+  //   const popupButtons = document.querySelectorAll('.mapboxgl-popup');
+
+  //   if (popupButtons.length > 0) {
+  //     console.log("Les éléments popup sont présents sur la page et un clic a été effectué.");
+  //   } else {
+  //     console.log("Les éléments popup ne sont pas présents sur la page.");
+  //   }
+  // });
+
+
+  // // Ajouter un gestionnaire d'événements à chaque bouton de objet
+  // document.addEventListener('click', function(event) {
+  //   const target = event.target;
+  //   if (target.classList.contains('mapboxgl-popup')) {
+  //     const objetName = target.querySelector('h1').textContent.trim(); // Récupérer le nom de l'objet à partir du bouton cliqué
+  //     createLinkAndUpdateURL(objetName); 
+  //     console.log('test') // Appeler la fonction pour changer le objet et l'URL
+  //   }
+  // });
+
+
+  // // Fonction pour activer le bouton correspondant au nom du campus
+  // function activateCampusButton(campusName) {
+  //   const campusButtons = document.querySelectorAll('.btn.btn-primary');
+  //   campusButtons.forEach(function(button) {
+  //     if (button.textContent.trim() === campusName) {
+  //       button.classList.add('active'); // Ajouter la classe active au bouton 
+
+  //       // Ajouter la logique pour définir le zoom en fonction du campus
+  //       if (campusName === 'Mazier') {
+  //         map.setMaxBounds(mazierBounds);
+  //         map.flyTo({
+  //           zoom: zoomBase,
+  //           center: [-2.7410000, 48.513033]
+  //         });
+  //       } else if (campusName === 'Villejean') {
+  //         map.setMaxBounds(rennesBounds);
+  //         map.flyTo({
+  //           zoom: zoomBase,
+  //           center: [-1.7013, 48.119365]
+  //         });
+  //       } else if (campusName === 'La Harpe') {
+  //         map.setMaxBounds(rennesBounds);
+  //         map.flyTo({
+  //           zoom: zoomBase,
+  //           center: [-1.7091, 48.1254]
+  //         });
+  //       }
+
+  //     } else {
+  //       button.classList.remove('active');
+  //     }
+  //   });
+  // }
+
+  // // Fonction pour obtenir le nom du campus à partir de l'URL
+  // function getCampusFromURL() {
+  //   const urlParams = new URLSearchParams(window.location.search);
+  //   return urlParams.get('campus');
+  // }
+
+  // // Lorsque la page se charge, récupérez le nom du campus dans l'URL et activez le bouton correspondant
+  // document.addEventListener('DOMContentLoaded', function() {
+  //   const campusName = getCampusFromURL();
+  //   if (campusName) {
+  //     activateCampusButton(campusName);
+  //     console.log('Campus:', campusName);
+  //   }
+  // });
+
+  /////////////////////////// fin du code pour changer de campus /////////////////////////////
+
+
+
+  // IDEE : 
+    // faire une selection suivant le type d'élément / création d'une constante 
 
   ///////////////////////////////////////  Initialisation du fond de carte //////////////////////////////////
 
@@ -342,7 +328,6 @@ document.addEventListener('DOMContentLoaded', function() {
   var map = new maplibregl.Map({
     container: 'map', // container id
     style: 'https://api.maptiler.com/maps/voyager/style.json?key='+mapToken, // stylesheet location + token déclaré dans token.js
-    style: 'https://api.maptiler.com/maps/positron/style.json?key='+mapToken, // stylesheet location
     
     center: [-1.7015402487767233, 48.11941846173602], // starting position [lng, lat]
     zoom: zoomBase,
@@ -967,7 +952,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       }
 
-    });
+    }});
 
     //Reset la coloration du polygone batiment quand la souris quitte la couche.
     map.on("mouseleave", bati2DHId, function () {
