@@ -682,7 +682,8 @@
         }
         ;
         if (e.features[0].properties.Nom != "null" && e.features[0].properties.Nom != null && e.features[0].properties.Nom != "") {
-          if ((popup == null || popup.isOpen() == false) && (searchPopup == null || searchPopup.isOpen() === false) && (popupList == null || popupList.isOpen() === false)) {
+          if ((popup == null || popup.isOpen() == false)  && (popupList == null || popupList.isOpen() === false)) { // supression d'une partie
+            // de la condition (&& (searchPopup == null || searchPopup.isOpen() === false)) car cela empêchait l'affichage des popup des bâtiments avec le nouvel appel des fonctions
 
             popupBati = new maplibregl.Popup({
               offset: [0, -45],
@@ -1613,26 +1614,56 @@ boutonPrinter.addEventListener('click', function () {
   window.print()})
 
 //////////////////////////////////   Initialisation des données carte //////////////////////////////////////
-  var POIBrut = (function () {
-    var json = null;
-    $.ajax({
-      'async': false,
-      'global': false,
-      'url': "../data/points.geojson?v="+version,
-      'dataType': "json",
-      'success': function (data) {
-        json = data;
-      }
-    });
-    return json;
-  })();
+ //ancienne appel du fichier points.geojson
+  // var contenu = (function () {
+  //   var json = null;
+  //   $.ajax({
+  //     'async': false,
+  //     'global': false,
+  //     'url': "../data/points.geojson?v="+version,
+  //     'dataType': "json",
+  //     'success': function (data) {
+  //       json = data;
+  //     }
+  //   });
+  //   return json;
+  // })();
+
+  // var fproperties = contenu.features.map(function (el) {
+  //   return el.properties;
+  // }); 
+
+
+// nouvel appel grâce à la fonction d'AP
+  const getGeoJSON = (nomFichier) => fetch(nomFichier).then(res => res.json()).then(res => res.features);
+
+  const geojsons = [
+    getGeoJSON("../data/filtre/amphi.geojson"),
+    getGeoJSON("../data/filtre/amphi.geojson"),
+    getGeoJSON("../data/filtre/ascenceur.geojson")
+  ];
+  
+  const finalGeoJSON = {
+    "type": "FeatureCollection",
+    "features": []
+  };
+  
+  Promise.all(geojsons).then(allGeoJsons => { //à l'intérieur de cette fonction se passe le regroupement des geojsons
+  allGeoJsons.forEach(oneGeoJSON => {
+  finalGeoJSON.features.concat(oneGeoJSON.features);
+  });
+  // TODO Appeler la fonction qui gère les données fusionnées
+  finalGeoJSON.features = allGeoJsons // recup de l'objet avec ts les geojsons
+  var mergedFeatures = finalGeoJSON.features.reduce((acc, val) => acc.concat(val), []);
+  finalGeoJSON.features = mergedFeatures // transformation de l'objet pour correspondre à l'ancien fichier points.geojson
+  POIBrut = finalGeoJSON // affectation de cette objet dans l'objet appelé par les couches dans le reste du code
   var POI = [];
   POI = POIBrut.features;
-
-  var fproperties = POIBrut.features.map(function (el) {
-    return el.properties;
-  });
-
+  var fproperties = finalGeoJSON.features.map(function (el) {
+  return el.properties;})
+  
+      
+  
   var lines = (function () {
     var jsonLines = null;
     $.ajax({
@@ -1655,7 +1686,7 @@ boutonPrinter.addEventListener('click', function () {
       type: "fill",
       source: {
         type: "geojson",
-        data: "../data/habillage/grass.geojson?v="+version
+        data: "../data/fondcarte/grass.geojson?v="+version
       },
       paint: {
         'fill-color': '#A4E463',
@@ -1672,7 +1703,7 @@ boutonPrinter.addEventListener('click', function () {
       type: "fill",
       source: {
         type: "geojson",
-        data: "../data/habillage/piste_athle.geojson?v="+version
+        data: "../data/fondcarte/piste_athle.geojson?v="+version
       },
       paint: {
         'fill-color': '#C09C83',
@@ -1684,7 +1715,7 @@ boutonPrinter.addEventListener('click', function () {
       type: "line",
       source: {
         type: "geojson",
-        data: "../data/habillage/terrain_football.geojson?v="+version
+        data: "../data/fondcarte/terrain_football.geojson?v="+version
       },
       "paint": {
         'line-color': '#FFFFFF',
@@ -1734,7 +1765,7 @@ boutonPrinter.addEventListener('click', function () {
       }
       sallesSpeCount += 1;
     }
-
+ 
 //////////////////////////////////  Structures et services //////////////////////////////////////
 
     if (overlay == 'Services communs') {
@@ -2408,15 +2439,19 @@ boutonPrinter.addEventListener('click', function () {
       map.getCanvas().style.cursor = (features.length) ? 'pointer' : '';
     });
   }
+
+
 ////////// fin de la définition de la fonction addRealTimeBus //////////
 
+  var searchBarCrossPresence = null;
 //////////////////////////////////  Barre de recherche //////////////////////////////////////
-
   // initialisation des popup
   var searchPopup = null
   var jproperties = fproperties.filter(function (e) {
     return e.Nom !== null;
   })
+
+
   // Récupération des propriétés du json
   var searchValue = null;
   var searchItem = [];
@@ -2424,7 +2459,7 @@ boutonPrinter.addEventListener('click', function () {
   var searchY = null;
   var searchLayerCount = 0;
   var searchLayerId = 'SearchResult';
-  var searchPopup = null
+  // var searchPopup = null
   var options = {
     data: jproperties,
     getValue: "Nom",
@@ -2442,7 +2477,16 @@ boutonPrinter.addEventListener('click', function () {
     },
     theme: "plate-dark"
   };
+
+
   $("#searchfield").easyAutocomplete(options);
+
+})
+.catch(e => {
+  alert("Erreur oups");
+  console.error(e);
+}); // fin de la fonction aggrégeant les geojsons. Je la fait se fermer un peu après la partie
+//concernant les couches car cela désactive la barre de recherche sinon
 
   ////////// définition de la fonction getSearchPopup //////////
   function getSearchPopup() {
@@ -2521,8 +2565,6 @@ boutonPrinter.addEventListener('click', function () {
   }
   ;
   ////////// fin de la définition de la fonction getSearchPopup //////////
-
-  var searchBarCrossPresence = null;
 
   ////////// définition de la fonction getSearchedItem //////////
   function getSearchedItem(item) {
@@ -2805,3 +2847,4 @@ boutonPrinter.addEventListener('click', function () {
     });
 
   });
+
