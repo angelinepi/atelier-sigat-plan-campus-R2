@@ -1633,14 +1633,64 @@ boutonPrinter.addEventListener('click', function () {
   //   return el.properties;
   // }); 
 
+  var lines = (function () { //appel du fichier lineaire original, pas forcément besoin de l'éclater en fait..
+    var jsonLines = null;
+    $.ajax({
+      'async': false,
+      'global': false,
+      'url': "../data/lineaire.geojson?v="+version,
+      'dataType': "json",
+      'success': function (data) {
+        jsonLines = data;
+      }
+    });
+    return jsonLines;
+  })();
 
 // nouvel appel grâce à la fonction d'AP
   const getGeoJSON = (nomFichier) => fetch(nomFichier).then(res => res.json()).then(res => res.features);
 
   const geojsons = [
+    getGeoJSON("../data/filtre/acces_PMR.geojson"),
     getGeoJSON("../data/filtre/amphi.geojson"),
-    getGeoJSON("../data/filtre/amphi.geojson"),
-    getGeoJSON("../data/filtre/ascenceur.geojson")
+    getGeoJSON("../data/filtre/arret_bus_pts.geojson"),
+    getGeoJSON("../data/filtre/arret_metro_pts.geojson"),
+    getGeoJSON("../data/filtre/ascenceur.geojson"),
+    getGeoJSON("../data/filtre/asso_art_spor.geojson"),
+    getGeoJSON("../data/filtre/asso_filiere.geojson"),
+    getGeoJSON("../data/filtre/asso_mstr_doc.geojson"),
+    getGeoJSON("../data/filtre/asso_solidarite.geojson"),
+    getGeoJSON("../data/filtre/biblio.geojson"),
+    getGeoJSON("../data/filtre/cafet_distrib.geojson"),
+    getGeoJSON("../data/filtre/copieur.geojson"),
+    getGeoJSON("../data/filtre/entree_bat.geojson"),
+    getGeoJSON("../data/filtre/entree_campus.geojson"),
+    getGeoJSON("../data/filtre/eqpmt_sportif.geojson"),
+    getGeoJSON("../data/filtre/esp_detente.geojson"),
+    getGeoJSON("../data/filtre/labo.geojson"),
+    getGeoJSON("../data/filtre/lieu_cultu.geojson"),
+    getGeoJSON("../data/filtre/micro_ondes.geojson"),
+    getGeoJSON("../data/filtre/oeuvres.geojson"),
+    getGeoJSON("../data/filtre/parking_velo.geojson"),
+    getGeoJSON("../data/filtre/parking_voiture.geojson"),
+    getGeoJSON("../data/filtre/resid_univ.geojson"),
+    getGeoJSON("../data/filtre/ru.geojson"),
+    getGeoJSON("../data/filtre/salle_e0.geojson"),
+    getGeoJSON("../data/filtre/salle_e1.geojson"),
+    getGeoJSON("../data/filtre/salle_e2.geojson"),
+    getGeoJSON("../data/filtre/salle_e3.geojson"),
+    getGeoJSON("../data/filtre/salle_e4.geojson"),
+    getGeoJSON("../data/filtre/salle_e5.geojson"),
+    getGeoJSON("../data/filtre/salle_e6.geojson"),
+    getGeoJSON("../data/filtre/salle_e7.geojson"),
+    getGeoJSON("../data/filtre/salle_info.geojson"),
+    getGeoJSON("../data/filtre/salle_spe.geojson"),
+    getGeoJSON("../data/filtre/sante.geojson"),
+    getGeoJSON("../data/filtre/scol.geojson"),
+    getGeoJSON("../data/filtre/services.geojson"),
+    getGeoJSON("../data/filtre/station_velostar.geojson"),
+    getGeoJSON("../data/filtre/wc.geojson"),
+    getGeoJSON("../data/fondcarte/lettre_batiment.geojson")
   ];
   
   const finalGeoJSON = {
@@ -1662,22 +1712,7 @@ boutonPrinter.addEventListener('click', function () {
   var fproperties = finalGeoJSON.features.map(function (el) {
   return el.properties;})
   
-      
-  
-  var lines = (function () {
-    var jsonLines = null;
-    $.ajax({
-      'async': false,
-      'global': false,
-      'url': "../data/lineaire.geojson?v="+version,
-      'dataType': "json",
-      'success': function (data) {
-        jsonLines = data;
-      }
-    });
-    return jsonLines;
-  })();
-
+    
 
   map.on("load", function () {
     // Couche herbe
