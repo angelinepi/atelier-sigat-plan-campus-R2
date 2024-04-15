@@ -1,9 +1,80 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
 /* Importation du fichier fontfaces.css */
 @import "fontfaces.css";
 
 /* Styles pour l'élément HTML et le corps de la page */
 html, body {
-    overflow-x: hidden; /* Empêche le défilement horizontal */
+  margin: 0;
+  padding: 0;  
+  overflow-x: hidden; /* Empêche le défilement horizontal */
+  background-color: #F4F5F5;
+}
+
+header {
+  display: flex; /* Utilisation de flexbox pour le layout */
+  align-items: center; /* Alignement vertical au centre */
+  background-color: #333;
+  color: white;
+  padding: 10px;
+  height: 120px;
+  /* Pour centrer le bandeau horizontalement */
+}
+
+/* Styles pour l'image de fond de l'en-tête */
+.image-fond {
+  position: absolute;
+  left: 0;
+  top: 50px;
+  display: flex;
+  background: url('/css/icons/img_fd_plan.jpg') no-repeat; /* Image de fond */
+  background-size: cover; /* Taille de l'image de fond */
+  opacity: 0.15; /* Opacité */
+  height: 120px; /* Hauteur */
+  width: 100vw; /* Largeur */
+  z-index: 1;
+}
+
+.text-head{
+  width: 100vw;
+  display: flex;
+  z-index: 0;
+}
+
+.logo img {
+  width: 100px; /* Ajuster selon la taille de votre logo */
+  height: auto;
+  border-radius: 5px;
+  color: #e5e5e5;
+  margin-left: 20%;
+}
+
+.header-main {
+  margin-left: 3%;
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  flex-grow: 1; /* Le contenu principal prend tout l'espace disponible */
+}
+
+header h1 {
+  margin-right: 10px; /* Espace entre le titre et la barre de recherche */
+  margin-left: 10px;
+  font-size: 30px; /* Taille de police augmentée */
+  font-weight: bold;
+  text-align: center; /* Centrer le texte horizontalement */
+
+}
+
+#search-bar {
+  width: 600px; /* Augmentation de la longueur de la barre de recherche */
+  padding: 15px;
+  color: #333;
+  border: 0px solid #555;
+  border-radius: 5px;
+  font-size: 16px;
+  text-align: left;
+  margin-left: auto; /* Déplacer la barre de recherche vers la droite */
 }
 
 /* Styles pour l'élément de chargement */
@@ -50,13 +121,13 @@ html, body {
 
 /* Styles pour les liens */
 a {
-    color: #7239AB; /* Couleur du lien */
+    color: #073763; /* Couleur du lien */
 }
 
 /* Styles pour les liens au focus ou au survol */
 a:focus,
 a:hover {
-    color: #7239AB; /* Couleur du lien au focus ou au survol */
+    color: #073763; /* Couleur du lien au focus ou au survol */
 }
 
 /* Styles pour le conteneur d'en-tête */
@@ -67,15 +138,6 @@ a:hover {
     vertical-align: middle; /* Alignement vertical */
     width: 100vw; /* Largeur de 100% de la fenêtre */
     position: relative; /* Position relative */
-}
-
-/* Styles pour l'image de fond de l'en-tête */
-.header-container .image-fond {
-    background: url('/css/icons/img_fd_plan.jpg') 50% 50% no-repeat; /* Image de fond */
-    background-size: 100% 100%; /* Taille de l'image de fond */
-    opacity: 0.6; /* Opacité */
-    height: 108px; /* Hauteur */
-    width: 100vw; /* Largeur */
 }
 
 /* Styles pour le contenu de l'en-tête */
@@ -122,12 +184,13 @@ h1.sitename {
 /* Styles pour le conteneur principal */
 #wrapper {
     background-color: #F4F5F5; /* Couleur de fond */
+    position: relative;
 }
 
 /* Styles pour la zone de la page */
 #page-wrapper {
     padding: 0; /* Rembourrage */
-    margin-left: 381px; /* Marge à gauche */
+    margin-left: 250px; /* Marge à gauche */
     background-color: #F4F5F5; /* Couleur de fond */
 }
 
@@ -200,15 +263,130 @@ mapboxgl-ctrl-group > button {
 .navbar-default {
   background-color: #F4F5F5; /* Couleur de fond */
   border: none; /* Pas de bordure */
-  width: 381px; /* Largeur */
+  width: auto; /* Largeur */
 }
 
 /* Styles pour la navigation latérale */
 .sidebar .sidebar-nav.navbar-collapse {
   height: 100%; /* Hauteur de 100% */
   background-color: #F4F5F5; /* Couleur de fond */
-  padding: 25px 20px; /* Rembourrage */
+  margin: 20px;
+  position: relative;
 }
+
+ul.nav li.nav_main{
+  /* background-color: aqua; */
+  height: 100px;
+  display: flex;
+  margin: 5px 0;
+  width: 200px;
+}
+
+ul.nav > li.nav_main > a{
+  width: 200px;
+  /* background-color: pink; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: 0.25s ease-in-out;
+  transition-delay: 0.15s;
+}
+
+ul.nav > li.nav_main > a:hover{
+  background-color: lightgrey;
+}
+
+ul.nav > li.nav_main.menuopen > a{
+  background-color: lightgrey;
+  transition-delay: 0.15s;
+}
+
+ul.nav > li.nav_main > a > img{
+  height: 30px;
+  margin-bottom: 15px;
+}
+
+ul.nav > li.nav_main > a > p{
+  width: 150px;
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  line-height: 1;
+}
+
+ul.nav > li.nav_main > ul{
+  position: absolute;
+  top: 0px;
+  left: 200px;
+  background-color: #f4f5f5e9;
+  width: 0px;
+  min-height: 900px;
+  overflow: hidden;   
+  transition: all 0.25s ease-in-out;
+  border-radius: 0 10px 10px 0;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+}
+
+ul.nav > li.nav_main.menuopen > ul{
+  width: 400px;
+  transition: all 0.25s ease-in-out;
+  transition-delay: 0.15s;
+}
+
+li.nav_main.menuopen > ul.nav-second-level > li{
+  /* background-color: red; */
+  width: 360px;
+  margin: 10px 0 0 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+ul.nav-second-level > li{
+  display: none;
+} 
+
+
+ul.nav-second-level > li > a{
+  font-size: 20px;
+  font-weight: 700;
+  display: flex;
+  font-family: Ubuntu;
+  /* background-color: blue; */
+}
+
+ul.nav-second-level > li > ul.nav-third-level{
+  /* background-color: gray; */
+  font-size: 20px;
+  margin-top: 5px;
+  /* padding-left: 30px; */
+  overflow: hidden;
+  max-height: 0;
+  transition: all 0.3s ease-in-out;
+}
+
+ul.nav-second-level > li.sousmenuopen > ul.nav-third-level{
+  max-height: 1000px;
+  transition: all 0.6s ease-in-out;
+}
+
+
+.nav-second-level > li > a > img{
+  width: 20px;
+  height: 20px;
+  margin-left: 5px;
+  margin-top: 4px;
+  margin-right: 10px;
+  background-image: url('./icons/checkbox_off.svg');
+  background-size: cover;
+}
+
+.nav-second-level > li.sousmenuopen > a > img{
+  background-image: url('./icons/checkbox_on.svg');
+}
+
 
 /* Styles pour la barre latérale */
 .sidebar {
@@ -233,7 +411,7 @@ mapboxgl-ctrl-group > button {
 /* Styles pour les liens dans la barre de navigation */
 .nav li a {
   font-family: "Roboto"; /* Police de caractère */
-  font-size: 16px; /* Taille de police */
+  font-size: 14px; /* Taille de police */
   font-weight: 400; /* Poids de la police */
   padding-left: 0; /* Rembourrage à gauche */
 }
@@ -287,14 +465,14 @@ color: green;
 /* Styles pour les boutons actifs et survolés dans l'élément avec l'ID DDD */
 #DDD .btn.active,
 #DDD button:hover {
-  background-color: #7239AB; /* Couleur de fond */
+  background-color: #073763; /* Couleur de fond */
   color: #fff; /* Couleur du texte */
 }
 
 /* Styles pour les boutons dans l'élément avec l'ID DDD */
 #DDD button {
   background-color: #fff; /* Couleur de fond */
-  color: #7239AB; /* Couleur du texte */
+  color: #073763; /* Couleur du texte */
   border: 1px solid #E5E5E5; /* Bordure */
   border-radius: 0; /* Rayon de bordure */
   box-shadow: none; /* Pas d'ombre */
@@ -311,7 +489,7 @@ color: green;
   font-size: 18px; /* Taille de police */
   font-family: "Roboto"; /* Police de caractère */
   font-weight: 400; /* Poids de la police */
-  color: #7239AB; /* Couleur du texte */
+  color: #073763; /* Couleur du texte */
   background-color: #fff; /* Couleur de fond */
   border: 1px solid #E5E5E5; /* Bordure */
 }
@@ -321,7 +499,7 @@ color: green;
   font-size: 18px; /* Taille de police */
   font-family: "Roboto"; /* Police de caractère */
   font-weight: 400; /* Poids de la police */
-  background-color: #7239AB; /* Couleur de fond */
+  background-color: #073763; /* Couleur de fond */
   color: #fff; /* Couleur du texte */
 }
 
@@ -330,7 +508,7 @@ color: green;
   border: none; /* Pas de bordure */
   border-radius: 0; /* Rayon de bordure */
   box-shadow: none; /* Pas d'ombre */
-  color: #7239AB; /* Couleur du texte */
+  color: #073763; /* Couleur du texte */
   float: none; /* Pas de flottant */
   padding: 10px; /* Rembourrage */
   background-color: #fff; /* Couleur de fond */
@@ -342,14 +520,14 @@ color: green;
 /* Styles pour les boutons primaires */
 .btn-primary {
   background-color: #fff; /* Couleur de fond */
-  color: #7239AB; /* Couleur du texte */
-  border-color: #7239AB; /* Couleur de la bordure */
+  color: #073763; /* Couleur du texte */
+  border-color: #073763; /* Couleur de la bordure */
   border-radius: 0; /* Rayon de bordure */
 }
 
 /* Styles pour le bouton de recherche avec l'ID searchButton */
 #searchButton.btn-primary {
-  background-color: #7239AB; /* Couleur de fond */
+  background-color: #073763; /* Couleur de fond */
   color: #fff; /* Couleur du texte */
   height: 40px; /* Hauteur */
   width: 40px; /* Largeur */
@@ -366,7 +544,7 @@ color: green;
 
 /* Styles pour le survol du bouton de recherche avec l'ID searchButton */
 #searchButton:hover {
-  background-color: #7239AB; /* Couleur de fond */
+  background-color: #073763; /* Couleur de fond */
 }
 
 /* Styles pour la barre de recherche dans la barre latérale */
@@ -384,7 +562,7 @@ color: green;
 .btn-primary:focus,
 .btn-primary:hover {
   color: #fff; /* Couleur du texte */
-  background-color: #7239AB; /* Couleur de fond */
+  background-color: #073763; /* Couleur de fond */
   border: none; /* Pas de bordure */
   border-radius: 0; /* Rayon de bordure */
 }
@@ -397,7 +575,7 @@ color: green;
 /* Styles pour l'icône de flèche active dans le menu latéral */
 .sidebar .active > a > .fa.arrow::before {
   content: "\f107"; /* Contenu */
-  color: #7239AB; /* Couleur */
+  color: #073763; /* Couleur */
 }
 
 /* Styles pour l'icône de flèche dans le menu latéral */
@@ -408,7 +586,7 @@ color: green;
 /* Styles pour l'icône de flèche inactive dans le menu latéral */
 .sidebar .fa.arrow::before {
   content: "\f105"; /* Contenu */
-  color: #7239AB; /* Couleur */
+  color: #073763; /* Couleur */
 }
 
 /* Styles pour les éléments de la deuxième niveau de navigation */
@@ -444,19 +622,7 @@ color: green;
   line-height: 18px; /* Hauteur de ligne */
 }
 
-/* Styles pour les cases à cocher */
-.case {
-  background-image: url('/css/icons/checkbox_off.svg'); /* Image de fond */
-  background-repeat: no-repeat; /* Pas de répétition */
-  background-size: 14px 14px; /* Taille de l'image de fond */
-  background-position: 10px center; /* Position de l'image de fond */
-}
 
-/* Styles pour les cases à cocher actives */
-.case.active {
-  background-image: url('/css/icons/checkbox_on.svg'); /* Image de fond */
-  background-color: #fff; /* Couleur de fond */
-}
 
 /* Styles pour les cases à cocher actives dans un menu déroulant */
 .collapse .nav-second-level li.active .case.active {
