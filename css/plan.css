@@ -170,9 +170,9 @@ h1.sitename {
 }
 
 /* Styles pour les boutons dans le groupe de contrôles mapboxgl */
-mapboxgl-ctrl-group > button {
+.mapboxgl-ctrl-group > button {
   border: 1px solid #e5e5e5; /* Bordure */
-}
+}	
 
 /* Styles pour la boussole dans le groupe de contrôles mapboxgl */
 .mapboxgl-ctrl-icon.mapboxgl-ctrl-compass > .mapboxgl-ctrl-compass-arrow {
@@ -279,20 +279,26 @@ color: green;
   position: relative; /* Position relative */
 }
 
-/* Styles pour l'élément avec l'ID DDD */
+/* --- LES BOUTONS --- */
+/* Styles pour les boutons primaires */
+.btn-primary {
+  background-color: #fff; /* Couleur de fond */
+  color: #7239AB; /* Couleur du texte */
+  border-color: #7239AB; /* Couleur de la bordure */
+  border-radius: 0; /* Rayon de bordure */
+}
+
+/* --- BOUTONS 2D/3D ---*/
 #DDD {
   top: 25px; /* Position à 25px du haut */
 }
-
-/* Styles pour les boutons actifs et survolés dans l'élément avec l'ID DDD */
+/*... quand actif et survolé*/
 #DDD .btn.active,
 #DDD button:hover {
   background-color: #7239AB; /* Couleur de fond */
   color: #fff; /* Couleur du texte */
 }
-
-/* Styles pour les boutons dans l'élément avec l'ID DDD */
-#DDD button {
+#DDD button { /*... styles des boutons*/
   background-color: #fff; /* Couleur de fond */
   color: #7239AB; /* Couleur du texte */
   border: 1px solid #E5E5E5; /* Bordure */
@@ -300,14 +306,12 @@ color: green;
   box-shadow: none; /* Pas d'ombre */
 }
 
-/* Styles pour l'élément avec l'ID campus */
+/* --- ONGLETS GEOGRAPHIQUES ---*/
 #campus {
   top: 25px; /* Position à 25px du haut */
   opacity: 1; /* Opacité */
 }
-
-/* Styles pour les boutons dans l'élément avec l'ID campus */
-#campus button {
+#campus button { /*...styles des boutons*/
   font-size: 18px; /* Taille de police */
   font-family: "Roboto"; /* Police de caractère */
   font-weight: 400; /* Poids de la police */
@@ -315,9 +319,7 @@ color: green;
   background-color: #fff; /* Couleur de fond */
   border: 1px solid #E5E5E5; /* Bordure */
 }
-
-/* Styles pour les boutons actifs dans l'élément avec l'ID campus */
-#campus button.active {
+#campus button.active { /*... quand actif*/
   font-size: 18px; /* Taille de police */
   font-family: "Roboto"; /* Police de caractère */
   font-weight: 400; /* Poids de la police */
@@ -325,6 +327,25 @@ color: green;
   color: #fff; /* Couleur du texte */
 }
 
+/*--- BOUTON IMPRIMER LA CARTE ---*/
+.btn-header  {
+  position: absolute;
+  top: 10%;
+  right: 5%;
+  background-color: red;  
+  padding: 10px;
+}
+.btn-imprimer {
+  background-image: url('/css/icons/printer.svg');
+  background-size: 30px 30px;
+  background-color: #7239AB;
+  z-index: 1000;
+  padding: 6px 12px;
+    padding-top: 24px;
+    padding-right: 18px;
+}
+
+/* --- LA BARRE DE RECHERCHE AKA SEARCHBAR --- */
 /* Styles pour l'entrée de recherche easy-autocomplete */
 .easy-autocomplete input {
   border: none; /* Pas de bordure */
@@ -338,17 +359,7 @@ color: green;
   font-family: "Roboto"; /* Police de caractère */
   font-weight: 400; /* Poids de la police */
 }
-
-/* Styles pour les boutons primaires */
-.btn-primary {
-  background-color: #fff; /* Couleur de fond */
-  color: #7239AB; /* Couleur du texte */
-  border-color: #7239AB; /* Couleur de la bordure */
-  border-radius: 0; /* Rayon de bordure */
-}
-
-/* Styles pour le bouton de recherche avec l'ID searchButton */
-#searchButton.btn-primary {
+#searchButton.btn-primary { /*...styles dU bouton*/
   background-color: #7239AB; /* Couleur de fond */
   color: #fff; /* Couleur du texte */
   height: 40px; /* Hauteur */
@@ -358,29 +369,24 @@ color: green;
   background-repeat: no-repeat; /* Pas de répétition de l'image de fond */
   background-size: 20px 20px; /* Taille de l'image de fond */
 }
-
-/* Styles pour le bouton de recherche désactivé avec l'ID searchButton */
-#searchButton.btn-primary.off {
+#searchButton.btn-primary.off { /*...bouton de recherche désactivé */
   background-image: url('/css/icons/plan_loupe_off.svg'); /* Image de fond */
 }
-
-/* Styles pour le survol du bouton de recherche avec l'ID searchButton */
-#searchButton:hover {
+#searchButton:hover {/*...bouton de recherche survolé */
   background-color: #7239AB; /* Couleur de fond */
 }
 
-/* Styles pour la barre de recherche dans la barre latérale */
+/* --- LA BARRE LATERALE AKA SIDEBAR --- */
 .sidebar .sidebar-search {
   padding: 0 0 20px 0; /* Rembourrage */
   border: none; /* Pas de bordure */
   line-height: 20px; /* Hauteur de ligne */
 }
-/* Styles pour le bouton de recherche dans la barre latérale lorsqu'il est en focus */
-.sidebar-search .input-group-btn:focus {
+.sidebar-search .input-group-btn:focus { /*quand le bouton de recherche est en focus */
   height: 33px; /* Hauteur */
 }
 
-/* Styles pour les boutons primaires lorsqu'ils sont en focus ou survolés */
+/* quand les boutons sont en focus ou survolés */
 .btn-primary:focus,
 .btn-primary:hover {
   color: #fff; /* Couleur du texte */
@@ -699,7 +705,9 @@ button.navbar-toggle {
   background-color: #000;
 }
 
-/* Médias-query pour les écrans de petite taille */
+/* --- LES MEDIAS QUERY --- */
+
+/* Affichage pour les écrans de petite taille */
 @media (max-width: 750px) {
   #wrapper {
       max-height: none;
@@ -775,10 +783,30 @@ button.navbar-toggle {
   }
 }
 
-/* Médias-query pour les écrans de grande taille */
+/* Affichage pour les écrans de grande taille */
 @media (min-width: 992px) {
   /* Cacher le dragger de la barre de défilement */
   .mCSB_dragger {
       display: none;
+  }
+}
+
+/* Paramétrages des éléments imprimés ou non */
+@media print {
+  header, nav, .btn-group  {
+    display : none;
+  }
+  #page-wrapper {
+    margin : 0;
+    padding: 0;
+  }
+  .mapboxgl-ctrl-bottom-left, .mapboxgl-ctrl.mapboxgl-ctrl-scale {
+    bottom: 5%;
+  }
+  .attribution-container {
+    bottom:0;
+  }
+  @page {
+    size: landscape;
   }
 }
