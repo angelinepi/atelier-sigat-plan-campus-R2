@@ -1,3 +1,4 @@
+
   //définition d'une fonction permettant l'extraction d'une valeur d'un paramètre d'URL (avec expression régulière)
   function getQueryStringValue(key) {
     return decodeURIComponent(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + encodeURIComponent(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
@@ -7,6 +8,7 @@
       //replace remplace les caractères spéciaux en caractères échappés "(?:\\=([^&]*))?)?.*$"
       //"i" = insensible à la casse  
   }
+  
 
   var overlay = getQueryStringValue("layer").toString(); //extraction de la valeur du paramètre d'URL "layer"
   var overlayPoint = getQueryStringValue("point").toString(); //extraction de la valeur du paramètre d'URL "point"
@@ -551,20 +553,20 @@
       var popupTitle = '';
       popupContent = '';
       if (Layers.length == 0) {
-        if (e.features[0].properties.Nom != "null" && e.features[0].properties.Nom != null && e.features[0].properties.Nom != "") {
+        if (e.features[0].properties.Nom !== "null") {
           popupTitle = e.features[0].properties.Nom;
         }
-        if (e.features[0].properties.Photo != "null" && e.features[0].properties.Photo != null && e.features[0].properties.Photo != "") {
+        if (e.features[0].properties.Photo !== "null") {
           popupContent += '<img src = \'' + e.features[0].properties.Photo + '?v='+version+'\'/>'
         }
-        if (e.features[0].properties.Infos != "null" && e.features[0].properties.Infos != null && e.features[0].properties.Infos != "") {
+        if (e.features[0].properties.Infos !== "null") {
           popupContent += '<p>' + e.features[0].properties.Infos + '<p>';
         }
-        if (popupBati != null) {
+        if (popupBati !== null) {
           popupBati.remove();
         }
         ;
-        if (e.features[0].properties.Nom != "null" && e.features[0].properties.Nom != null && e.features[0].properties.Nom != "") {
+        if (e.features[0].properties.Nom !== "null") {
           if ((popup == null || popup.isOpen() == false) && (searchPopup == null || searchPopup.isOpen() === false) && (popupList == null || popupList.isOpen() === false)) {
 
             popupBati = new maplibregl.Popup({
@@ -661,22 +663,22 @@
       var popupTitle = '';
       popupContent = '';
       if (Layers.length == 0) {
-        if (e.features[0].properties.Nom != "null" && e.features[0].properties.Nom != null && e.features[0].properties.Nom != "") {
+        if (e.features[0].properties.Nom !== "null") {
           popupTitle = e.features[0].properties.Nom;
           // console.log(popupTitle);
         }
-        if (e.features[0].properties.Photo != "null" && e.features[0].properties.Photo != null && e.features[0].properties.Photo != "") {
+        if (e.features[0].properties.Photo !== "null") {
           popupContent += '<img src = \'' + e.features[0].properties.Photo + '?v=' + version + '\'/>'
           // console.log(popupContent); // verification du lien de l'image
         }
-        if (e.features[0].properties.Info != "null" && e.features[0].properties.Info != null && e.features[0].properties.Info != "") {
+        if (e.features[0].properties.Info !== "null") {
           popupContent += '<p>' + e.features[0].properties.Info + '<p>';
         }
         if (popupBati !== null) {
           popupBati.remove();
         }
         ;
-        if (e.features[0].properties.Nom != "null" && e.features[0].properties.Nom != null && e.features[0].properties.Nom != "") {
+        if (e.features[0].properties.Nom !== "null") {
           if ((popup == null || popup.isOpen() == false) && (searchPopup == null || searchPopup.isOpen() === false) && (popupList == null || popupList.isOpen() === false)) {
 
             popupBati = new maplibregl.Popup({
@@ -808,8 +810,9 @@
   function addPictoFondDeCarte() {
     //picto fond de carte
     //Picto permanent Bibliothèque
-    map.loadImage("../css/icons/iconfond/biblio.png").then(response => {
-      const image = response.data;
+    map.loadImage("../css/icons/iconfond/biblio.png", function (error, image) {
+      if (error)
+        throw error;
       if (!map.hasImage("biblio")) {
         map.addImage('biblio', image);
       }
@@ -830,8 +833,9 @@
     });
 
     //Picto permanent Caféteria
-    map.loadImage("../css/icons/iconfond/cafe.png").then(response => {
-      const image = response.data;
+    map.loadImage("../css/icons/iconfond/cafe.png", function (error, image) {
+      if (error)
+        throw error;
       if (!map.hasImage("cafe")) {
         map.addImage('cafe', image);
       }
@@ -853,8 +857,9 @@
 
 
     //Picto permanent Restaurant U
-    map.loadImage("../css/icons/iconfond/resto.png").then(response => {
-      const image = response.data;
+    map.loadImage("../css/icons/iconfond/resto.png", function (error, image) {
+      if (error)
+        throw error;
       if (!map.hasImage("resto")) {
         map.addImage('resto', image);
       }
@@ -875,8 +880,9 @@
     });
 
     //Picto permanent Parking
-    map.loadImage("../css/icons/iconfond/parking.png").then(response => {
-      const image = response.data;
+    map.loadImage("../css/icons/iconfond/parking.png", function (error, image) {
+      if (error)
+        throw error;
       if (!map.hasImage("parking")) {
         map.addImage('parking', image);
       }
@@ -897,8 +903,9 @@
     });
 
     //Picto permanent Metro
-    map.loadImage("../css/icons/iconfond/metro.png").then(response => {
-      const image = response.data;
+    map.loadImage("../css/icons/iconfond/metro.png", function (error, image) {
+      if (error)
+        throw error;
       if (!map.hasImage("metro")) {
         map.addImage('metro', image);
       }
@@ -919,8 +926,9 @@
     });
 
     //Picto permanent Pôle Sante
-    map.loadImage("../css/icons/iconfond/sante.png").then(response => {
-      const image = response.data;
+    map.loadImage("../css/icons/iconfond/sante.png", function (error, image) {
+      if (error)
+        throw error;
       if (!map.hasImage("sante")) {
         map.addImage('sante', image);
       }
@@ -941,8 +949,9 @@
     });
 
     //Picto permanent Piscine
-    map.loadImage("../css/icons/iconfond/piscine.png").then(response => {
-      const image = response.data;
+    map.loadImage("../css/icons/iconfond/piscine.png", function (error, image) {
+      if (error)
+        throw error;
       if (!map.hasImage("piscine")) {
         map.addImage('piscine', image);
       }
@@ -963,8 +972,9 @@
     });
 
     //Picto permanent Bus
-    map.loadImage("../css/icons/iconfond/bus.png").then(response => {
-      const image = response.data;
+    map.loadImage("../css/icons/iconfond/bus.png", function (error, image) {
+      if (error)
+        throw error;
       if (!map.hasImage("bus")) {
         map.addImage('bus', image);
       }
@@ -997,8 +1007,9 @@
       markerOffset = [-40, -50]
     }
 
-    map.loadImage(iconURL).then(response => {
-      const image = response.data;
+    map.loadImage(iconURL, function (error, image) {
+      if (error)
+        throw error;
       map.addImage(name + 'image', image);
       map.addLayer({
         "id": name,
@@ -1137,8 +1148,9 @@
 //	        			console.log(markerOffset)
           }
           // symbole associé au marker //  
-          map.loadImage(colorOrUrl).then(response => {
-            const image = response.data;
+          map.loadImage(colorOrUrl, function (error, image) {
+            if (error)
+              throw error;
             map.addImage(nomDeLaCouche + 'image', image);
             map.addLayer({
               "id": nomDeLaCouche,
@@ -1243,8 +1255,9 @@
         }
         if (type == 'picto') {
 //	            	console.log(colorOrUrl);
-          map.loadImage(colorOrUrl).then(response => {
-            const image = response.data;
+          map.loadImage(colorOrUrl, function (error, image) {
+            if (error)
+              throw error;
             map.addImage(nomDeLaCouche + 'image', image);
             map.addLayer({
               "id": nomDeLaCouche,
@@ -1378,6 +1391,7 @@
         if (visibility === 'visible') {
           if (listLayers.includes(htmllink)) { // Si l'élément htmllink est inclus dans la liste
             if (ordre !== "nav nav-third-level collapse") { // ...et si l'ordre n'est pas "nav nav-third-level collapse"
+              console.log(ordre == "nav nav-third-level collapse")
               hideLayer(nomDeLaCouche, htmllink);  // ...alors masque la couche spécifiée
             }
           } else {
@@ -1406,10 +1420,10 @@ var popupContent = [];
     popupContent = [];
 
     /// Titre de la popup ///
-    if (feature.properties.Categorie != "null" && feature.properties.Categorie != null && feature.properties.Categorie != "") {
+    if (feature.properties.Categorie !== "null" && feature.properties.Categorie !== null && feature.properties.Categorie !== "") {
       popupTitle = feature.properties.Categorie;
     }
-    if (feature.properties.Nom != "null" && feature.properties.Nom != null && feature.properties.Nom != "") {
+    if (feature.properties.Nom !== "null" && feature.properties.Nom !== null && feature.properties.Nom !== "") {
       popupTitle = feature.properties.Nom;
     }
 
@@ -1417,11 +1431,11 @@ var popupContent = [];
     //console.log(feature.properties.Batiment)
 
     //Batiment n'est pas null :
-    if (feature.properties.Batiment != "null" && feature.properties.Batiment != null && feature.properties.Batiment != "") {
+    if (feature.properties.Batiment !== "null" && feature.properties.Batiment !== null && feature.properties.Batiment !== "") {
       popupContent += '<p>Bâtiment ' + feature.properties.Batiment ;
     }
     //Niveau n'est pas null... :
-    if (feature.properties.Niveau != "null" && feature.properties.Niveau != null && feature.properties.Niveau != "") {
+    if (feature.properties.Niveau !== "null" && feature.properties.Niveau !== null && feature.properties.Niveau !== "") {
       if (feature.properties.Niveau.toString().startsWith('niveau')){
         var niveau = feature.properties.Niveau;
       }
@@ -1429,7 +1443,7 @@ var popupContent = [];
         var niveau = 'niveau ' + feature.properties.Niveau;
       }
       //... et Batiment n'est pas null :
-      if (feature.properties.Batiment != "null" && feature.properties.Batiment != null && feature.properties.Batiment != "") {
+      if (feature.properties.Batiment !== "null" && feature.properties.Batiment !== null && feature.properties.Batiment !== "") {
         popupContent += ', ' + niveau ;
       }
       //ou... et Batiment est null :
@@ -1438,20 +1452,20 @@ var popupContent = [];
       }
     }
     //Batiment OU Niveau n'est pas null :
-    if ((feature.properties.Batiment != "null" && feature.properties.Batiment != null && feature.properties.Batiment != "")
-    || (feature.properties.Niveau != "null" && feature.properties.Niveau != null && feature.properties.Niveau != "")) {
+    if ((feature.properties.Batiment !== "null" && feature.properties.Batiment !== null && feature.properties.Batiment !== "")
+    || (feature.properties.Niveau !== "null" && feature.properties.Niveau !== null && feature.properties.Niveau !== "")) {
       popupContent += '</p>';
     }
     //Capacité n'est pas null :
-    if (feature.properties.Capacite != "null" && feature.properties.Capacite != null && feature.properties.Capacite != "") {
+    if (feature.properties.Capacite !== "null" && feature.properties.Capacite !== null && feature.properties.Capacite !== "") {
       popupContent += '<p>' + feature.properties.Capacite + '<p>';
     }
     //Info n'est pas null :
-    if (feature.properties.Info != "null" && feature.properties.Info != null && feature.properties.Info != "") {
+    if (feature.properties.Info !== "null" && feature.properties.Info !== null && feature.properties.Info !== "") {
       popupContent += '<p>' + feature.properties.Info + '<p>';
     }
     //Lien n'est pas null :
-    if (feature.properties.Lien != "null" && feature.properties.Lien != null && feature.properties.Lien != "") {
+    if (feature.properties.Lien !== "null" && feature.properties.Lien !== null && feature.properties.Lien !== "") {
       //Categorie est 'Oeuvre' :
       if (feature.properties.Categorie == 'Oeuvre') {
         popupContent += '<p><a href =" ' + feature.properties.Lien + '" target=\"_blank\">Explorer la storymap</a></p>';
@@ -1461,15 +1475,15 @@ var popupContent = [];
       }
     }
     //Mail n'est pas null :
-    if (feature.properties.Mail != "null" && feature.properties.Mail != null && feature.properties.Mail != "") {
+    if (feature.properties.Mail !== "null" && feature.properties.Mail !== null && feature.properties.Mail !== "") {
       popupContent += '<p>Contacter par mail : <a href="mailto:' + feature.properties.Mail + '">'+feature.properties.Mail+'</a></p>';
     }
     //Tel n'est pas null :
-    if (feature.properties.Tel != "null" && feature.properties.Tel != null && feature.properties.Tel != "") {
+    if (feature.properties.Tel !== "null" && feature.properties.Tel !== null && feature.properties.Tel !== "") {
       popupContent += '<p>Contacter par téléphone : <a href="tel:' + feature.properties.Tel + '">'+feature.properties.Tel+'</a></p>';
     }
     //Image n'est pas null :
-    if (feature.properties.Image != "null" && feature.properties.Image != null && feature.properties.Image != "") {
+    if (feature.properties.Image !== "null" && feature.properties.Image !== null && feature.properties.Image !== "") {
       //Categorie est ''Département de formation' 
       if (feature.properties.Categorie == 'Département de formation') {
         popupTitle += '<img style = \'height : 60px; position : absolute; right : 0;top:0\' src = \'' + feature.properties.Image + '?v=' + version +'\'/>'
@@ -1609,7 +1623,6 @@ var elLink, elList;
 const boutonPrinter = document.getElementById('imprimer');
 boutonPrinter.addEventListener('click', function () {
   window.print()})
-
 //////////////////////////////////   Initialisation des données carte //////////////////////////////////////
   var POIBrut = (function () {
     var json = null;
@@ -2550,8 +2563,9 @@ boutonPrinter.addEventListener('click', function () {
         searchItem = POI[i]; //Si un POI correspondant est trouvé (dans la liste POI), il est assigné à searchItem
 
         //charge une image qui sera utilisée comme icône pour le POI recherché
-        map.loadImage('../css/icons/layers_icons/recherche.png').then(response => {
-          const image = response.data;
+        map.loadImage('../css/icons/layers_icons/recherche.png', function (error, image) {
+          if (error)
+            throw error;
           map.addImage(searchLayerId + 'image', image);
 
           //ajoute une nouvelle couche de symboles à la carte pour afficher le POI recherché
@@ -2642,6 +2656,7 @@ boutonPrinter.addEventListener('click', function () {
 //////////////////////////////////   3D   //////////////////////////////////////
   var DDButton = document.getElementById('DDButton');
   var DDDButton = document.getElementById('DDDButton');
+
   var zoomCible;
 
   DDDButton.addEventListener('click', function () {
@@ -2801,4 +2816,5 @@ boutonPrinter.addEventListener('click', function () {
       if ($(this).hasClass("in"))
         $(this).removeClass("in");
     });
+
   });
