@@ -1,6 +1,6 @@
 //fonction IIFE - Immediately Invoked Function Expression - le $ est interprété différemment
 //sans cette fonction, le zoom de couche third-level ne fonctionne pas
-(function ($) {
+//(function ($) {
   
   //définition d'une fonction permettant l'extraction d'une valeur d'un paramètre d'URL (avec expression régulière)
   function getQueryStringValue(key) {
@@ -1567,7 +1567,10 @@ var elLink, elList;
         elLink.setAttribute('id', listeDeNoms[i]); //définit l'id de <a>
         elLink.setAttribute('href', '#'); //définit le href de <a>
         elLink.classList.add('leaf'); //ajoute la classe 'leaf' à <a>
-        elLink.addEventListener("click", () => switchPOI(currentName));
+        var theFunction = 'switchPOI(' + '\'' + currentName + '\');return false;'
+        //elLink.setAttribute('href',theFunction);
+        //elLink.addEventListener("click", () => switchPOI(currentName));
+        elLink.setAttribute('onclick', theFunction);
         elList.appendChild(elLink);  //elLink ajouté comme enfant de elList, on a donc une liste (li) de liens (a)
       }
       for (let i = 0; i < listeDeNoms.length; i++) {
@@ -2819,4 +2822,4 @@ boutonPrinter.addEventListener('click', function () {
 
   });
 
-})(jQuery);
+//})(jQuery);
