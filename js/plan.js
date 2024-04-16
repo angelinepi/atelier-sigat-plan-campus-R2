@@ -1,3 +1,7 @@
+//fonction IIFE - Immediately Invoked Function Expression - le $ est interprété différemment
+//sans cette fonction, le zoom de couche third-level ne fonctionne pas
+(function ($) {
+  
   //définition d'une fonction permettant l'extraction d'une valeur d'un paramètre d'URL (avec expression régulière)
   function getQueryStringValue(key) {
     return decodeURIComponent(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + encodeURIComponent(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
@@ -1390,6 +1394,7 @@
         if (visibility === 'visible') {
           if (listLayers.includes(htmllink)) { // Si l'élément htmllink est inclus dans la liste
             if (ordre !== "nav nav-third-level collapse") { // ...et si l'ordre n'est pas "nav nav-third-level collapse"
+              console.log(ordre == "nav nav-third-level collapse")
               hideLayer(nomDeLaCouche, htmllink);  // ...alors masque la couche spécifiée
             }
           } else {
@@ -2813,3 +2818,5 @@ boutonPrinter.addEventListener('click', function () {
     });
 
   });
+
+})(jQuery);
