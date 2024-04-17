@@ -1,3 +1,4 @@
+
 document.addEventListener("DOMContentLoaded", function() {
   // Sélectionner tous les éléments li.nav_main
   var mainNavItems = document.querySelectorAll('.nav_main');
