@@ -1556,7 +1556,10 @@ var elLink, elList;
         elLink.setAttribute('id', listeDeNoms[i]); //définit l'id de <a>
         elLink.setAttribute('href', '#'); //définit le href de <a>
         elLink.classList.add('leaf'); //ajoute la classe 'leaf' à <a>
-        elLink.addEventListener("click", () => switchPOI(currentName));
+        var theFunction = 'switchPOI(' + '\'' + currentName + '\');return false;'
+        //elLink.setAttribute('href',theFunction);
+        //elLink.addEventListener("click", () => switchPOI(currentName));
+        elLink.setAttribute('onclick', theFunction);
         elList.appendChild(elLink);  //elLink ajouté comme enfant de elList, on a donc une liste (li) de liens (a)
       }
       for (let i = 0; i < listeDeNoms.length; i++) {
@@ -1698,19 +1701,26 @@ boutonPrinter.addEventListener('click', function () {
     "features": []
   };
   
-  Promise.all(geojsons).then(allGeoJsons => { //à l'intérieur de cette fonction se passe le regroupement des geojsons
-  allGeoJsons.forEach(oneGeoJSON => {
-  finalGeoJSON.features.concat(oneGeoJSON.features);
-  });
-  // TODO Appeler la fonction qui gère les données fusionnées
-  finalGeoJSON.features = allGeoJsons // recup de l'objet avec ts les geojsons
-  var mergedFeatures = finalGeoJSON.features.reduce((acc, val) => acc.concat(val), []);
-  finalGeoJSON.features = mergedFeatures // transformation de l'objet pour correspondre à l'ancien fichier points.geojson
-  POIBrut = finalGeoJSON // affectation de cette objet dans l'objet appelé par les couches dans le reste du code
+  var fproperties = []; //definir cette variable en dehors de la promise
   var POI = [];
-  POI = POIBrut.features;
-  var fproperties = finalGeoJSON.features.map(function (el) {
-  return el.properties;})
+
+  Promise.all(geojsons).then(allGeoJsons => { //à l'intérieur de cette fonction se passe le regroupement des geojsons
+ 
+  	allGeoJsons.forEach(oneGeoJSON => {
+  		finalGeoJSON.features.concat(oneGeoJSON.features);
+  	});
+  	
+  //Appeler la fonction qui gère les données fusionnées
+  	finalGeoJSON.features = allGeoJsons // recup de l'objet avec ts les geojsons
+ 	var mergedFeatures = finalGeoJSON.features.reduce((acc, val) => acc.concat(val), []);
+  	finalGeoJSON.features = mergedFeatures // transformation de l'objet pour correspondre à l'ancien fichier points.geojson
+  	
+  	POIBrut = finalGeoJSON // affectation de cette objet dans l'objet appelé par les couches dans le reste du code
+  	
+  	POI = POIBrut.features;
+  	
+  	fproperties = finalGeoJSON.features.map(function (el) {
+  		return el.properties;})
   
     
 
