@@ -89,21 +89,23 @@
     
     
     <header>
-      <div>
-        <div class="text-head"><!--contenu (par-dessus l'image)-->
-          <div class="logo">
-            <!-- Remplacer 'chemin_vers_votre_logo.jpg' par le chemin réel de votre image de logo -->
-            <img src="./logoR2.png" alt="Logo">
-          </div>
-          <div class="header-main">
-            <h1>Plan des<br> campus</h1>
-            <div class="search-bar">
-              <input type="search" id="search-bar" placeholder="Barre de recherche">
-            </div>
-          </div>
+        <div class="fond-head">
+            <div class="color-head"></div>
         </div>
-        <div class="image-fond"></div><!--image du bandeau-->
-      </div>
+        <div class="search-head">
+            <div class="text-head"><!--contenu (par-dessus l'image)-->
+                <div class="logo">
+                    <!-- Remplacer 'chemin_vers_votre_logo.jpg' par le chemin réel de votre image de logo -->
+                    <img src="./logoR2.png" alt="Logo">
+                </div>
+                <div class="header-main">
+                    <h1>Plan des<br> campus</h1>
+                    <div class="search-bar">
+                        <input type="search" id="search-bar" placeholder="Barre de recherche">
+                    </div>
+                </div>
+            </div>
+        </div>
     </header>
     
     <!-- Bloc restant de la page (en dessous du bandeau) carte + menu -->
@@ -120,17 +122,234 @@
               
               <ul class="nav" id="side-menu">
                   
-                  <!-- Gestion des couches -->
+                <!-- Gestion des couches -->
 
-                  <!-- Mobilités et accessibilité -->
-                  <li class="nav_main">
+                <!-- Formation -->
+                <li class="nav_main">
+                            
+                    <a href="#">
+                        <p>Formation</p>
+                        <img  src="./css/icons/formation.svg"/>
+                    </a>
+                    
+                    <ul class="nav nav-second-level" style="top: -20px;">
+                        
+                        <li>
+                            <a id="Formation UFRL" href="#">
+                                <img class="case" alt="">
+                                UFR Langues<span class="fa arrow"></span>
+                            </a>
+                            <ul class="nav nav-third-level" id="insertFUFRL"></ul><!-- Les salles sont ajoutées dynamiquement (JS) en cas d'Overlay, voir plan.js -->
+                        </li>
+                        
+                        <li>
+                            <a id="Formation UFRSH" href="#">
+                                <img class="case" alt="">
+                                UFR Sciences Humaines<span class="fa arrow"></span>
+                            </a>
+                            <ul class="nav nav-third-level" id="insertFUFRSH"></ul><!-- Les salles sont ajoutées dynamiquement (JS) en cas d'Overlay, voir plan.js -->
+                        </li>
+                        
+                        <li>
+                            <a id="Formation UFRSS" href="#">
+                                <img class="case" alt="">
+                                UFR Sciences Sociales<span class="fa arrow"></span>
+                            </a>
+                            <ul class="nav nav-third-level" id="insertFUFRSS"></ul><!-- Les salles sont ajoutées dynamiquement (JS) en cas d'Overlay, voir plan.js -->
+                        </li>
+  
+                        <li>
+                            <a id="Formation UFRSTAPS" href="#">
+                                <img class="case" alt="">
+                                UFR STAPS<span class="fa arrow"></span>
+                            </a>
+                            <ul class="nav nav-third-level" id="insertFUFRSTAPS"></ul><!-- Les salles sont ajoutées dynamiquement (JS) en cas d'Overlay, voir plan.js -->
+                        </li>
+  
+                        <li>
+                            <a id="Formation UFRALC" href="#">
+                                <img class="case" alt="">
+                                UFR ALC<span class="fa arrow"></span>
+                            </a>
+                            <ul class="nav nav-third-level" id="insertFUFRALC"></ul><!-- Les salles sont ajoutées dynamiquement (JS) en cas d'Overlay, voir plan.js -->
+                        </li>
+  
+                        <li>
+                            <a id="Autres Formations" href="#">
+                                <img class="case" alt="">
+                                Autres structures de Formation<span class="fa arrow"></span>
+                            </a>
+                            <ul class="nav nav-third-level" id="insertAutresFormations"></ul><!-- Les salles sont ajoutées dynamiquement (JS) en cas d'Overlay, voir plan.js -->
+                        </li>
+                        
+                    </ul>
+                </li>
+
+                <!-- Recherche -->
+                <li class="nav_main">
+
+                    <a href="#">
+                        <p>Recherche</p>
+                        <img  src="./css/icons/recherche.svg"/>
+                    </a>
+                    
+                    <ul class="nav nav-second-level" style="top: -130px;">
+                    
+                        <li>
+                            <a id="Recherche UFRL" href="#">
+                                <img class="case" alt="">
+                                UFR Langues<span class="fa arrow"></span>
+                            </a>
+                            <ul class="nav nav-third-level" id="insertRUFRL"></ul><!-- Les salles sont ajoutées dynamiquement (JS) en cas d'Overlay, voir plan.js -->
+                        </li>
+                    
+                        <li>
+                            <a id="Recherche UFRSH" href="#">
+                                <img class="case" alt="">
+                                UFR Sciences Humaines<span class="fa arrow"></span>
+                            </a>
+                            <ul class="nav nav-third-level" id="insertRUFRSH"></ul><!-- Les salles sont ajoutées dynamiquement (JS) en cas dOverlay, voir plan.js -->
+                        </li>
+                    
+                        <li>
+                            <a id="Recherche UFRSS" href="#">
+                                <img class="case" alt="">
+                                UFR Sciences Sociales<span class="fa arrow"></span>
+                            </a>
+                            <ul class="nav nav-third-level" id="insertRUFRSS"></ul><!-- Les salles sont ajoutées dynamiquement (JS) en cas d'Overlay, voir plan.js -->
+                        </li>
+                    
+                        <li>
+                            <a id="Recherche UFRSTAPS" href="#">
+                                <img class="case" alt="">
+                                UFR STAPS<span class="fa arrow"></span>
+                            </a>
+                            <ul class="nav nav-third-level" id="insertRUFRSTAPS"></ul><!-- Les salles sont ajoutées dynamiquement (JS) en cas d'Overlay, voir plan.js -->
+                        </li>
+                    
+                        <li>
+                            <a id="Recherche UFRALC" href="#">
+                                <img class="case" alt="">
+                                UFR ALC<span class="fa arrow"></span>
+                            </a>
+                            <ul class="nav nav-third-level" id="insertRUFRALC"></ul><!-- Les salles sont ajoutées dynamiquement (JS) en cas d'Overlay, voir plan.js -->
+                        </li>
+
+                    </ul>
+                </li>
+
+                <!-- Equipements et services -->
+                <li class="nav_main">
+                    <a href="#">
+                        <p>Equipements et services</p>
+                        <img  src="./css/icons/structures.svg"/>
+                    </a>
+                    
+                    <ul class="nav nav-second-level" style="top: -235px;">
+                        <li>
+                            <a id="Services centraux" href="#">
+                                <img class="case" alt="">
+                                Services centraux<span class="fa arrow"></span>
+                            </a>
+                            <ul class="nav nav-third-level" id="insertServicescen"></ul><!-- Les salles sont ajoutées dynamiquement (JS) en cas d'Overlay, voir plan.js -->
+                        </li>
+                        
+                        <li>
+                            <a id="Services généraux" href="#">
+                                <img class="case" alt="">
+                                Services généraux<span class="fa arrow"></span>
+                            </a>
+                            <ul class="nav nav-third-level" id="insertServicesgen"></ul>
+                        </li>
+                        
+                        <li>
+                            <a id="Services communs" href="#">
+                                <img class="case" alt="">
+                                Services communs<span class="fa arrow"></span>
+                            </a>
+                            <ul class="nav nav-third-level" id="insertServicescom"></ul><!-- Les salles sont ajoutées dynamiquement (JS) en cas d'Overlay, voir plan.js -->
+                        </li>
+                    </ul>
+                </li>
+
+                <!-- Amphis et salles spécifiques -->
+                <li class="nav_main">
+                    <a href="#">
+                        <p>Amphis et salles spécifiques</p>
+                        <img  src="./css/icons/amphitheatre.svg" style="height: 40px;"/>
+                    </a>
+                    
+                    <ul class="nav nav-second-level" style="top: -340px;">
+                        
+                        <li id="Amphithéâtre">
+                            <a href="#">
+                                <img class="case" alt="">
+                                <p>Amphithéâtres</p>
+                            </a>
+                        </li>
+                        
+                        <li id="Salle informatique">
+                            <a href="#">
+                                <img class="case" alt="">
+                                Salles informatique
+                            </a>
+                        </li>
+                        
+                        <li>
+                            <a id="Salles spécifiques" href="#">
+                                <img class="case" alt="">
+                                Salles spécifiques<span class="fa arrow"></span>
+                            </a>
+                            <ul class="nav nav-third-level" id="insertSallesSpecifiques"></ul><!-- Les salles sont ajoutées dynamiquement (JS) en cas d'Overlay, voir plan.js -->
+                        </li>
+                        
+                    </ul>
+                </li>
+
+                <!-- Bibliothèques et Culture -->
+                <li class="nav_main">
+
+                    <a href="#">
+                        <p>Bibliothèques et Culture</p>
+                        <img  src="./css/icons/bibli.svg"/>
+                    </a>
+                    
+                    <ul class="nav nav-second-level" style="top: -440px;">
+                    
+                        <li id="Bibliothèques">
+                            <a href="#">
+                                <img class="case" alt="">
+                                Bibliothèques
+                            </a>
+                        </li>
+                    
+                        <li>
+                            <a id="Lieux culturels" href="#">
+                                <img class="case" alt="">
+                                Lieux culturels<span class="fa arrow"></span>
+                            </a>
+                            <ul class="nav nav-third-level" id="insertLieuCulturel"></ul><!-- Les salles sont ajoutées dynamiquement (JS) en cas d'Overlay, voir plan.js -->
+                        </li>
+                    
+                        <li id="Oeuvre">
+                            <a href="#">
+                                <img class="case" alt="">
+                                Œuvres d'art
+                            </a>
+                        </li>
+                    
+                    </ul>
+                </li>
+
+                <!-- Mobilités et accessibilité -->
+                <li class="nav_main">
 
                     <a href="#">
                         <p>Mobilités et accessibilité</p>
                         <img  src="./css/icons/mobilite.svg"/>
                     </a>
                     
-                    <ul class="nav nav-second-level" style="top: 0">
+                    <ul class="nav nav-second-level" style="top: -545px">
 
                     <li>
                         <a href="#">
@@ -188,17 +407,17 @@
                 
                 </ul>
             
-              </li>
+                </li>
               
-                  <!-- Restauration et logement -->
-                  <li class="nav_main">
+                <!-- Restauration et logement -->
+                <li class="nav_main">
 
                     <a href="#">
                         <p>Restauration et logement</p>
                         <img  src="./css/icons/restauration.svg"/>
                     </a>
                     
-                    <ul class="nav nav-second-level" style="top: -105px;">
+                    <ul class="nav nav-second-level" style="top: -650px;">
                     
                         <li id="Restaurant Universitaire">
                             <a href="#" >
@@ -230,146 +449,16 @@
                     
                     </ul>
                 </li>
-              
-                  <!-- Formation -->
+
+                <!-- Santé et prévention -->
                 <li class="nav_main">
-                            
-                  <a href="#">
-                      <p>Formation</p>
-                      <img  src="./css/icons/formation.svg"/>
-                  </a>
-                  
-                  <ul class="nav nav-second-level" style="top: -210px;">
-                      
-                      <li>
-                          <a id="Formation UFRL" href="#">
-                              <img class="case" alt="">
-                              UFR Langues<span class="fa arrow"></span>
-                          </a>
-                          <ul class="nav nav-third-level" id="insertFUFRL"></ul><!-- Les salles sont ajoutées dynamiquement (JS) en cas d'Overlay, voir plan.js -->
-                      </li>
-                      
-                      <li>
-                          <a id="Formation UFRSH" href="#">
-                              <img class="case" alt="">
-                              UFR Sciences Humaines<span class="fa arrow"></span>
-                          </a>
-                          <ul class="nav nav-third-level" id="insertFUFRSH"></ul><!-- Les salles sont ajoutées dynamiquement (JS) en cas d'Overlay, voir plan.js -->
-                      </li>
-                      
-                      <li>
-                          <a id="Formation UFRSS" href="#">
-                              <img class="case" alt="">
-                              UFR Sciences Sociales<span class="fa arrow"></span>
-                          </a>
-                          <ul class="nav nav-third-level" id="insertFUFRSS"></ul><!-- Les salles sont ajoutées dynamiquement (JS) en cas d'Overlay, voir plan.js -->
-                      </li>
-
-                      <li>
-                          <a id="Formation UFRSTAPS" href="#">
-                              <img class="case" alt="">
-                              UFR STAPS<span class="fa arrow"></span>
-                          </a>
-                          <ul class="nav nav-third-level" id="insertFUFRSTAPS"></ul><!-- Les salles sont ajoutées dynamiquement (JS) en cas d'Overlay, voir plan.js -->
-                      </li>
-
-                      <li>
-                          <a id="Formation UFRALC" href="#">
-                              <img class="case" alt="">
-                              UFR ALC<span class="fa arrow"></span>
-                          </a>
-                          <ul class="nav nav-third-level" id="insertFUFRALC"></ul><!-- Les salles sont ajoutées dynamiquement (JS) en cas d'Overlay, voir plan.js -->
-                      </li>
-
-                      <li>
-                          <a id="Autres Formations" href="#">
-                              <img class="case" alt="">
-                              Autres structures de Formation<span class="fa arrow"></span>
-                          </a>
-                          <ul class="nav nav-third-level" id="insertAutresFormations"></ul><!-- Les salles sont ajoutées dynamiquement (JS) en cas d'Overlay, voir plan.js -->
-                      </li>
-                      
-                  </ul>
-              </li>
-
-                  <!-- Amphis et salles spécifiques -->
-                  <li class="nav_main">
-                    <a href="#">
-                        <p>Amphis et salles spécifiques</p>
-                        <img  src="./css/icons/amphitheatre.svg" style="height: 40px;"/>
-                    </a>
-                    
-                    <ul class="nav nav-second-level" style="top: -315px;">
-                        
-                        <li id="Amphithéâtre">
-                            <a href="#">
-                                <img class="case" alt="">
-                                <p>Amphithéâtres</p>
-                            </a>
-                        </li>
-                        
-                        <li id="Salle informatique">
-                            <a href="#">
-                                <img class="case" alt="">
-                                Salles informatique
-                            </a>
-                        </li>
-                        
-                        <li>
-                            <a id="Salles spécifiques" href="#">
-                                <img class="case" alt="">
-                                Salles spécifiques<span class="fa arrow"></span>
-                            </a>
-                            <ul class="nav nav-third-level" id="insertSallesSpecifiques"></ul><!-- Les salles sont ajoutées dynamiquement (JS) en cas d'Overlay, voir plan.js -->
-                        </li>
-                        
-                    </ul>
-                </li>
-
-                  <!-- Bibliothèques et Culture -->
-                  <li class="nav_main">
-
-                    <a href="#">
-                        <p>Bibliothèques et Culture</p>
-                        <img  src="./css/icons/bibli.svg"/>
-                    </a>
-                    
-                    <ul class="nav nav-second-level" style="top: -420px;">
-                    
-                        <li id="Bibliothèques">
-                            <a href="#">
-                                <img class="case" alt="">
-                                Bibliothèques
-                            </a>
-                        </li>
-                    
-                        <li>
-                            <a id="Lieux culturels" href="#">
-                                <img class="case" alt="">
-                                Lieux culturels<span class="fa arrow"></span>
-                            </a>
-                            <ul class="nav nav-third-level" id="insertLieuCulturel"></ul><!-- Les salles sont ajoutées dynamiquement (JS) en cas d'Overlay, voir plan.js -->
-                        </li>
-                    
-                        <li id="Oeuvre">
-                            <a href="#">
-                                <img class="case" alt="">
-                                Œuvres d'art
-                            </a>
-                        </li>
-                    
-                    </ul>
-                </li>
-
-                  <!-- Santé et prévention -->
-                  <li class="nav_main">
 
                     <a href="#">
                         <p>Santé et prévention</p>
                         <img  src="./css/icons/heart-pulse-2-svgrepo-com.svg" style="height: 40px;"/>
                     </a>
 
-                    <ul class="nav nav-second-level" style="top: -525px;">
+                    <ul class="nav nav-second-level" style="top: -755px;">
 
                         <li id="Equipement sportif">
                             <a href="#" >
@@ -402,41 +491,7 @@
                     </ul>
 
                 </li>
-
-                <!-- Equipements et services -->
-                <li class="nav_main">
-                  <a href="#">
-                      <p>Equipements et services</p>
-                      <img  src="./css/icons/structures.svg"/>
-                  </a>
-                  
-                  <ul class="nav nav-second-level" style="top: -630px;">
-                      <li>
-                          <a id="Services centraux" href="#">
-                              <img class="case" alt="">
-                              Services centraux<span class="fa arrow"></span>
-                          </a>
-                          <ul class="nav nav-third-level" id="insertServicescen"></ul><!-- Les salles sont ajoutées dynamiquement (JS) en cas d'Overlay, voir plan.js -->
-                      </li>
-                      
-                      <li>
-                          <a id="Services généraux" href="#">
-                              <img class="case" alt="">
-                              Services généraux<span class="fa arrow"></span>
-                          </a>
-                          <ul class="nav nav-third-level" id="insertServicesgen"></ul>
-                      </li>
-                      
-                      <li>
-                          <a id="Services communs" href="#">
-                              <img class="case" alt="">
-                              Services communs<span class="fa arrow"></span>
-                          </a>
-                          <ul class="nav nav-third-level" id="insertServicescom"></ul><!-- Les salles sont ajoutées dynamiquement (JS) en cas d'Overlay, voir plan.js -->
-                      </li>
-                  </ul>
-                </li>
-
+                
                 <!-- Vie associative -->
                 <li class="nav_main">
 
@@ -445,7 +500,7 @@
                       <img  src="./css/icons/vie_assoc.svg"/>
                   </a>
 
-                  <ul class="nav nav-second-level" style="top: -735px;">
+                  <ul class="nav nav-second-level" style="top: -860px;">
                   
                       <li id="Associations de filières">
                           <a href="#">
@@ -491,59 +546,7 @@
                   
                   </ul>
                 </li>
-
-                <!-- Recherche -->
-                <li class="nav_main">
-
-                      <a href="#">
-                          <p>Recherche</p>
-                          <img  src="./css/icons/recherche.svg"/>
-                      </a>
-                      
-                      <ul class="nav nav-second-level" style="top: -840px;">
-                      
-                          <li>
-                              <a id="Recherche UFRL" href="#">
-                                  <img class="case" alt="">
-                                  UFR Langues<span class="fa arrow"></span>
-                              </a>
-                              <ul class="nav nav-third-level" id="insertRUFRL"></ul><!-- Les salles sont ajoutées dynamiquement (JS) en cas d'Overlay, voir plan.js -->
-                          </li>
-                      
-                          <li>
-                              <a id="Recherche UFRSH" href="#">
-                                  <img class="case" alt="">
-                                  UFR Sciences Humaines<span class="fa arrow"></span>
-                              </a>
-                              <ul class="nav nav-third-level" id="insertRUFRSH"></ul><!-- Les salles sont ajoutées dynamiquement (JS) en cas dOverlay, voir plan.js -->
-                          </li>
-                      
-                          <li>
-                              <a id="Recherche UFRSS" href="#">
-                                  <img class="case" alt="">
-                                  UFR Sciences Sociales<span class="fa arrow"></span>
-                              </a>
-                              <ul class="nav nav-third-level" id="insertRUFRSS"></ul><!-- Les salles sont ajoutées dynamiquement (JS) en cas d'Overlay, voir plan.js -->
-                          </li>
-                      
-                          <li>
-                              <a id="Recherche UFRSTAPS" href="#">
-                                  <img class="case" alt="">
-                                  UFR STAPS<span class="fa arrow"></span>
-                              </a>
-                              <ul class="nav nav-third-level" id="insertRUFRSTAPS"></ul><!-- Les salles sont ajoutées dynamiquement (JS) en cas d'Overlay, voir plan.js -->
-                          </li>
-                      
-                          <li>
-                              <a id="Recherche UFRALC" href="#">
-                                  <img class="case" alt="">
-                                  UFR ALC<span class="fa arrow"></span>
-                              </a>
-                              <ul class="nav nav-third-level" id="insertRUFRALC"></ul><!-- Les salles sont ajoutées dynamiquement (JS) en cas d'Overlay, voir plan.js -->
-                          </li>
-
-                      </ul>
-                </li>
+            
                   
        
                   

@@ -1,4 +1,3 @@
-
 document.addEventListener("DOMContentLoaded", function() {
   // Sélectionner tous les éléments li.nav_main
   var mainNavItems = document.querySelectorAll('.nav_main');
@@ -136,6 +135,8 @@ document.addEventListener("DOMContentLoaded", function() {
     [-2.668165, 48.534886]
   ];
   
+  var mapToken = 'zXodaO9ZW510ceX2WoPL';
+
   // Appel du fond de carte
   var map = new maplibregl.Map({
     container: 'map', // container id

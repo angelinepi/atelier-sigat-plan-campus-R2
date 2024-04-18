@@ -12,33 +12,42 @@ html, body {
 }
 
 header {
+  position: relative;
   display: flex; /* Utilisation de flexbox pour le layout */
   align-items: center; /* Alignement vertical au centre */
-  background-color: #333;
   color: white;
-  padding: 10px;
-  height: 120px;
+  padding: 40px;
+  height: 130px;
   /* Pour centrer le bandeau horizontalement */
 }
 
 /* Styles pour l'image de fond de l'en-tête */
-.image-fond {
+
+.fond-head{
   position: absolute;
+  top: 0;
   left: 0;
-  top: 50px;
-  display: flex;
+  width: 100vw;
+  height: 130px;
   background: url('/css/icons/img_fd_plan.jpg') no-repeat; /* Image de fond */
   background-size: cover; /* Taille de l'image de fond */
-  opacity: 0.15; /* Opacité */
-  height: 120px; /* Hauteur */
-  width: 100vw; /* Largeur */
+}
+
+.color-head{
+  position: absolute;
+  background-color: #333;
+  width: 100vw;
+  height: 130px;
+  opacity: 0.75;
+}
+
+.search-head{
   z-index: 1;
 }
 
 .text-head{
   width: 100vw;
   display: flex;
-  z-index: 0;
 }
 
 .logo img {
