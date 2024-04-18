@@ -857,9 +857,9 @@
 
 
     //Picto permanent Restaurant U
-    map.loadImage("../css/icons/iconfond/resto.png", function (error, image) {
-      if (error)
-        throw error;
+    map.loadImage("../css/icons/iconfond/resto.png").then(response => {
+      const image = response.data;
+
       if (!map.hasImage("resto")) {
         map.addImage('resto', image);
       }
@@ -880,9 +880,9 @@
     });
 
     //Picto permanent Parking
-    map.loadImage("../css/icons/iconfond/parking.png", function (error, image) {
-      if (error)
-        throw error;
+    map.loadImage("../css/icons/iconfond/parking.png").then(response => {
+      const image = response.data;
+
       if (!map.hasImage("parking")) {
         map.addImage('parking', image);
       }
@@ -903,9 +903,8 @@
     });
 
     //Picto permanent Metro
-    map.loadImage("../css/icons/iconfond/metro.png", function (error, image) {
-      if (error)
-        throw error;
+   map.loadImage("../css/icons/iconfond/metro.png").then(response => {
+      const image = response.data;
       if (!map.hasImage("metro")) {
         map.addImage('metro', image);
       }
@@ -926,9 +925,9 @@
     });
 
     //Picto permanent Pôle Sante
-    map.loadImage("../css/icons/iconfond/sante.png", function (error, image) {
-      if (error)
-        throw error;
+    map.loadImage("../css/icons/iconfond/sante.png").then(response => {
+      const image = response.data;
+
       if (!map.hasImage("sante")) {
         map.addImage('sante', image);
       }
@@ -949,9 +948,8 @@
     });
 
     //Picto permanent Piscine
-    map.loadImage("../css/icons/iconfond/piscine.png", function (error, image) {
-      if (error)
-        throw error;
+   map.loadImage("../css/icons/iconfond/piscine.png").then(response => {
+      const image = response.data;
       if (!map.hasImage("piscine")) {
         map.addImage('piscine', image);
       }
@@ -972,9 +970,8 @@
     });
 
     //Picto permanent Bus
-    map.loadImage("../css/icons/iconfond/bus.png", function (error, image) {
-      if (error)
-        throw error;
+   map.loadImage("../css/icons/iconfond/bus.png").then(response => {
+      const image = response.data;
       if (!map.hasImage("bus")) {
         map.addImage('bus', image);
       }
@@ -1176,9 +1173,8 @@
       markerOffset = [-40, -50]
     }
 
-    map.loadImage(iconURL, function (error, image) {
-      if (error)
-        throw error;
+    map.loadImage(iconURL).then(response => {
+      const image = response.data;
       map.addImage(name + 'image', image);
       map.addLayer({
         "id": name,
@@ -1317,9 +1313,8 @@
 //	        			console.log(markerOffset)
           }
           // symbole associé au marker //  
-          map.loadImage(colorOrUrl, function (error, image) {
-            if (error)
-              throw error;
+          map.loadImage(colorOrUrl).then(response => {
+            const image = response.data;
             map.addImage(nomDeLaCouche + 'image', image);
             map.addLayer({
               "id": nomDeLaCouche,
@@ -1424,9 +1419,8 @@
         }
         if (type == 'picto') {
 //	            	console.log(colorOrUrl);
-          map.loadImage(colorOrUrl, function (error, image) {
-            if (error)
-              throw error;
+          map.loadImage(colorOrUrl).then(response => {
+            const image = response.data;
             map.addImage(nomDeLaCouche + 'image', image);
             map.addLayer({
               "id": nomDeLaCouche,
@@ -1560,7 +1554,6 @@
         if (visibility === 'visible') {
           if (listLayers.includes(htmllink)) { // Si l'élément htmllink est inclus dans la liste
             if (ordre !== "nav nav-third-level collapse") { // ...et si l'ordre n'est pas "nav nav-third-level collapse"
-              console.log(ordre == "nav nav-third-level collapse")
               hideLayer(nomDeLaCouche, htmllink);  // ...alors masque la couche spécifiée
             }
           } else {
@@ -2732,9 +2725,8 @@ boutonPrinter.addEventListener('click', function () {
         searchItem = POI[i]; //Si un POI correspondant est trouvé (dans la liste POI), il est assigné à searchItem
 
         //charge une image qui sera utilisée comme icône pour le POI recherché
-        map.loadImage('../css/icons/layers_icons/recherche.png', function (error, image) {
-          if (error)
-            throw error;
+        map.loadImage('../css/icons/layers_icons/recherche.png').then(response => {
+          const image = response.data;
           map.addImage(searchLayerId + 'image', image);
 
           //ajoute une nouvelle couche de symboles à la carte pour afficher le POI recherché
