@@ -1,9 +1,0 @@
-{
-"type": "FeatureCollection",
-"name": "Categorie_Station vélostar",
-"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
-"features": [
-{ "type": "Feature", "properties": { "id": "177", "Nom": "Station Vélostar", "Categorie": "Station vélostar", "Groupe": "Mobilités et accessibilité", "Etiquette": null, "Campus": "Villejean", "Image": null, "Batiment": null, "Niveau": null, "Mail": null, "Tel": null, "Lien": null, "Horaire": null, "Capacite": "26 places", "Info": null, "PMR": null, "Photo": null, "Catégorie": null }, "geometry": { "type": "MultiPoint", "coordinates": [ [ -1.704123477795426, 48.121080634324862 ] ] } },
-{ "type": "Feature", "properties": { "id": "182", "Nom": "Station Vélostar", "Categorie": "Station vélostar", "Groupe": "Mobilités et accessibilité", "Etiquette": null, "Campus": "La Harpe", "Image": null, "Batiment": null, "Niveau": null, "Mail": null, "Tel": null, "Lien": null, "Horaire": null, "Capacite": "25 places", "Info": null, "PMR": null, "Photo": null, "Catégorie": null }, "geometry": { "type": "MultiPoint", "coordinates": [ [ -1.710313406384557, 48.125623945918036 ] ] } }
-]
-}
