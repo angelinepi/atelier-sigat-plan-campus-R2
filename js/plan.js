@@ -570,7 +570,9 @@
         }
         ;
         if (e.features[0].properties.Nom != "null" && e.features[0].properties.Nom != null && e.features[0].properties.Nom != "") {
-          if ((popup == null || popup.isOpen() == false) && (searchPopup == null || searchPopup.isOpen() === false) && (popupList == null || popupList.isOpen() === false)) {
+          if ((popup == null || popup.isOpen() == false) && (popupList == null || popupList.isOpen() === false)) { // supression d'une partie
+            // de la condition (&& (searchPopup == null || searchPopup.isOpen() === false)) car cela empêchait l'affichage des popup des bâtiments avec le nouvel appel des fonctions
+
 
             popupBati = new maplibregl.Popup({
               offset: [0, -45],
@@ -734,7 +736,7 @@
       offset: [0, -45],
       closeButton: false
     })
-            .setLngLat(salleRecherchee.geometry.coordinates)
+            .setLngLat(salleRX) //changement dans l'appel des géométries 
             .setHTML('<h1>' + popupTitle + '</h1><div class="description">' + popupContent + '</div>')
             .addTo(map);
   }
@@ -742,73 +744,75 @@
 ////////// fin de la definition de la fonction getSwitchPopup() //////////
 
 ////////// Variable switchPOI ////////// 
-  var switchPOI = function (value) {
-    value = value.split("!").join("'");
-    salleRecherchee = null;
-    salleRX = null;
-    salleRY = null;
-    var htmlPOI = document.getElementById(value);
-    // var htmlPOIParent = htmlPOI.parentNode;
+var switchPOI = function (value) {
+  value = value.split("!").join("'");
+  salleRecherchee = null;
+  salleRX = null;
+  salleRY = null;
+  var htmlPOI = document.getElementById(value);
+  // var htmlPOIParent = htmlPOI.parentNode;
 
-    /* if (document.getElementById('fleche')) {
-     var previousFleche =  document.getElementById('fleche');
-     previousFleche.nextSibling.classList;remov('active');
-     document.getElementById('fleche').remove();
+  /* if (document.getElementById('fleche')) {
+   var previousFleche =  document.getElementById('fleche');
+   previousFleche.nextSibling.classList;remov('active');
+   document.getElementById('fleche').remove();
 
-     }
+   }
 
-     var fleche = document.createElement('img');
-     /*fleche.setAttribute('src', '../css/icons/fleche.png');
-     fleche.setAttribute('id', 'fleche');
-     fleche.style.width = '20px';
-     fleche.style.position = 'absolute';
-     htmlPOIParent.insertBefore(fleche, htmlPOI);*/
+   var fleche = document.createElement('img');
+   /*fleche.setAttribute('src', '../css/icons/fleche.png');
+   fleche.setAttribute('id', 'fleche');
+   fleche.style.width = '20px';
+   fleche.style.position = 'absolute';
+   htmlPOIParent.insertBefore(fleche, htmlPOI);*/
 
-    if (document.getElementsByClassName('leaf active')) {
-      var previousActiveLeaves = document.getElementsByClassName('leaf active');
-      for (let i = 0; i < previousActiveLeaves.length; i++) {
-        previousActiveLeaves[i].classList.remove('active');
-      }
+  if (document.getElementsByClassName('leaf active')) {
+    var previousActiveLeaves = document.getElementsByClassName('leaf active');
+    for (let i = 0; i < previousActiveLeaves.length; i++) {
+      previousActiveLeaves[i].classList.remove('active');
     }
-
-    htmlPOI.classList.add('active');
-    if (popup) {
-      popup.remove();
-    }
-    if (popupList) {
-      popupList.remove();
-    }
-    for (var i = 0; i < POI.length; i++) {
-
-      if (POI[i].properties.Nom === value) {
-        salleRecherchee = POI[i];
-      }
-    }
-    salleRX = salleRecherchee.geometry.coordinates[0];
-    salleRY = salleRecherchee.geometry.coordinates[1];
-    if (salleRecherchee.properties.Campus === 'Mazier') {
-      map.setMaxBounds(mazierBounds);
-    } else {
-      map.setMaxBounds(rennesBounds);
-    }
-    ;
-    if (DDD) {
-      map.flyTo({
-        center: [salleRX, salleRY],
-        zoom: 16.5,
-        pitch: 45,
-        speed: 0.6
-      });
-    } else {
-      map.flyTo({
-        center: [salleRX, salleRY],
-        zoom: 16.5,
-        pitch: 0,
-        speed: 0.6
-      });
-    }
-    getSwitchPopup();
   }
+
+  htmlPOI.classList.add('active');
+  if (popup) {
+    popup.remove();
+  }
+  if (popupList) {
+    popupList.remove();
+  }
+
+
+  for (var i = 0; i < POI.length; i++) {
+
+    if (POI[i].properties.Nom === value) {   
+      salleRecherchee = POI[i];
+    }
+  }
+  salleRX = salleRecherchee.geometry.coordinates[0];
+  salleRY = salleRecherchee.geometry.coordinates[1];
+  if (salleRecherchee.properties.Campus === 'Mazier') {
+    map.setMaxBounds(mazierBounds);
+  } else {
+    map.setMaxBounds(rennesBounds);
+  }
+  ;
+  if (DDD) {
+    map.jumpTo({
+      center: [salleRX[0], salleRX[1]],//changement dans l'appel des géométries 
+      zoom: 16.5,
+      pitch: 45,
+      speed: 0.6
+    });
+  } else {
+    map.jumpTo({
+      center: [salleRX[0], salleRX[1]],
+      zoom: 16.5,
+      pitch: 0,
+      speed: 0.6
+    });
+  }
+  getSwitchPopup();
+}
 
 ////////// Fonction ajoutant une liste de picto de manière permanente sur le fond de carte ////////// 
   function addPictoFondDeCarte() {
@@ -1571,9 +1575,9 @@ var elLink, elList;
 
 //////////////////////////////////   Interactivité menus //////////////////////////////////////
   // ZOOMS sur les campus
-  var flyingZoom = 15.8;
+  var jumpingZoom = 15.8;
   if (device = 'phone') {
-    flyingZoom = 15
+    jumpingZoom = 15
   }
   ;
   var zoomLaHarpe = document.getElementById("LaHarpe")
@@ -1650,6 +1654,13 @@ boutonPrinter.addEventListener('click', function () {
     return jsonLines;
   })();
 
+  var fproperties = []; //definir cette variable en dehors de la promise
+  var POI = [];
+  var searchBarCrossPresence = null;
+  var searchValue = null;
+  var searchLayerId = 'SearchResult';
+  var searchLayerCount = 0;
+
 // nouvel appel grâce à la fonction d'AP
   const getGeoJSON = (nomFichier) => fetch(nomFichier).then(res => res.json()).then(res => res.features);
 
@@ -1701,9 +1712,6 @@ boutonPrinter.addEventListener('click', function () {
     "features": []
   };
   
-  var fproperties = []; //definir cette variable en dehors de la promise
-  var POI = [];
-
   Promise.all(geojsons).then(allGeoJsons => { //à l'intérieur de cette fonction se passe le regroupement des geojsons
  
   allGeoJsons.forEach(oneGeoJSON => {
@@ -1721,8 +1729,7 @@ boutonPrinter.addEventListener('click', function () {
   	
   	fproperties = finalGeoJSON.features.map(function (el) {
   		return el.properties;})
-  
-    
+   
 
   map.on("load", function () {
     // Couche herbe
@@ -2139,7 +2146,7 @@ boutonPrinter.addEventListener('click', function () {
       for (var i = 0; i < Layers.length; i++) {
         if (Layers[i] = 'Associations briochines') {
           map.setMaxBounds(mazierBounds);
-          map.flyTo({
+          map.jumpTo({
             center: [-2.7410000, 48.513033],
             zoom: 16.5,
             pitch: 0,
@@ -2488,7 +2495,7 @@ boutonPrinter.addEventListener('click', function () {
 
 ////////// fin de la définition de la fonction addRealTimeBus //////////
 
-  var searchBarCrossPresence = null;
+  
 //////////////////////////////////  Barre de recherche //////////////////////////////////////
   // initialisation des popup
   var searchPopup = null
@@ -2498,12 +2505,12 @@ boutonPrinter.addEventListener('click', function () {
 
 
   // Récupération des propriétés du json
-  var searchValue = null;
+  
   var searchItem = [];
   var searchX = null;
   var searchY = null;
-  var searchLayerCount = 0;
-  var searchLayerId = 'SearchResult';
+  
+  
   // var searchPopup = null
   var options = {
     data: jproperties,
@@ -2600,11 +2607,12 @@ boutonPrinter.addEventListener('click', function () {
     }
     ;
     //Création d'un objet searchPopup
+  
     searchPopup = new maplibregl.Popup({
       offset: [0, -45],
       closeButton: false  
     })
-            .setLngLat(searchItem.geometry.coordinates)
+            .setLngLat(searchX) //changement dans l'appel de la géométrie
             .setHTML('<h1>' + popupTitle + '</h1><div class="description">' + popupContent + '</div>')
             .addTo(map);
   }
@@ -2673,6 +2681,7 @@ boutonPrinter.addEventListener('click', function () {
 
         searchX = searchItem.geometry.coordinates[0];
         searchY = searchItem.geometry.coordinates[1];
+        
         // Configuration de la carte pour le campus Mazier
         if (POI[i].properties.Campus === 'Mazier') {
           map.setMaxBounds(mazierBounds);
@@ -2697,16 +2706,16 @@ boutonPrinter.addEventListener('click', function () {
 
         if (DDD) {
           // Configuration de la carte pour le mode 3D
-          map.flyTo({
-            center: [searchX, searchY],
+          map.jumpTo({
+            center: [searchX[0],searchX[1]], //changement dans l'appel de la géométrie
             zoom: 16.5,
             pitch: 45,
             speed: 0.6
           });
         } else {
           // Configuration de la carte pour le mode 2D
-          map.flyTo({
-            center: [searchX, searchY],
+          map.jumpTo({
+            center: [searchX[0],searchX[1]], //changement dans l'appel de la géométrie
             zoom: 16.5,
             pitch: 0,
             speed: 0.6
@@ -2741,7 +2750,7 @@ boutonPrinter.addEventListener('click', function () {
       Y = Y - 0.00021;
       getBati3D();
       zoomCible = currentZoom + 0.5;
-      map.flyTo({
+      map.jumpTo({
         center: [X, Y],
         pitch: 60,
         speed: 0.08,
@@ -2762,7 +2771,7 @@ boutonPrinter.addEventListener('click', function () {
       Y = Y + 0.00021;
       getBati2D();
       zoomCible = currentZoom - 0.5;
-      map.flyTo({
+      map.jumpTo({
         center: [X, Y],
         pitch: 0,
         speed: 0.08,
