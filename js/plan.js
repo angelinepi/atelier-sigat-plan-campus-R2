@@ -1704,9 +1704,9 @@ boutonPrinter.addEventListener('click', function () {
   var fproperties = []; //definir cette variable en dehors de la promise
   var POI = [];
 
-  const allGeoJsons = geojsons; //à l'intérieur de cette fonction se passe le regroupement des geojsons
+  Promise.all(geojsons).then(allGeoJsons => { //à l'intérieur de cette fonction se passe le regroupement des geojsons
  
-  allGeoJsons = allGeoJsons.forEach(oneGeoJSON => {
+  allGeoJsons.forEach(oneGeoJSON => {
   		finalGeoJSON.features.concat(oneGeoJSON.features);
   	});
   	
@@ -2526,11 +2526,11 @@ boutonPrinter.addEventListener('click', function () {
 
   $("#searchfield").easyAutocomplete(options);
 
-// })
-// .catch(e => {
-//   alert("Erreur oups");
-//   console.error(e);
-// }); // fin de la fonction aggrégeant les geojsons. Je la fait se fermer un peu après la partie
+})
+.catch(e => {
+  alert("Erreur oups");
+  console.error(e);
+}); // fin de la fonction aggrégeant les geojsons. Je la fait se fermer un peu après la partie
 //concernant les couches car cela désactive la barre de recherche sinon
 
   ////////// définition de la fonction getSearchPopup //////////
