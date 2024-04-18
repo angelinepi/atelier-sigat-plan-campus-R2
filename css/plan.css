@@ -2,6 +2,8 @@
 /* Importation du fichier fontfaces.css */
 @import "fontfaces.css";
 
+
+
 /* Styles pour l'élément HTML et le corps de la page */
 html, body {
     overflow-x: hidden; /* Empêche le défilement horizontal */
@@ -817,3 +819,4 @@ button.navbar-toggle {
     size: landscape;
   }
 }
+

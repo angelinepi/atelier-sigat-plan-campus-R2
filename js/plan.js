@@ -17,9 +17,8 @@
 
   ////////////////////////////// fin code origine ////////////////////////////
 
-
   /**
-   * Créer un lien vers le site Zone Téléchargement
+   * Créer un lien vers le site Plan des Campus Université de Rennes 
    * @param campus Nom du campus
    * @param categories Nom de la catégorie
    * @param objet Nom de l'objet/élément 
@@ -27,179 +26,54 @@
    * @returns {string} URL de recherche
    */
 
-  /////////////////////////////////// code pour changer de campus /////////////////////////////
-
-  // Fonction pour créer une URL avec un paramètre de campus et mettre à jour l'URL de la page
-  function createLinkAndUpdateURL(campus, categories) { // parametre non obligatoire possibles (ex: 2D/3D)
-    let url = `http://127.0.0.1:5500/?`; // changer l'adresse du site par le vrai 
-    
-    url += `campus=${encodeURIComponent(campus)}`; // Ajouter le paramètre de campus à l'URL encodeURIComponent pour gérer les caractères spéciaux
-    
-    // attendre la réparation du bug pour activer les boutons 2D et 3D 
-      // pas mis dans la fonction car pas obligatoire (pour le moment)
-    if (BoutonsD == '2D') {
-      url += `&D=2D`;
-    }  //2D ou 3D 
-    else {
-      url += `&D=3D`;
-    }
-    //////// attendre la réparation du bug pour activer les boutons 2D et 3D inutile ? 
-
-    url += `&layers=${encodeURIComponent(categories)}`; // Ajouter le paramètre de couche à l'URL 
-    // à ajouter : paramêtre multiple pour les catégories
-
-
-    // Mettre à jour l'URL sans recharger la page
-    history.pushState({ campus: campus }, campus, url);
-    return url;
+// Aide 
+  // Ajouter un gestionnaire d'événements à chaque bouton de objet
+document.addEventListener('click', function(event) {
+  const target = event.target;
+  console.log(target); // Vérifier l'élément cible dans la console
+  if (target.classList.contains('maplibregl-popup')) {
+    const objetName = target.querySelector('h1').textContent.trim(); // Récupérer le nom de l'objet à partir du bouton cliqué
+    console.log(objetName); // Vérifier la valeur de objetName dans la console
+    createLinkAndUpdateURL(objetName); 
+    console.log('test') // Appeler la fonction pour changer le objet et l'URL
   }
-
-
-
-  // Sélectionner tous les boutons de campus
-  const campusButtons = document.querySelectorAll('.btn.btn-primary');
-  const categoriesCase = document.querySelectorAll('.case'); // Sélectionner toutes les cases de catégorie
-
-
-  // Ajouter un gestionnaire d'événements à chaque bouton de campus + création de lien et mise à jour de l'URL 
-  campusButtons.forEach(function(button) {
-    button.addEventListener('click', function(event) {
-      const campusName = event.target.textContent.trim(); // Récupérer le nom du campus à partir du bouton cliqué
-      createLinkAndUpdateURL(campusName); // Passer une chaîne vide pour les catégories car les boutons de campus ne semblent pas concernés par les catégories
-    });
-  });
-  // cf contentpage et essayer de faire pareil, une fonction 
-
-  // // Ajouter un gestionnaire d'événements à chaque case de catégorie + création de lien et mise à jour de l'URL 
-  // categoriesCase.forEach(function(li) { 
-  //   li.addEventListener('click', function(event) {
-  //     const categorieName = event.target.textContent.trim(); // Récupérer le nom de la catégorie à partir de la case cliquée
-  //     createLinkAndUpdateURL(campusName, categorieName); // Passer une chaîne vide pour le campus car les cases de catégorie ne semblent pas concernées par le campus
-  //   });
-  // });
-
-
-
-  // Fonction pour activer le bouton correspondant au nom du campus
-  function activateCampusButton(campusName) {
-    const campusButtons = document.querySelectorAll('.btn.btn-primary');
-    campusButtons.forEach(function(button) {
-      if (button.textContent.trim() === campusName) {
-        button.classList.add('active'); // Ajouter la classe active au bouton 
-
-        // Ajouter la logique pour définir le zoom en fonction du campus
-        if (campusName === 'Mazier') {
-          map.setMaxBounds(mazierBounds);
-          map.flyTo({
-            zoom: zoomBase,
-            center: [-2.7410000, 48.513033]
-          });
-        } else if (campusName === 'Villejean') {
-          map.setMaxBounds(rennesBounds);
-          map.flyTo({
-            zoom: zoomBase,
-            center: [-1.7013, 48.119365]
-          });
-        } else if (campusName === 'La Harpe') {
-          map.setMaxBounds(rennesBounds);
-          map.flyTo({
-            zoom: zoomBase,
-            center: [-1.7091, 48.1254]
-          });
-        }
-
-      } else {
-        button.classList.remove('active');
-      }
-    });
-  }
-  // fonction a revoir, redondance de code ??? 
-
-
-  // Fonction pour obtenir le nom du campus à partir de l'URL
-  function getCampusFromURL() {
-    const urlParams = new URLSearchParams(window.location.search); // Récupérer les paramètres de l'URL
-    return urlParams.get('campus'); // Récupérer la valeur du paramètre de campus
-  }
-
-  // Lorsque la page se charge, récupérez le nom du campus dans l'URL et activez le bouton correspondant
-  document.addEventListener('DOMContentLoaded', function() { // quand l'url est rechargé alors on récupère le campus si il y en a un alors on active le bouton correspondant
-    const campusName = getCampusFromURL();
-    if (campusName) {
-      activateCampusButton(campusName);
-      console.log('Campus:', campusName);
-    }
-  });
-
-  /////////////////////////// fin du code pour changer de campus /////////////////////////////
-
-
-
-  // dire que quand y un espace %20
-  // changer le lien directement dans l'url OK 
-  // simplification + compréhension du code 
-
-
-
-  ////////////////////////////////// test popup lien /////////////////////////////
-
-
-
-  /////////////////////////////////// code pour changer de campus /////////////////////////////
+});
+  
+  
+/////////////////////////////////// code pour changer de campus /////////////////////////////
 
   // // Fonction pour créer une URL avec un paramètre de campus et mettre à jour l'URL de la page
-  // function createLinkAndUpdateURL(objet) {
-  //   let url = `http://127.0.0.1:5500/?`;
-  //   url += `&objet=${encodeURIComponent(objet)}`; 
+  // function createLinkAndUpdateURL(campus) { // parametre non obligatoire possibles (ex: 2D/3D)
+  //   let url = window.location.href; // changer l'adresse du site par le vrai 
+    
+  //   url += `campus=${encodeURIComponent(campus)}`; // Ajouter le paramètre de campus à l'URL encodeURIComponent pour gérer les caractères spéciaux
+
+  //   // à ajouter : paramêtre multiple pour les catégories
 
   //   // Mettre à jour l'URL sans recharger la page
-  //   history.pushState({ objet: objet }, objet, url);
+  //   history.pushState({ campus: campus }, campus, url);
   //   return url;
   // }
 
-  // // // Appeler la fonction avec le paramètre souhaité
-  // // createLinkAndUpdateURL(objet);
+  // // Sélectionner tous les boutons de campus
+  // const campusButtons = document.querySelectorAll('.btn.btn-primary');
 
-  // console.log(createLinkAndUpdateURL());
-
-
-  // // Sélectionner tous les boutons de popup 
-  // const popupButtons = document.querySelectorAll('.mapboxgl-popup');
-  // const marker = document.querySelectorAll('.marker');
-
-  // // verifier si les éléments sont présents sur la page 
-  // document.addEventListener('click', () => {
-
-  //   if (marker.length > 0) {
-  //     console.log("Les éléments marker sont présents sur la page et un clic a été effectué.");
-  //   } else {
-  //     console.log("Les éléments marker ne sont pas présents sur la page.");
-  //   }
+  // // Ajouter un gestionnaire d'événements à chaque bouton de campus + création de lien et mise à jour de l'URL 
+  // campusButtons.forEach(function(button) {
+  //   button.addEventListener('click', function(event) {
+  //     const campusName = event.target.textContent.trim(); // Récupérer le nom du campus à partir du bouton cliqué
+  //     createLinkAndUpdateURL(campusName); // Passer une chaîne vide pour les catégories car les boutons de campus ne semblent pas concernés par les catégories
+  //   });
   // });
+  // // cf contentpage et essayer de faire pareil, une fonction 
 
-
-  // // verifier si les éléments sont présents sur la page 
-  // document.addEventListener('click', () => {
-  //   const popupButtons = document.querySelectorAll('.mapboxgl-popup');
-
-  //   if (popupButtons.length > 0) {
-  //     console.log("Les éléments popup sont présents sur la page et un clic a été effectué.");
-  //   } else {
-  //     console.log("Les éléments popup ne sont pas présents sur la page.");
-  //   }
-  // });
-
-
-  // // Ajouter un gestionnaire d'événements à chaque bouton de objet
-  // document.addEventListener('click', function(event) {
-  //   const target = event.target;
-  //   if (target.classList.contains('mapboxgl-popup')) {
-  //     const objetName = target.querySelector('h1').textContent.trim(); // Récupérer le nom de l'objet à partir du bouton cliqué
-  //     createLinkAndUpdateURL(objetName); 
-  //     console.log('test') // Appeler la fonction pour changer le objet et l'URL
-  //   }
-  // });
-
+  // // // Ajouter un gestionnaire d'événements à chaque case de catégorie + création de lien et mise à jour de l'URL 
+  // // categoriesCase.forEach(function(li) { 
+  // //   li.addEventListener('click', function(event) {
+  // //     const categorieName = event.target.textContent.trim(); // Récupérer le nom de la catégorie à partir de la case cliquée
+  // //     createLinkAndUpdateURL(campusName, categorieName); // Passer une chaîne vide pour le campus car les cases de catégorie ne semblent pas concernées par le campus
+  // //   });
+  // // });
 
   // // Fonction pour activer le bouton correspondant au nom du campus
   // function activateCampusButton(campusName) {
@@ -234,15 +108,17 @@
   //     }
   //   });
   // }
+  // // fonction a revoir, redondance de code ??? 
+
 
   // // Fonction pour obtenir le nom du campus à partir de l'URL
   // function getCampusFromURL() {
-  //   const urlParams = new URLSearchParams(window.location.search);
-  //   return urlParams.get('campus');
+  //   const urlParams = new URLSearchParams(window.location.search); // Récupérer les paramètres de l'URL
+  //   return urlParams.get('campus'); // Récupérer la valeur du paramètre de campus
   // }
 
   // // Lorsque la page se charge, récupérez le nom du campus dans l'URL et activez le bouton correspondant
-  // document.addEventListener('DOMContentLoaded', function() {
+  // document.addEventListener('DOMContentLoaded', function() { // quand l'url est rechargé alors on récupère le campus si il y en a un alors on active le bouton correspondant
   //   const campusName = getCampusFromURL();
   //   if (campusName) {
   //     activateCampusButton(campusName);
@@ -250,7 +126,437 @@
   //   }
   // });
 
-  /////////////////////////// fin du code pour changer de campus /////////////////////////////
+/////////////////////////// fin du code pour changer de campus /////////////////////////////
+
+// !! Quand on click sur un campus ex : Mazier puis sur une salle qui est à Villejean, le campus reste sur Mazier !! 
+
+
+//   dire que quand y un espace %20
+//   changer le lien directement dans l'url OK 
+//   simplification + compréhension du code 
+//   ajout bouton 2D / 3D (si utile)
+//   ajouter les catégories/objets du 3eme niveau 
+
+
+
+
+
+
+
+/////////////////////////// code pour changer de catégories ////////////////////////////////////// 
+
+// // Fonction pour créer une URL avec un paramètre de catégorie et mettre à jour l'URL de la page
+//   function createLinkAndUpdateURL(selectedCategory) {
+//     const urlParams = new URLSearchParams(window.location.search); // Récupérer les paramètres de l'URL
+//     urlParams.set('category', selectedCategory); // Ajouter le paramètre de l'objet à l'URL
+//     const newUrl = `${window.location.pathname}?${urlParams.toString()}`; // Créer une nouvelle URL avec les paramètres mis à jour
+//     history.pushState({ category: selectedCategory }, selectedCategory, newUrl); // Mettre à jour l'URL sans recharger la page
+//     return newUrl;
+//   }
+
+// console.log(createLinkAndUpdateURL()); // test de la fonction
+
+
+// // ///////////////////page vers URL ////////////////// 
+// // Variable pour stocker la catégorie sélectionnée
+// let selectedCategory = null; //En résumé, l'utilisation de null comme valeur initiale pour selectedCategory n'est pas obligatoire,
+//                             // mais elle est courante et peut être utile pour indiquer l'absence de valeur au départ.
+
+// // Sélectionner tous les liens de catégorie dans la barre de navigation
+// const categoryLinks = document.querySelectorAll('.sidebar #side-menu a.case');
+
+// // Ajouter un gestionnaire d'événements à chaque lien de catégorie
+// categoryLinks.forEach(function(link) {
+//   link.addEventListener('click', function(event) {
+//     event.preventDefault(); // Empêcher le comportement par défaut du lien
+
+//     const categoryName = link.textContent.trim(); // Récupérer le nom de la catégorie du lien cliqué
+
+//     // Mettre à jour la catégorie sélectionnée
+//     selectedCategory = categoryName;
+
+//     // Retirer la classe "active" de tous les liens
+//     categoryLinks.forEach(function(link) {
+//       link.classList.remove('active');
+//     });
+
+//     // Ajouter la classe "active" au lien cliqué
+//     link.classList.add('active');
+
+//     // Mettre à jour l'URL et afficher la nouvelle URL dans la console (vous pouvez retirer cette ligne en production)
+//     const updatedURL = createLinkAndUpdateURL(selectedCategory);
+//     console.log(updatedURL);
+//   });
+// });
+
+
+// // /////////////// URL vers page ////////////
+
+// // Fonction pour obtenir le nom de la catégorie à partir de l'URL
+// function getCategoryFromURL() {
+//   const urlParams = new URLSearchParams(window.location.search);
+//   return urlParams.get('categories');
+// }
+
+
+// function activateCategory(categoryName) {
+//   const categoryLinks = document.querySelectorAll('.sidebar #side-menu a.case');
+//   categoryLinks.forEach(function(link) {
+//     if (link.textContent.trim() === categoryName) { // Vérifier si le nom de la catégorie correspond au nom de la catégorie du lien
+//       link.classList.add('active');
+//       console.log('Catégorie:', categoryName)
+//     }
+//   });
+// }
+
+// activateCategory('Amphithéâtre'); // test de la fonction  
+
+
+
+// // faire appel aux fonctions qui sont deja créer 
+
+
+
+// // Lorsque la page est chargée, récupérez le nom de la catégorie dans l'URL et activez la case à cocher correspondante
+// document.addEventListener('DOMContentLoaded', function() {
+//   const categoryName = getCategoryFromURL();
+//   if (categoryName) {
+//     activateCategory(categoryName);
+//   }
+// });
+
+
+// Fonction pour créer une URL avec un paramètre de catégorie et mettre à jour l'URL de la page
+function createLinkAndUpdateURL(selectedCategory) {
+  const urlParams = new URLSearchParams(window.location.search); // Récupérer les paramètres de l'URL
+  urlParams.set('category', selectedCategory); // Ajouter le paramètre de l'objet à l'URL
+  const newUrl = `${window.location.pathname}?${urlParams.toString()}`; // Créer une nouvelle URL avec les paramètres mis à jour
+  history.pushState({ category: selectedCategory }, selectedCategory, newUrl); // Mettre à jour l'URL sans recharger la page
+  return newUrl;
+}
+
+
+
+// Variable pour stocker la catégorie sélectionnée
+let selectedCategory = null;
+
+// Sélectionner tous les liens de catégorie dans la barre de navigation
+const categoryLinks = document.querySelectorAll('.sidebar #side-menu a.case');
+
+// Ajouter un gestionnaire d'événements à chaque lien de catégorie
+categoryLinks.forEach(function(link) {
+  link.addEventListener('click', function(event) {
+    event.preventDefault(); // Empêcher le comportement par défaut du lien
+
+    const categoryName = link.textContent.trim(); // Récupérer le nom de la catégorie du lien cliqué
+
+    // Mettre à jour la catégorie sélectionnée
+    selectedCategory = categoryName;
+
+    // Retirer la classe "active" de tous les liens
+    categoryLinks.forEach(function(link) {
+      link.classList.remove('active');
+    });
+
+    // Ajouter la classe "active" au lien cliqué
+    link.classList.add('active');
+
+    // Mettre à jour l'URL et afficher la nouvelle URL dans la console
+    const updatedURL = createLinkAndUpdateURL(selectedCategory);
+    console.log(updatedURL);
+  });
+});
+
+// Fonction pour obtenir le nom de la catégorie à partir de l'URL
+function getCategoryFromURL() {
+  const urlParams = new URLSearchParams(window.location.search);
+  return urlParams.get('category'); // Utilisez 'category' au lieu de 'categories'
+}
+
+function activateCategory(categoryName) {
+  const categoryLinks = document.querySelectorAll('.sidebar #side-menu a.case');
+  categoryLinks.forEach(function(link) {
+    if (link.textContent.trim() === categoryName) { // Vérifier si le nom de la catégorie correspond au nom de la catégorie du lien
+      link.classList.add('active');
+      console.log('Catégorie activée :', categoryName);
+
+      // You need to define the variables used in the addCategoryOverlay function: htmllink, ordre, Symbol, colorOrUrl, iconSize, overlayCount, minZoom, maxZoom
+      // I'm assuming these should be the same as the ones used in the if statement below, so I've removed the line.
+
+      if (categoryName === 'Amphithéâtres') {
+        addCategoryOverlay(amphitheatresLink, 'Amphithéâtre', 'layer', 'marker', amphiURL, tailleMarker, amphiCount);
+        amphiCount += 1;
+      }
+      amphitheatresLink.onclick = function (e) {
+        addCategoryOverlay(amphitheatresLink, 'Amphithéâtre', 'layer', 'marker', amphiURL, tailleMarker, amphiCount);
+        amphiCount += 1;
+      }
+  
+      if (categoryName == 'Salles informatique') {
+        addCategoryOverlay(sallesInfoLink, 'Salle informatique', 'layer', 'marker', sallesInfoURL, tailleMarker, sallesInfoCount);
+        sallesInfoCount += 1;
+      }
+      sallesInfoLink.onclick = function (e) {
+        addCategoryOverlay(sallesInfoLink, 'Salle informatique', 'layer', 'marker', sallesInfoURL, tailleMarker, sallesInfoCount);
+        sallesInfoCount += 1;
+      }
+      if (categoryName == 'Salles spécifiques') {
+        addCategoryOverlay(sallesSpecifiquesLink, 'Salles spécifiques', 'layer', 'marker', sallesSpeURL, tailleMarker, sallesSpeCount);
+        sallesSpeCount += 1;
+      }
+      sallesSpecifiquesLink.onclick = function (e) {
+        addCategoryOverlay(sallesSpecifiquesLink, 'Salles spécifiques', 'layer', 'marker', sallesSpeURL, tailleMarker, sallesSpeCount);
+        sallesSpeCount += 1;
+      }
+      if (categoryName == 'Services centraux') {
+        addCategoryOverlay(ServicescenLink, 'Services centraux', 'layer', 'marker', ServicescenURL, tailleMarker, ServicescenCount);
+        ServicescenCount += 1;
+      }
+      if (categoryName == 'Services communs') {
+        addCategoryOverlay(ServicescomLink, 'Services communs', 'layer', 'marker', ServicescomURL, tailleMarker, ServicescomCount);
+        ServicescomCount += 1;
+      }
+      if (categoryName == 'Services généraux') {
+        addCategoryOverlay(ServicesgenLink, 'Services généraux', 'layer', 'marker', ServicesgenURL, tailleMarker, ServicesgenCount);
+        ServicesgenCount += 1;
+      }
+      if (categoryName == 'Formation UFR Sciences Humaines') {
+        addCategoryOverlay(FUFRSHLink, 'Formation UFR Sciences Humaines', 'layer', 'marker', FUFRSHURL, tailleMarker, FUFRSHCount);
+        FUFRSHCount += 1;
+      }
+      if (categoryName == 'Formation UFR Langue') {
+        addCategoryOverlay(FUFRLLink, 'Formation UFR Langue', 'layer', 'marker', FUFRLURL, tailleMarker, FUFRLCount);
+        FUFRLCount += 1;
+      }
+      if (categoryName == 'Formation UFR Sciences Sociales') {
+        addCategoryOverlay(FUFRSSLink, 'Formation UFR Sciences Sociales', 'layer', 'marker', FUFRSSURL, tailleMarker, FUFRSSCount);
+        FUFRSSCount += 1;
+      }
+      if (categoryName == 'Formation UFR STAPS') {
+        addCategoryOverlay(FUFRSTAPSLink, 'Formation UFR STAPS', 'layer', 'marker', FUFRSTAPSURL, tailleMarker, FUFRSTAPSCount);
+        FUFRSTAPSCount += 1;
+      }
+      if (categoryName == 'Formation UFR ALC') {
+        addCategoryOverlay(FUFRALCLink, 'Formation UFR ALC', 'layer', 'marker', FUFRALCURL, tailleMarker, FUFRALCCount);
+        FUFRALCCount += 1;
+      }
+      if (categoryName == 'Autres Formations') {
+        addCategoryOverlay(AutresFormationsLink, 'Autres Formations', 'layer', 'marker', AutresFormationsURL, tailleMarker, AutresFormationsCount);
+        AutresFormationsCount += 1;
+      }
+      if (categoryName == 'Bibliothèques') {
+        addCategoryOverlay(BibliothequesLink, 'Bibliothèques', 'layer', 'marker', BibliothequesURL, tailleMarker, BibliothequesCount);
+        BibliothequesCount += 1;
+      }
+      if (categoryName == 'Cafétérias') { 
+        addCategoryOverlay(CafeteriasLink, 'Cafétérias', 'layer', 'marker', CafeteriasURL, tailleMarker, CafeteriasCount);
+        CafeteriasCount += 1;
+      }
+
+
+    }
+  });
+}
+
+
+
+// Lorsque la page est chargée, récupérez le nom de la catégorie dans l'URL et activez la case à cocher correspondante
+document.addEventListener('DOMContentLoaded', function() {
+  const categoryName = getCategoryFromURL();
+  if (categoryName) {
+    activateCategory(categoryName);
+  }
+});
+
+
+/////////////////////////////////// fin code pour changer de catégories /////////////////////////////
+
+
+
+/////////////////////////////// code pour changer de catégories 3eme NIveau /////////////////////////////
+
+// peut etre faire comme pour les catégories filtrer sur un endroit 
+// Sélectionner tous les liens de catégorie dans la barre de navigation
+// const categoryLinks = document.querySelectorAll('.sidebar #side-menu a.case');
+
+// // Fonction pour créer une URL avec un paramètre de catégorie et mettre à jour l'URL de la page
+// function createLinkAndUpdateURL(selectedCategory) {
+//   const urlParams = new URLSearchParams(window.location.search); // Récupérer les paramètres de l'URL
+//   urlParams.set('category', selectedCategory); // Ajouter le paramètre de l'objet à l'URL
+//   const newUrl = `${window.location.pathname}?${urlParams.toString()}`; // Créer une nouvelle URL avec les paramètres mis à jour
+//   history.pushState({ category: selectedCategory }, selectedCategory, newUrl); // Mettre à jour l'URL sans recharger la page
+//   return newUrl;
+// }
+
+// console.log(createLinkAndUpdateURL()); // test de la fonction
+
+
+// // ///////////////////page vers URL ////////////////// 
+// // Variable pour stocker la catégorie sélectionnée
+// let selectedCategory = null; //En résumé, l'utilisation de null comme valeur initiale pour selectedCategory n'est pas obligatoire,
+//                           // mais elle est courante et peut être utile pour indiquer l'absence de valeur au départ.
+
+// // Sélectionner les liens de catégorie dans la barre de navigation qui ont la classe "case" et "active"
+// const categoryLinks = document.querySelectorAll('.navbar .case.active');
+
+
+// // Ajouter un gestionnaire d'événements à chaque lien de catégorie
+// categoryLinks.forEach(function(link) {
+// link.addEventListener('click', function(event) {
+//   event.preventDefault(); // Empêcher le comportement par défaut du lien
+
+//   const categoryName = link.textContent.trim(); // Récupérer le nom de la catégorie du lien cliqué
+
+//   // Mettre à jour la catégorie sélectionnée
+//   selectedCategory = categoryName;
+
+//   // Retirer la classe "active" de tous les liens
+//   categoryLinks.forEach(function(link) {
+//     link.classList.remove('active');
+//   });
+
+//   // Ajouter la classe "active" au lien cliqué
+//   link.classList.add('active');
+
+//   // Mettre à jour l'URL et afficher la nouvelle URL dans la console (vous pouvez retirer cette ligne en production)
+//   const updatedURL = createLinkAndUpdateURL(selectedCategory);
+//   console.log(updatedURL);
+// });
+// });
+
+// // faire le reste /// 
+
+
+
+
+  ////////////////////////////////// URL pour les OBJETS  /////////////////////////////
+
+//   function createLinkAndUpdateURL(objet) {
+//     let url = window.location.href;
+//     // Mettre à jour l'URL sans recharger la page
+//     url += `objet=${encodeURIComponent(objet)}`; 
+//     history.pushState({ objet: objet }, objet, url);
+//     return url;
+//   }
+ 
+
+//   function createLinkAndUpdateURL(objet) {
+//     const urlParams = new URLSearchParams(window.location.search); // Récupérer les paramètres de l'URL
+//     urlParams.set('objet', objet); // Ajouter le paramètre de l'objet à l'URL
+//     const newUrl = `${window.location.pathname}?${urlParams.toString()}`; // Créer une nouvelle URL avec les paramètres mis à jour
+//     history.pushState({ objet: objet }, objet, newUrl); // Mettre à jour l'URL sans recharger la page
+//     return newUrl;
+//   }
+  
+
+// /////////////// page vers URL //////////////////////
+// //// cf la fonction getPopup pour les épingles à clicker ////
+
+// //// via le bouton de recherche //// 
+// // Sélectionner le bouton de recherche
+// const searchButton = document.querySelector('#searchButton');
+
+// // Ajouter un gestionnaire d'événements au bouton de recherche
+// searchButton.addEventListener('click', function() {
+//   // Récupérer la valeur de la recherche à partir du champ de saisie
+//   const searchValue = document.querySelector('#searchfield').value.trim();
+  
+//   // Vérifier si la valeur de la recherche n'est pas vide
+//   if (searchValue !== '') {
+//     // Créer un lien et mettre à jour l'URL en fonction de la valeur de la recherche
+//     createLinkAndUpdateURL(searchValue);
+//   }
+// });
+
+
+// ////////////// fin de page vers URL ////////////////
+// ////////////// URL vers page //////////////////////
+
+//   // Fonction pour obtenir le nom de l'objet à partir de l'URL
+//   function getObjetFromURL() {
+//     const urlParams = new URLSearchParams(window.location.search); // Récupérer les paramètres de l'URL
+//     console.log(urlParams.get('objet'));
+//     return urlParams.get('objet'); // Récupérer la valeur du paramètre de l'objet
+//   }
+
+//   document.addEventListener('click', function() {
+//     console.log('objet:', getObjetFromURL());
+//   });
+
+// // Fonction pour afficher la popup correspondant à un objet et effectuer un zoom sur la popup
+// function afficherPopupObjet(objetName) {
+//   // Récupérer les caractéristiques de l'objet à partir des données POIBrut
+//   var features = POIBrut.features.filter(feature => feature.properties.Nom === objetName);
+  
+//   // Vérifier si des caractéristiques ont été trouvées pour l'objet
+//   if (features.length > 0) {
+//     var feature = features[0]; // Prendre la première caractéristique trouvée
+//     getPopupContent(feature); // Récupérer le contenu de la popup
+//     var coordinates = feature.geometry.coordinates; // Coordonnées de l'objet
+
+//     // Afficher la popup
+//     popup = new maplibregl.Popup({
+//       offset: [0, -40], // Offset de la popup
+//       closeButton: false // Bouton de fermeture de la popup
+//     })
+//     .setLngLat(coordinates) // Définir les coordonnées de la popup
+//     .setHTML('<h1>' + popupTitle + '</h1>' + popupContent) // Contenu HTML de la popup
+//     .addTo(map); // Ajouter la popup à la carte
+
+//     // Définir les limites de la carte en fonction du campus
+//     if (feature.properties.Campus === 'Mazier') {
+//       map.setMaxBounds(mazierBounds); // Définir les limites de la carte pour le campus de Mazier  
+//     } else {
+//       map.setMaxBounds(rennesBounds); // Définir les limites de la carte pour les autres campus
+//     }
+
+//     // Obtenir les dimensions de la carte
+//     var width = map.getCanvas().clientWidth;
+//     var height = map.getCanvas().clientHeight;
+
+//     // Convertir les coordonnées en pixels
+//     var point = map.project(coordinates);
+
+//     // Effectuer un zoom sur la popup
+//     map.flyTo({
+//       center: map.unproject([point.x, point.y]), // Coordonnées du centre de la carte (non-décalé)
+//       zoom: 15.75, // Niveau de zoom souhaité
+//       essential: false // Cette animation est essentielle, elle ne peut pas être désactivée par l'utilisateur
+//     });
+
+
+//     // Ajouter une épingle à la carte pour l'objet
+//     addPointOverlay(objetName, [1, 13, 0.1, 25, 1.5]); // ajuste les paramètres de taille de l'icône
+//   } else {
+//     console.log("Aucune caractéristique trouvée pour l'objet:", objetName);
+//   }
+// }
+
+
+// // Lorsque la page se charge, récupérez le nom de l'objet dans l'URL et affichez la popup correspondante
+// document.addEventListener('DOMContentLoaded', function() {
+//   const objetName = getObjetFromURL();
+//   if (objetName) {
+//     afficherPopupObjet(objetName);
+//   }
+// });
+
+
+
+
+/////////////////////////////////// fin URL pour les OBJETS ///////////////////////////////
+
+
+
+
+
+
+  ////////////////test partage coordonnées //////////////////////////
+
+
+
+
+
 
 
 
@@ -327,7 +633,7 @@
   // Appel du fond de carte
   var map = new maplibregl.Map({
     container: 'map', // container id
-    style: 'https://api.maptiler.com/maps/voyager/style.json?key='+mapToken, // stylesheet location + token déclaré dans token.js
+    style: 'https://api.maptiler.com/maps/positron/style.json?key='+mapToken, // stylesheet location + token déclaré dans token.js
     
     center: [-1.7015402487767233, 48.11941846173602], // starting position [lng, lat]
     zoom: zoomBase,
@@ -337,9 +643,6 @@
     attributionControl: false, // starting zoom
     preserveDrawingBuffer : true //permet d'imprimer la carte (sur firefox)
   });
-
-
-
 
   
   map.dragRotate.disable(); // vue 2D de base
@@ -995,87 +1298,79 @@
 ////////// fin de la definition de la fonction getBati2D() //////////
 
 ////////// Fonction pour zoomer sur l'item sélectionné dans la liste (barre de recherche) ////////// 
-  function getSwitchPopup() {
-    getPopupContent(salleRecherchee);
-    popupList = new maplibregl.Popup({
-      offset: [0, -45],
-      closeButton: false
-    })
-            .setLngLat(salleRecherchee.geometry.coordinates)
-            .setHTML('<h1>' + popupTitle + '</h1><div class="description">' + popupContent + '</div>')
-            .addTo(map);
-  }
-  ;
+function getSwitchPopup() {
+  getPopupContent(salleRecherchee);
+  popupList = new maplibregl.Popup({
+    offset: [0, -45],
+    closeButton: false
+  })
+    .setLngLat(salleRecherchee.geometry.coordinates)
+    .setHTML('<h1>' + popupTitle + '</h1><div >' + popupContent + '</div>')
+    .addTo(map);
+}
+
 ////////// fin de la definition de la fonction getSwitchPopup() //////////
 
-////////// Variable switchPOI ////////// 
-  var switchPOI = function (value) {
-    value = value.split("!").join("'");
-    salleRecherchee = null;
-    salleRX = null;
-    salleRY = null;
-    var htmlPOI = document.getElementById(value);  
-    // var htmlPOIParent = htmlPOI.parentNode;
 
-    /* if (document.getElementById('fleche')) {
-     var previousFleche =  document.getElementById('fleche');
-     previousFleche.nextSibling.classList;remov('active');
-     document.getElementById('fleche').remove();
+////////// Variable switchPOI //////////
+var switchPOI = function (value) {
+  value = value.split("!").join("'");
+  salleRecherchee = null;
+  salleRX = null;
+  salleRY = null;
+  var htmlPOI = document.getElementById(value);
 
-     }
-
-     var fleche = document.createElement('img');
-     /*fleche.setAttribute('src', '../css/icons/fleche.png');
-     fleche.setAttribute('id', 'fleche');
-     fleche.style.width = '20px';
-     fleche.style.position = 'absolute';
-     htmlPOIParent.insertBefore(fleche, htmlPOI);*/
-
-    if (document.getElementsByClassName('leaf active')) {
-      var previousActiveLeaves = document.getElementsByClassName('leaf active');
-      for (let i = 0; i < previousActiveLeaves.length; i++) {
-        previousActiveLeaves[i].classList.remove('active');
-      }
+  if (document.getElementsByClassName('leaf active')) {
+    var previousActiveLeaves = document.getElementsByClassName('leaf active');
+    for (let i = 0; i < previousActiveLeaves.length; i++) {
+      previousActiveLeaves[i].classList.remove('active');
     }
-
-    htmlPOI.classList.add('active');
-    if (popup) {
-      popup.remove();
-    }
-    if (popupList) {
-      popupList.remove();
-    }
-    for (var i = 0; i < POI.length; i++) {
-
-      if (POI[i].properties.Nom === value) {
-        salleRecherchee = POI[i];
-      }
-    }
-    salleRX = salleRecherchee.geometry.coordinates[0];
-    salleRY = salleRecherchee.geometry.coordinates[1];
-    if (salleRecherchee.properties.Campus === 'Mazier') {
-      map.setMaxBounds(mazierBounds);
-    } else {
-      map.setMaxBounds(rennesBounds);
-    }
-    ;
-    if (DDD) {
-      map.flyTo({
-        center: [salleRX, salleRY],
-        zoom: 16.5,
-        pitch: 45,
-        speed: 0.6
-      });
-    } else {
-      map.flyTo({
-        center: [salleRX, salleRY],
-        zoom: 16.5,
-        pitch: 0,
-        speed: 0.6
-      });
-    }
-    getSwitchPopup();
   }
+
+  htmlPOI.classList.add('active');
+  if (popup) {
+    popup.remove();
+  }
+  if (popupList) {
+    popupList.remove();
+  }
+  for (var i = 0; i < POI.length; i++) {
+    if (POI[i].properties.Nom === value) {
+      salleRecherchee = POI[i];
+    }
+  }
+  salleRX = salleRecherchee.geometry.coordinates[0];
+  salleRY = salleRecherchee.geometry.coordinates[1];
+  if (salleRecherchee.properties.Campus === 'Mazier') {
+    map.setMaxBounds(mazierBounds);
+  } else {
+    map.setMaxBounds(rennesBounds);
+  }
+  if (DDD) {
+    map.flyTo({
+      center: [salleRX, salleRY],
+      zoom: 16.5,
+      pitch: 45,
+      speed: 0.6
+    });
+  } else {
+    map.flyTo({
+      center: [salleRX, salleRY],
+      zoom: 16.5,
+      pitch: 0,
+      speed: 0.6
+    });
+  }
+  getPopupContent(salleRecherchee);
+  popupList = new maplibregl.Popup({
+    offset: [0, -45],
+    closeButton: false
+  })
+    .setLngLat(salleRecherchee.geometry.coordinates)
+    .setHTML('<h1>' + popupTitle + '</h1><div class="description">' + popupContent + '</div>')
+    .addTo(map);
+
+};
 
 ////////// Fonction ajoutant une liste de picto de manière permanente sur le fond de carte ////////// 
   function addPictoFondDeCarte() {
@@ -1263,7 +1558,7 @@
   function addPointOverlay(name, iconSize) {
 
     var iconURL = '../css/icons/layers_icons/recherche.png'
-    var markerOffset = [-15, -20];
+    var markerOffset = [-15, -20]; // Décalage du picto
     if (iconSize.toString() === '1,13,0.1,25,1.5') {
       markerOffset = [-30, -50];
     } else if (iconSize.toString() === '1,13,0.05,25,1') {
@@ -1294,10 +1589,20 @@
       });
     });
 
+    // possibilité de clicker sur le pins pour réaficher la popup 
+    map.on('click', name, function(e) {
+      // Open the associated popup
+      popup.addTo(map);
+    });
+
     Layers.push(name);
     var couche = name;
     var type = 'marker';
+
+
   }
+
+  
 ////////// fin de la définition de la fonction addPointOverlay() //////////
 
 ////////// Fonction ajoutant des couches géographiques de superpositions selon un filtre 'Categorie' ////////// 
@@ -1765,14 +2070,14 @@ var popupContent = [];
       var features = map.queryRenderedFeatures(e.point, {
         layers: [couche]
       });
-
+  
       if (!features.length) {
         return;
       }
       var feature = features[0];
-
+  
       getPopupContent(feature);
-
+  
       if (type == 'marker') {
         popup = new maplibregl.Popup({
           offset: [0, -40],
@@ -1791,9 +2096,17 @@ var popupContent = [];
                 .setHTML('<h1>' + popupTitle + '</h1>' + popupContent)
                 .addTo(map);
       }
+  
+        // création du lien pour les objets lorsqu'on clique sur l'épingle 
+        const objetName = popupTitle.trim(); // Récupérer le nom de l'objet à partir du titre de la popup
+        // const objetId = feature.properties.id; // Récupérer l'id de l'objet
+        createLinkAndUpdateURL(objetName); // Appeler la fonction pour changer l'objet et l'URL
 
+  
     });
   }
+  
+  
 ////////// fin de la définition de la fonction getPopup() //////////
 
   var salleRecherchee = null;
@@ -1829,8 +2142,13 @@ var elLink, elList;
       for (let i = 0; i < listeDeNoms.length; i++) {
         listeLink.push(document.getElementById(listeDeNoms[i])) //on obtient ici la liste de liens dans l'élément cible HTML
       }
+
     }
+
   }
+
+
+  
 // fin de la définition de la fonction createHTMLList() //
 
 //////////////////////////////////   Interactivité menus //////////////////////////////////////
@@ -1926,10 +2244,13 @@ boutonPrinter.addEventListener('click', function () {
         data: "../data/habillage/grass.geojson?v="+version
       },
       paint: {
-        'fill-color': '#9FE19C', // #F8E7CE beige 
+        'fill-color': '#9FE19C', 
         'fill-opacity': 1
       }
     });
+
+  // Déplacer le calque vers le bas de la pile de calques
+  map.moveLayer("Herbe", map.getStyle().layers[1].id); // pour mettre les épingles au dessus de l'herbe 
 
     // Couche référentiel bati 2D
     getBati2D();
@@ -3006,7 +3327,7 @@ boutonPrinter.addEventListener('click', function () {
     attributionContainer.appendChild(attributionLink4);
   }
 // ajout actions barre de recherche
-  var searchButton = document.getElementById('searchButton');
+  // var searchButton = document.getElementById('searchButton'); // appelé plus haut pour créer un lien quand on click sur la recherche 
   searchButton.addEventListener('click', function (e) {
     if (searchBarCrossPresence == null) {
       searchBarCrossPresence = 'yes';
