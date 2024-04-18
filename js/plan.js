@@ -79,7 +79,7 @@
   // Appel du fond de carte
   var map = new maplibregl.Map({
     container: 'map', // container id
-    style: 'https://api.maptiler.com/maps/voyager/style.json?key='+mapToken, // stylesheet location + token déclaré dans token.js
+    style: 'https://api.maptiler.com/maps/positron/style.json?key='+mapToken, // stylesheet location + token déclaré dans token.js
     center: [-1.7015402487767233, 48.11941846173602], // starting position [lng, lat]
     //center: [-1.702499, 48.118181], // starting position [lng, lat]
     zoom: zoomBase,
@@ -641,7 +641,7 @@
       type: "fill",
       source: "bati2D",
       paint: {
-        'fill-color': '#9494b8',
+        'fill-color': '#6A8CC8',
         'fill-opacity': 0.8
       }
     }, Layers[0]);
@@ -652,7 +652,7 @@
       source: "bati2D",
       filter: ["==", "Id", ""],
       paint: {
-        'fill-color': '#D82B09',
+        'fill-color': '#6A8CC8',
         'fill-opacity': 0.5
       }
     }, Layers[0]);
@@ -993,6 +993,175 @@
         minzoom: 16,
       });
     });
+
+        //Picto permanent 2_P
+    map.loadImage("../css/icons/iconfond/2_P.png").then(response => {
+      const image = response.data;
+      if (!map.hasImage("2_P")) {
+        map.addImage('2_P', image);
+      }
+      map.addLayer({
+        "id": "2_P" + pictoCount,
+        "type": "symbol",
+        "source": {
+          "type": "geojson",
+          "data": "../data/fondcarte/2_P.geojson?v="+version
+        },
+        "layout": {
+          "visibility": 'visible',
+          "icon-image": "2_P",
+          "icon-size": 0.30,
+          "icon-allow-overlap" : true
+        },
+        minzoom: 15,
+      });
+    });
+        //Picto permanent Arbre_bat_T
+        map.loadImage("../css/icons/iconfond/Arbre_bat_T.png").then(response => {
+          const image = response.data;
+          if (!map.hasImage("Arbre_bat_T")) {
+            map.addImage('Arbre_bat_T', image);
+          }
+          map.addLayer({
+            "id": "Arbre_bat_T" + pictoCount,
+            "type": "symbol",
+            "source": {
+              "type": "geojson",
+              "data": "../data/fondcarte/Arbre_bat_T.geojson?v="+version
+            },
+            "layout": {
+              "visibility": 'visible',
+              "icon-image": "Arbre_bat_T",
+              "icon-size": 0.50,
+              "icon-allow-overlap" : true
+            },
+            minzoom: 15,
+          });
+        });
+
+        //Picto permanent Design_BU
+        map.loadImage("../css/icons/iconfond/Design_BU.png").then(response => {
+          const image = response.data;
+          if (!map.hasImage("Design_BU")) {
+            map.addImage('Design_BU', image);
+          }
+          map.addLayer({
+            "id": "Design_BU" + pictoCount,
+            "type": "symbol",
+            "source": {
+              "type": "geojson",
+              "data": "../data/fondcarte/Design_BU.geojson?v="+version
+            },
+            "layout": {
+              "visibility": 'visible',
+              "icon-image": "Design_BU",
+              "icon-size": 0.30,
+              "icon-allow-overlap" : true
+            },
+            minzoom: 15,
+          });
+        });
+
+        //Picto permanent escalier_arc_en_ciel
+        map.loadImage("../css/icons/iconfond/escalier_arc_en_ciel.png").then(response => {
+          const image = response.data;
+          if (!map.hasImage("escalier_arc_en_ciel")) {
+            map.addImage('escalier_arc_en_ciel', image);
+          }
+          map.addLayer({
+            "id": "escalier_arc_en_ciel" + pictoCount,
+            "type": "symbol",
+            "source": {
+              "type": "geojson",
+              "data": "../data/fondcarte/escalier_arc_en_ciel.geojson?v="+version
+            },
+            "layout": {
+              "visibility": 'visible',
+              "icon-image": "escalier_arc_en_ciel",
+              "icon-size": 0.40,
+              "icon-allow-overlap" : true
+            },
+            minzoom: 15,
+          });
+        });
+
+        //Picto permanent Jardin
+        map.loadImage("../css/icons/iconfond/Jardin.png").then(response => {
+          const image = response.data;
+          if (!map.hasImage("Jardin")) {
+            map.addImage('Jardin', image);
+          }
+          map.addLayer({
+            "id": "Jardin" + pictoCount,
+            "type": "symbol",
+            "source": {
+              "type": "geojson",
+              "data": "../data/fondcarte/Jardin.geojson?v="+version
+            },
+            "layout": {
+              "visibility": 'visible',
+              "icon-image": "Jardin",
+              "icon-size": 0.40
+            },
+            minzoom: 15,
+          });
+        });
+
+        //Picto permanent Pin_parasol
+        map.loadImage("../css/icons/iconfond/Pin_parasol.png").then(response => {
+          const image = response.data;
+          if (!map.hasImage("Pin_parasol")) {
+            map.addImage('Pin_parasol', image);
+          }
+          map.addLayer({
+            "id": "Pin_parasol" + pictoCount,
+            "type": "symbol",
+            "source": {
+              "type": "geojson",
+              "data": "../data/fondcarte/Pin_parasol.geojson?v="+version
+            },
+            "layout": {
+              "visibility": 'visible',
+              "icon-image": "Pin_parasol",
+              "icon-size": 0.40
+            },
+            minzoom: 15,
+          });
+        });
+
+
+        //Picto permanent Sequoia_passage_BU
+        map.loadImage("../css/icons/iconfond/Sequoia_passage_BU.png").then(response => {
+          const image = response.data;
+          if (!map.hasImage("Sequoia_passage_BU")) {
+            map.addImage('Sequoia_passage_BU', image);
+          }
+          map.addLayer({
+            "id": "Sequoia_passage_BU" + pictoCount,
+            "type": "symbol",
+            "source": {
+              "type": "geojson",
+              "data": "../data/fondcarte/Sequoia_passage_BU.geojson?v="+version
+            },
+            "layout": {
+              "visibility": 'visible',
+              "icon-image": "Sequoia_passage_BU",
+              "icon-size": 0.40,
+              "icon-allow-overlap" : true
+            },
+            minzoom: 15,
+          });
+        });
+
+
+
+
+
+
+
+
+
+
   }
 ////////// fin de la definition de la fonction addPictoFondDecarte() //////////
 

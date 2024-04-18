@@ -6,3 +6,5 @@
 { "type": "Feature", "properties": { "icon": "library"}, "geometry": { "type": "Point", "coordinates": [ -1.701831121310531, 48.120954291553026 ] } }
 ]
 }
+
+
