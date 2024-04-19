@@ -516,7 +516,7 @@
       type: "fill-extrusion",
       source: "bati3D",
       paint: {
-        'fill-extrusion-color': '#d1d1e0',
+        'fill-extrusion-color': '#6A8CC8',
         'fill-extrusion-height': {
           'type': 'identity',
           'property': 'hauteur'
@@ -535,7 +535,7 @@
       source: "bati3D",
       filter: ["==", "Nom", ""],
       paint: {
-        'fill-extrusion-color': '#D82B09',
+        'fill-extrusion-color': '#6A8CC8',
         'fill-extrusion-height': {
           'type': 'identity',
           'property': 'hauteur'
@@ -567,8 +567,9 @@
         }
         ;
         if (e.features[0].properties.Nom !== "null") {
-          if ((popup == null || popup.isOpen() == false) && (searchPopup == null || searchPopup.isOpen() === false) && (popupList == null || popupList.isOpen() === false)) {
-
+          if ((popup == null || popup.isOpen() == false) && (popupList == null || popupList.isOpen() === false)) {
+// supression d'une partie
+            // de la condition (&& (searchPopup == null || searchPopup.isOpen() === false)) car cela empêchait l'affichage des popup des bâtiments avec le nouvel appel des fonctions
             popupBati = new maplibregl.Popup({
               offset: [0, -45],
               closeButton: false,
@@ -679,7 +680,9 @@
         }
         ;
         if (e.features[0].properties.Nom !== "null") {
-          if ((popup == null || popup.isOpen() == false) && (searchPopup == null || searchPopup.isOpen() === false) && (popupList == null || popupList.isOpen() === false)) {
+          if ((popup == null || popup.isOpen() == false) && (popupList == null || popupList.isOpen() === false)) {
+          // supression d'une partie
+            // de la condition (&& (searchPopup == null || searchPopup.isOpen() === false)) car cela empêchait l'affichage des popup des bâtiments avec le nouvel appel des fonctions  
 
             popupBati = new maplibregl.Popup({
               offset: [0, -45],
@@ -730,7 +733,8 @@
       offset: [0, -45],
       closeButton: false
     })
-            .setLngLat(salleRecherchee.geometry.coordinates)
+    
+            .setLngLat(salleRX) //changement dans l'appel à la géométrie
             .setHTML('<h1>' + popupTitle + '</h1><div class="description">' + popupContent + '</div>')
             .addTo(map);
   }
@@ -789,15 +793,15 @@
     }
     ;
     if (DDD) {
-      map.flyTo({
-        center: [salleRX, salleRY],
+      map.jumpTo({
+        center: [salleRX[0], salleRX[1]], //changement dans l'appel à la géométrie 
         zoom: 16.5,
         pitch: 45,
         speed: 0.6
       });
     } else {
-      map.flyTo({
-        center: [salleRX, salleRY],
+      map.jumpTo({
+        center: [salleRX[0], salleRX[1]], //changement dans l'appel à la géométrie 
         zoom: 16.5,
         pitch: 0,
         speed: 0.6
@@ -1741,9 +1745,9 @@ var elLink, elList;
 
 //////////////////////////////////   Interactivité menus //////////////////////////////////////
   // ZOOMS sur les campus
-  var flyingZoom = 15.8;
+  var jumpingZoom = 15.8;
   if (device = 'phone') {
-    flyingZoom = 15
+    jumpingZoom = 15
   }
   ;
   var zoomLaHarpe = document.getElementById("LaHarpe")
@@ -1786,26 +1790,29 @@ const boutonPrinter = document.getElementById('imprimer');
 boutonPrinter.addEventListener('click', function () {
   window.print()})
 //////////////////////////////////   Initialisation des données carte //////////////////////////////////////
-  var POIBrut = (function () {
-    var json = null;
-    $.ajax({
-      'async': false,
-      'global': false,
-      'url': "../data/points.geojson?v="+version,
-      'dataType': "json",
-      'success': function (data) {
-        json = data;
-      }
-    });
-    return json;
-  })();
-  var POI = [];
-  POI = POIBrut.features;
 
-  var fproperties = POIBrut.features.map(function (el) {
-    return el.properties;
-  });
+//ancien appel des pts
+  // var POIBrut = (function () {
+  //   var json = null;
+  //   $.ajax({
+  //     'async': false,
+  //     'global': false,
+  //     'url': "../data/points.geojson?v="+version,
+  //     'dataType': "json",
+  //     'success': function (data) {
+  //       json = data;
+  //     }
+  //   });
+  //   return json;
+  // })();
+  // var POI = [];
+  // POI = POIBrut.features;
 
+  // var fproperties = POIBrut.features.map(function (el) {
+  //   return el.properties;
+  // });
+
+  //appel des lignes
   var lines = (function () {
     var jsonLines = null;
     $.ajax({
@@ -1820,6 +1827,81 @@ boutonPrinter.addEventListener('click', function () {
     return jsonLines;
   })();
 
+  var fproperties = []; //definir cette variable en dehors de la promise
+  var POI = [];
+  var searchBarCrossPresence = null;
+  var searchValue = null;
+  var searchLayerId = 'SearchResult';
+  var searchLayerCount = 0;
+
+// nouvel appel grâce à la fonction d'AP
+const getGeoJSON = (nomFichier) => fetch(nomFichier).then(res => res.json()).then(res => res.features);
+
+const geojsons = [
+  getGeoJSON("../data/filtre/acces_PMR.geojson"),
+  getGeoJSON("../data/filtre/amphi.geojson"),
+  getGeoJSON("../data/filtre/arret_bus_pts.geojson"),
+  getGeoJSON("../data/filtre/arret_metro_pts.geojson"),
+  getGeoJSON("../data/filtre/ascenceur.geojson"),
+  getGeoJSON("../data/filtre/asso_art_spor.geojson"),
+  getGeoJSON("../data/filtre/asso_filiere.geojson"),
+  getGeoJSON("../data/filtre/asso_mstr_doc.geojson"),
+  getGeoJSON("../data/filtre/asso_solidarite.geojson"),
+  getGeoJSON("../data/filtre/biblio.geojson"),
+  getGeoJSON("../data/filtre/cafet_distrib.geojson"),
+  getGeoJSON("../data/filtre/copieur.geojson"),
+  getGeoJSON("../data/filtre/entree_bat.geojson"), 
+  getGeoJSON("../data/filtre/entree_campus.geojson"),
+  getGeoJSON("../data/filtre/eqpmt_sportif.geojson"),
+  getGeoJSON("../data/filtre/esp_detente.geojson"),
+  getGeoJSON("../data/filtre/labo.geojson"),
+  getGeoJSON("../data/filtre/lieu_cultu.geojson"),
+  getGeoJSON("../data/filtre/micro_ondes.geojson"),
+  getGeoJSON("../data/filtre/oeuvres.geojson"),
+  getGeoJSON("../data/filtre/parking_velo.geojson"),
+  getGeoJSON("../data/filtre/parking_voiture.geojson"),
+  getGeoJSON("../data/filtre/resid_univ.geojson"),
+  getGeoJSON("../data/filtre/ru.geojson"),
+  getGeoJSON("../data/filtre/salle_e0.geojson"),
+  getGeoJSON("../data/filtre/salle_e1.geojson"),
+  getGeoJSON("../data/filtre/salle_e2.geojson"),
+  getGeoJSON("../data/filtre/salle_e3.geojson"),
+  getGeoJSON("../data/filtre/salle_e4.geojson"),
+  getGeoJSON("../data/filtre/salle_e5.geojson"),
+  getGeoJSON("../data/filtre/salle_e6.geojson"),
+  getGeoJSON("../data/filtre/salle_e7.geojson"),
+  getGeoJSON("../data/filtre/salle_info.geojson"),
+  getGeoJSON("../data/filtre/salle_spe.geojson"),
+  getGeoJSON("../data/filtre/sante.geojson"),
+  getGeoJSON("../data/filtre/scol.geojson"),
+  getGeoJSON("../data/filtre/services.geojson"),
+  getGeoJSON("../data/filtre/station_velostar.geojson"),
+  getGeoJSON("../data/filtre/wc.geojson"),
+  getGeoJSON("../data/fondcarte/lettre_batiment.geojson")
+];
+
+const finalGeoJSON = {
+  "type": "FeatureCollection",
+  "features": []
+};
+
+Promise.all(geojsons).then(allGeoJsons => { //à l'intérieur de cette fonction se passe le regroupement des geojsons
+
+allGeoJsons.forEach(oneGeoJSON => {
+    finalGeoJSON.features.concat(oneGeoJSON.features);
+  });
+  
+//Appeler la fonction qui gère les données fusionnées
+  finalGeoJSON.features = allGeoJsons // recup de l'objet avec ts les geojsons
+ var mergedFeatures = finalGeoJSON.features.reduce((acc, val) => acc.concat(val), []);
+  finalGeoJSON.features = mergedFeatures // transformation de l'objet pour correspondre à l'ancien fichier points.geojson
+  
+  POIBrut = finalGeoJSON // affectation de cette objet dans l'objet appelé par les couches dans le reste du code
+  
+  POI = POIBrut.features;
+  
+  fproperties = finalGeoJSON.features.map(function (el) {
+    return el.properties;})
 
   map.on("load", function () {
     // Couche herbe
@@ -1828,10 +1910,10 @@ boutonPrinter.addEventListener('click', function () {
       type: "fill",
       source: {
         type: "geojson",
-        data: "../data/habillage/grass.geojson?v="+version
+        data: "../data/fondcarte/grass.geojson?v="+version
       },
       paint: {
-        'fill-color': '#A4E463',
+        'fill-color': '#9FE19C',
         'fill-opacity': 0.5
       }
     });
@@ -1845,7 +1927,7 @@ boutonPrinter.addEventListener('click', function () {
       type: "fill",
       source: {
         type: "geojson",
-        data: "../data/habillage/piste_athle.geojson?v="+version
+        data: "../data/fondcarte/piste_athle.geojson?v="+version
       },
       paint: {
         'fill-color': '#C09C83',
@@ -1857,7 +1939,7 @@ boutonPrinter.addEventListener('click', function () {
       type: "line",
       source: {
         type: "geojson",
-        data: "../data/habillage/terrain_football.geojson?v="+version
+        data: "../data/fondcarte/terrain_football.geojson?v="+version
       },
       "paint": {
         'line-color': '#FFFFFF',
@@ -2236,7 +2318,7 @@ boutonPrinter.addEventListener('click', function () {
       for (var i = 0; i < Layers.length; i++) {
         if (Layers[i] = 'Associations briochines') {
           map.setMaxBounds(mazierBounds);
-          map.flyTo({
+          map.jumpTo({
             center: [-2.7410000, 48.513033],
             zoom: 16.5,
             pitch: 0,
@@ -2591,13 +2673,9 @@ boutonPrinter.addEventListener('click', function () {
     return e.Nom !== null;
   })
   // Récupération des propriétés du json
-  var searchValue = null;
   var searchItem = [];
   var searchX = null;
   var searchY = null;
-  var searchLayerCount = 0;
-  var searchLayerId = 'SearchResult';
-  var searchPopup = null
   var options = {
     data: jproperties,
     getValue: "Nom",
@@ -2616,6 +2694,13 @@ boutonPrinter.addEventListener('click', function () {
     theme: "plate-dark"
   };
   $("#searchfield").easyAutocomplete(options);
+
+})
+.catch(e => {
+  alert("Erreur oups");
+  console.error(e);
+}); // fin de la fonction aggrégeant les geojsons. Je la fait se fermer un peu après la partie
+//concernant les couches car cela désactive la barre de recherche sinon
 
   ////////// définition de la fonction getSearchPopup //////////
   function getSearchPopup() {
@@ -2688,7 +2773,7 @@ boutonPrinter.addEventListener('click', function () {
       offset: [0, -45],
       closeButton: false  
     })
-            .setLngLat(searchItem.geometry.coordinates)
+            .setLngLat(searchX)
             .setHTML('<h1>' + popupTitle + '</h1><div class="description">' + popupContent + '</div>')
             .addTo(map);
   }
@@ -2783,16 +2868,16 @@ boutonPrinter.addEventListener('click', function () {
 
         if (DDD) {
           // Configuration de la carte pour le mode 3D
-          map.flyTo({
-            center: [searchX, searchY],
+          map.jumpTo({
+            center: searchX, //changement dans l'appel à la géométrie 
             zoom: 16.5,
             pitch: 45,
             speed: 0.6
           });
         } else {
           // Configuration de la carte pour le mode 2D
-          map.flyTo({
-            center: [searchX, searchY],
+          map.jumpTo({
+            center: searchX, //changement dans l'appel à la géométrie 
             zoom: 16.5,
             pitch: 0,
             speed: 0.6
@@ -2828,7 +2913,7 @@ boutonPrinter.addEventListener('click', function () {
       Y = Y - 0.00021;
       getBati3D();
       zoomCible = currentZoom + 0.5;
-      map.flyTo({
+      map.jumpTo({
         center: [X, Y],
         pitch: 60,
         speed: 0.08,
@@ -2849,7 +2934,7 @@ boutonPrinter.addEventListener('click', function () {
       Y = Y + 0.00021;
       getBati2D();
       zoomCible = currentZoom - 0.5;
-      map.flyTo({
+      map.jumpTo({
         center: [X, Y],
         pitch: 0,
         speed: 0.08,
@@ -2865,7 +2950,7 @@ boutonPrinter.addEventListener('click', function () {
     }
   })
 
-//////////////////////////////////   Ajout de l'habillage de la carte //////////////////////////////////////
+//////////////////////////////////   Ajout de l'fondcarte de la carte //////////////////////////////////////
   var nav = new maplibregl.NavigationControl();
   map.addControl(nav, 'top-left');
   map.addControl(new maplibregl.ScaleControl({
