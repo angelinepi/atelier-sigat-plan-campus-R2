@@ -791,7 +791,7 @@
     if (DDD) {
       map.jumpTo({
       	//center: [salleRX, salleRY],
-        center: [salleRX[0], salleRX[1]], //version Paul
+        center: [salleRX[0], salleRX[1]],
         zoom: 16.5,
         pitch: 45,
         speed: 0.6
@@ -799,7 +799,7 @@
     } else {
       map.jumpTo({
         //center: [salleRX, salleRY],
-        center: [salleRX[0], salleRX[1]], //version Paul
+        center: [salleRX[0], salleRX[1]],
         zoom: 16.5,
         pitch: 0,
         speed: 0.6

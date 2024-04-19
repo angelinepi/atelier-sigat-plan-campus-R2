@@ -1,0 +1,8 @@
+{
+"type": "FeatureCollection",
+"name": "niv_ok_7",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "id": null, "Nom": "Salle P710", "Categorie": "Salle", "Groupe": null, "Etiquette": null, "Campus": "Villejean", "Image": null, "Batiment": "P", "Niveau": "niveau : 7", "Mail": null, "Tel": null, "Lien": null, "Horaire": null, "Capacite": null, "Info": null, "PMR": null, "Photo": null, "Catégorie": null, "niv_ok": "7" }, "geometry": { "type": "MultiPoint", "coordinates": [ [ -1.703071926611334, 48.120674817862117 ] ] } }
+]
+}
