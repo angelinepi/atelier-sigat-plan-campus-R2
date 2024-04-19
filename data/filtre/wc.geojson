@@ -1,0 +1,30 @@
+{
+"type": "FeatureCollection",
+"name": "wc",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "id": null, "Nom": null, "Categorie": "wc", "Groupe": "", "Etiquette": null, "Campus": "Villejean", "Info": null }, "geometry": { "type": "MultiPoint", "coordinates": [ [ -1.70184888395857, 48.121016463107075 ] ] } },
+{ "type": "Feature", "properties": { "id": null, "Nom": null, "Categorie": "wc", "Groupe": null, "Etiquette": null, "Campus": "Villejean", "Info": null }, "geometry": { "type": "MultiPoint", "coordinates": [ [ -1.70159253988147, 48.120775538222581 ] ] } },
+{ "type": "Feature", "properties": { "id": null, "Nom": null, "Categorie": "wc", "Groupe": null, "Etiquette": null, "Campus": "Villejean", "Info": null }, "geometry": { "type": "MultiPoint", "coordinates": [ [ -1.701818045573355, 48.120702297057697 ] ] } },
+{ "type": "Feature", "properties": { "id": null, "Nom": null, "Categorie": "wc", "Groupe": null, "Etiquette": null, "Campus": "Villejean", "Info": null }, "geometry": { "type": "MultiPoint", "coordinates": [ [ -1.701831537366887, 48.120442098182444 ] ] } },
+{ "type": "Feature", "properties": { "id": null, "Nom": null, "Categorie": "wc", "Groupe": null, "Etiquette": null, "Campus": "Villejean", "Info": null }, "geometry": { "type": "MultiPoint", "coordinates": [ [ -1.701488460331369, 48.120538468136239 ] ] } },
+{ "type": "Feature", "properties": { "id": null, "Nom": null, "Categorie": "wc", "Groupe": null, "Etiquette": null, "Campus": "Villejean", "Info": null }, "geometry": { "type": "MultiPoint", "coordinates": [ [ -1.701856593554874, 48.120033489578347 ] ] } },
+{ "type": "Feature", "properties": { "id": null, "Nom": null, "Categorie": "wc", "Groupe": null, "Etiquette": null, "Campus": "Villejean", "Info": null }, "geometry": { "type": "MultiPoint", "coordinates": [ [ -1.701609886473153, 48.119771363304025 ] ] } },
+{ "type": "Feature", "properties": { "id": null, "Nom": null, "Categorie": "wc", "Groupe": null, "Etiquette": null, "Campus": "Villejean", "Info": null }, "geometry": { "type": "MultiPoint", "coordinates": [ [ -1.700416826445144, 48.119262529947981 ] ] } },
+{ "type": "Feature", "properties": { "id": null, "Nom": null, "Categorie": "wc", "Groupe": null, "Etiquette": null, "Campus": "Villejean", "Info": null }, "geometry": { "type": "MultiPoint", "coordinates": [ [ -1.699904138290943, 48.119229764163691 ] ] } },
+{ "type": "Feature", "properties": { "id": null, "Nom": null, "Categorie": "wc", "Groupe": null, "Etiquette": null, "Campus": "Villejean", "Info": null }, "geometry": { "type": "MultiPoint", "coordinates": [ [ -1.701872012747481, 48.119040879054253 ] ] } },
+{ "type": "Feature", "properties": { "id": null, "Nom": null, "Categorie": "wc", "Groupe": null, "Etiquette": null, "Campus": "Villejean", "Info": null }, "geometry": { "type": "MultiPoint", "coordinates": [ [ -1.701779497591836, 48.118848139146657 ] ] } },
+{ "type": "Feature", "properties": { "id": null, "Nom": null, "Categorie": "wc", "Groupe": null, "Etiquette": null, "Campus": "Villejean", "Info": null }, "geometry": { "type": "MultiPoint", "coordinates": [ [ -1.702567803813897, 48.11984267706984 ] ] } },
+{ "type": "Feature", "properties": { "id": null, "Nom": null, "Categorie": "wc", "Groupe": null, "Etiquette": null, "Campus": "Villejean", "Info": null }, "geometry": { "type": "MultiPoint", "coordinates": [ [ -1.703051580981959, 48.119942901821794 ] ] } },
+{ "type": "Feature", "properties": { "id": null, "Nom": null, "Categorie": "wc", "Groupe": null, "Etiquette": null, "Campus": "Villejean", "Info": null }, "geometry": { "type": "MultiPoint", "coordinates": [ [ -1.703053508381035, 48.120659894278049 ] ] } },
+{ "type": "Feature", "properties": { "id": null, "Nom": null, "Categorie": "wc", "Groupe": null, "Etiquette": null, "Campus": "Villejean", "Info": null }, "geometry": { "type": "MultiPoint", "coordinates": [ [ -1.703652929493653, 48.120692660062339 ] ] } },
+{ "type": "Feature", "properties": { "id": null, "Nom": null, "Categorie": "wc", "Groupe": null, "Etiquette": null, "Campus": "Villejean", "Info": null }, "geometry": { "type": "MultiPoint", "coordinates": [ [ -1.703654856892729, 48.120642547686366 ] ] } },
+{ "type": "Feature", "properties": { "id": null, "Nom": null, "Categorie": "wc", "Groupe": null, "Etiquette": null, "Campus": "Villejean", "Info": null }, "geometry": { "type": "MultiPoint", "coordinates": [ [ -1.703568123934311, 48.120440170783382 ] ] } },
+{ "type": "Feature", "properties": { "id": null, "Nom": null, "Categorie": "wc", "Groupe": null, "Etiquette": null, "Campus": "Villejean", "Info": null }, "geometry": { "type": "MultiPoint", "coordinates": [ [ -1.703506447163881, 48.120151060921991 ] ] } },
+{ "type": "Feature", "properties": { "id": null, "Nom": null, "Categorie": "wc", "Groupe": null, "Etiquette": null, "Campus": "Villejean", "Info": null }, "geometry": { "type": "MultiPoint", "coordinates": [ [ -1.704022990116234, 48.120297543251759 ] ] } },
+{ "type": "Feature", "properties": { "id": null, "Nom": null, "Categorie": "wc", "Groupe": null, "Etiquette": null, "Campus": "Villejean", "Info": null }, "geometry": { "type": "MultiPoint", "coordinates": [ [ -1.703533430750944, 48.119657646758547 ] ] } },
+{ "type": "Feature", "properties": { "id": null, "Nom": null, "Categorie": "wc", "Groupe": null, "Etiquette": null, "Campus": "Villejean", "Info": null }, "geometry": { "type": "MultiPoint", "coordinates": [ [ -1.70358354312692, 48.11853204569821 ] ] } },
+{ "type": "Feature", "properties": { "id": null, "Nom": null, "Categorie": "wc", "Groupe": null, "Etiquette": null, "Campus": "Villejean", "Info": null }, "geometry": { "type": "MultiPoint", "coordinates": [ [ -1.703348400439655, 48.118073324718132 ] ] } },
+{ "type": "Feature", "properties": { "id": null, "Nom": null, "Categorie": "wc", "Groupe": null, "Etiquette": null, "Campus": "Villejean", "Info": null }, "geometry": { "type": "MultiPoint", "coordinates": [ [ -1.702454087268417, 48.118431820946263 ] ] } }
+]
+}
