@@ -332,18 +332,39 @@ color: green;
   position: absolute;
   top: 10%;
   right: 5%;
-  background-color: red;  
+  /* background-color: red;   */
   padding: 10px;
 }
-.btn-imprimer {
+
+
+
+ .btn-imprimer {
   background-image: url('/css/icons/printer.svg');
   background-size: 30px 30px;
   background-color: #7239AB;
   z-index: 1000;
   padding: 6px 12px;
-    padding-top: 24px;
-    padding-right: 18px;
+  padding-top: 24px;
+  padding-right: 18px;
+  transition: background-color 0.3s ease;
+  border-radius: 5px;
+  
 }
+
+.btn-imprimer:hover {
+  background-color: #5e2d8e; /* Nouvelle couleur de fond au survol */
+}
+.btn-imprimer {
+  /* Vos styles existants */
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2); /* Ombre portée */
+}
+.btn-imprimer:active {
+  transform: scale(0.95); /* Rétrécissement au clic */
+}
+
+
+
+
 
 /* --- LA BARRE DE RECHERCHE AKA SEARCHBAR --- */
 /* Styles pour l'entrée de recherche easy-autocomplete */
