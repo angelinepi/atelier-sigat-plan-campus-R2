@@ -345,6 +345,24 @@ color: green;
     padding-right: 18px;
 }
 
+/*--- BOUTON Switch fond de carte ---*/
+.btn-switch_fond  {
+  position: absolute;
+  top: 10%;
+  right: 10%;
+  background-color: red;  
+  padding: 10px;
+}
+.btn-switch {
+  background-image: url('/css/icons/satellite.svg');
+  background-size: 30px 30px;
+  background-color: #ffffff;
+  z-index: 1000;
+  padding: 6px 12px;
+    padding-top: 24px;
+    padding-right: 18px;
+}
+
 /* --- LA BARRE DE RECHERCHE AKA SEARCHBAR --- */
 /* Styles pour l'entrée de recherche easy-autocomplete */
 .easy-autocomplete input {

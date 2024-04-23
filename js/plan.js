@@ -1,3 +1,21 @@
+var grass_opa = 0;  // déclaration d'une variable utilisé pour faire varier l'opacité
+var fondc = "satellite"; //déclaration de la valeur pour le fond de carte
+var switchPOI = null // déclaration en amont de la fonction switch_fond (sinon pb)
+var col_bat = "#6A8CC8" //déclaration d'une variable utilisée pour la couleur des bâtiments
+
+document.getElementById("switch").addEventListener("click", function switch_fond(){ //connexion au bouton de changement de fond de plan 
+  //(la fonction switch_fond se termine à la fin du code :/)
+  if (fondc == "satellite"){ //si le fond est sur satelitte, on le passe en positron
+    fondc = "positron";
+    grass_opa = 1 // on remet l'opacité de l'herbe à 1
+    col_bat = "#6A8CC8" // on remet le bleu foncé de base
+    //console.log(fondc)
+    } 
+  else {
+    fondc = "satellite"
+    col_bat = "#0094ff" // en mode satellite, bleu des bâtiments plus clair pour avoir de meilleurs contrastes
+    grass_opa = 0 // herbe transparente car nuit à l'intérêt de la vue satellite
+    }
 
   //définition d'une fonction permettant l'extraction d'une valeur d'un paramètre d'URL (avec expression régulière)
   function getQueryStringValue(key) {
@@ -24,13 +42,24 @@
   var BoutonP = document.getElementById("print")
 
   //création du bouton 2D
+  if (document.getElementById("DDButton") != null) {
+    bouton_a_suppr = document.getElementById("DDButton");
+    bouton_a_suppr.remove();} // condition qui supprime le bouton 2D du html si celui-ci existe déjà
+    //chaque changement de fond de carte entraîne une réinitialisation de la carte donc besoin de cette condition
+
   var Bouton2D = document.createElement('button'); 
   Bouton2D.setAttribute("class", "btn btn-primary");
   Bouton2D.classList.add("active"); //par défaut bouton2D actif
   Bouton2D.setAttribute("id", "DDButton");
   Bouton2D.innerHTML = '2D';
 
+
+
   //création du bouton 3D
+  if (document.getElementById("DDDButton") != null) {
+    bouton_a_suppr = document.getElementById("DDDButton");
+    bouton_a_suppr.remove();}// pareil pour bouton 3D
+
   var Bouton3D = document.createElement('button'); 
   Bouton3D.setAttribute("class", "btn btn-primary");
   Bouton3D.setAttribute("id", "DDDButton");
@@ -77,9 +106,10 @@
   ];
   
   // Appel du fond de carte
+
   var map = new maplibregl.Map({
     container: 'map', // container id
-    style: 'https://api.maptiler.com/maps/positron/style.json?key='+mapToken, // stylesheet location + token déclaré dans token.js
+    style: 'https://api.maptiler.com/maps/'+fondc+'/style.json?key='+mapToken, // stylesheet location + token déclaré dans token.js
     center: [-1.7015402487767233, 48.11941846173602], // starting position [lng, lat]
     //center: [-1.702499, 48.118181], // starting position [lng, lat]
     zoom: zoomBase,
@@ -87,7 +117,7 @@
     pitch: 0, // inclinaison de base
     maxBounds: rennesBounds,
     attributionControl: false, // starting zoom
-    preserveDrawingBuffer : true //permet d'imprimer la carte (sur firefox)
+    preserveDrawingBuffer : true//permet d'imprimer la carte (sur firefox)
   });
   map.dragRotate.disable(); // vue 2D de base
   if (device == 'phone') {
@@ -95,6 +125,9 @@
   } else {
     map.getCanvas().style.height = screen.height - 108 - 330;
   }
+
+
+
 
   ///////////////////////////////////////  initialisation des variables overlay //////////////////////////////////
   //var case1 = '../css/icons/case1.png'; // Lien vers l'image case non cochée
@@ -516,7 +549,7 @@
       type: "fill-extrusion",
       source: "bati3D",
       paint: {
-        'fill-extrusion-color': '#6A8CC8',
+        'fill-extrusion-color': col_bat, //déclaration de la couleur via la var col_bat
         'fill-extrusion-height': {
           'type': 'identity',
           'property': 'hauteur'
@@ -524,7 +557,7 @@
         'fill-extrusion-base': {
           'type': 'identity',
           'property': 'hauteur_mi'},
-        'fill-extrusion-opacity': 0.8
+        'fill-extrusion-opacity': 1
       }
     }, Layers[0]);
 
@@ -535,7 +568,7 @@
       source: "bati3D",
       filter: ["==", "Nom", ""],
       paint: {
-        'fill-extrusion-color': '#6A8CC8',
+        'fill-extrusion-color': col_bat,
         'fill-extrusion-height': {
           'type': 'identity',
           'property': 'hauteur'
@@ -543,7 +576,7 @@
         'fill-extrusion-base': {
           'type': 'identity',
           'property': 'hauteur_mi'},
-        'fill-extrusion-opacity': 0.8
+        'fill-extrusion-opacity': 1
       }
     }, Layers[0]);
 
@@ -640,8 +673,8 @@
       type: "fill",
       source: "bati2D",
       paint: {
-        'fill-color': '#6A8CC8',
-        'fill-opacity': 0.8
+        'fill-color': col_bat,  //déclaration de la couleur via la var col_bat
+        'fill-opacity': 1
       }
     }, Layers[0]);
 
@@ -651,8 +684,8 @@
       source: "bati2D",
       filter: ["==", "Id", ""],
       paint: {
-        'fill-color': '#6A8CC8',
-        'fill-opacity': 0.5
+        'fill-color': col_bat,
+        'fill-opacity': 1
       }
     }, Layers[0]);
 
@@ -738,7 +771,7 @@
 ////////// fin de la definition de la fonction getSwitchPopup() //////////
 
 ////////// Variable switchPOI ////////// 
-  var switchPOI = function (value) {
+    switchPOI = function (value) { //suppression de "var" devant switchPOI car variable déjà initiée en début de script
     value = value.split("!").join("'");
     salleRecherchee = null;
     salleRX = null;
@@ -1894,8 +1927,8 @@ allGeoJsons.forEach(oneGeoJSON => {
         data: "../data/fondcarte/grass.geojson?v="+version
       },
       paint: {
-        'fill-color': '#9FE19C',
-        'fill-opacity': 0.5
+        'fill-color': '#c8eac6',
+        'fill-opacity': grass_opa  //déclaration de l'opacité via la var grass_opa
       }
     });
 
@@ -3044,3 +3077,6 @@ allGeoJsons.forEach(oneGeoJSON => {
     });
 
   });
+
+}); // fin de la fonction switch_fond
+document.getElementById("switch").click();// déclenchement par défaut de la fonction switch_fond pour repasser en mode plan
