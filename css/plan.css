@@ -415,7 +415,7 @@ ul.nav-second-level > li.sousmenuopen > ul.nav-third-level{
 
 /* Styles pour les liens dans les éléments de liste de la barre latérale */
 .sidebar ul li a {
-  border-bottom: 1px solid #CACCCD; /* Bordure inférieure */
+  border-bottom: 0px solid #CACCCD; /* Bordure inférieure */
 }
 
 /* Styles pour les liens dans la barre de navigation */
