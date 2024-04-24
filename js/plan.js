@@ -246,7 +246,7 @@
 
   // Toilettes
   var toilettesCount = 0; // initialisation du compteur de clics
-  var toilettesLink = document.getElementById('Toilettes');
+  var toilettesLink = document.getElementById('wc'); //on utilise la propertie Nom='wc'
   var toilettesURL = '../css/icons/layers_icons/wc_marker.png';
 
   // Copieurs
@@ -386,6 +386,16 @@
   var velostarCount = 0; // initialisation du compteur de clics
   var velostarLink = document.getElementById("Station Vélostar");
   var velostarColor = 'green';
+
+  // Entrée campus
+  var entree_campusCount = 0; // initialisation du compteur de clics
+  var entree_campusLink = document.getElementById('Entrée campus'); //on utilise la propertie Catégorie='Entrée campus'
+  var entree_campusURL = '../css/icons/layers_icons/wc_marker.png';
+
+  // Entrée batiment
+  var entree_batCount = 0; // initialisation du compteur de clics
+  var entree_batLink = document.getElementById('Entrée batiment'); //on utilise la propertie Catégorie='Entrée batiment'
+  var entree_batURL = '../css/icons/layers_icons/wc_marker.png';
 
   //// Récupération en continu de l'état des menus des couches suivantes :
   var ServicescenLinkState = null;
@@ -2025,6 +2035,11 @@ allGeoJsons.forEach(oneGeoJSON => {
       }
       FUFRLCount += 1;
     }
+
+    toilettesLink.onclick = function (e) {
+      addCategoryOverlay(toilettesLink, 'wc', 'layer', 'marker', toilettesURL, tailleMarker, toilettesCount);
+      toilettesCount += 1;
+    }
     //////////////////////////////////  Formation et recherche //////////////////////////////////////
     FUFRLLink.onclick = function (e) {
       addCategoryOverlay(FUFRLLink, 'Formation UFRL', FUFRLLinkState, 'marker', FUFRLURL, tailleMarker, FUFRLCount);
@@ -2378,6 +2393,15 @@ allGeoJsons.forEach(oneGeoJSON => {
       busCount += 1;
       addRealTimeBus();
     }
+    entree_campusLink.onclick = function (e) {
+      addCategoryOverlay(entree_campusLink, 'Entrée campus', 'layer', 'marker', entree_campusURL, tailleMarker, entree_campusCount);
+      entree_campusCount += 1;
+    }
+    entree_batLink.onclick = function (e) {
+      addCategoryOverlay(entree_batLink, 'Entrée batiment', 'layer', 'marker', entree_batURL, tailleMarker, entree_batCount);
+      entree_batCount += 1;
+    }
+
   });
 
 //////////////////////////////////// couches temps réel //////////////////////////////////////////////
