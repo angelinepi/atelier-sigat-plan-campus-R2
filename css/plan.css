@@ -280,12 +280,13 @@ mapboxgl-ctrl-group > button {
   height: 100%; /* Hauteur de 100% */
   background-color: #F4F5F5; /* Couleur de fond */
   margin: 20px;
+  margin-top: 10px;
   position: relative;
 }
 
 ul.nav li.nav_main{
   /* background-color: aqua; */
-  height: 100px;
+  height: 75px;
   display: flex;
   margin: 5px 0;
   width: 200px;
@@ -293,11 +294,10 @@ ul.nav li.nav_main{
 
 ul.nav > li.nav_main > a{
   width: 200px;
-  /* background-color: pink; */
+  padding-left: 10px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row-reverse;
   align-items: center;
-  justify-content: center;
   transition: 0.25s ease-in-out;
   transition-delay: 0.15s;
 }
@@ -313,15 +313,16 @@ ul.nav > li.nav_main.menuopen > a{
 
 ul.nav > li.nav_main > a > img{
   height: 30px;
+  width: 30px;
   margin-bottom: 15px;
 }
 
 ul.nav > li.nav_main > a > p{
   width: 150px;
-  text-align: center;
+  margin-left: 30px;
   margin-top: 10px;
   margin-bottom: 10px;
-  line-height: 1;
+  line-height: 1.4;
 }
 
 ul.nav > li.nav_main > ul{
@@ -330,7 +331,7 @@ ul.nav > li.nav_main > ul{
   left: 200px;
   background-color: #f4f5f5e9;
   width: 0px;
-  min-height: 900px;
+  min-height: 720px;
   overflow: hidden;   
   transition: all 0.25s ease-in-out;
   border-radius: 0 10px 10px 0;
@@ -401,6 +402,7 @@ ul.nav-second-level > li.sousmenuopen > ul.nav-third-level{
 .sidebar {
   background-color: #F4F5F5; /* Couleur de fond */
   margin-top: 0; /* Marge supérieure */
+  padding: 0;
 }
 
 /* Styles pour les éléments de liste dans la barre latérale */
