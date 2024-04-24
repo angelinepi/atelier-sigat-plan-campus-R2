@@ -467,6 +467,23 @@ color: green;
   position: relative; /* Position relative */
 }
 
+#clearSubMenuBtn{
+  margin-top: 10px;
+  margin-left: 20px;
+  width: 150px;
+  height: 50px;
+  font-size: 16px;
+  font-weight: 700;
+  border: 1px solid;
+  border-radius: 5px;
+  background-color: #f4f5f5;
+  transition: 0.3s;
+}
+
+#clearSubMenuBtn:hover{
+  background-color: #d3d3d3;
+}
+
 /* Styles pour l'élément avec l'ID DDD */
 #DDD {
   top: 25px; /* Position à 25px du haut */

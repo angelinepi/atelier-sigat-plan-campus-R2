@@ -54,6 +54,21 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 });
 
+document.addEventListener("DOMContentLoaded", function() {
+  // Sélectionner le bouton
+  var clearSubMenuBtn = document.getElementById('clearSubMenuBtn');
+
+  // Ajouter un gestionnaire d'événement de clic au bouton
+  clearSubMenuBtn.addEventListener('click', function() {
+    // Sélectionner tous les éléments ayant la classe sousmenuopen
+    var subMenuOpenItems = document.querySelectorAll('.sousmenuopen');
+
+    // Parcourir tous les éléments et supprimer la classe sousmenuopen
+    subMenuOpenItems.forEach(function(item) {
+      item.classList.remove('sousmenuopen');
+    });
+  });
+});
 
 
  
