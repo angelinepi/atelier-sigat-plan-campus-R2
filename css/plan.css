@@ -224,8 +224,8 @@ h1.sitename {
     height: 80vh; /* Hauteur de 80% de la fenêtre */
 }
 
-/* Styles pour les boutons dans mapboxgl */
-.mapboxgl-ctrl > button {
+/* Styles pour les boutons dans maplibregl */
+.maplibregl-ctrl > button {
     height: 33px; /* Hauteur */
     width: 33px; /* Largeur */
     background-color: #fff; /* Couleur de fond */
@@ -235,30 +235,30 @@ h1.sitename {
     background-repeat: no-repeat; /* Pas de répétition de l'arrière-plan */
     background-position: center; /* Position de l'arrière-plan */
 }
-/* Styles pour le groupe de contrôles mapboxgl */
-.mapboxgl-ctrl-group {
+/* Styles pour le groupe de contrôles maplibregl */
+.maplibregl-ctrl-group {
   border-radius: 0; /* Rayon de bordure */
   box-shadow: none; /* Pas d'ombre */
 }
 
-/* Styles pour les boutons dans le groupe de contrôles mapboxgl */
-mapboxgl-ctrl-group > button {
+/* Styles pour les boutons dans le groupe de contrôles maplibregl */
+.maplibregl-ctrl-group > button {
   border: 1px solid #e5e5e5; /* Bordure */
 }
 
-/* Styles pour la boussole dans le groupe de contrôles mapboxgl */
-.mapboxgl-ctrl-icon.mapboxgl-ctrl-compass > .mapboxgl-ctrl-compass-arrow {
+/* Styles pour la boussole dans le groupe de contrôles maplibregl */
+.maplibregl-ctrl-icon.maplibregl-ctrl-compass > .maplibregl-ctrl-compass-arrow {
   background-image: url("/css/icons/plan_boussole.svg"); /* Image de fond */
   margin-left: 40%; /* Marge à gauche */
 }
 
-/* Styles pour le bouton de zoom avant dans mapboxgl */
-.mapboxgl-ctrl-icon.mapboxgl-ctrl-zoom-in {
+/* Styles pour le bouton de zoom avant dans maplibregl */
+.maplibregl-ctrl-icon.maplibregl-ctrl-zoom-in {
   background-image: url("/css/icons/plan_zoom_plus.svg"); /* Image de fond */
 }
 
-/* Styles pour le bouton de zoom arrière dans mapboxgl */
-.mapboxgl-ctrl-icon.mapboxgl-ctrl-zoom-out {
+/* Styles pour le bouton de zoom arrière dans maplibregl */
+.maplibregl-ctrl-icon.maplibregl-ctrl-zoom-out {
   background-image: url("/css/icons/plan_zoom_moins.svg"); /* Image de fond */
 }
 
@@ -467,6 +467,7 @@ color: green;
   position: relative; /* Position relative */
 }
 
+/* --- LES BOUTONS --- */
 #clearSubMenuBtn{
   margin-top: 10px;
   margin-left: 20px;
@@ -484,19 +485,18 @@ color: green;
   background-color: #d3d3d3;
 }
 
-/* Styles pour l'élément avec l'ID DDD */
+/* --- BOUTONS 2D/3D ---*/
 #DDD {
   top: 25px; /* Position à 25px du haut */
 }
-
-/* Styles pour les boutons actifs et survolés dans l'élément avec l'ID DDD */
+/*... quand actif et survolé*/
 #DDD .btn.active,
 #DDD button:hover {
   background-color: #073763; /* Couleur de fond */
   color: #fff; /* Couleur du texte */
 }
 
-/* Styles pour les boutons dans l'élément avec l'ID DDD */
+/*... styles des boutons*/
 #DDD button {
   background-color: #fff; /* Couleur de fond */
   color: #073763; /* Couleur du texte */
@@ -505,13 +505,13 @@ color: green;
   box-shadow: none; /* Pas d'ombre */
 }
 
-/* Styles pour l'élément avec l'ID campus */
+/* --- ONGLETS GEOGRAPHIQUES ---*/
 #campus {
   top: 25px; /* Position à 25px du haut */
   opacity: 1; /* Opacité */
 }
 
-/* Styles pour les boutons dans l'élément avec l'ID campus */
+/*...styles des boutons*/
 #campus button {
   font-size: 18px; /* Taille de police */
   font-family: "Roboto"; /* Police de caractère */
@@ -521,7 +521,7 @@ color: green;
   border: 1px solid #E5E5E5; /* Bordure */
 }
 
-/* Styles pour les boutons actifs dans l'élément avec l'ID campus */
+/*... quand actif*/
 #campus button.active {
   font-size: 18px; /* Taille de police */
   font-family: "Roboto"; /* Police de caractère */
@@ -530,6 +530,25 @@ color: green;
   color: #fff; /* Couleur du texte */
 }
 
+/*--- BOUTON IMPRIMER LA CARTE ---*/
+.btn-header  {
+  position: absolute;
+  top: 10%;
+  right: 5%;
+  background-color: red;  
+  padding: 10px;
+}
+.btn-imprimer {
+  background-image: url('/css/icons/printer.svg');
+  background-size: 30px 30px;
+  background-color: #7239AB;
+  z-index: 1000;
+  padding: 6px 12px;
+    padding-top: 24px;
+    padding-right: 18px;
+}
+
+/* --- LA BARRE DE RECHERCHE AKA SEARCHBAR --- */
 /* Styles pour l'entrée de recherche easy-autocomplete */
 .easy-autocomplete input {
   border: none; /* Pas de bordure */
@@ -564,28 +583,28 @@ color: green;
   background-size: 20px 20px; /* Taille de l'image de fond */
 }
 
-/* Styles pour le bouton de recherche désactivé avec l'ID searchButton */
+/*...bouton de recherche désactivé */
 #searchButton.btn-primary.off {
   background-image: url('/css/icons/plan_loupe_off.svg'); /* Image de fond */
 }
 
-/* Styles pour le survol du bouton de recherche avec l'ID searchButton */
+/*...bouton de recherche survolé */
 #searchButton:hover {
   background-color: #073763; /* Couleur de fond */
 }
 
-/* Styles pour la barre de recherche dans la barre latérale */
+/* --- LA BARRE LATERALE AKA SIDEBAR --- */
 .sidebar .sidebar-search {
   padding: 0 0 20px 0; /* Rembourrage */
   border: none; /* Pas de bordure */
   line-height: 20px; /* Hauteur de ligne */
 }
-/* Styles pour le bouton de recherche dans la barre latérale lorsqu'il est en focus */
+/*quand le bouton de recherche est en focus */
 .sidebar-search .input-group-btn:focus {
   height: 33px; /* Hauteur */
 }
 
-/* Styles pour les boutons primaires lorsqu'ils sont en focus ou survolés */
+/* quand les boutons sont en focus ou survolés */
 .btn-primary:focus,
 .btn-primary:hover {
   color: #fff; /* Couleur du texte */
@@ -690,27 +709,33 @@ a.active {
   background-color: #fff; /* Couleur de fond */
   background-image: url('/css/icons/radio_on.svg'); /* Image de fond */
 }
-/* Styles pour la popup de la carte mapboxgl */
-.mapboxgl-popup {
+
+
+/* --- LES POPUPS MAPLIBRE --- */
+/* Styles pour la popup*/
+.maplibregl-popup {
   opacity: 1; /* Opacité */
   top: 40px; /* Position depuis le haut */
   max-width: 550px; /* Largeur maximale */
   max-height: 400px; /* Hauteur maximale */
 }
 
+
+
 /* Styles spécifiques pour la popup de la carte avec la classe popup-bati */
-.mapboxgl-popup.popup-bati,
-.mapboxgl-popup.popup-bati * {
+.maplibregl-popup.popup-bati,
+.maplibregl-popup.popup-bati * {
   pointer-events: none; /* Désactiver les événements pointeur pour les éléments de la popup */
 }
 
-/* Styles pour les images dans la popup de la carte */
-.mapboxgl-popup img {
+/*images*/
+.maplibregl-popup img {
   height: 225px; /* Hauteur */
 }
 
 /* Styles pour le contenu de la popup de la carte */
-.mapboxgl-popup-content {
+.maplibregl-popup-content {
+  text-align: center;
   box-shadow: none; /* Pas d'ombre */
   border-radius: 0; /* Pas de bordure arrondie */
   font-size: 14px; /* Taille de police */
@@ -720,29 +745,31 @@ a.active {
   color: #434A54; /* Couleur du texte */
 }
 
-/* Styles pour les titres dans le contenu de la popup de la carte */
-.mapboxgl-popup-content h1 {
+/*titres*/
+.maplibregl-popup-content > h1 {
+  text-align: left;
   background-color: #434A54; /* Couleur de fond */
   font-size: 14px; /* Taille de police */
   font-family: "Roboto"; /* Police de caractère */
   font-weight: 500; /* Poids de la police */
-  padding: 10px; /* Rembourrage */
+  padding: 10px;
   color: #fff; /* Couleur du texte */
   border-radius: 0; /* Pas de bordure arrondie */
 }
 
-/* Styles pour la description dans le contenu de la popup de la carte */
-.mapboxgl-popup-content .description {
-  padding: 10px; /* Rembourrage */
+/*description*/
+.maplibregl-popup-content .description {
+  padding: 10px;
 }
 
-/* Styles pour les paragraphes dans le contenu de la popup de la carte */
-.mapboxgl-popup-content p {
+/*paragraphes*/
+.maplibregl-popup-content p {
   font-size: 14px; /* Taille de police */
 }
 
+/* LES BOUTONS DE CONTROLES MAPLIBRE */
 /* Styles pour le contrôle de géolocalisation de mapbox */
-.mapboxgl-ctrl-icon.mapboxgl-ctrl-geolocate {
+.maplibregl-ctrl-icon.maplibregl-ctrl-geolocate {
   background-image: url("/css/icons/plan_localisation.svg"); /* Image de fond */
   background-size: 20px 20px; /* Taille de l'image de fond */
   background-repeat: no-repeat; /* Pas de répétition */
@@ -759,11 +786,6 @@ a.active {
   right: 0; /* Position depuis la droite */
   display: inline-block; /* Affichage en ligne */
   z-index: 9999; /* Z-index */
-}
-
-/* Styles pour la pointe de la popup lorsque ancrée en haut */
-.mapboxgl-popup-anchor-top > .mapboxgl-popup-tip {
-  border-bottom-color: #fff; /* Couleur de la bordure inférieure */
 }
 
 /* Styles pour le footer */
@@ -892,7 +914,9 @@ button.navbar-toggle {
   background-color: #000;
 }
 
-/* Médias-query pour les écrans de petite taille */
+/* --- LES MEDIAS QUERY --- */
+
+/* Affichage pour les écrans de petite taille */
 @media (max-width: 750px) {
   #wrapper {
       max-height: none;
@@ -960,18 +984,39 @@ button.navbar-toggle {
       background-color: #F4F5F5;
       width: 100%;
   }
-  .mapboxgl-ctrl-top-left {
+ 
+  .maplibregl-ctrl-top-left {
       top: 40px;
   }
-  .mapboxgl-ctrl-top-right {
+  .maplibregl-ctrl-top-right {
       margin-top: 40px;
   }
 }
 
-/* Médias-query pour les écrans de grande taille */
+/* Affichage pour les écrans de grande taille */
 @media (min-width: 992px) {
   /* Cacher le dragger de la barre de défilement */
   .mCSB_dragger {
       display: none;
+  }
+}
+
+/* Paramétrages des éléments imprimés ou non */
+@media print {
+  header, nav, .btn-group  {
+    display : none;
+  }
+  #page-wrapper {
+    margin : 0;
+    padding: 0;
+  }
+  .maplibregl-ctrl-bottom-left, .maplibregl-ctrl.maplibregl-ctrl-scale {
+    bottom: 5%;
+  }
+  .attribution-container {
+    bottom:0;
+  }
+  @page {
+    size: landscape;
   }
 }
