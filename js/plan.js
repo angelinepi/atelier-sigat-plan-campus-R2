@@ -55,18 +55,15 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 document.addEventListener("DOMContentLoaded", function() {
-  // Sélectionner le bouton
-  var clearSubMenuBtn = document.getElementById('clearSubMenuBtn');
+  // Sélection du bouton
+  var clearBtn = document.getElementById("clearSubMenuBtn");
 
-  // Ajouter un gestionnaire d'événement de clic au bouton
-  clearSubMenuBtn.addEventListener('click', function() {
-    // Sélectionner tous les éléments ayant la classe sousmenuopen
-    var subMenuOpenItems = document.querySelectorAll('.sousmenuopen');
+  // Ajout d'un gestionnaire d'événements au clic sur le bouton
+  clearBtn.addEventListener("click", function() {
+      // Réinitialiser la page ici
 
-    // Parcourir tous les éléments et supprimer la classe sousmenuopen
-    subMenuOpenItems.forEach(function(item) {
-      item.classList.remove('sousmenuopen');
-    });
+      // Par exemple, vous pouvez recharger la page pour la réinitialiser complètement
+      location.reload(); // Cela rechargera la page et la remettra à son état initial
   });
 });
 
