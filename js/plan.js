@@ -70,11 +70,8 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 });
 
-
- 
- 
- 
  //définition d'une fonction permettant l'extraction d'une valeur d'un paramètre d'URL (avec expression régulière)
+
   function getQueryStringValue(key) {
     return decodeURIComponent(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + encodeURIComponent(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
     //window.location.search : indique la barre où se trouve l'URL, puis concatenation de :
@@ -637,6 +634,7 @@ document.addEventListener("DOMContentLoaded", function() {
         if (e.features[0].properties.Infos != "null" && e.features[0].properties.Infos != null && e.features[0].properties.Infos != "") {
           popupContent += '<p>' + e.features[0].properties.Infos + '<p>';
         }
+
         if (popupBati != null && popupBati != "null" && popupBati != "") {
           popupBati.remove();
         }
