@@ -96,6 +96,7 @@ document.addEventListener("DOMContentLoaded", function() {
   var largeurEcran = screen.width
   var zoomBase = 15.8;
   var BoutonsD = document.getElementById("DDD")
+  var BoutonP = document.getElementById("print")
 
   //création du bouton 2D
   var Bouton2D = document.createElement('button'); 
@@ -150,8 +151,6 @@ document.addEventListener("DOMContentLoaded", function() {
     [-2.668165, 48.534886]
   ];
   
-  var mapToken = 'zXodaO9ZW510ceX2WoPL';
-
   // Appel du fond de carte
   var map = new maplibregl.Map({
     container: 'map', // container id
@@ -162,7 +161,8 @@ document.addEventListener("DOMContentLoaded", function() {
     minZoom: 13, // zoom minimal
     pitch: 0, // inclinaison de base
     maxBounds: rennesBounds,
-    attributionControl: false // starting zoom
+    attributionControl: false, // starting zoom
+    preserveDrawingBuffer : true //permet d'imprimer la carte (sur firefox)
   });
   map.dragRotate.disable(); // vue 2D de base
   if (device == 'phone') {
@@ -591,7 +591,7 @@ document.addEventListener("DOMContentLoaded", function() {
       type: "fill-extrusion",
       source: "bati3D",
       paint: {
-        'fill-extrusion-color': '#849fce',
+        'fill-extrusion-color': '#6A8CC8',
         'fill-extrusion-height': {
           'type': 'identity',
           'property': 'hauteur'
@@ -610,7 +610,7 @@ document.addEventListener("DOMContentLoaded", function() {
       source: "bati3D",
       filter: ["==", "Nom", ""],
       paint: {
-        'fill-extrusion-color': '#D82B09',
+        'fill-extrusion-color': '#6A8CC8',
         'fill-extrusion-height': {
           'type': 'identity',
           'property': 'hauteur'
@@ -628,22 +628,21 @@ document.addEventListener("DOMContentLoaded", function() {
       var popupTitle = '';
       popupContent = '';
       if (Layers.length == 0) {
-        if (e.features[0].properties.Nom !== "null") {
+        if (e.features[0].properties.Nom != "null" && e.features[0].properties.Nom != null && e.features[0].properties.Nom != "") {
           popupTitle = e.features[0].properties.Nom;
         }
-        if (e.features[0].properties.Photo !== "null") {
+        if (e.features[0].properties.Photo != "null" && e.features[0].properties.Photo != null && e.features[0].properties.Photo != "") {
           popupContent += '<img src = \'' + e.features[0].properties.Photo + '?v='+version+'\'/>'
         }
-        if (e.features[0].properties.Infos !== "null") {
+        if (e.features[0].properties.Infos != "null" && e.features[0].properties.Infos != null && e.features[0].properties.Infos != "") {
           popupContent += '<p>' + e.features[0].properties.Infos + '<p>';
         }
-        if (popupBati !== null) {
+        if (popupBati != null && popupBati != "null" && popupBati != "") {
           popupBati.remove();
         }
         ;
-        if (e.features[0].properties.Nom !== "null") {
+        if (e.features[0].properties.Nom != "null" && e.features[0].properties.Nom != null && e.features[0].properties.Nom != "") {
           if ((popup == null || popup.isOpen() == false) && (searchPopup == null || searchPopup.isOpen() === false) && (popupList == null || popupList.isOpen() === false)) {
-
             popupBati = new maplibregl.Popup({
               offset: [0, -45],
               closeButton: false,
@@ -727,7 +726,7 @@ document.addEventListener("DOMContentLoaded", function() {
       source: "bati2D",
       filter: ["==", "Id", ""],
       paint: {
-        'fill-color': '#D82B09',
+        'fill-color': '#6A8CC8',
         'fill-opacity': 0.5
       }
     }, Layers[0]);
@@ -738,22 +737,22 @@ document.addEventListener("DOMContentLoaded", function() {
       var popupTitle = '';
       popupContent = '';
       if (Layers.length == 0) {
-        if (e.features[0].properties.Nom !== "null") {
+        if (e.features[0].properties.Nom != "null"&& e.features[0].properties.Nom != null && e.features[0].properties.Nom != "") {
           popupTitle = e.features[0].properties.Nom;
           // console.log(popupTitle);
         }
-        if (e.features[0].properties.Photo !== "null") {
+        if (e.features[0].properties.Photo != "null" && e.features[0].properties.Photo != null && e.features[0].properties.Photo != "") {
           popupContent += '<img src = \'' + e.features[0].properties.Photo + '?v=' + version + '\'/>'
           // console.log(popupContent); // verification du lien de l'image
         }
-        if (e.features[0].properties.Info !== "null") {
+        if (e.features[0].properties.Info != "null" && e.features[0].properties.Info != null && e.features[0].properties.Info != "") {
           popupContent += '<p>' + e.features[0].properties.Info + '<p>';
         }
-        if (popupBati !== null) {
+        if (popupBati != null && popupBati != "null" && popupBati != "") {
           popupBati.remove();
         }
         ;
-        if (e.features[0].properties.Nom !== "null") {
+        if (e.features[0].properties.Nom != "null" && e.features[0].properties.Nom != null && e.features[0].properties.Nom != "") {
           if ((popup == null || popup.isOpen() == false) && (searchPopup == null || searchPopup.isOpen() === false) && (popupList == null || popupList.isOpen() === false)) {
 
             popupBati = new maplibregl.Popup({
@@ -786,7 +785,7 @@ document.addEventListener("DOMContentLoaded", function() {
       },
       filter: ['==', 'Categorie', 'Batiment'],
       layout: {
-        // "text-field": "{Etiquette}",
+        "text-field": "{Etiquette}",
         "text-anchor": "center",
         "text-size": {'base': 1.3, 'stops': [[13, 2.5], [22, 60]]},
         "text-max-width": 8
@@ -805,7 +804,8 @@ document.addEventListener("DOMContentLoaded", function() {
       offset: [0, -45],
       closeButton: false
     })
-            .setLngLat(salleRecherchee.geometry.coordinates)
+            //.setLngLat(salleRecherchee.geometry.coordinates)
+			.setLngLat(salleRX) //version Paul
             .setHTML('<h1>' + popupTitle + '</h1><div class="description">' + popupContent + '</div>')
             .addTo(map);
   }
@@ -837,7 +837,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     if (document.getElementsByClassName('leaf active')) {
       var previousActiveLeaves = document.getElementsByClassName('leaf active');
-      for (i = 0; i < previousActiveLeaves.length; i++) {
+      for (let i = 0; i < previousActiveLeaves.length; i++) {
         previousActiveLeaves[i].classList.remove('active');
       }
     }
@@ -864,15 +864,17 @@ document.addEventListener("DOMContentLoaded", function() {
     }
     ;
     if (DDD) {
-      map.flyTo({
-        center: [salleRX, salleRY],
+      map.jumpTo({
+      	//center: [salleRX, salleRY],
+        center: [salleRX[0], salleRX[1]], //version Paul
         zoom: 16.5,
         pitch: 45,
         speed: 0.6
       });
     } else {
-      map.flyTo({
-        center: [salleRX, salleRY],
+      map.jumpTo({
+        //center: [salleRX, salleRY],
+        center: [salleRX[0], salleRX[1]], //version Paul
         zoom: 16.5,
         pitch: 0,
         speed: 0.6
@@ -885,9 +887,8 @@ document.addEventListener("DOMContentLoaded", function() {
   function addPictoFondDeCarte() {
     //picto fond de carte
     //Picto permanent Bibliothèque
-    map.loadImage("../css/icons/iconfond/biblio.png", function (error, image) {
-      if (error)
-        throw error;
+    map.loadImage("../css/icons/iconfond/biblio.png").then(response => {
+      const image = response.data;
       if (!map.hasImage("biblio")) {
         map.addImage('biblio', image);
       }
@@ -908,9 +909,8 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     //Picto permanent Caféteria
-    map.loadImage("../css/icons/iconfond/cafe.png", function (error, image) {
-      if (error)
-        throw error;
+    map.loadImage("../css/icons/iconfond/cafe.png").then(response => {
+      const image = response.data;
       if (!map.hasImage("cafe")) {
         map.addImage('cafe', image);
       }
@@ -932,9 +932,9 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
     //Picto permanent Restaurant U
-    map.loadImage("../css/icons/iconfond/resto.png", function (error, image) {
-      if (error)
-        throw error;
+    map.loadImage("../css/icons/iconfond/resto.png").then(response => {
+      const image = response.data;
+
       if (!map.hasImage("resto")) {
         map.addImage('resto', image);
       }
@@ -955,9 +955,9 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     //Picto permanent Parking
-    map.loadImage("../css/icons/iconfond/parking.png", function (error, image) {
-      if (error)
-        throw error;
+    map.loadImage("../css/icons/iconfond/parking.png").then(response => {
+      const image = response.data;
+
       if (!map.hasImage("parking")) {
         map.addImage('parking', image);
       }
@@ -978,9 +978,8 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     //Picto permanent Metro
-    map.loadImage("../css/icons/iconfond/metro.png", function (error, image) {
-      if (error)
-        throw error;
+   map.loadImage("../css/icons/iconfond/metro.png").then(response => {
+      const image = response.data;
       if (!map.hasImage("metro")) {
         map.addImage('metro', image);
       }
@@ -1001,9 +1000,9 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     //Picto permanent Pôle Sante
-    map.loadImage("../css/icons/iconfond/sante.png", function (error, image) {
-      if (error)
-        throw error;
+    map.loadImage("../css/icons/iconfond/sante.png").then(response => {
+      const image = response.data;
+
       if (!map.hasImage("sante")) {
         map.addImage('sante', image);
       }
@@ -1024,9 +1023,8 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     //Picto permanent Piscine
-    map.loadImage("../css/icons/iconfond/piscine.png", function (error, image) {
-      if (error)
-        throw error;
+   map.loadImage("../css/icons/iconfond/piscine.png").then(response => {
+      const image = response.data;
       if (!map.hasImage("piscine")) {
         map.addImage('piscine', image);
       }
@@ -1047,9 +1045,8 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     //Picto permanent Bus
-    map.loadImage("../css/icons/iconfond/bus.png", function (error, image) {
-      if (error)
-        throw error;
+   map.loadImage("../css/icons/iconfond/bus.png").then(response => {
+      const image = response.data;
       if (!map.hasImage("bus")) {
         map.addImage('bus', image);
       }
@@ -1068,6 +1065,175 @@ document.addEventListener("DOMContentLoaded", function() {
         minzoom: 16,
       });
     });
+
+        //Picto permanent 2_P
+    map.loadImage("../css/icons/iconfond/2_P.png").then(response => {
+      const image = response.data;
+      if (!map.hasImage("2_P")) {
+        map.addImage('2_P', image);
+      }
+      map.addLayer({
+        "id": "2_P" + pictoCount,
+        "type": "symbol",
+        "source": {
+          "type": "geojson",
+          "data": "../data/fondcarte/2_P.geojson?v="+version
+        },
+        "layout": {
+          "visibility": 'visible',
+          "icon-image": "2_P",
+          "icon-size": 0.30,
+          "icon-allow-overlap" : true
+        },
+        minzoom: 15,
+      });
+    });
+        //Picto permanent Arbre_bat_T
+        map.loadImage("../css/icons/iconfond/Arbre_bat_T.png").then(response => {
+          const image = response.data;
+          if (!map.hasImage("Arbre_bat_T")) {
+            map.addImage('Arbre_bat_T', image);
+          }
+          map.addLayer({
+            "id": "Arbre_bat_T" + pictoCount,
+            "type": "symbol",
+            "source": {
+              "type": "geojson",
+              "data": "../data/fondcarte/Arbre_bat_T.geojson?v="+version
+            },
+            "layout": {
+              "visibility": 'visible',
+              "icon-image": "Arbre_bat_T",
+              "icon-size": 0.50,
+              "icon-allow-overlap" : true
+            },
+            minzoom: 15,
+          });
+        });
+
+        //Picto permanent Design_BU
+        map.loadImage("../css/icons/iconfond/Design_BU.png").then(response => {
+          const image = response.data;
+          if (!map.hasImage("Design_BU")) {
+            map.addImage('Design_BU', image);
+          }
+          map.addLayer({
+            "id": "Design_BU" + pictoCount,
+            "type": "symbol",
+            "source": {
+              "type": "geojson",
+              "data": "../data/fondcarte/Design_BU.geojson?v="+version
+            },
+            "layout": {
+              "visibility": 'visible',
+              "icon-image": "Design_BU",
+              "icon-size": 0.30,
+              "icon-allow-overlap" : true
+            },
+            minzoom: 15,
+          });
+        });
+
+        //Picto permanent escalier_arc_en_ciel
+        map.loadImage("../css/icons/iconfond/escalier_arc_en_ciel.png").then(response => {
+          const image = response.data;
+          if (!map.hasImage("escalier_arc_en_ciel")) {
+            map.addImage('escalier_arc_en_ciel', image);
+          }
+          map.addLayer({
+            "id": "escalier_arc_en_ciel" + pictoCount,
+            "type": "symbol",
+            "source": {
+              "type": "geojson",
+              "data": "../data/fondcarte/escalier_arc_en_ciel.geojson?v="+version
+            },
+            "layout": {
+              "visibility": 'visible',
+              "icon-image": "escalier_arc_en_ciel",
+              "icon-size": 0.40,
+              "icon-allow-overlap" : true
+            },
+            minzoom: 15,
+          });
+        });
+
+        //Picto permanent Jardin
+        map.loadImage("../css/icons/iconfond/Jardin.png").then(response => {
+          const image = response.data;
+          if (!map.hasImage("Jardin")) {
+            map.addImage('Jardin', image);
+          }
+          map.addLayer({
+            "id": "Jardin" + pictoCount,
+            "type": "symbol",
+            "source": {
+              "type": "geojson",
+              "data": "../data/fondcarte/Jardin.geojson?v="+version
+            },
+            "layout": {
+              "visibility": 'visible',
+              "icon-image": "Jardin",
+              "icon-size": 0.40
+            },
+            minzoom: 15,
+          });
+        });
+
+        //Picto permanent Pin_parasol
+        map.loadImage("../css/icons/iconfond/Pin_parasol.png").then(response => {
+          const image = response.data;
+          if (!map.hasImage("Pin_parasol")) {
+            map.addImage('Pin_parasol', image);
+          }
+          map.addLayer({
+            "id": "Pin_parasol" + pictoCount,
+            "type": "symbol",
+            "source": {
+              "type": "geojson",
+              "data": "../data/fondcarte/Pin_parasol.geojson?v="+version
+            },
+            "layout": {
+              "visibility": 'visible',
+              "icon-image": "Pin_parasol",
+              "icon-size": 0.40
+            },
+            minzoom: 15,
+          });
+        });
+
+
+        //Picto permanent Sequoia_passage_BU
+        map.loadImage("../css/icons/iconfond/Sequoia_passage_BU.png").then(response => {
+          const image = response.data;
+          if (!map.hasImage("Sequoia_passage_BU")) {
+            map.addImage('Sequoia_passage_BU', image);
+          }
+          map.addLayer({
+            "id": "Sequoia_passage_BU" + pictoCount,
+            "type": "symbol",
+            "source": {
+              "type": "geojson",
+              "data": "../data/fondcarte/Sequoia_passage_BU.geojson?v="+version
+            },
+            "layout": {
+              "visibility": 'visible',
+              "icon-image": "Sequoia_passage_BU",
+              "icon-size": 0.40,
+              "icon-allow-overlap" : true
+            },
+            minzoom: 15,
+          });
+        });
+
+
+
+
+
+
+
+
+
+
   }
 ////////// fin de la definition de la fonction addPictoFondDecarte() //////////
 
@@ -1082,9 +1248,8 @@ document.addEventListener("DOMContentLoaded", function() {
       markerOffset = [-40, -50]
     }
 
-    map.loadImage(iconURL, function (error, image) {
-      if (error)
-        throw error;
+    map.loadImage(iconURL).then(response => {
+      const image = response.data;
       map.addImage(name + 'image', image);
       map.addLayer({
         "id": name,
@@ -1223,9 +1388,8 @@ document.addEventListener("DOMContentLoaded", function() {
 //	        			console.log(markerOffset)
           }
           // symbole associé au marker //  
-          map.loadImage(colorOrUrl, function (error, image) {
-            if (error)
-              throw error;
+          map.loadImage(colorOrUrl).then(response => {
+            const image = response.data;
             map.addImage(nomDeLaCouche + 'image', image);
             map.addLayer({
               "id": nomDeLaCouche,
@@ -1330,9 +1494,8 @@ document.addEventListener("DOMContentLoaded", function() {
         }
         if (type == 'picto') {
 //	            	console.log(colorOrUrl);
-          map.loadImage(colorOrUrl, function (error, image) {
-            if (error)
-              throw error;
+          map.loadImage(colorOrUrl).then(response => {
+            const image = response.data;
             map.addImage(nomDeLaCouche + 'image', image);
             map.addLayer({
               "id": nomDeLaCouche,
@@ -1357,7 +1520,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
             ////////// Definition de la deuxième fonction etiqOverlay() ////////// 
             function etiqOverlay() {
-              overlayEtiquette = map.addLayer({
+              var overlayEtiquette = map.addLayer({
                 id: nomDeLaCoucheEtiquette,
                 type: "symbol",
                 source: {
@@ -1494,10 +1657,10 @@ var popupContent = [];
     popupContent = [];
 
     /// Titre de la popup ///
-    if (feature.properties.Categorie !== "null" && feature.properties.Categorie !== null && feature.properties.Categorie !== "") {
+    if (feature.properties.Categorie != "null" && feature.properties.Categorie != null && feature.properties.Categorie != "") {
       popupTitle = feature.properties.Categorie;
     }
-    if (feature.properties.Nom !== "null" && feature.properties.Nom !== null && feature.properties.Nom !== "") {
+    if (feature.properties.Nom != "null" && feature.properties.Nom != null && feature.properties.Nom != "") {
       popupTitle = feature.properties.Nom;
     }
 
@@ -1505,11 +1668,11 @@ var popupContent = [];
     //console.log(feature.properties.Batiment)
 
     //Batiment n'est pas null :
-    if (feature.properties.Batiment !== "null" && feature.properties.Batiment !== null && feature.properties.Batiment !== "") {
+    if (feature.properties.Batiment != "null" && feature.properties.Batiment != null && feature.properties.Batiment != "") {
       popupContent += '<p>Bâtiment ' + feature.properties.Batiment ;
     }
     //Niveau n'est pas null... :
-    if (feature.properties.Niveau !== "null" && feature.properties.Niveau !== null && feature.properties.Niveau !== "") {
+    if (feature.properties.Niveau != "null" && feature.properties.Niveau != null && feature.properties.Niveau != "") {
       if (feature.properties.Niveau.toString().startsWith('niveau')){
         var niveau = feature.properties.Niveau;
       }
@@ -1517,7 +1680,7 @@ var popupContent = [];
         var niveau = 'niveau ' + feature.properties.Niveau;
       }
       //... et Batiment n'est pas null :
-      if (feature.properties.Batiment !== "null" && feature.properties.Batiment !== null && feature.properties.Batiment !== "") {
+      if (feature.properties.Batiment != "null" && feature.properties.Batiment != null && feature.properties.Batiment != "") {
         popupContent += ', ' + niveau ;
       }
       //ou... et Batiment est null :
@@ -1526,21 +1689,21 @@ var popupContent = [];
       }
     }
     //Batiment OU Niveau n'est pas null :
-    if ((feature.properties.Batiment !== "null" && feature.properties.Batiment !== null && feature.properties.Batiment !== "")
-    || (feature.properties.Niveau !== "null" && feature.properties.Niveau !== null && feature.properties.Niveau !== "")) {
+    if ((feature.properties.Batiment != "null" && feature.properties.Batiment != null && feature.properties.Batiment != "")
+    || (feature.properties.Niveau != "null" && feature.properties.Niveau != null && feature.properties.Niveau != "")) {
       popupContent += '</p>';
     }
     //Capacité n'est pas null :
-    if (feature.properties.Capacite !== "null" && feature.properties.Capacite !== null && feature.properties.Capacite !== "") {
+    if (feature.properties.Capacite != "null" && feature.properties.Capacite != null && feature.properties.Capacite != "") {
       popupContent += '<p>' + feature.properties.Capacite + '<p>';
     }
     //Info n'est pas null :
-    if (feature.properties.Info !== "null" && feature.properties.Info !== null && feature.properties.Info !== "") {
+    if (feature.properties.Info != "null" && feature.properties.Info != null && feature.properties.Info != "") {
       popupContent += '<p>' + feature.properties.Info + '<p>';
     }
     //Lien n'est pas null :
-    if (feature.properties.Lien !== "null" && feature.properties.Lien !== null && feature.properties.Lien !== "") {
-      //Categorie est 'Oeuvre' :
+    if (feature.properties.Lien != "null" && feature.properties.Lien != null && feature.properties.Lien != "") {
+		//Categorie est 'Oeuvre' :
       if (feature.properties.Categorie == 'Oeuvre') {
         popupContent += '<p><a href =" ' + feature.properties.Lien + '" target=\"_blank\">Explorer la storymap</a></p>';
       }
@@ -1549,15 +1712,15 @@ var popupContent = [];
       }
     }
     //Mail n'est pas null :
-    if (feature.properties.Mail !== "null" && feature.properties.Mail !== null && feature.properties.Mail !== "") {
+    if (feature.properties.Mail != "null" && feature.properties.Mail != null && feature.properties.Mail != "") {
       popupContent += '<p>Contacter par mail : <a href="mailto:' + feature.properties.Mail + '">'+feature.properties.Mail+'</a></p>';
     }
     //Tel n'est pas null :
-    if (feature.properties.Tel !== "null" && feature.properties.Tel !== null && feature.properties.Tel !== "") {
+    if (feature.properties.Tel != "null" && feature.properties.Tel != null && feature.properties.Tel != "") {
       popupContent += '<p>Contacter par téléphone : <a href="tel:' + feature.properties.Tel + '">'+feature.properties.Tel+'</a></p>';
     }
     //Image n'est pas null :
-    if (feature.properties.Image !== "null" && feature.properties.Image !== null && feature.properties.Image !== "") {
+    if (feature.properties.Image != "null" && feature.properties.Image != null && feature.properties.Image != "") {
       //Categorie est ''Département de formation' 
       if (feature.properties.Categorie == 'Département de formation') {
         popupTitle += '<img style = \'height : 60px; position : absolute; right : 0;top:0\' src = \'' + feature.properties.Image + '?v=' + version +'\'/>'
@@ -1638,7 +1801,10 @@ var elLink, elList;
         elLink.setAttribute('id', listeDeNoms[i]); //définit l'id de <a>
         elLink.setAttribute('href', '#'); //définit le href de <a>
         elLink.classList.add('leaf'); //ajoute la classe 'leaf' à <a>
-        elLink.addEventListener("click", () => switchPOI(currentName));
+        var theFunction = 'switchPOI(' + '\'' + currentName + '\');return false;'
+        //elLink.setAttribute('href',theFunction);
+        //elLink.addEventListener("click", () => switchPOI(currentName));
+        elLink.setAttribute('onclick', theFunction);
         elList.appendChild(elLink);  //elLink ajouté comme enfant de elList, on a donc une liste (li) de liens (a)
       }
       for (let i = 0; i < listeDeNoms.length; i++) {
@@ -1650,9 +1816,9 @@ var elLink, elList;
 
 //////////////////////////////////   Interactivité menus //////////////////////////////////////
   // ZOOMS sur les campus
-  var flyingZoom = 15.8;
+  var jumpingZoom = 15.8;
   if (device = 'phone') {
-    flyingZoom = 15
+    jumpingZoom = 15
   }
   ;
   var zoomLaHarpe = document.getElementById("LaHarpe")
@@ -1690,27 +1856,13 @@ var elLink, elList;
     zoomLaHarpe.classList.remove('active');
   });
 
+ //Evénément click pour déclancher l'impression
+const boutonPrinter = document.getElementById('imprimer');
+boutonPrinter.addEventListener('click', function () {
+  window.print()})
 //////////////////////////////////   Initialisation des données carte //////////////////////////////////////
-  var POIBrut = (function () {
-    var json = null;
-    $.ajax({
-      'async': false,
-      'global': false,
-      'url': "../data/points.geojson?v="+version,
-      'dataType': "json",
-      'success': function (data) {
-        json = data;
-      }
-    });
-    return json;
-  })();
-  var POI = [];
-  POI = POIBrut.features;
 
-  var fproperties = POIBrut.features.map(function (el) {
-    return el.properties;
-  });
-
+  //appel des lignes
   var lines = (function () {
     var jsonLines = null;
     $.ajax({
@@ -1725,6 +1877,87 @@ var elLink, elList;
     return jsonLines;
   })();
 
+//Définition des variables avant le fonction promise
+  var fproperties = [];
+  var POI = [];
+  var searchBarCrossPresence = null;
+  var searchValue = null;
+  var searchLayerId = 'SearchResult';
+  var searchLayerCount = 0;
+  var searchPopup = null;
+  var searchItem = [];
+  var searchX = null;
+  var searchY = null;
+
+
+// nouvel appel grâce à la fonction d'AP
+const getGeoJSON = (nomFichier) => fetch(nomFichier).then(res => res.json()).then(res => res.features);
+
+const geojsons = [
+  getGeoJSON("../data/filtre/acces_PMR.geojson"),
+  getGeoJSON("../data/filtre/amphi.geojson"),
+  getGeoJSON("../data/filtre/arret_bus_pts.geojson"),
+  getGeoJSON("../data/filtre/arret_metro_pts.geojson"),
+  getGeoJSON("../data/filtre/ascenceur.geojson"),
+  getGeoJSON("../data/filtre/asso_art_spor.geojson"),
+  getGeoJSON("../data/filtre/asso_filiere.geojson"),
+  getGeoJSON("../data/filtre/asso_mstr_doc.geojson"),
+  getGeoJSON("../data/filtre/asso_solidarite.geojson"),
+  getGeoJSON("../data/filtre/biblio.geojson"),
+  getGeoJSON("../data/filtre/cafet_distrib.geojson"),
+  getGeoJSON("../data/filtre/copieur.geojson"),
+  getGeoJSON("../data/filtre/entree_bat.geojson"), 
+  getGeoJSON("../data/filtre/entree_campus.geojson"),
+  getGeoJSON("../data/filtre/eqpmt_sportif.geojson"),
+  getGeoJSON("../data/filtre/esp_detente.geojson"),
+  getGeoJSON("../data/filtre/labo.geojson"),
+  getGeoJSON("../data/filtre/lieu_cultu.geojson"),
+  getGeoJSON("../data/filtre/micro_ondes.geojson"),
+  getGeoJSON("../data/filtre/oeuvres.geojson"),
+  getGeoJSON("../data/filtre/parking_velo.geojson"),
+  getGeoJSON("../data/filtre/parking_voiture.geojson"),
+  getGeoJSON("../data/filtre/resid_univ.geojson"),
+  getGeoJSON("../data/filtre/ru.geojson"),
+  getGeoJSON("../data/filtre/salle_e0.geojson"),
+  getGeoJSON("../data/filtre/salle_e1.geojson"),
+  getGeoJSON("../data/filtre/salle_e2.geojson"),
+  getGeoJSON("../data/filtre/salle_e3.geojson"),
+  getGeoJSON("../data/filtre/salle_e4.geojson"),
+  getGeoJSON("../data/filtre/salle_e5.geojson"),
+  getGeoJSON("../data/filtre/salle_e6.geojson"),
+  getGeoJSON("../data/filtre/salle_e7.geojson"),
+  getGeoJSON("../data/filtre/salle_info.geojson"),
+  getGeoJSON("../data/filtre/salle_spe.geojson"),
+  getGeoJSON("../data/filtre/sante.geojson"),
+  getGeoJSON("../data/filtre/scol.geojson"),
+  getGeoJSON("../data/filtre/services.geojson"),
+  getGeoJSON("../data/filtre/station_velostar.geojson"),
+  getGeoJSON("../data/filtre/wc.geojson"),
+  getGeoJSON("../data/fondcarte/lettre_batiment.geojson")
+];
+
+const finalGeoJSON = {
+  "type": "FeatureCollection",
+  "features": []
+};
+
+Promise.all(geojsons).then(allGeoJsons => { //à l'intérieur de cette fonction se passe le regroupement des geojsons
+
+allGeoJsons.forEach(oneGeoJSON => {
+    finalGeoJSON.features.concat(oneGeoJSON.features);
+  });
+  
+//Appeler la fonction qui gère les données fusionnées
+  finalGeoJSON.features = allGeoJsons // recup de l'objet avec ts les geojsons
+ var mergedFeatures = finalGeoJSON.features.reduce((acc, val) => acc.concat(val), []);
+  finalGeoJSON.features = mergedFeatures // transformation de l'objet pour correspondre à l'ancien fichier points.geojson
+  
+  POIBrut = finalGeoJSON // affectation de cette objet dans l'objet appelé par les couches dans le reste du code
+  
+  POI = POIBrut.features;
+  
+  fproperties = finalGeoJSON.features.map(function (el) {
+    return el.properties;})
 
   map.on("load", function () {
     // Couche herbe
@@ -1733,7 +1966,7 @@ var elLink, elList;
       type: "fill",
       source: {
         type: "geojson",
-        data: "../data/habillage/grass.geojson?v="+version
+        data: "../data/fondcarte/grass.geojson?v="+version
       },
       paint: {
         'fill-color': '#9FE19C',
@@ -1750,7 +1983,7 @@ var elLink, elList;
       type: "fill",
       source: {
         type: "geojson",
-        data: "../data/habillage/piste_athle.geojson?v="+version
+        data: "../data/fondcarte/piste_athle.geojson?v="+version
       },
       paint: {
         'fill-color': '#C09C83',
@@ -1762,7 +1995,7 @@ var elLink, elList;
       type: "line",
       source: {
         type: "geojson",
-        data: "../data/habillage/terrain_football.geojson?v="+version
+        data: "../data/fondcarte/terrain_football.geojson?v="+version
       },
       "paint": {
         'line-color': '#FFFFFF',
@@ -2141,7 +2374,7 @@ var elLink, elList;
       for (var i = 0; i < Layers.length; i++) {
         if (Layers[i] = 'Associations briochines') {
           map.setMaxBounds(mazierBounds);
-          map.flyTo({
+          map.jumpTo({
             center: [-2.7410000, 48.513033],
             zoom: 16.5,
             pitch: 0,
@@ -2490,19 +2723,12 @@ var elLink, elList;
 
 //////////////////////////////////  Barre de recherche //////////////////////////////////////
 
-  // initialisation des popup
-  var searchPopup = null
+
   var jproperties = fproperties.filter(function (e) {
     return e.Nom !== null;
   })
-  // Récupération des propriétés du json
-  var searchValue = null;
-  var searchItem = [];
-  var searchX = null;
-  var searchY = null;
-  var searchLayerCount = 0;
-  var searchLayerId = 'SearchResult';
-  var searchPopup = null
+
+
   var options = {
     data: jproperties,
     getValue: "Nom",
@@ -2522,6 +2748,12 @@ var elLink, elList;
   };
   $("#searchfield").easyAutocomplete(options);
 
+})
+.catch(e => {
+  alert("Erreur oups");
+  console.error(e);
+}); // fin de la fonction aggrégeant les geojsons. Je la fait se fermer un peu après la partie
+//concernant les couches car cela désactive la barre de recherche sinon
   ////////// définition de la fonction getSearchPopup //////////
   function getSearchPopup() {
     var popupTitle = searchItem.properties.Nom;
@@ -2593,7 +2825,8 @@ var elLink, elList;
       offset: [0, -45],
       closeButton: false  
     })
-            .setLngLat(searchItem.geometry.coordinates)
+            //.setLngLat(searchItem.geometry.coordinates)
+            .setLngLat(searchX) //version Paul
             .setHTML('<h1>' + popupTitle + '</h1><div class="description">' + popupContent + '</div>')
             .addTo(map);
   }
@@ -2630,9 +2863,8 @@ var elLink, elList;
         searchItem = POI[i]; //Si un POI correspondant est trouvé (dans la liste POI), il est assigné à searchItem
 
         //charge une image qui sera utilisée comme icône pour le POI recherché
-        map.loadImage('../css/icons/layers_icons/recherche.png', function (error, image) {
-          if (error)
-            throw error;
+        map.loadImage('../css/icons/layers_icons/recherche.png').then(response => {
+          const image = response.data;
           map.addImage(searchLayerId + 'image', image);
 
           //ajoute une nouvelle couche de symboles à la carte pour afficher le POI recherché
@@ -2689,16 +2921,18 @@ var elLink, elList;
 
         if (DDD) {
           // Configuration de la carte pour le mode 3D
-          map.flyTo({
-            center: [searchX, searchY],
+          map.jumpTo({
+            //center: [searchX, searchY], 
+            center: searchX, //version paul
             zoom: 16.5,
             pitch: 45,
             speed: 0.6
           });
         } else {
           // Configuration de la carte pour le mode 2D
-          map.flyTo({
-            center: [searchX, searchY],
+          map.jumpTo({
+            //center: [searchX, searchY],
+            center: searchX, //version paul
             zoom: 16.5,
             pitch: 0,
             speed: 0.6
@@ -2721,9 +2955,9 @@ var elLink, elList;
 
 
 //////////////////////////////////   3D   //////////////////////////////////////
-  DDButton = document.getElementById('DDButton');
-  DDDButton = document.getElementById('DDDButton');
-  DDD = false;
+  var DDButton = document.getElementById('DDButton');
+  var DDDButton = document.getElementById('DDDButton');
+
   var zoomCible;
 
   DDDButton.addEventListener('click', function () {
@@ -2734,7 +2968,7 @@ var elLink, elList;
       Y = Y - 0.00021;
       getBati3D();
       zoomCible = currentZoom + 0.5;
-      map.flyTo({
+      map.jumpTo({
         center: [X, Y],
         pitch: 60,
         speed: 0.08,
@@ -2755,7 +2989,7 @@ var elLink, elList;
       Y = Y + 0.00021;
       getBati2D();
       zoomCible = currentZoom - 0.5;
-      map.flyTo({
+      map.jumpTo({
         center: [X, Y],
         pitch: 0,
         speed: 0.08,
