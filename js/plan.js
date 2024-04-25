@@ -54,18 +54,52 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 });
 
-document.addEventListener("DOMContentLoaded", function() {
-  // Sélection du bouton
-  var clearBtn = document.getElementById("clearSubMenuBtn");
+// Supression des filtres
+var clearBtn = document.getElementById("clearSubMenuBtn");
+clearBtn.addEventListener("click", function() {
+  console.log("coucou");
+    $('ul.nav li a ').each(function (i) {
+      if ($(this).attr('id')) {
+        var removelayer = $(this).attr('id');
+        if (map.getLayer(removelayer)) {
+          var visibility = map.getLayoutProperty(removelayer, 'visibility');
+          if (visibility != "none") {
+            if (Layers.includes(removelayer)) {
+              var element = $("[id='" + removelayer + "']");
+              if (!element.next('ul').hasClass("in"))
+                element.next('ul').addClass("in");
+              if (listLayers.includes(element.get(0))) {
+                var index = $.inArray(element.get(0), listLayers);
+                if (index > -1) {
+                  listLayers.splice(index, 1);
+                }
+              }
+              element.trigger("click");
+              if (element.next('ul').hasClass("in"))
+                element.next('ul').removeClass("in");
+              if (element.parent().hasClass("active"))
+                element.parent().removeClass("active");
+              if (element.parent().hasClass("sousmenuopen"))
+                element.parent().removeClass("sousmenuopen");
+            }
+          }
+        }
+      }
+    });
 
-  // Ajout d'un gestionnaire d'événements au clic sur le bouton
-  clearBtn.addEventListener("click", function() {
-      // Réinitialiser la page ici
+    $('ul.nav li.active a.active').each(function (i) {
+      if ($(this).hasClass("active"))
+        $(this).removeClass("active");
+    });
+    $('ul.nav li.active:not(.sidebar-search,.sidebar-remove-filters), ul.nav li.active:not(.sidebar-search,.sidebar-remove-filters) ul.in ').each(function (i) {
+      if ($(this).hasClass("active"))
+        $(this).removeClass("active");
+      if ($(this).hasClass("in"))
+        $(this).removeClass("in");
+    });
 
-      // Par exemple, vous pouvez recharger la page pour la réinitialiser complètement
-      location.reload(); // Cela rechargera la page et la remettra à son état initial
   });
-});
+
 
  //définition d'une fonction permettant l'extraction d'une valeur d'un paramètre d'URL (avec expression régulière)
 
@@ -3073,44 +3107,4 @@ allGeoJsons.forEach(oneGeoJSON => {
     }
   });
 
-// Supression des filtres
-  $("#btnRemovefilters").on("click", function () {
-    $('ul.nav li:not(.sidebar-search,.sidebar-remove-filters), ul.nav li:not(.sidebar-search,.sidebar-remove-filters) a ').each(function (i) {
-      if ($(this).attr('id')) {
-        var removelayer = $(this).attr('id');
-        if (map.getLayer(removelayer)) {
-          var visibility = map.getLayoutProperty(removelayer, 'visibility');
-          if (visibility != "none") {
-            if (Layers.includes(removelayer)) {
-              var element = $("[id='" + removelayer + "']");
-              if (!element.next('ul').hasClass("in"))
-                element.next('ul').addClass("in");
-              if (listLayers.includes(element.get(0))) {
-                var index = $.inArray(element.get(0), listLayers);
-                if (index > -1) {
-                  listLayers.splice(index, 1);
-                }
-              }
-              element.trigger("click");
-              if (element.next('ul').hasClass("in"))
-                element.next('ul').removeClass("in");
-              if (element.parent().hasClass("active"))
-                element.parent().removeClass("active");
-            }
-          }
-        }
-      }
-    });
 
-    $('ul.nav li.active a.active').each(function (i) {
-      if ($(this).hasClass("active"))
-        $(this).removeClass("active");
-    });
-    $('ul.nav li.active:not(.sidebar-search,.sidebar-remove-filters), ul.nav li.active:not(.sidebar-search,.sidebar-remove-filters) ul.in ').each(function (i) {
-      if ($(this).hasClass("active"))
-        $(this).removeClass("active");
-      if ($(this).hasClass("in"))
-        $(this).removeClass("in");
-    });
-
-  });
