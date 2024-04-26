@@ -1,5 +1,55 @@
 
-  //définition d'une fonction permettant l'extraction d'une valeur d'un paramètre d'URL (avec expression régulière)
+// Supression des filtres
+var clearBtn = document.getElementById("clearSubMenuBtn");
+clearBtn.addEventListener("click", function() {
+    executeClearSubMenu(); // Première exécution
+    executeClearSubMenu(); // Deuxième exécution
+});
+
+function executeClearSubMenu() {
+    $('ul.nav li:not(.sidebar-search,.sidebar-remove-filters), ul.nav li:not(.sidebar-search,.sidebar-remove-filters) a ').each(function (i) {
+        if ($(this).attr('id')) {
+            var removelayer = $(this).attr('id');
+            if (map.getLayer(removelayer)) {
+                var visibility = map.getLayoutProperty(removelayer, 'visibility');
+                if (visibility != "none") {
+                    if (Layers.includes(removelayer)) {
+                        var element = $("[id='" + removelayer + "']");
+                        if (!element.next('ul').hasClass("in"))
+                            element.next('ul').addClass("in");
+                        if (listLayers.includes(element.get(0))) {
+                            var index = $.inArray(element.get(0), listLayers);
+                            if (index > -1) {
+                                listLayers.splice(index, 1);
+                            }
+                        }
+                        element.trigger("click");
+                        if (element.next('ul').hasClass("in"))
+                            element.next('ul').removeClass("in");
+                        if (element.parent().hasClass("active"))
+                            element.parent().removeClass("active");
+                    }
+                }
+            }
+        }
+    });
+
+    $('ul.nav li.active a.active').each(function (i) {
+        if ($(this).hasClass("active"))
+            $(this).removeClass("active");
+    });
+    $('ul.nav li.active:not(.sidebar-search,.sidebar-remove-filters), ul.nav li.active:not(.sidebar-search,.sidebar-remove-filters) ul.in ').each(function (i) {
+        if ($(this).hasClass("active"))
+            $(this).removeClass("active");
+        if ($(this).hasClass("in"))
+            $(this).removeClass("in");
+    });
+}
+
+
+
+ //définition d'une fonction permettant l'extraction d'une valeur d'un paramètre d'URL (avec expression régulière)
+
   function getQueryStringValue(key) {
     return decodeURIComponent(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + encodeURIComponent(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
     //window.location.search : indique la barre où se trouve l'URL, puis concatenation de :
@@ -516,7 +566,7 @@
       type: "fill-extrusion",
       source: "bati3D",
       paint: {
-        'fill-extrusion-color': '#d1d1e0',
+        'fill-extrusion-color': '#6A8CC8',
         'fill-extrusion-height': {
           'type': 'identity',
           'property': 'hauteur'
@@ -535,7 +585,7 @@
       source: "bati3D",
       filter: ["==", "Nom", ""],
       paint: {
-        'fill-extrusion-color': '#D82B09',
+        'fill-extrusion-color': '#6A8CC8',
         'fill-extrusion-height': {
           'type': 'identity',
           'property': 'hauteur'
@@ -553,22 +603,22 @@
       var popupTitle = '';
       popupContent = '';
       if (Layers.length == 0) {
-        if (e.features[0].properties.Nom !== "null") {
+        if (e.features[0].properties.Nom != "null" && e.features[0].properties.Nom != null && e.features[0].properties.Nom != "") {
           popupTitle = e.features[0].properties.Nom;
         }
-        if (e.features[0].properties.Photo !== "null") {
+        if (e.features[0].properties.Photo != "null" && e.features[0].properties.Photo != null && e.features[0].properties.Photo != "") {
           popupContent += '<img src = \'' + e.features[0].properties.Photo + '?v='+version+'\'/>'
         }
-        if (e.features[0].properties.Infos !== "null") {
+        if (e.features[0].properties.Infos != "null" && e.features[0].properties.Infos != null && e.features[0].properties.Infos != "") {
           popupContent += '<p>' + e.features[0].properties.Infos + '<p>';
         }
-        if (popupBati !== null) {
+
+        if (popupBati != null && popupBati != "null" && popupBati != "") {
           popupBati.remove();
         }
         ;
-        if (e.features[0].properties.Nom !== "null") {
+        if (e.features[0].properties.Nom != "null" && e.features[0].properties.Nom != null && e.features[0].properties.Nom != "") {
           if ((popup == null || popup.isOpen() == false) && (searchPopup == null || searchPopup.isOpen() === false) && (popupList == null || popupList.isOpen() === false)) {
-
             popupBati = new maplibregl.Popup({
               offset: [0, -45],
               closeButton: false,
@@ -663,22 +713,22 @@
       var popupTitle = '';
       popupContent = '';
       if (Layers.length == 0) {
-        if (e.features[0].properties.Nom !== "null") {
+        if (e.features[0].properties.Nom != "null"&& e.features[0].properties.Nom != null && e.features[0].properties.Nom != "") {
           popupTitle = e.features[0].properties.Nom;
           // console.log(popupTitle);
         }
-        if (e.features[0].properties.Photo !== "null") {
+        if (e.features[0].properties.Photo != "null" && e.features[0].properties.Photo != null && e.features[0].properties.Photo != "") {
           popupContent += '<img src = \'' + e.features[0].properties.Photo + '?v=' + version + '\'/>'
           // console.log(popupContent); // verification du lien de l'image
         }
-        if (e.features[0].properties.Info !== "null") {
+        if (e.features[0].properties.Info != "null" && e.features[0].properties.Info != null && e.features[0].properties.Info != "") {
           popupContent += '<p>' + e.features[0].properties.Info + '<p>';
         }
-        if (popupBati !== null) {
+        if (popupBati != null && popupBati != "null" && popupBati != "") {
           popupBati.remove();
         }
         ;
-        if (e.features[0].properties.Nom !== "null") {
+        if (e.features[0].properties.Nom != "null" && e.features[0].properties.Nom != null && e.features[0].properties.Nom != "") {
           if ((popup == null || popup.isOpen() == false) && (searchPopup == null || searchPopup.isOpen() === false) && (popupList == null || popupList.isOpen() === false)) {
 
             popupBati = new maplibregl.Popup({
@@ -730,7 +780,8 @@
       offset: [0, -45],
       closeButton: false
     })
-            .setLngLat(salleRecherchee.geometry.coordinates)
+            //.setLngLat(salleRecherchee.geometry.coordinates)
+			.setLngLat(salleRX) //version Paul
             .setHTML('<h1>' + popupTitle + '</h1><div class="description">' + popupContent + '</div>')
             .addTo(map);
   }
@@ -789,15 +840,17 @@
     }
     ;
     if (DDD) {
-      map.flyTo({
-        center: [salleRX, salleRY],
+      map.jumpTo({
+      	//center: [salleRX, salleRY],
+        center: [salleRX[0], salleRX[1]], //version Paul
         zoom: 16.5,
         pitch: 45,
         speed: 0.6
       });
     } else {
-      map.flyTo({
-        center: [salleRX, salleRY],
+      map.jumpTo({
+        //center: [salleRX, salleRY],
+        center: [salleRX[0], salleRX[1]], //version Paul
         zoom: 16.5,
         pitch: 0,
         speed: 0.6
@@ -810,9 +863,8 @@
   function addPictoFondDeCarte() {
     //picto fond de carte
     //Picto permanent Bibliothèque
-    map.loadImage("../css/icons/iconfond/biblio.png", function (error, image) {
-      if (error)
-        throw error;
+    map.loadImage("../css/icons/iconfond/biblio.png").then(response => {
+      const image = response.data;
       if (!map.hasImage("biblio")) {
         map.addImage('biblio', image);
       }
@@ -833,9 +885,8 @@
     });
 
     //Picto permanent Caféteria
-    map.loadImage("../css/icons/iconfond/cafe.png", function (error, image) {
-      if (error)
-        throw error;
+    map.loadImage("../css/icons/iconfond/cafe.png").then(response => {
+      const image = response.data;
       if (!map.hasImage("cafe")) {
         map.addImage('cafe', image);
       }
@@ -857,9 +908,9 @@
 
 
     //Picto permanent Restaurant U
-    map.loadImage("../css/icons/iconfond/resto.png", function (error, image) {
-      if (error)
-        throw error;
+    map.loadImage("../css/icons/iconfond/resto.png").then(response => {
+      const image = response.data;
+
       if (!map.hasImage("resto")) {
         map.addImage('resto', image);
       }
@@ -880,9 +931,9 @@
     });
 
     //Picto permanent Parking
-    map.loadImage("../css/icons/iconfond/parking.png", function (error, image) {
-      if (error)
-        throw error;
+    map.loadImage("../css/icons/iconfond/parking.png").then(response => {
+      const image = response.data;
+
       if (!map.hasImage("parking")) {
         map.addImage('parking', image);
       }
@@ -903,9 +954,8 @@
     });
 
     //Picto permanent Metro
-    map.loadImage("../css/icons/iconfond/metro.png", function (error, image) {
-      if (error)
-        throw error;
+   map.loadImage("../css/icons/iconfond/metro.png").then(response => {
+      const image = response.data;
       if (!map.hasImage("metro")) {
         map.addImage('metro', image);
       }
@@ -926,9 +976,9 @@
     });
 
     //Picto permanent Pôle Sante
-    map.loadImage("../css/icons/iconfond/sante.png", function (error, image) {
-      if (error)
-        throw error;
+    map.loadImage("../css/icons/iconfond/sante.png").then(response => {
+      const image = response.data;
+
       if (!map.hasImage("sante")) {
         map.addImage('sante', image);
       }
@@ -949,9 +999,8 @@
     });
 
     //Picto permanent Piscine
-    map.loadImage("../css/icons/iconfond/piscine.png", function (error, image) {
-      if (error)
-        throw error;
+   map.loadImage("../css/icons/iconfond/piscine.png").then(response => {
+      const image = response.data;
       if (!map.hasImage("piscine")) {
         map.addImage('piscine', image);
       }
@@ -972,9 +1021,8 @@
     });
 
     //Picto permanent Bus
-    map.loadImage("../css/icons/iconfond/bus.png", function (error, image) {
-      if (error)
-        throw error;
+   map.loadImage("../css/icons/iconfond/bus.png").then(response => {
+      const image = response.data;
       if (!map.hasImage("bus")) {
         map.addImage('bus', image);
       }
@@ -1176,9 +1224,8 @@
       markerOffset = [-40, -50]
     }
 
-    map.loadImage(iconURL, function (error, image) {
-      if (error)
-        throw error;
+    map.loadImage(iconURL).then(response => {
+      const image = response.data;
       map.addImage(name + 'image', image);
       map.addLayer({
         "id": name,
@@ -1317,9 +1364,8 @@
 //	        			console.log(markerOffset)
           }
           // symbole associé au marker //  
-          map.loadImage(colorOrUrl, function (error, image) {
-            if (error)
-              throw error;
+          map.loadImage(colorOrUrl).then(response => {
+            const image = response.data;
             map.addImage(nomDeLaCouche + 'image', image);
             map.addLayer({
               "id": nomDeLaCouche,
@@ -1424,9 +1470,8 @@
         }
         if (type == 'picto') {
 //	            	console.log(colorOrUrl);
-          map.loadImage(colorOrUrl, function (error, image) {
-            if (error)
-              throw error;
+          map.loadImage(colorOrUrl).then(response => {
+            const image = response.data;
             map.addImage(nomDeLaCouche + 'image', image);
             map.addLayer({
               "id": nomDeLaCouche,
@@ -1560,7 +1605,6 @@
         if (visibility === 'visible') {
           if (listLayers.includes(htmllink)) { // Si l'élément htmllink est inclus dans la liste
             if (ordre !== "nav nav-third-level collapse") { // ...et si l'ordre n'est pas "nav nav-third-level collapse"
-              console.log(ordre == "nav nav-third-level collapse")
               hideLayer(nomDeLaCouche, htmllink);  // ...alors masque la couche spécifiée
             }
           } else {
@@ -1589,10 +1633,10 @@ var popupContent = [];
     popupContent = [];
 
     /// Titre de la popup ///
-    if (feature.properties.Categorie !== "null" && feature.properties.Categorie !== null && feature.properties.Categorie !== "") {
+    if (feature.properties.Categorie != "null" && feature.properties.Categorie != null && feature.properties.Categorie != "") {
       popupTitle = feature.properties.Categorie;
     }
-    if (feature.properties.Nom !== "null" && feature.properties.Nom !== null && feature.properties.Nom !== "") {
+    if (feature.properties.Nom != "null" && feature.properties.Nom != null && feature.properties.Nom != "") {
       popupTitle = feature.properties.Nom;
     }
 
@@ -1600,11 +1644,11 @@ var popupContent = [];
     //console.log(feature.properties.Batiment)
 
     //Batiment n'est pas null :
-    if (feature.properties.Batiment !== "null" && feature.properties.Batiment !== null && feature.properties.Batiment !== "") {
+    if (feature.properties.Batiment != "null" && feature.properties.Batiment != null && feature.properties.Batiment != "") {
       popupContent += '<p>Bâtiment ' + feature.properties.Batiment ;
     }
     //Niveau n'est pas null... :
-    if (feature.properties.Niveau !== "null" && feature.properties.Niveau !== null && feature.properties.Niveau !== "") {
+    if (feature.properties.Niveau != "null" && feature.properties.Niveau != null && feature.properties.Niveau != "") {
       if (feature.properties.Niveau.toString().startsWith('niveau')){
         var niveau = feature.properties.Niveau;
       }
@@ -1612,7 +1656,7 @@ var popupContent = [];
         var niveau = 'niveau ' + feature.properties.Niveau;
       }
       //... et Batiment n'est pas null :
-      if (feature.properties.Batiment !== "null" && feature.properties.Batiment !== null && feature.properties.Batiment !== "") {
+      if (feature.properties.Batiment != "null" && feature.properties.Batiment != null && feature.properties.Batiment != "") {
         popupContent += ', ' + niveau ;
       }
       //ou... et Batiment est null :
@@ -1621,21 +1665,21 @@ var popupContent = [];
       }
     }
     //Batiment OU Niveau n'est pas null :
-    if ((feature.properties.Batiment !== "null" && feature.properties.Batiment !== null && feature.properties.Batiment !== "")
-    || (feature.properties.Niveau !== "null" && feature.properties.Niveau !== null && feature.properties.Niveau !== "")) {
+    if ((feature.properties.Batiment != "null" && feature.properties.Batiment != null && feature.properties.Batiment != "")
+    || (feature.properties.Niveau != "null" && feature.properties.Niveau != null && feature.properties.Niveau != "")) {
       popupContent += '</p>';
     }
     //Capacité n'est pas null :
-    if (feature.properties.Capacite !== "null" && feature.properties.Capacite !== null && feature.properties.Capacite !== "") {
+    if (feature.properties.Capacite != "null" && feature.properties.Capacite != null && feature.properties.Capacite != "") {
       popupContent += '<p>' + feature.properties.Capacite + '<p>';
     }
     //Info n'est pas null :
-    if (feature.properties.Info !== "null" && feature.properties.Info !== null && feature.properties.Info !== "") {
+    if (feature.properties.Info != "null" && feature.properties.Info != null && feature.properties.Info != "") {
       popupContent += '<p>' + feature.properties.Info + '<p>';
     }
     //Lien n'est pas null :
-    if (feature.properties.Lien !== "null" && feature.properties.Lien !== null && feature.properties.Lien !== "") {
-      //Categorie est 'Oeuvre' :
+    if (feature.properties.Lien != "null" && feature.properties.Lien != null && feature.properties.Lien != "") {
+		//Categorie est 'Oeuvre' :
       if (feature.properties.Categorie == 'Oeuvre') {
         popupContent += '<p><a href =" ' + feature.properties.Lien + '" target=\"_blank\">Explorer la storymap</a></p>';
       }
@@ -1644,15 +1688,15 @@ var popupContent = [];
       }
     }
     //Mail n'est pas null :
-    if (feature.properties.Mail !== "null" && feature.properties.Mail !== null && feature.properties.Mail !== "") {
+    if (feature.properties.Mail != "null" && feature.properties.Mail != null && feature.properties.Mail != "") {
       popupContent += '<p>Contacter par mail : <a href="mailto:' + feature.properties.Mail + '">'+feature.properties.Mail+'</a></p>';
     }
     //Tel n'est pas null :
-    if (feature.properties.Tel !== "null" && feature.properties.Tel !== null && feature.properties.Tel !== "") {
+    if (feature.properties.Tel != "null" && feature.properties.Tel != null && feature.properties.Tel != "") {
       popupContent += '<p>Contacter par téléphone : <a href="tel:' + feature.properties.Tel + '">'+feature.properties.Tel+'</a></p>';
     }
     //Image n'est pas null :
-    if (feature.properties.Image !== "null" && feature.properties.Image !== null && feature.properties.Image !== "") {
+    if (feature.properties.Image != "null" && feature.properties.Image != null && feature.properties.Image != "") {
       //Categorie est ''Département de formation' 
       if (feature.properties.Categorie == 'Département de formation') {
         popupTitle += '<img style = \'height : 60px; position : absolute; right : 0;top:0\' src = \'' + feature.properties.Image + '?v=' + version +'\'/>'
@@ -1748,9 +1792,9 @@ var elLink, elList;
 
 //////////////////////////////////   Interactivité menus //////////////////////////////////////
   // ZOOMS sur les campus
-  var flyingZoom = 15.8;
+  var jumpingZoom = 15.8;
   if (device = 'phone') {
-    flyingZoom = 15
+    jumpingZoom = 15
   }
   ;
   var zoomLaHarpe = document.getElementById("LaHarpe")
@@ -1793,26 +1837,8 @@ const boutonPrinter = document.getElementById('imprimer');
 boutonPrinter.addEventListener('click', function () {
   window.print()})
 //////////////////////////////////   Initialisation des données carte //////////////////////////////////////
-  var POIBrut = (function () {
-    var json = null;
-    $.ajax({
-      'async': false,
-      'global': false,
-      'url': "../data/points.geojson?v="+version,
-      'dataType': "json",
-      'success': function (data) {
-        json = data;
-      }
-    });
-    return json;
-  })();
-  var POI = [];
-  POI = POIBrut.features;
 
-  var fproperties = POIBrut.features.map(function (el) {
-    return el.properties;
-  });
-
+  //appel des lignes
   var lines = (function () {
     var jsonLines = null;
     $.ajax({
@@ -1827,6 +1853,87 @@ boutonPrinter.addEventListener('click', function () {
     return jsonLines;
   })();
 
+//Définition des variables avant le fonction promise
+  var fproperties = [];
+  var POI = [];
+  var searchBarCrossPresence = null;
+  var searchValue = null;
+  var searchLayerId = 'SearchResult';
+  var searchLayerCount = 0;
+  var searchPopup = null;
+  var searchItem = [];
+  var searchX = null;
+  var searchY = null;
+
+
+// nouvel appel grâce à la fonction d'AP
+const getGeoJSON = (nomFichier) => fetch(nomFichier).then(res => res.json()).then(res => res.features);
+
+const geojsons = [
+  getGeoJSON("../data/filtre/acces_PMR.geojson"),
+  getGeoJSON("../data/filtre/amphi.geojson"),
+  getGeoJSON("../data/filtre/arret_bus_pts.geojson"),
+  getGeoJSON("../data/filtre/arret_metro_pts.geojson"),
+  getGeoJSON("../data/filtre/ascenceur.geojson"),
+  getGeoJSON("../data/filtre/asso_art_spor.geojson"),
+  getGeoJSON("../data/filtre/asso_filiere.geojson"),
+  getGeoJSON("../data/filtre/asso_mstr_doc.geojson"),
+  getGeoJSON("../data/filtre/asso_solidarite.geojson"),
+  getGeoJSON("../data/filtre/biblio.geojson"),
+  getGeoJSON("../data/filtre/cafet_distrib.geojson"),
+  getGeoJSON("../data/filtre/copieur.geojson"),
+  getGeoJSON("../data/filtre/entree_bat.geojson"), 
+  getGeoJSON("../data/filtre/entree_campus.geojson"),
+  getGeoJSON("../data/filtre/eqpmt_sportif.geojson"),
+  getGeoJSON("../data/filtre/esp_detente.geojson"),
+  getGeoJSON("../data/filtre/labo.geojson"),
+  getGeoJSON("../data/filtre/lieu_cultu.geojson"),
+  getGeoJSON("../data/filtre/micro_ondes.geojson"),
+  getGeoJSON("../data/filtre/oeuvres.geojson"),
+  getGeoJSON("../data/filtre/parking_velo.geojson"),
+  getGeoJSON("../data/filtre/parking_voiture.geojson"),
+  getGeoJSON("../data/filtre/resid_univ.geojson"),
+  getGeoJSON("../data/filtre/ru.geojson"),
+  getGeoJSON("../data/filtre/salle_e0.geojson"),
+  getGeoJSON("../data/filtre/salle_e1.geojson"),
+  getGeoJSON("../data/filtre/salle_e2.geojson"),
+  getGeoJSON("../data/filtre/salle_e3.geojson"),
+  getGeoJSON("../data/filtre/salle_e4.geojson"),
+  getGeoJSON("../data/filtre/salle_e5.geojson"),
+  getGeoJSON("../data/filtre/salle_e6.geojson"),
+  getGeoJSON("../data/filtre/salle_e7.geojson"),
+  getGeoJSON("../data/filtre/salle_info.geojson"),
+  getGeoJSON("../data/filtre/salle_spe.geojson"),
+  getGeoJSON("../data/filtre/sante.geojson"),
+  getGeoJSON("../data/filtre/scol.geojson"),
+  getGeoJSON("../data/filtre/services.geojson"),
+  getGeoJSON("../data/filtre/station_velostar.geojson"),
+  getGeoJSON("../data/filtre/wc.geojson"),
+  getGeoJSON("../data/fondcarte/lettre_batiment.geojson")
+];
+
+const finalGeoJSON = {
+  "type": "FeatureCollection",
+  "features": []
+};
+
+Promise.all(geojsons).then(allGeoJsons => { //à l'intérieur de cette fonction se passe le regroupement des geojsons
+
+allGeoJsons.forEach(oneGeoJSON => {
+    finalGeoJSON.features.concat(oneGeoJSON.features);
+  });
+  
+//Appeler la fonction qui gère les données fusionnées
+  finalGeoJSON.features = allGeoJsons // recup de l'objet avec ts les geojsons
+ var mergedFeatures = finalGeoJSON.features.reduce((acc, val) => acc.concat(val), []);
+  finalGeoJSON.features = mergedFeatures // transformation de l'objet pour correspondre à l'ancien fichier points.geojson
+  
+  POIBrut = finalGeoJSON // affectation de cette objet dans l'objet appelé par les couches dans le reste du code
+  
+  POI = POIBrut.features;
+  
+  fproperties = finalGeoJSON.features.map(function (el) {
+    return el.properties;})
 
   map.on("load", function () {
     // Couche herbe
@@ -1835,10 +1942,10 @@ boutonPrinter.addEventListener('click', function () {
       type: "fill",
       source: {
         type: "geojson",
-        data: "../data/habillage/grass.geojson?v="+version
+        data: "../data/fondcarte/grass.geojson?v="+version
       },
       paint: {
-        'fill-color': '#A4E463',
+        'fill-color': '#9FE19C',
         'fill-opacity': 0.5
       }
     });
@@ -1852,7 +1959,7 @@ boutonPrinter.addEventListener('click', function () {
       type: "fill",
       source: {
         type: "geojson",
-        data: "../data/habillage/piste_athle.geojson?v="+version
+        data: "../data/fondcarte/piste_athle.geojson?v="+version
       },
       paint: {
         'fill-color': '#C09C83',
@@ -1864,7 +1971,7 @@ boutonPrinter.addEventListener('click', function () {
       type: "line",
       source: {
         type: "geojson",
-        data: "../data/habillage/terrain_football.geojson?v="+version
+        data: "../data/fondcarte/terrain_football.geojson?v="+version
       },
       "paint": {
         'line-color': '#FFFFFF',
@@ -2243,7 +2350,7 @@ boutonPrinter.addEventListener('click', function () {
       for (var i = 0; i < Layers.length; i++) {
         if (Layers[i] = 'Associations briochines') {
           map.setMaxBounds(mazierBounds);
-          map.flyTo({
+          map.jumpTo({
             center: [-2.7410000, 48.513033],
             zoom: 16.5,
             pitch: 0,
@@ -2592,19 +2699,12 @@ boutonPrinter.addEventListener('click', function () {
 
 //////////////////////////////////  Barre de recherche //////////////////////////////////////
 
-  // initialisation des popup
-  var searchPopup = null
+
   var jproperties = fproperties.filter(function (e) {
     return e.Nom !== null;
   })
-  // Récupération des propriétés du json
-  var searchValue = null;
-  var searchItem = [];
-  var searchX = null;
-  var searchY = null;
-  var searchLayerCount = 0;
-  var searchLayerId = 'SearchResult';
-  var searchPopup = null
+
+
   var options = {
     data: jproperties,
     getValue: "Nom",
@@ -2624,6 +2724,12 @@ boutonPrinter.addEventListener('click', function () {
   };
   $("#searchfield").easyAutocomplete(options);
 
+})
+.catch(e => {
+  alert("Erreur oups");
+  console.error(e);
+}); // fin de la fonction aggrégeant les geojsons. Je la fait se fermer un peu après la partie
+//concernant les couches car cela désactive la barre de recherche sinon
   ////////// définition de la fonction getSearchPopup //////////
   function getSearchPopup() {
     var popupTitle = searchItem.properties.Nom;
@@ -2695,7 +2801,8 @@ boutonPrinter.addEventListener('click', function () {
       offset: [0, -45],
       closeButton: false  
     })
-            .setLngLat(searchItem.geometry.coordinates)
+            //.setLngLat(searchItem.geometry.coordinates)
+            .setLngLat(searchX) //version Paul
             .setHTML('<h1>' + popupTitle + '</h1><div class="description">' + popupContent + '</div>')
             .addTo(map);
   }
@@ -2732,9 +2839,8 @@ boutonPrinter.addEventListener('click', function () {
         searchItem = POI[i]; //Si un POI correspondant est trouvé (dans la liste POI), il est assigné à searchItem
 
         //charge une image qui sera utilisée comme icône pour le POI recherché
-        map.loadImage('../css/icons/layers_icons/recherche.png', function (error, image) {
-          if (error)
-            throw error;
+        map.loadImage('../css/icons/layers_icons/recherche.png').then(response => {
+          const image = response.data;
           map.addImage(searchLayerId + 'image', image);
 
           //ajoute une nouvelle couche de symboles à la carte pour afficher le POI recherché
@@ -2791,16 +2897,18 @@ boutonPrinter.addEventListener('click', function () {
 
         if (DDD) {
           // Configuration de la carte pour le mode 3D
-          map.flyTo({
-            center: [searchX, searchY],
+          map.jumpTo({
+            //center: [searchX, searchY], 
+            center: searchX, //version paul
             zoom: 16.5,
             pitch: 45,
             speed: 0.6
           });
         } else {
           // Configuration de la carte pour le mode 2D
-          map.flyTo({
-            center: [searchX, searchY],
+          map.jumpTo({
+            //center: [searchX, searchY],
+            center: searchX, //version paul
             zoom: 16.5,
             pitch: 0,
             speed: 0.6
@@ -2836,7 +2944,7 @@ boutonPrinter.addEventListener('click', function () {
       Y = Y - 0.00021;
       getBati3D();
       zoomCible = currentZoom + 0.5;
-      map.flyTo({
+      map.jumpTo({
         center: [X, Y],
         pitch: 60,
         speed: 0.08,
@@ -2857,7 +2965,7 @@ boutonPrinter.addEventListener('click', function () {
       Y = Y + 0.00021;
       getBati2D();
       zoomCible = currentZoom - 0.5;
-      map.flyTo({
+      map.jumpTo({
         center: [X, Y],
         pitch: 0,
         speed: 0.08,
@@ -2946,44 +3054,4 @@ boutonPrinter.addEventListener('click', function () {
     }
   });
 
-// Supression des filtres
-  $("#btnRemovefilters").on("click", function () {
-    $('ul.nav li:not(.sidebar-search,.sidebar-remove-filters), ul.nav li:not(.sidebar-search,.sidebar-remove-filters) a ').each(function (i) {
-      if ($(this).attr('id')) {
-        var removelayer = $(this).attr('id');
-        if (map.getLayer(removelayer)) {
-          var visibility = map.getLayoutProperty(removelayer, 'visibility');
-          if (visibility != "none") {
-            if (Layers.includes(removelayer)) {
-              var element = $("[id='" + removelayer + "']");
-              if (!element.next('ul').hasClass("in"))
-                element.next('ul').addClass("in");
-              if (listLayers.includes(element.get(0))) {
-                var index = $.inArray(element.get(0), listLayers);
-                if (index > -1) {
-                  listLayers.splice(index, 1);
-                }
-              }
-              element.trigger("click");
-              if (element.next('ul').hasClass("in"))
-                element.next('ul').removeClass("in");
-              if (element.parent().hasClass("active"))
-                element.parent().removeClass("active");
-            }
-          }
-        }
-      }
-    });
 
-    $('ul.nav li.active a.active').each(function (i) {
-      if ($(this).hasClass("active"))
-        $(this).removeClass("active");
-    });
-    $('ul.nav li.active:not(.sidebar-search,.sidebar-remove-filters), ul.nav li.active:not(.sidebar-search,.sidebar-remove-filters) ul.in ').each(function (i) {
-      if ($(this).hasClass("active"))
-        $(this).removeClass("active");
-      if ($(this).hasClass("in"))
-        $(this).removeClass("in");
-    });
-
-  });
