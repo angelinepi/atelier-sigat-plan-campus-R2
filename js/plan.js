@@ -7,7 +7,6 @@ clearBtn.addEventListener("click", function() {
 });
 
 function executeClearSubMenu() {
-    console.log("coucou");
     $('ul.nav li:not(.sidebar-search,.sidebar-remove-filters), ul.nav li:not(.sidebar-search,.sidebar-remove-filters) a ').each(function (i) {
         if ($(this).attr('id')) {
             var removelayer = $(this).attr('id');
