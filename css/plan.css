@@ -358,10 +358,12 @@ ul.nav-second-level > li{
 
 
 ul.nav-second-level > li > a{
-  font-size: 17px;
+  font-size: 18px;
   font-weight: 700;
   display: flex;
   font-family: Ubuntu;
+  padding-left: 38px;
+  line-height: 1.5;
   /* background-color: blue; */
 }
 
@@ -469,7 +471,7 @@ color: green;
   margin-top: 10px;
   margin-left: 20px;
   width: 150px;
-  height: 50px;
+  height: 60px;
   font-size: 16px;
   font-weight: 700;
   border: 1px solid;
@@ -666,13 +668,26 @@ color: green;
   line-height: 18px; /* Hauteur de ligne */
 }
 
+/* Styles pour les cases à cocher */
+.case {
+  background-image: url('/css/icons/checkbox_off.svg'); /* Image de fond */
+  background-repeat: no-repeat; /* Pas de répétition */
+  background-size: 14px 14px; /* Taille de l'image de fond */
+  background-position: 10px center; /* Position de l'image de fond */
+}
 
+/* Styles pour les cases à cocher actives */
+.case.active {
+  background-image: url('/css/icons/checkbox_on.svg'); /* Image de fond */
+  background-color: #fff; /* Couleur de fond */
+}
 
 /* Styles pour les cases à cocher actives dans un menu déroulant */
 .collapse .nav-second-level li.active .case.active {
   background-image: url('/css/icons/checkbox_on.svg'); /* Image de fond */
   background-color: #fff; /* Couleur de fond */
 }
+
 
 /* Styles pour les liens actifs */
 a.active {
