@@ -304,7 +304,7 @@ ul.nav > li.nav_main > a:hover{
   background-color: lightgrey;
 }
 
-ul.nav > li.nav_main.menuopen > a{
+ul.nav > li.nav_main.active > a{
   background-color: lightgrey;
   transition-delay: 0.15s;
 }
@@ -338,13 +338,13 @@ ul.nav > li.nav_main > ul{
   flex-wrap: nowrap;
 }
 
-ul.nav > li.nav_main.menuopen > ul{
+ul.nav > li.nav_main.active > ul{
   width: 400px;
   transition: all 0.25s ease-in-out;
   transition-delay: 0.15s;
 }
 
-li.nav_main.menuopen > ul.nav-second-level > li{
+li.nav_main.active > ul.nav-second-level > li{
   /* background-color: red; */
   width: 360px;
   margin: 10px 0 0 20px;
@@ -375,7 +375,7 @@ ul.nav-second-level > li > ul.nav-third-level{
   transition: all 0.3s ease-in-out;
 }
 
-ul.nav-second-level > li.sousmenuopen > ul.nav-third-level{
+ul.nav-second-level > li.active > ul.nav-third-level{
   max-height: 1000px;
   transition: all 0.6s ease-in-out;
 }
@@ -390,7 +390,7 @@ ul.nav-second-level > li.sousmenuopen > ul.nav-third-level{
   background-size: cover;
 }
 
-.nav-second-level > li.sousmenuopen > a > img{
+.nav-second-level > li.active > a > img{
   background-image: url('./icons/checkbox_on.svg');
 }
 
