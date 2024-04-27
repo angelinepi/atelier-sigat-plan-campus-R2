@@ -115,7 +115,6 @@ body {
     padding-bottom : 8px;
 }
 .sidebar .nav-second-level li a {
-    padding-left: 37px;
     padding-top:6px;
     padding-bottom:6px;
 }
@@ -275,9 +274,8 @@ a {
     margin-bottom:2px;
     line-height: normal
 }
-.maplibregl-popup-content img{
-    max-height: 125px;
-    max-width: 100%;
+.maplibregl-popup-content img {
+	height : 125px;
 }
 .maplibregl-popup-content a {
     margin-left : 5px;

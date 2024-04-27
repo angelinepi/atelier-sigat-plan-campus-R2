@@ -1,5 +1,55 @@
 
-  //définition d'une fonction permettant l'extraction d'une valeur d'un paramètre d'URL (avec expression régulière)
+// Supression des filtres
+var clearBtn = document.getElementById("clearSubMenuBtn");
+clearBtn.addEventListener("click", function() {
+    executeClearSubMenu(); // Première exécution
+    executeClearSubMenu(); // Deuxième exécution
+});
+
+function executeClearSubMenu() {
+    $('ul.nav li:not(.sidebar-search,.sidebar-remove-filters), ul.nav li:not(.sidebar-search,.sidebar-remove-filters) a ').each(function (i) {
+        if ($(this).attr('id')) {
+            var removelayer = $(this).attr('id');
+            if (map.getLayer(removelayer)) {
+                var visibility = map.getLayoutProperty(removelayer, 'visibility');
+                if (visibility != "none") {
+                    if (Layers.includes(removelayer)) {
+                        var element = $("[id='" + removelayer + "']");
+                        if (!element.next('ul').hasClass("in"))
+                            element.next('ul').addClass("in");
+                        if (listLayers.includes(element.get(0))) {
+                            var index = $.inArray(element.get(0), listLayers);
+                            if (index > -1) {
+                                listLayers.splice(index, 1);
+                            }
+                        }
+                        element.trigger("click");
+                        if (element.next('ul').hasClass("in"))
+                            element.next('ul').removeClass("in");
+                        if (element.parent().hasClass("active"))
+                            element.parent().removeClass("active");
+                    }
+                }
+            }
+        }
+    });
+
+    $('ul.nav li.active a.active').each(function (i) {
+        if ($(this).hasClass("active"))
+            $(this).removeClass("active");
+    });
+    $('ul.nav li.active:not(.sidebar-search,.sidebar-remove-filters), ul.nav li.active:not(.sidebar-search,.sidebar-remove-filters) ul.in ').each(function (i) {
+        if ($(this).hasClass("active"))
+            $(this).removeClass("active");
+        if ($(this).hasClass("in"))
+            $(this).removeClass("in");
+    });
+}
+
+
+
+ //définition d'une fonction permettant l'extraction d'une valeur d'un paramètre d'URL (avec expression régulière)
+
   function getQueryStringValue(key) {
     return decodeURIComponent(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + encodeURIComponent(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
     //window.location.search : indique la barre où se trouve l'URL, puis concatenation de :
@@ -1115,7 +1165,8 @@ document.addEventListener('DOMContentLoaded', function() {
         if (e.features[0].properties.Infos != "null" && e.features[0].properties.Infos != null && e.features[0].properties.Infos != "") {
           popupContent += '<p>' + e.features[0].properties.Infos + '<p>';
         }
-        if (popupBati != null) {
+
+        if (popupBati != null && popupBati != "null" && popupBati != "") {
           popupBati.remove();
         }
         ;
@@ -1232,7 +1283,7 @@ document.addEventListener('DOMContentLoaded', function() {
           popupContent += '<p>' + e.features[0].properties.Info + '<p>';
           
         }
-        if (popupBati !== null) {
+        if (popupBati != null && popupBati != "null" && popupBati != "") {
           popupBati.remove();
         }
         ;
@@ -3586,44 +3637,4 @@ allGeoJsons.forEach(oneGeoJSON => {
     }
   });
 
-// Supression des filtres
-  $("#btnRemovefilters").on("click", function () {
-    $('ul.nav li:not(.sidebar-search,.sidebar-remove-filters), ul.nav li:not(.sidebar-search,.sidebar-remove-filters) a ').each(function (i) {
-      if ($(this).attr('id')) {
-        var removelayer = $(this).attr('id');
-        if (map.getLayer(removelayer)) {
-          var visibility = map.getLayoutProperty(removelayer, 'visibility');
-          if (visibility != "none") {
-            if (Layers.includes(removelayer)) {
-              var element = $("[id='" + removelayer + "']");
-              if (!element.next('ul').hasClass("in"))
-                element.next('ul').addClass("in");
-              if (listLayers.includes(element.get(0))) {
-                var index = $.inArray(element.get(0), listLayers);
-                if (index > -1) {
-                  listLayers.splice(index, 1);
-                }
-              }
-              element.trigger("click");
-              if (element.next('ul').hasClass("in"))
-                element.next('ul').removeClass("in");
-              if (element.parent().hasClass("active"))
-                element.parent().removeClass("active");
-            }
-          }
-        }
-      }
-    });
 
-    $('ul.nav li.active a.active').each(function (i) {
-      if ($(this).hasClass("active"))
-        $(this).removeClass("active");
-    });
-    $('ul.nav li.active:not(.sidebar-search,.sidebar-remove-filters), ul.nav li.active:not(.sidebar-search,.sidebar-remove-filters) ul.in ').each(function (i) {
-      if ($(this).hasClass("active"))
-        $(this).removeClass("active");
-      if ($(this).hasClass("in"))
-        $(this).removeClass("in");
-    });
-
-  });
