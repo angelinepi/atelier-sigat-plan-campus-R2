@@ -1,3 +1,4 @@
+
   //définition d'une fonction permettant l'extraction d'une valeur d'un paramètre d'URL (avec expression régulière)
   function getQueryStringValue(key) {
     return decodeURIComponent(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + encodeURIComponent(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
@@ -7,6 +8,7 @@
       //replace remplace les caractères spéciaux en caractères échappés "(?:\\=([^&]*))?)?.*$"
       //"i" = insensible à la casse  
   }
+  
 
   var overlay = getQueryStringValue("layer").toString(); //extraction de la valeur du paramètre d'URL "layer"
   var overlayPoint = getQueryStringValue("point").toString(); //extraction de la valeur du paramètre d'URL "point"
@@ -585,11 +587,6 @@ document.addEventListener('DOMContentLoaded', function() {
   Bouton3D.setAttribute("id", "DDDButton");
   Bouton3D.innerHTML = '3D';
 
-  //création du bouton imprimer
-  var BoutonPrint = document.createElement('button'); 
-  BoutonPrint.setAttribute("class", "btn btn-primary");
-  BoutonPrint.setAttribute("id", "printButton");
-
   //configuration page selon dimension de la fenetre du navigateur selon le device utilisé (téléphone ou autre)
   if (largeurEcran < 500) {
     device = 'phone';
@@ -1072,7 +1069,7 @@ document.addEventListener('DOMContentLoaded', function() {
       type: "fill-extrusion",
       source: "bati3D",
       paint: {
-        'fill-extrusion-color': '#d1d1e0',
+        'fill-extrusion-color': '#6A8CC8',
         'fill-extrusion-height': {
           'type': 'identity',
           'property': 'hauteur'
@@ -1091,7 +1088,7 @@ document.addEventListener('DOMContentLoaded', function() {
       source: "bati3D",
       filter: ["==", "Nom", ""],
       paint: {
-        'fill-extrusion-color': '#D82B09',
+        'fill-extrusion-color': '#6A8CC8',
         'fill-extrusion-height': {
           'type': 'identity',
           'property': 'hauteur'
@@ -1124,7 +1121,6 @@ document.addEventListener('DOMContentLoaded', function() {
         ;
         if (e.features[0].properties.Nom != "null" && e.features[0].properties.Nom != null && e.features[0].properties.Nom != "") {
           if ((popup == null || popup.isOpen() == false) && (searchPopup == null || searchPopup.isOpen() === false) && (popupList == null || popupList.isOpen() === false)) {
-
             popupBati = new maplibregl.Popup({
               offset: [0, -45],
               closeButton: false,
@@ -1198,7 +1194,7 @@ document.addEventListener('DOMContentLoaded', function() {
       type: "fill",
       source: "bati2D",
       paint: {
-        'fill-color': '#6A8CC8', // Couleur de remplissage
+        'fill-color': '#6A8CC8',
         'fill-opacity': 0.8
       }
     }, Layers[0]);
@@ -1209,7 +1205,7 @@ document.addEventListener('DOMContentLoaded', function() {
       source: "bati2D",
       filter: ["==", "Id", ""],
       paint: {
-        'fill-color': '#D82B09',
+        'fill-color': '#6A8CC8',
         'fill-opacity': 0.5
       }
     }, Layers[0]);
@@ -1220,7 +1216,7 @@ document.addEventListener('DOMContentLoaded', function() {
       var popupTitle = '';
       popupContent = '';
       if (Layers.length == 0) {
-        if (e.features[0].properties.Nom != "null" && e.features[0].properties.Nom != null && e.features[0].properties.Nom != "") {
+        if (e.features[0].properties.Nom != "null"&& e.features[0].properties.Nom != null && e.features[0].properties.Nom != "") {
           popupTitle = e.features[0].properties.Nom;
           // console.log(popupTitle);
           //console.log(popupTitle);
@@ -1298,17 +1294,18 @@ document.addEventListener('DOMContentLoaded', function() {
 ////////// fin de la definition de la fonction getBati2D() //////////
 
 ////////// Fonction pour zoomer sur l'item sélectionné dans la liste (barre de recherche) ////////// 
-function getSwitchPopup() {
-  getPopupContent(salleRecherchee);
-  popupList = new maplibregl.Popup({
-    offset: [0, -45],
-    closeButton: false
-  })
-    .setLngLat(salleRecherchee.geometry.coordinates)
-    .setHTML('<h1>' + popupTitle + '</h1><div >' + popupContent + '</div>')
-    .addTo(map);
-}
-
+  function getSwitchPopup() {
+    getPopupContent(salleRecherchee);
+    popupList = new maplibregl.Popup({
+      offset: [0, -45],
+      closeButton: false
+    })
+            //.setLngLat(salleRecherchee.geometry.coordinates)
+			.setLngLat(salleRX) //version Paul
+            .setHTML('<h1>' + popupTitle + '</h1><div class="description">' + popupContent + '</div>')
+            .addTo(map);
+  }
+  ;
 ////////// fin de la definition de la fonction getSwitchPopup() //////////
 
 
@@ -1327,50 +1324,46 @@ var switchPOI = function (value) {
     }
   }
 
-  htmlPOI.classList.add('active');
-  if (popup) {
-    popup.remove();
-  }
-  if (popupList) {
-    popupList.remove();
-  }
-  for (var i = 0; i < POI.length; i++) {
-    if (POI[i].properties.Nom === value) {
-      salleRecherchee = POI[i];
+    htmlPOI.classList.add('active');
+    if (popup) {
+      popup.remove();
     }
-  }
-  salleRX = salleRecherchee.geometry.coordinates[0];
-  salleRY = salleRecherchee.geometry.coordinates[1];
-  if (salleRecherchee.properties.Campus === 'Mazier') {
-    map.setMaxBounds(mazierBounds);
-  } else {
-    map.setMaxBounds(rennesBounds);
-  }
-  if (DDD) {
-    map.flyTo({
-      center: [salleRX, salleRY],
-      zoom: 16.5,
-      pitch: 45,
-      speed: 0.6
-    });
-  } else {
-    map.flyTo({
-      center: [salleRX, salleRY],
-      zoom: 16.5,
-      pitch: 0,
-      speed: 0.6
-    });
-  }
-  getPopupContent(salleRecherchee);
-  popupList = new maplibregl.Popup({
-    offset: [0, -45],
-    closeButton: false
-  })
-    .setLngLat(salleRecherchee.geometry.coordinates)
-    .setHTML('<h1>' + popupTitle + '</h1><div class="description">' + popupContent + '</div>')
-    .addTo(map);
+    if (popupList) {
+      popupList.remove();
+    }
+    for (var i = 0; i < POI.length; i++) {
 
-};
+      if (POI[i].properties.Nom === value) {
+        salleRecherchee = POI[i];
+      }
+    }
+    salleRX = salleRecherchee.geometry.coordinates[0];
+    salleRY = salleRecherchee.geometry.coordinates[1];
+    if (salleRecherchee.properties.Campus === 'Mazier') {
+      map.setMaxBounds(mazierBounds);
+    } else {
+      map.setMaxBounds(rennesBounds);
+    }
+    ;
+    if (DDD) {
+      map.jumpTo({
+      	//center: [salleRX, salleRY],
+        center: [salleRX[0], salleRX[1]], //version Paul
+        zoom: 16.5,
+        pitch: 45,
+        speed: 0.6
+      });
+    } else {
+      map.jumpTo({
+        //center: [salleRX, salleRY],
+        center: [salleRX[0], salleRX[1]], //version Paul
+        zoom: 16.5,
+        pitch: 0,
+        speed: 0.6
+      });
+    }
+    getSwitchPopup();
+  }
 
 ////////// Fonction ajoutant une liste de picto de manière permanente sur le fond de carte ////////// 
   function addPictoFondDeCarte() {
@@ -1423,6 +1416,7 @@ var switchPOI = function (value) {
     //Picto permanent Restaurant U
     map.loadImage("../css/icons/iconfond/resto.png").then(response => {
       const image = response.data;
+
       if (!map.hasImage("resto")) {
         map.addImage('resto', image);
       }
@@ -1445,6 +1439,7 @@ var switchPOI = function (value) {
     //Picto permanent Parking
     map.loadImage("../css/icons/iconfond/parking.png").then(response => {
       const image = response.data;
+
       if (!map.hasImage("parking")) {
         map.addImage('parking', image);
       }
@@ -1465,7 +1460,7 @@ var switchPOI = function (value) {
     });
 
     //Picto permanent Metro
-    map.loadImage("../css/icons/iconfond/metro.png").then(response => {
+   map.loadImage("../css/icons/iconfond/metro.png").then(response => {
       const image = response.data;
       if (!map.hasImage("metro")) {
         map.addImage('metro', image);
@@ -1489,6 +1484,7 @@ var switchPOI = function (value) {
     //Picto permanent Pôle Sante
     map.loadImage("../css/icons/iconfond/sante.png").then(response => {
       const image = response.data;
+
       if (!map.hasImage("sante")) {
         map.addImage('sante', image);
       }
@@ -1509,7 +1505,7 @@ var switchPOI = function (value) {
     });
 
     //Picto permanent Piscine
-    map.loadImage("../css/icons/iconfond/piscine.png").then(response => {
+   map.loadImage("../css/icons/iconfond/piscine.png").then(response => {
       const image = response.data;
       if (!map.hasImage("piscine")) {
         map.addImage('piscine', image);
@@ -1531,7 +1527,7 @@ var switchPOI = function (value) {
     });
 
     //Picto permanent Bus
-    map.loadImage("../css/icons/iconfond/bus.png").then(response => {
+   map.loadImage("../css/icons/iconfond/bus.png").then(response => {
       const image = response.data;
       if (!map.hasImage("bus")) {
         map.addImage('bus', image);
@@ -1551,6 +1547,175 @@ var switchPOI = function (value) {
         minzoom: 16,
       });
     });
+
+        //Picto permanent 2_P
+    map.loadImage("../css/icons/iconfond/2_P.png").then(response => {
+      const image = response.data;
+      if (!map.hasImage("2_P")) {
+        map.addImage('2_P', image);
+      }
+      map.addLayer({
+        "id": "2_P" + pictoCount,
+        "type": "symbol",
+        "source": {
+          "type": "geojson",
+          "data": "../data/fondcarte/2_P.geojson?v="+version
+        },
+        "layout": {
+          "visibility": 'visible',
+          "icon-image": "2_P",
+          "icon-size": 0.30,
+          "icon-allow-overlap" : true
+        },
+        minzoom: 15,
+      });
+    });
+        //Picto permanent Arbre_bat_T
+        map.loadImage("../css/icons/iconfond/Arbre_bat_T.png").then(response => {
+          const image = response.data;
+          if (!map.hasImage("Arbre_bat_T")) {
+            map.addImage('Arbre_bat_T', image);
+          }
+          map.addLayer({
+            "id": "Arbre_bat_T" + pictoCount,
+            "type": "symbol",
+            "source": {
+              "type": "geojson",
+              "data": "../data/fondcarte/Arbre_bat_T.geojson?v="+version
+            },
+            "layout": {
+              "visibility": 'visible',
+              "icon-image": "Arbre_bat_T",
+              "icon-size": 0.50,
+              "icon-allow-overlap" : true
+            },
+            minzoom: 15,
+          });
+        });
+
+        //Picto permanent Design_BU
+        map.loadImage("../css/icons/iconfond/Design_BU.png").then(response => {
+          const image = response.data;
+          if (!map.hasImage("Design_BU")) {
+            map.addImage('Design_BU', image);
+          }
+          map.addLayer({
+            "id": "Design_BU" + pictoCount,
+            "type": "symbol",
+            "source": {
+              "type": "geojson",
+              "data": "../data/fondcarte/Design_BU.geojson?v="+version
+            },
+            "layout": {
+              "visibility": 'visible',
+              "icon-image": "Design_BU",
+              "icon-size": 0.30,
+              "icon-allow-overlap" : true
+            },
+            minzoom: 15,
+          });
+        });
+
+        //Picto permanent escalier_arc_en_ciel
+        map.loadImage("../css/icons/iconfond/escalier_arc_en_ciel.png").then(response => {
+          const image = response.data;
+          if (!map.hasImage("escalier_arc_en_ciel")) {
+            map.addImage('escalier_arc_en_ciel', image);
+          }
+          map.addLayer({
+            "id": "escalier_arc_en_ciel" + pictoCount,
+            "type": "symbol",
+            "source": {
+              "type": "geojson",
+              "data": "../data/fondcarte/escalier_arc_en_ciel.geojson?v="+version
+            },
+            "layout": {
+              "visibility": 'visible',
+              "icon-image": "escalier_arc_en_ciel",
+              "icon-size": 0.40,
+              "icon-allow-overlap" : true
+            },
+            minzoom: 15,
+          });
+        });
+
+        //Picto permanent Jardin
+        map.loadImage("../css/icons/iconfond/Jardin.png").then(response => {
+          const image = response.data;
+          if (!map.hasImage("Jardin")) {
+            map.addImage('Jardin', image);
+          }
+          map.addLayer({
+            "id": "Jardin" + pictoCount,
+            "type": "symbol",
+            "source": {
+              "type": "geojson",
+              "data": "../data/fondcarte/Jardin.geojson?v="+version
+            },
+            "layout": {
+              "visibility": 'visible',
+              "icon-image": "Jardin",
+              "icon-size": 0.40
+            },
+            minzoom: 15,
+          });
+        });
+
+        //Picto permanent Pin_parasol
+        map.loadImage("../css/icons/iconfond/Pin_parasol.png").then(response => {
+          const image = response.data;
+          if (!map.hasImage("Pin_parasol")) {
+            map.addImage('Pin_parasol', image);
+          }
+          map.addLayer({
+            "id": "Pin_parasol" + pictoCount,
+            "type": "symbol",
+            "source": {
+              "type": "geojson",
+              "data": "../data/fondcarte/Pin_parasol.geojson?v="+version
+            },
+            "layout": {
+              "visibility": 'visible',
+              "icon-image": "Pin_parasol",
+              "icon-size": 0.40
+            },
+            minzoom: 15,
+          });
+        });
+
+
+        //Picto permanent Sequoia_passage_BU
+        map.loadImage("../css/icons/iconfond/Sequoia_passage_BU.png").then(response => {
+          const image = response.data;
+          if (!map.hasImage("Sequoia_passage_BU")) {
+            map.addImage('Sequoia_passage_BU', image);
+          }
+          map.addLayer({
+            "id": "Sequoia_passage_BU" + pictoCount,
+            "type": "symbol",
+            "source": {
+              "type": "geojson",
+              "data": "../data/fondcarte/Sequoia_passage_BU.geojson?v="+version
+            },
+            "layout": {
+              "visibility": 'visible',
+              "icon-image": "Sequoia_passage_BU",
+              "icon-size": 0.40,
+              "icon-allow-overlap" : true
+            },
+            minzoom: 15,
+          });
+        });
+
+
+
+
+
+
+
+
+
+
   }
 ////////// fin de la definition de la fonction addPictoFondDecarte() //////////
 
@@ -2030,7 +2195,7 @@ var popupContent = [];
     }
     //Lien n'est pas null :
     if (feature.properties.Lien != "null" && feature.properties.Lien != null && feature.properties.Lien != "") {
-      //Categorie est 'Oeuvre' :
+		//Categorie est 'Oeuvre' :
       if (feature.properties.Categorie == 'Oeuvre') {
         popupContent += '<p><a href =" ' + feature.properties.Lien + '" target=\"_blank\">Explorer la storymap</a></p>';
       }
@@ -2136,7 +2301,10 @@ var elLink, elList;
         elLink.setAttribute('id', listeDeNoms[i]); //définit l'id de <a>
         elLink.setAttribute('href', '#'); //définit le href de <a>
         elLink.classList.add('leaf'); //ajoute la classe 'leaf' à <a>
-        elLink.addEventListener("click", () => switchPOI(currentName));
+        var theFunction = 'switchPOI(' + '\'' + currentName + '\');return false;'
+        //elLink.setAttribute('href',theFunction);
+        //elLink.addEventListener("click", () => switchPOI(currentName));
+        elLink.setAttribute('onclick', theFunction);
         elList.appendChild(elLink);  //elLink ajouté comme enfant de elList, on a donc une liste (li) de liens (a)
       }
       for (let i = 0; i < listeDeNoms.length; i++) {
@@ -2153,9 +2321,9 @@ var elLink, elList;
 
 //////////////////////////////////   Interactivité menus //////////////////////////////////////
   // ZOOMS sur les campus
-  var flyingZoom = 15.8;
+  var jumpingZoom = 15.8;
   if (device = 'phone') {
-    flyingZoom = 15
+    jumpingZoom = 15
   }
   ;
   var zoomLaHarpe = document.getElementById("LaHarpe")
@@ -2197,28 +2365,9 @@ var elLink, elList;
 const boutonPrinter = document.getElementById('imprimer');
 boutonPrinter.addEventListener('click', function () {
   window.print()})
-
 //////////////////////////////////   Initialisation des données carte //////////////////////////////////////
-  var POIBrut = (function () {
-    var json = null;
-    $.ajax({
-      'async': false,
-      'global': false,
-      'url': "../data/points.geojson?v="+version,
-      'dataType': "json",
-      'success': function (data) {
-        json = data;
-      }
-    });
-    return json;
-  })();
-  var POI = [];
-  POI = POIBrut.features;
 
-  var fproperties = POIBrut.features.map(function (el) {
-    return el.properties;
-  });
-
+  //appel des lignes
   var lines = (function () {
     var jsonLines = null;
     $.ajax({
@@ -2233,6 +2382,87 @@ boutonPrinter.addEventListener('click', function () {
     return jsonLines;
   })();
 
+//Définition des variables avant le fonction promise
+  var fproperties = [];
+  var POI = [];
+  var searchBarCrossPresence = null;
+  var searchValue = null;
+  var searchLayerId = 'SearchResult';
+  var searchLayerCount = 0;
+  var searchPopup = null;
+  var searchItem = [];
+  var searchX = null;
+  var searchY = null;
+
+
+// nouvel appel grâce à la fonction d'AP
+const getGeoJSON = (nomFichier) => fetch(nomFichier).then(res => res.json()).then(res => res.features);
+
+const geojsons = [
+  getGeoJSON("../data/filtre/acces_PMR.geojson"),
+  getGeoJSON("../data/filtre/amphi.geojson"),
+  getGeoJSON("../data/filtre/arret_bus_pts.geojson"),
+  getGeoJSON("../data/filtre/arret_metro_pts.geojson"),
+  getGeoJSON("../data/filtre/ascenceur.geojson"),
+  getGeoJSON("../data/filtre/asso_art_spor.geojson"),
+  getGeoJSON("../data/filtre/asso_filiere.geojson"),
+  getGeoJSON("../data/filtre/asso_mstr_doc.geojson"),
+  getGeoJSON("../data/filtre/asso_solidarite.geojson"),
+  getGeoJSON("../data/filtre/biblio.geojson"),
+  getGeoJSON("../data/filtre/cafet_distrib.geojson"),
+  getGeoJSON("../data/filtre/copieur.geojson"),
+  getGeoJSON("../data/filtre/entree_bat.geojson"), 
+  getGeoJSON("../data/filtre/entree_campus.geojson"),
+  getGeoJSON("../data/filtre/eqpmt_sportif.geojson"),
+  getGeoJSON("../data/filtre/esp_detente.geojson"),
+  getGeoJSON("../data/filtre/labo.geojson"),
+  getGeoJSON("../data/filtre/lieu_cultu.geojson"),
+  getGeoJSON("../data/filtre/micro_ondes.geojson"),
+  getGeoJSON("../data/filtre/oeuvres.geojson"),
+  getGeoJSON("../data/filtre/parking_velo.geojson"),
+  getGeoJSON("../data/filtre/parking_voiture.geojson"),
+  getGeoJSON("../data/filtre/resid_univ.geojson"),
+  getGeoJSON("../data/filtre/ru.geojson"),
+  getGeoJSON("../data/filtre/salle_e0.geojson"),
+  getGeoJSON("../data/filtre/salle_e1.geojson"),
+  getGeoJSON("../data/filtre/salle_e2.geojson"),
+  getGeoJSON("../data/filtre/salle_e3.geojson"),
+  getGeoJSON("../data/filtre/salle_e4.geojson"),
+  getGeoJSON("../data/filtre/salle_e5.geojson"),
+  getGeoJSON("../data/filtre/salle_e6.geojson"),
+  getGeoJSON("../data/filtre/salle_e7.geojson"),
+  getGeoJSON("../data/filtre/salle_info.geojson"),
+  getGeoJSON("../data/filtre/salle_spe.geojson"),
+  getGeoJSON("../data/filtre/sante.geojson"),
+  getGeoJSON("../data/filtre/scol.geojson"),
+  getGeoJSON("../data/filtre/services.geojson"),
+  getGeoJSON("../data/filtre/station_velostar.geojson"),
+  getGeoJSON("../data/filtre/wc.geojson"),
+  getGeoJSON("../data/fondcarte/lettre_batiment.geojson")
+];
+
+const finalGeoJSON = {
+  "type": "FeatureCollection",
+  "features": []
+};
+
+Promise.all(geojsons).then(allGeoJsons => { //à l'intérieur de cette fonction se passe le regroupement des geojsons
+
+allGeoJsons.forEach(oneGeoJSON => {
+    finalGeoJSON.features.concat(oneGeoJSON.features);
+  });
+  
+//Appeler la fonction qui gère les données fusionnées
+  finalGeoJSON.features = allGeoJsons // recup de l'objet avec ts les geojsons
+ var mergedFeatures = finalGeoJSON.features.reduce((acc, val) => acc.concat(val), []);
+  finalGeoJSON.features = mergedFeatures // transformation de l'objet pour correspondre à l'ancien fichier points.geojson
+  
+  POIBrut = finalGeoJSON // affectation de cette objet dans l'objet appelé par les couches dans le reste du code
+  
+  POI = POIBrut.features;
+  
+  fproperties = finalGeoJSON.features.map(function (el) {
+    return el.properties;})
 
   map.on("load", function () {
     // Couche herbe
@@ -2241,11 +2471,11 @@ boutonPrinter.addEventListener('click', function () {
       type: "fill",
       source: {
         type: "geojson",
-        data: "../data/habillage/grass.geojson?v="+version
+        data: "../data/fondcarte/grass.geojson?v="+version
       },
       paint: {
-        'fill-color': '#9FE19C', 
-        'fill-opacity': 1
+        'fill-color': '#9FE19C',
+        'fill-opacity': 0.5
       }
     });
 
@@ -2261,7 +2491,7 @@ boutonPrinter.addEventListener('click', function () {
       type: "fill",
       source: {
         type: "geojson",
-        data: "../data/habillage/piste_athle.geojson?v="+version
+        data: "../data/fondcarte/piste_athle.geojson?v="+version
       },
       paint: {
         'fill-color': '#C09C83',
@@ -2273,7 +2503,7 @@ boutonPrinter.addEventListener('click', function () {
       type: "line",
       source: {
         type: "geojson",
-        data: "../data/habillage/terrain_football.geojson?v="+version
+        data: "../data/fondcarte/terrain_football.geojson?v="+version
       },
       "paint": {
         'line-color': '#FFFFFF',
@@ -2652,7 +2882,7 @@ boutonPrinter.addEventListener('click', function () {
       for (var i = 0; i < Layers.length; i++) {
         if (Layers[i] = 'Associations briochines') {
           map.setMaxBounds(mazierBounds);
-          map.flyTo({
+          map.jumpTo({
             center: [-2.7410000, 48.513033],
             zoom: 16.5,
             pitch: 0,
@@ -3001,19 +3231,12 @@ boutonPrinter.addEventListener('click', function () {
 
 //////////////////////////////////  Barre de recherche //////////////////////////////////////
 
-  // initialisation des popup
-  var searchPopup = null
+
   var jproperties = fproperties.filter(function (e) {
     return e.Nom !== null;
   })
-  // Récupération des propriétés du json
-  var searchValue = null;
-  var searchItem = [];
-  var searchX = null;
-  var searchY = null;
-  var searchLayerCount = 0;
-  var searchLayerId = 'SearchResult';
-  var searchPopup = null
+
+
   var options = {
     data: jproperties,
     getValue: "Nom",
@@ -3033,6 +3256,12 @@ boutonPrinter.addEventListener('click', function () {
   };
   $("#searchfield").easyAutocomplete(options);
 
+})
+.catch(e => {
+  alert("Erreur oups");
+  console.error(e);
+}); // fin de la fonction aggrégeant les geojsons. Je la fait se fermer un peu après la partie
+//concernant les couches car cela désactive la barre de recherche sinon
   ////////// définition de la fonction getSearchPopup //////////
   function getSearchPopup() {
     var popupTitle = searchItem.properties.Nom;
@@ -3104,7 +3333,8 @@ boutonPrinter.addEventListener('click', function () {
       offset: [0, -45],
       closeButton: false  
     })
-            .setLngLat(searchItem.geometry.coordinates)
+            //.setLngLat(searchItem.geometry.coordinates)
+            .setLngLat(searchX) //version Paul
             .setHTML('<h1>' + popupTitle + '</h1><div class="description">' + popupContent + '</div>')
             .addTo(map);
   }
@@ -3199,16 +3429,18 @@ boutonPrinter.addEventListener('click', function () {
 
         if (DDD) {
           // Configuration de la carte pour le mode 3D
-          map.flyTo({
-            center: [searchX, searchY],
+          map.jumpTo({
+            //center: [searchX, searchY], 
+            center: searchX, //version paul
             zoom: 16.5,
             pitch: 45,
             speed: 0.6
           });
         } else {
           // Configuration de la carte pour le mode 2D
-          map.flyTo({
-            center: [searchX, searchY],
+          map.jumpTo({
+            //center: [searchX, searchY],
+            center: searchX, //version paul
             zoom: 16.5,
             pitch: 0,
             speed: 0.6
@@ -3233,6 +3465,7 @@ boutonPrinter.addEventListener('click', function () {
 //////////////////////////////////   3D   //////////////////////////////////////
   var DDButton = document.getElementById('DDButton');
   var DDDButton = document.getElementById('DDDButton');
+
   var zoomCible;
 
   DDDButton.addEventListener('click', function () { // Action du bouton 3D
@@ -3243,7 +3476,7 @@ boutonPrinter.addEventListener('click', function () {
       Y = Y - 0.00021;
       getBati3D();
       zoomCible = currentZoom + 0.5;
-      map.flyTo({
+      map.jumpTo({
         center: [X, Y],
         pitch: 60,
         speed: 0.08,
@@ -3264,7 +3497,7 @@ boutonPrinter.addEventListener('click', function () {
       Y = Y + 0.00021;
       getBati2D(); // On enlève les bâtiments en 3D
       zoomCible = currentZoom - 0.5;
-      map.flyTo({
+      map.jumpTo({
         center: [X, Y],
         pitch: 0, 
         speed: 0.08,

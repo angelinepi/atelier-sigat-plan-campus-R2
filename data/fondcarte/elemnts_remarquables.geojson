@@ -1,0 +1,16 @@
+{
+"type": "FeatureCollection",
+"name": "elemnts_remarquables",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "icon": "2_presidence" }, "geometry": { "type": "Point", "coordinates": [ -1.703377739736703, 48.120828862930416 ] } },
+{ "type": "Feature", "properties": { "icon": "arbre_bat_t" }, "geometry": { "type": "Point", "coordinates": [ -1.702757545545154, 48.118843213571296 ] } },
+{ "type": "Feature", "properties": { "icon": "escalier_aec" }, "geometry": { "type": "Point", "coordinates": [ -1.702250425432728, 48.12040226526824 ] } },
+{ "type": "Feature", "properties": { "icon": "siege_bu" }, "geometry": { "type": "Point", "coordinates": [ -1.702118505673752, 48.120648972349962 ] } },
+{ "type": "Feature", "properties": { "icon": "potager" }, "geometry": { "type": "Point", "coordinates": [ -1.701126537616, 48.119560206027515 ] } },
+{ "type": "Feature", "properties": { "icon": "passage_o_p" }, "geometry": { "type": "Point", "coordinates": [ -1.703710108999574, 48.120671244517041 ] } },
+{ "type": "Feature", "properties": { "icon": "passage_sous_P" }, "geometry": { "type": "Point", "coordinates": [ -1.703180716720048, 48.120654112080814 ] } },
+{ "type": "Feature", "properties": { "icon": "pin_parasol" }, "geometry": { "type": "Point", "coordinates": [ -1.703233827272363, 48.11947711371176 ] } },
+{ "type": "Feature", "properties": { "icon": "sequoia_passage_bu" }, "geometry": { "type": "Point", "coordinates": [ -1.702578511586542, 48.120610424368415 ] } }
+]
+}
