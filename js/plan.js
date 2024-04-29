@@ -3165,7 +3165,7 @@ Promise.all(geojsons).then(allGeoJsons => { //à l'intérieur de cette fonction 
     },
     theme: "plate-dark"
   };
-  $("#searchfield").easyAutocomplete(options);
+  $("#search-bar").easyAutocomplete(options);
 
 })
 .catch(e => {
@@ -3275,7 +3275,7 @@ Promise.all(geojsons).then(allGeoJsons => { //à l'intérieur de cette fonction 
     if (item) { //si un item a été passé à la fonction
       searchValue = item; //searchValue est défini sur cet item. 
     } else {
-      searchValue = document.getElementById("searchfield").value; // sinon sinon, il est extrait de la valeur d'un élément HTML avec l'ID "searchfield".
+      searchValue = document.getElementById("search-bar").value; // sinon sinon, il est extrait de la valeur d'un élément HTML avec l'ID "searchfield".
     }
 
 
@@ -3472,36 +3472,31 @@ Promise.all(geojsons).then(allGeoJsons => { //à l'intérieur de cette fonction 
     attributionContainer.appendChild(attributionLink3);
     attributionContainer.appendChild(attributionLink4);
   }
+// ajout actions barre de recherche
+  var searchButton = document.getElementById('searchButton');
+  searchButton.addEventListener('click', function (e) {
+    if (searchBarCrossPresence == null) {
+      searchBarCrossPresence = 'yes';
+      $(searchButton).addClass('off');
+      getSearchedItem();
+    }
+    else {
+        Layers = Layers.filter(item => item != searchLayerId);
+        console.log(searchLayerId);
+        map.removeLayer(searchLayerId);
+        searchPopup.remove();
+        searchBarCrossPresence = null;
+        $("#search-bar").val("");
+        $(searchButton).removeClass('off');
+    }
+  });
 
 
-  // actuellement pas de barre de recherche // 
-
-
-// // ajout actions barre de recherche
-//   // var searchButton = document.getElementById('searchButton'); // appelé plus haut pour créer un lien quand on click sur la recherche 
-//   searchButton.addEventListener('click', function (e) {
-//     if (searchBarCrossPresence == null) {
-//       searchBarCrossPresence = 'yes';
-//       $(searchButton).addClass('off');
-//       getSearchedItem();
-//     }
-//     else {
-//         Layers = Layers.filter(item => item != searchLayerId);
-//         console.log(searchLayerId);
-//         map.removeLayer(searchLayerId);
-//         searchPopup.remove();
-//         searchBarCrossPresence = null;
-//         $("#searchfield").val("");
-//         $(searchButton).removeClass('off');
-//     }
-//   });
-
-
-//   var searchfield = document.getElementById('searchfield');
-//   searchButton.addEventListener('keypress', function (e) {
-//     if (e.keyCode == 13) {
-//       getSearchedItem();
-//     }
-//   });
+  var searchbar = document.getElementById('search-bar');
+  searchButton.addEventListener('keypress', function (e) {
+    if (e.keyCode == 13) {
+      getSearchedItem();
+    }
+  });
 
 
