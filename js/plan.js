@@ -1,12 +1,5 @@
 
 // Supression des filtres
-// var clearBtn = document.getElementById("clearSubMenuBtn");
-// clearBtn.addEventListener("click", function() {
-//     executeClearSubMenu(); // Première exécution
-//     executeClearSubMenu(); // Deuxième exécution
-// });
-
-// Supression des filtres
 var clearBtn = document.getElementById("clearSubMenuBtn");
 clearBtn.addEventListener("click", function() {
   executeClearSubMenu(); // Première exécution
@@ -101,10 +94,8 @@ document.addEventListener('click', function(event) {
   }
 });
   
+///////////////////// LIENS PROFONDS //////////////////////
 
-/////////////////////////////////// code pour changer de campus /////////////////////////////
-
-//////////////////// Page vers URL //////////////////////
 
   /**
    * Créer un lien vers le site Plan des Campus Université de Rennes 
@@ -132,6 +123,10 @@ function createLinkAndUpdateURL(selectedCampus, selectedCategory, selectedObjet)
   history.pushState({ campus: selectedCampus, category: selectedCategory, objet: selectedObjet }, campus, url); 
   return url;
 }
+
+/////////////////////////////////// code pour changer de CAMPUS /////////////////////////////
+
+//////////////////// Page vers URL //////////////////////
 
 /**  Sélectionner tous les boutons de campus */
  const campusButtons = document.querySelectorAll('.btn.btn-primary');
@@ -797,26 +792,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   ////////////////////////////////// URL pour les OBJETS  /////////////////////////////
 
-  // function createLinkAndUpdateURL(objet) {
-  //   let url = window.location.href;
-  //   // Mettre à jour l'URL sans recharger la page
-  //   url += `objet=${encodeURIComponent(objet)}`; 
-  //   history.pushState({ objet: objet }, objet, url);
-  //   return url;
-  // }
- 
-
-  // function createLinkAndUpdateURL(objet) {
-  //   const urlParams = new URLSearchParams(window.location.search); // Récupérer les paramètres de l'URL
-  //   urlParams.set('objet', objet); // Ajouter le paramètre de l'objet à l'URL
-  //   const newUrl = `${window.location.pathname}?${urlParams.toString()}`; // Créer une nouvelle URL avec les paramètres mis à jour
-  //   history.pushState({ objet: objet }, objet, newUrl); // Mettre à jour l'URL sans recharger la page
-  //   return newUrl;
-  // }
-  
-
 /////////////// page vers URL //////////////////////
-//// cf la fonction getPopup pour les épingles à clicker ////
 
 //// via le bouton de recherche //// 
 // Sélectionner le bouton de recherche
@@ -848,15 +824,20 @@ document.addEventListener('DOMContentLoaded', function() {
     return urlParams.get('objet'); // Récupérer la valeur du paramètre de l'objet
   }
 
-  document.addEventListener('click', function() {
-    console.log('objet:', getObjetFromURL());
-  });
+  // document.addEventListener('click', function() {
+  //   console.log('objet:', getObjetFromURL());
+  // });
 
 /**
  * Fonction pour afficher la popup correspondant à un objet et effectuer un zoom sur la popup
  * @param {*} objetName 
  */
 function afficherPopupObjet(objetName) {
+  //Appeler la fonction qui gère les données fusionnées
+  finalGeoJSON.features = allGeoJsons // recup de l'objet avec ts les geojsons
+  var mergedFeatures = finalGeoJSON.features.reduce((acc, val) => acc.concat(val), []);
+   finalGeoJSON.features = mergedFeatures // transformation de l'objet pour correspondre à l'ancien fichier points.geojson
+   
 
   // modification car mis POI pour avoir 1 fichier de données
   POIBrut = finalGeoJSON;
@@ -867,7 +848,18 @@ function afficherPopupObjet(objetName) {
     return POI.Nom !== null && POI.Nom === objetName;
   });
 
-  console.log("Noms des caractéristiques :", POI.map(feature => feature.properties.Nom));
+  // var features = POI.filter(function(feature) {
+  //   return feature.properties.Nom !== null && feature.properties.Nom.toLowerCase().trim() === objetName.toLowerCase().trim();
+  // });
+
+  
+  console.log("Nom de l'objet :", objetName);
+var features = POI.filter(function(feature) {
+  return feature.properties.Nom !== null && feature.properties.Nom === objetName;
+});
+
+
+  // var features = POIBrut.features.filter(feature => feature.properties.Nom === objetName);
 
   
   // Vérifier si des caractéristiques ont été trouvées pour l'objet
@@ -2808,29 +2800,29 @@ const finalGeoJSON = {
   "features": []
 };
 
-// Promise.all(geojsons).then(allGeoJsons => { //à l'intérieur de cette fonction se passe le regroupement des geojsons
+ 
+Promise.all(geojsons).then(allGeoJsons => { //à l'intérieur de cette fonction se passe le regroupement des geojsons
 
-// allGeoJsons.forEach(oneGeoJSON => {
-//     finalGeoJSON.features.concat(oneGeoJSON.features);
-//   });
-  
-Promise.all(geojsons).then(allGeoJsons => {
   allGeoJsons.forEach(oneGeoJSON => {
-    finalGeoJSON.features = finalGeoJSON.features.concat(oneGeoJSON);
-  });
+      finalGeoJSON.features.concat(oneGeoJSON.features);
+    });
+    
+  //Appeler la fonction qui gère les données fusionnées
+    finalGeoJSON.features = allGeoJsons // recup de l'objet avec ts les geojsons
+   var mergedFeatures = finalGeoJSON.features.reduce((acc, val) => acc.concat(val), []);
+    finalGeoJSON.features = mergedFeatures // transformation de l'objet pour correspondre à l'ancien fichier points.geojson
+    
+    POIBrut = finalGeoJSON // affectation de cette objet dans l'objet appelé par les couches dans le reste du code
+    
+    POI = POIBrut.features;
+    
+    console.log("Caractéristiques finales :", finalGeoJSON.features);
+  console.log("allGeoJsons :", allGeoJsons);
+  console.log("finalGeoJSON après affectation :", finalGeoJSON);
+  console.log("mergedFeatures :", mergedFeatures);
 
-  console.log("Caractéristiques finales :", finalGeoJSON.features);
+  
 
-
-//Appeler la fonction qui gère les données fusionnées
-  finalGeoJSON.features = allGeoJsons // recup de l'objet avec ts les geojsons
- var mergedFeatures = finalGeoJSON.features.reduce((acc, val) => acc.concat(val), []);
-  finalGeoJSON.features = mergedFeatures // transformation de l'objet pour correspondre à l'ancien fichier points.geojson
-  
-  POIBrut = finalGeoJSON // affectation de cette objet dans l'objet appelé par les couches dans le reste du code
-  
-  POI = POIBrut.features;
-  
   fproperties = finalGeoJSON.features.map(function (el) {
     return el.properties;})
 
