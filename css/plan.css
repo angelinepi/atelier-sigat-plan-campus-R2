@@ -530,20 +530,19 @@ color: green;
 }
 
 /*--- BOUTON IMPRIMER LA CARTE ---*/
+/*--- BOUTON IMPRIMER LA CARTE ---*/
 .btn-header  {
   position: absolute;
-  top: 10%;
+  top: 28%;
   right: 5%;
   /* background-color: red;   */
   padding: 10px;
 }
 
-
-
- .btn-imprimer {
+.btn-imprimer {
   background-image: url('/css/icons/printer.svg');
   background-size: 30px 30px;
-  background-color: #7239AB;
+  background-color: #073763;
   z-index: 1000;
   padding: 6px 12px;
   padding-top: 24px;
@@ -553,68 +552,98 @@ color: green;
   
 }
 
-.btn-imprimer:hover {
-  background-color: #5e2d8e; /* Nouvelle couleur de fond au survol */
+
+
+
+
+
+/* Styles pour le conteneur de la barre de recherche */
+/* Styles pour le conteneur de la barre de recherche */
+.search-bar {
+  display: flex; /* Affichage flex pour aligner les éléments côte à côte */
+  align-items: center; /* Centrer verticalement les éléments */
+  flex-wrap: wrap; /* Autoriser le retour à la ligne */
 }
-.btn-imprimer {
-  /* Vos styles existants */
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2); /* Ombre portée */
-}
-.btn-imprimer:active {
-  transform: scale(0.95); /* Rétrécissement au clic */
-}
 
-
-
-
-
-/* --- LA BARRE DE RECHERCHE AKA SEARCHBAR --- */
-/* Styles pour l'entrée de recherche easy-autocomplete */
-.easy-autocomplete input {
+/* Styles pour l'entrée de recherche */
+#search-bar {
   border: none; /* Pas de bordure */
-  border-radius: 0; /* Rayon de bordure */
+  border-radius: 15px; /* Rayon de bordure */
   box-shadow: none; /* Pas d'ombre */
   color: #073763; /* Couleur du texte */
-  float: none; /* Pas de flottant */
   padding: 10px; /* Rembourrage */
   background-color: #fff; /* Couleur de fond */
   font-size: 14px; /* Taille de police */
   font-family: "Roboto"; /* Police de caractère */
   font-weight: 400; /* Poids de la police */
-}
+  flex-grow: 1; /* L'entrée de recherche occupera tout l'espace disponible */
+  margin-right: 10px; /* Marge à droite pour séparer la loupe */
+  height: 60px; /* Hauteur de la searchbar (augmentée à 40px) */
+
+  min-width: 500px; /* Largeur minimale de la searchbar (augmentée à 300px) */
+} 
+
+
 
 /* Styles pour les boutons primaires */
 .btn-primary {
   background-color: #fff; /* Couleur de fond */
   color: #073763; /* Couleur du texte */
   border-color: #073763; /* Couleur de la bordure */
-  border-radius: 0; /* Rayon de bordure */
+  border-radius: 5px; /* Rayon de bordure */
 }
 
+/* Styles pour le bouton de recherche avec l'ID searchButton */
 /* Styles pour le bouton de recherche avec l'ID searchButton */
 #searchButton.btn-primary {
   background-color: #073763; /* Couleur de fond */
   color: #fff; /* Couleur du texte */
-  height: 40px; /* Hauteur */
-  width: 40px; /* Largeur */
+  height: 60px; /* Hauteur */
+  width: 60px; /* Largeur */
   background-image: url('/css/icons/plan_loupe.svg'); /* Image de fond */
   background-position: 50% 50%; /* Position de l'image de fond */
   background-repeat: no-repeat; /* Pas de répétition de l'image de fond */
   background-size: 20px 20px; /* Taille de l'image de fond */
+  margin-left: 10px; /* Marge à gauche pour décaler le bouton vers la droite */
 }
 
-/*...bouton de recherche désactivé */
-#searchButton.btn-primary.off {
-  background-image: url('/css/icons/plan_loupe_off.svg'); /* Image de fond */
-}
 
 /*...bouton de recherche survolé */
 #searchButton:hover {
   background-color: #073763; /* Couleur de fond */
 }
 
+/* Styles pour les éléments de la liste déroulante */
+.easy-autocomplete ul li {
+  color: #073763; /* Couleur du texte */
+  background-color: #fff; /* Couleur d'arrière-plan */
+  float: none;
+  padding: 10px;
+  background-color: #fff;
+  font-size: 14px;
+  font-family: "Roboto";
+  font-weight: 400;
+}
+
+
+/* .easy-autocomplete input {
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  color: #7239AB;
+  float: none;
+  padding: 10px;
+  background-color: #fff;
+  font-size: 14px;
+  font-family: "Roboto";
+  font-weight: 400;
+
+} */
+
+
+
 /* --- LA BARRE LATERALE AKA SIDEBAR --- */
-.sidebar .sidebar-search {
+.search-head .sidebar-search {
   padding: 0 0 20px 0; /* Rembourrage */
   border: none; /* Pas de bordure */
   line-height: 20px; /* Hauteur de ligne */
