@@ -2722,7 +2722,7 @@ allGeoJsons.forEach(oneGeoJSON => {
     },
     theme: "plate-dark"
   };
-  $("#searchfield").easyAutocomplete(options);
+  $("#search-bar").easyAutocomplete(options);
 
 })
 .catch(e => {
@@ -2830,7 +2830,7 @@ allGeoJsons.forEach(oneGeoJSON => {
     if (item) { //si un item a été passé à la fonction
       searchValue = item; //searchValue est défini sur cet item. 
     } else {
-      searchValue = document.getElementById("searchfield").value; // sinon sinon, il est extrait de la valeur d'un élément HTML avec l'ID "searchfield".
+      searchValue = document.getElementById("search-bar").value; // sinon sinon, il est extrait de la valeur d'un élément HTML avec l'ID "searchfield".
     }
 
 
@@ -3041,13 +3041,13 @@ allGeoJsons.forEach(oneGeoJSON => {
         map.removeLayer(searchLayerId);
         searchPopup.remove();
         searchBarCrossPresence = null;
-        $("#searchfield").val("");
+        $("#search-bar").val("");
         $(searchButton).removeClass('off');
     }
   });
 
 
-  var searchfield = document.getElementById('searchfield');
+  var searchbar = document.getElementById('search-bar');
   searchButton.addEventListener('keypress', function (e) {
     if (e.keyCode == 13) {
       getSearchedItem();
