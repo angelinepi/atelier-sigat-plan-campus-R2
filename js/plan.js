@@ -1,10 +1,28 @@
 
 // Supression des filtres
+// var clearBtn = document.getElementById("clearSubMenuBtn");
+// clearBtn.addEventListener("click", function() {
+//     executeClearSubMenu(); // Première exécution
+//     executeClearSubMenu(); // Deuxième exécution
+// });
+
+// Supression des filtres
 var clearBtn = document.getElementById("clearSubMenuBtn");
 clearBtn.addEventListener("click", function() {
-    executeClearSubMenu(); // Première exécution
-    executeClearSubMenu(); // Deuxième exécution
+  executeClearSubMenu(); // Première exécution
+  executeClearSubMenu(); // Deuxième exécution
+
+  /// supprimer les filtres dans l'url 
+  // Récupérer le campus actuel à partir de l'URL
+  const urlParams = new URLSearchParams(window.location.search);
+  const campus = urlParams.get('campus');
+  // Créer une nouvelle URL avec uniquement le paramètre 'campus'
+  const newUrl = `?campus=${encodeURI(campus)}`;
+  // Mettre à jour l'URL et l'historique
+  history.pushState({ campus: campus }, campus, newUrl);
+
 });
+
 
 function executeClearSubMenu() {
     $('ul.nav li:not(.sidebar-search,.sidebar-remove-filters), ul.nav li:not(.sidebar-search,.sidebar-remove-filters) a ').each(function (i) {
@@ -69,14 +87,7 @@ function executeClearSubMenu() {
 
   ////////////////////////////// fin code origine ////////////////////////////
 
-  /**
-   * Créer un lien vers le site Plan des Campus Université de Rennes 
-   * @param campus Nom du campus
-   * @param categories Nom de la catégorie
-   * @param objet Nom de l'objet/élément 
-   * les autres paramètres 
-   * @returns {string} URL de recherche
-   */
+
 
 // Aide 
   // Ajouter un gestionnaire d'événements à chaque bouton de objet
@@ -86,245 +97,144 @@ document.addEventListener('click', function(event) {
   if (target.classList.contains('maplibregl-popup')) {
     const objetName = target.querySelector('h1').textContent.trim(); // Récupérer le nom de l'objet à partir du bouton cliqué
     console.log(objetName); // Vérifier la valeur de objetName dans la console
-    createLinkAndUpdateURL(objetName); 
-    console.log('test') // Appeler la fonction pour changer le objet et l'URL
+    createLinkAndUpdateURL(objetName); // Appeler la fonction pour changer le objet et l'URL
   }
 });
   
-  
+
 /////////////////////////////////// code pour changer de campus /////////////////////////////
 
-  // // Fonction pour créer une URL avec un paramètre de campus et mettre à jour l'URL de la page
-  // function createLinkAndUpdateURL(campus) { // parametre non obligatoire possibles (ex: 2D/3D)
-  //   let url = window.location.href; // changer l'adresse du site par le vrai 
+//////////////////// Page vers URL //////////////////////
+
+  /**
+   * Créer un lien vers le site Plan des Campus Université de Rennes 
+   * @param selectedCampus Nom du campus
+   * @param selectedCategory Nom de la catégorie
+   * @param selectedObjet Nom de l'objet/élément 
+   * @returns {string} URL de recherche
+   */
+function createLinkAndUpdateURL(selectedCampus, selectedCategory, selectedObjet) {
+  let url = window.location.pathname; 
+
+  // Ajouter le campus à l'URL
+  url += `?campus=${encodeURI(selectedCampus)}`;
+  
+  // Vérifier si selectedCategory n'est pas null ou undefined avant de l'ajouter à l'URL
+  if (selectedCategory !== null && selectedCategory !== undefined) {
+    url += `&category=${encodeURI(selectedCategory)}`;
+  }
+  
+  // Vérifier si objet n'est pas null ou undefined avant de l'ajouter à l'URL
+  if (selectedObjet !== null && selectedObjet !== undefined) {
+    url += `&objet=${encodeURI(selectedObjet)}`;
+  }
     
-  //   url += `campus=${encodeURIComponent(campus)}`; // Ajouter le paramètre de campus à l'URL encodeURIComponent pour gérer les caractères spéciaux
+  history.pushState({ campus: selectedCampus, category: selectedCategory, objet: selectedObjet }, campus, url); 
+  return url;
+}
 
-  //   // à ajouter : paramêtre multiple pour les catégories
+/**  Sélectionner tous les boutons de campus */
+ const campusButtons = document.querySelectorAll('.btn.btn-primary');
 
-  //   // Mettre à jour l'URL sans recharger la page
-  //   history.pushState({ campus: campus }, campus, url);
-  //   return url;
-  // }
+// Ajouter un gestionnaire d'événements à chaque bouton de campus + création de lien et mise à jour de l'URL 
+campusButtons.forEach(function(button) {
+  button.addEventListener('click', function(event) {
+    const selectedCampus = event.target.textContent.trim(); // Récupérer le nom du campus à partir du bouton cliqué
+    const selectedCategory = getCategoryFromURL(); // Récupérer la catégorie sélectionnée à partir de l'URL
+    const selectedObjet = getObjetFromURL(); // Récupérer l'objet sélectionné à partir de l'URL
+    createLinkAndUpdateURL(selectedCampus, selectedCategory, selectedObjet); // Passer une chaîne vide pour les catégories car les boutons de campus ne semblent pas concernés par les catégories
+  });
+});
 
-  // // Sélectionner tous les boutons de campus
-  // const campusButtons = document.querySelectorAll('.btn.btn-primary');
+//////////////////// URL vers page //////////////////////
 
-  // // Ajouter un gestionnaire d'événements à chaque bouton de campus + création de lien et mise à jour de l'URL 
-  // campusButtons.forEach(function(button) {
-  //   button.addEventListener('click', function(event) {
-  //     const campusName = event.target.textContent.trim(); // Récupérer le nom du campus à partir du bouton cliqué
-  //     createLinkAndUpdateURL(campusName); // Passer une chaîne vide pour les catégories car les boutons de campus ne semblent pas concernés par les catégories
-  //   });
-  // });
-  // // cf contentpage et essayer de faire pareil, une fonction 
+/**
+ * Fonction pour activer le bouton correspondant au nom du campus
+ * @param {*} selectedCampus 
+ */
+function activateCampusButton(selectedCampus) {
+  const campusButtons = document.querySelectorAll('.btn.btn-primary');
+  campusButtons.forEach(function(button) {
+    if (button.textContent.trim() === selectedCampus) {
+      button.classList.add('active'); // Ajouter la classe active au bouton 
 
-  // // // Ajouter un gestionnaire d'événements à chaque case de catégorie + création de lien et mise à jour de l'URL 
-  // // categoriesCase.forEach(function(li) { 
-  // //   li.addEventListener('click', function(event) {
-  // //     const categorieName = event.target.textContent.trim(); // Récupérer le nom de la catégorie à partir de la case cliquée
-  // //     createLinkAndUpdateURL(campusName, categorieName); // Passer une chaîne vide pour le campus car les cases de catégorie ne semblent pas concernées par le campus
-  // //   });
-  // // });
+      // Ajouter la logique pour définir le zoom en fonction du campus
+      if (selectedCampus === 'Mazier') {
+        map.setMaxBounds(mazierBounds);
+        map.jumpTo({
+          zoom: zoomBase,
+          center: [-2.7410000, 48.513033]
+        });
+      } else if (selectedCampus === 'Villejean') {
+        map.setMaxBounds(rennesBounds);
+        map.jumpTo({
+          zoom: zoomBase,
+          center: [-1.7013, 48.119365]
+        });
+      } else if (selectedCampus === 'La Harpe') {
+        map.setMaxBounds(rennesBounds);
+        map.jumpTo({
+          zoom: zoomBase,
+          center: [-1.7091, 48.1254]
+        });
+      }
 
-  // // Fonction pour activer le bouton correspondant au nom du campus
-  // function activateCampusButton(campusName) {
-  //   const campusButtons = document.querySelectorAll('.btn.btn-primary');
-  //   campusButtons.forEach(function(button) {
-  //     if (button.textContent.trim() === campusName) {
-  //       button.classList.add('active'); // Ajouter la classe active au bouton 
+    } else {
+      button.classList.remove('active');
+    }
+  });
+}
 
-  //       // Ajouter la logique pour définir le zoom en fonction du campus
-  //       if (campusName === 'Mazier') {
-  //         map.setMaxBounds(mazierBounds);
-  //         map.flyTo({
-  //           zoom: zoomBase,
-  //           center: [-2.7410000, 48.513033]
-  //         });
-  //       } else if (campusName === 'Villejean') {
-  //         map.setMaxBounds(rennesBounds);
-  //         map.flyTo({
-  //           zoom: zoomBase,
-  //           center: [-1.7013, 48.119365]
-  //         });
-  //       } else if (campusName === 'La Harpe') {
-  //         map.setMaxBounds(rennesBounds);
-  //         map.flyTo({
-  //           zoom: zoomBase,
-  //           center: [-1.7091, 48.1254]
-  //         });
-  //       }
+/**
+ * Fonction pour obtenir le nom du campus à partir de l'URL
+ * @returns {string} Nom du campus
+ */
+function getCampusFromURL() {
+  const urlParams = new URLSearchParams(window.location.search); // Récupérer les paramètres de l'URL
+  return urlParams.get('campus'); // Récupérer la valeur du paramètre de campus
+}
 
-  //     } else {
-  //       button.classList.remove('active');
-  //     }
-  //   });
-  // }
-  // // fonction a revoir, redondance de code ??? 
-
-
-  // // Fonction pour obtenir le nom du campus à partir de l'URL
-  // function getCampusFromURL() {
-  //   const urlParams = new URLSearchParams(window.location.search); // Récupérer les paramètres de l'URL
-  //   return urlParams.get('campus'); // Récupérer la valeur du paramètre de campus
-  // }
-
-  // // Lorsque la page se charge, récupérez le nom du campus dans l'URL et activez le bouton correspondant
-  // document.addEventListener('DOMContentLoaded', function() { // quand l'url est rechargé alors on récupère le campus si il y en a un alors on active le bouton correspondant
-  //   const campusName = getCampusFromURL();
-  //   if (campusName) {
-  //     activateCampusButton(campusName);
-  //     console.log('Campus:', campusName);
-  //   }
-  // });
+// Lorsque la page se charge, récupérez le nom du campus dans l'URL et activez le bouton correspondant
+document.addEventListener('DOMContentLoaded', function() { // quand l'url est rechargé alors on récupère le campus si il y en a un alors on active le bouton correspondant
+  const selectedCampus = getCampusFromURL();
+  if (selectedCampus) {
+    activateCampusButton(selectedCampus);
+    console.log('Campus:', selectedCampus);
+  }
+});
 
 /////////////////////////// fin du code pour changer de campus /////////////////////////////
 
-// !! Quand on click sur un campus ex : Mazier puis sur une salle qui est à Villejean, le campus reste sur Mazier !! 
 
 
-//   dire que quand y un espace %20
-//   changer le lien directement dans l'url OK 
-//   simplification + compréhension du code 
-//   ajout bouton 2D / 3D (si utile)
-//   ajouter les catégories/objets du 3eme niveau 
+/////////////////////////// code pour changer de CATEGORIES ////////////////////////////////////// 
 
-
-
-
-
-
-
-/////////////////////////// code pour changer de catégories ////////////////////////////////////// 
-
-// // Fonction pour créer une URL avec un paramètre de catégorie et mettre à jour l'URL de la page
-//   function createLinkAndUpdateURL(selectedCategory) {
-//     const urlParams = new URLSearchParams(window.location.search); // Récupérer les paramètres de l'URL
-//     urlParams.set('category', selectedCategory); // Ajouter le paramètre de l'objet à l'URL
-//     const newUrl = `${window.location.pathname}?${urlParams.toString()}`; // Créer une nouvelle URL avec les paramètres mis à jour
-//     history.pushState({ category: selectedCategory }, selectedCategory, newUrl); // Mettre à jour l'URL sans recharger la page
-//     return newUrl;
-//   }
-
-// console.log(createLinkAndUpdateURL()); // test de la fonction
-
-
-// // ///////////////////page vers URL ////////////////// 
-// // Variable pour stocker la catégorie sélectionnée
-// let selectedCategory = null; //En résumé, l'utilisation de null comme valeur initiale pour selectedCategory n'est pas obligatoire,
-//                             // mais elle est courante et peut être utile pour indiquer l'absence de valeur au départ.
-
-// // Sélectionner tous les liens de catégorie dans la barre de navigation
-// const categoryLinks = document.querySelectorAll('.sidebar #side-menu a.case');
-
-// // Ajouter un gestionnaire d'événements à chaque lien de catégorie
-// categoryLinks.forEach(function(link) {
-//   link.addEventListener('click', function(event) {
-//     event.preventDefault(); // Empêcher le comportement par défaut du lien
-
-//     const categoryName = link.textContent.trim(); // Récupérer le nom de la catégorie du lien cliqué
-
-//     // Mettre à jour la catégorie sélectionnée
-//     selectedCategory = categoryName;
-
-//     // Retirer la classe "active" de tous les liens
-//     categoryLinks.forEach(function(link) {
-//       link.classList.remove('active');
-//     });
-
-//     // Ajouter la classe "active" au lien cliqué
-//     link.classList.add('active');
-
-//     // Mettre à jour l'URL et afficher la nouvelle URL dans la console (vous pouvez retirer cette ligne en production)
-//     const updatedURL = createLinkAndUpdateURL(selectedCategory);
-//     console.log(updatedURL);
-//   });
-// });
-
-
-// // /////////////// URL vers page ////////////
-
-// // Fonction pour obtenir le nom de la catégorie à partir de l'URL
-// function getCategoryFromURL() {
-//   const urlParams = new URLSearchParams(window.location.search);
-//   return urlParams.get('categories');
-// }
-
-
-// function activateCategory(categoryName) {
-//   const categoryLinks = document.querySelectorAll('.sidebar #side-menu a.case');
-//   categoryLinks.forEach(function(link) {
-//     if (link.textContent.trim() === categoryName) { // Vérifier si le nom de la catégorie correspond au nom de la catégorie du lien
-//       link.classList.add('active');
-//       console.log('Catégorie:', categoryName)
-//     }
-//   });
-// }
-
-// activateCategory('Amphithéâtre'); // test de la fonction  
-
-
-
-// // faire appel aux fonctions qui sont deja créer 
-
-
-
-// // Lorsque la page est chargée, récupérez le nom de la catégorie dans l'URL et activez la case à cocher correspondante
-// document.addEventListener('DOMContentLoaded', function() {
-//   const categoryName = getCategoryFromURL();
-//   if (categoryName) {
-//     activateCategory(categoryName);
-//   }
-// });
-
-
-// Fonction pour créer une URL avec un paramètre de catégorie et mettre à jour l'URL de la page
-function createLinkAndUpdateURL(selectedCategory) {
-  const urlParams = new URLSearchParams(window.location.search); // Récupérer les paramètres de l'URL
-  urlParams.set('category', selectedCategory); // Ajouter le paramètre de l'objet à l'URL
-  const newUrl = `${window.location.pathname}?${urlParams.toString()}`; // Créer une nouvelle URL avec les paramètres mis à jour
-  history.pushState({ category: selectedCategory }, selectedCategory, newUrl); // Mettre à jour l'URL sans recharger la page
-  return newUrl;
-}
-
-
+///////////////// Page vers URL //////////////////////
 
 // Variable pour stocker la catégorie sélectionnée
 let selectedCategory = null;
 
-// Sélectionner tous les liens de catégorie dans la barre de navigation
+/**
+ * Sélectionner tous les liens de catégorie dans la barre de navigation
+ */
 const categoryLinks = document.querySelectorAll('.sidebar #side-menu a.case');
 
-// Ajouter un gestionnaire d'événements à chaque lien de catégorie
-categoryLinks.forEach(function(link) {
-  link.addEventListener('click', function(event) {
-    event.preventDefault(); // Empêcher le comportement par défaut du lien
 
-    const categoryName = link.textContent.trim(); // Récupérer le nom de la catégorie du lien cliqué
+///////////////// URL vers page //////////////////////
 
-    // Mettre à jour la catégorie sélectionnée
-    selectedCategory = categoryName;
-
-    // Retirer la classe "active" de tous les liens
-    categoryLinks.forEach(function(link) {
-      link.classList.remove('active');
-    });
-
-    // Ajouter la classe "active" au lien cliqué
-    link.classList.add('active');
-
-    // Mettre à jour l'URL et afficher la nouvelle URL dans la console
-    const updatedURL = createLinkAndUpdateURL(selectedCategory);
-    console.log(updatedURL);
-  });
-});
-
-// Fonction pour obtenir le nom de la catégorie à partir de l'URL
+/**
+ * Fonction pour obtenir le nom de la catégorie à partir de l'URL
+ * @returns {string} Nom de la catégorie issu de l'URL 
+ */
 function getCategoryFromURL() {
   const urlParams = new URLSearchParams(window.location.search);
-  return urlParams.get('category'); // Utilisez 'category' au lieu de 'categories'
+  return urlParams.get('category'); // Récupérer la valeur du paramètre de catégorie
 }
 
+/**
+ * Active la catégorie située dans l'URL
+ * @param {*} categoryName 
+ */
 function activateCategory(categoryName) {
   const categoryLinks = document.querySelectorAll('.sidebar #side-menu a.case');
   categoryLinks.forEach(function(link) {
@@ -332,8 +242,11 @@ function activateCategory(categoryName) {
       link.classList.add('active');
       console.log('Catégorie activée :', categoryName);
 
-      // You need to define the variables used in the addCategoryOverlay function: htmllink, ordre, Symbol, colorOrUrl, iconSize, overlayCount, minZoom, maxZoom
-      // I'm assuming these should be the same as the ones used in the if statement below, so I've removed the line.
+//////////////////////////////////  Groupe Amphis et salles spécifiques //////////////////////////////////////
+
+      if (overlayPoint) {
+        getSearchedItem(overlayPoint);
+      }
 
       if (categoryName === 'Amphithéâtres') {
         addCategoryOverlay(amphitheatresLink, 'Amphithéâtre', 'layer', 'marker', amphiURL, tailleMarker, amphiCount);
@@ -360,57 +273,458 @@ function activateCategory(categoryName) {
         addCategoryOverlay(sallesSpecifiquesLink, 'Salles spécifiques', 'layer', 'marker', sallesSpeURL, tailleMarker, sallesSpeCount);
         sallesSpeCount += 1;
       }
-      if (categoryName == 'Services centraux') {
-        addCategoryOverlay(ServicescenLink, 'Services centraux', 'layer', 'marker', ServicescenURL, tailleMarker, ServicescenCount);
-        ServicescenCount += 1;
+      
+      //////////////////////////////////  Structures et services //////////////////////////////////////
+
+    if (categoryName == 'Services communs') {
+      addCategoryOverlay(ServicescomLink, 'Services communs', ServicescomLinkState, 'marker', ServicescomURL, tailleMarker, ServicescomCount);
+      if (ServicescomCount == 0) {
+        createHTMLList('Services communs', listeServicescom, insertServicescom, ServicescomCount);
       }
-      if (categoryName == 'Services communs') {
-        addCategoryOverlay(ServicescomLink, 'Services communs', 'layer', 'marker', ServicescomURL, tailleMarker, ServicescomCount);
-        ServicescomCount += 1;
+      ServicescomCount += 1;
+    }
+    ServicescomLink.onclick = function (e) {
+      addCategoryOverlay(ServicescomLink, 'Services communs', ServicescomLinkState, 'marker', ServicescomURL, tailleMarker, ServicescomCount);
+      if (ServicescomCount == 0) {
+        createHTMLList('Services communs', listeServicescom, insertServicescom, ServicescomCount);
       }
-      if (categoryName == 'Services généraux') {
-        addCategoryOverlay(ServicesgenLink, 'Services généraux', 'layer', 'marker', ServicesgenURL, tailleMarker, ServicesgenCount);
-        ServicesgenCount += 1;
+      ServicescomCount += 1;
+    }
+
+    if (categoryName == 'Services généraux') {
+      addCategoryOverlay(ServicesgenLink, 'Services généraux', ServicesgenLinkState, 'marker', ServicesgenURL, tailleMarker, ServicesgenCount);
+      if (ServicesgenCount == 0) {
+        createHTMLList('Services généraux', listeServicesgen, insertServicesgen, ServicesgenCount);
       }
-      if (categoryName == 'Formation UFR Sciences Humaines') {
-        addCategoryOverlay(FUFRSHLink, 'Formation UFR Sciences Humaines', 'layer', 'marker', FUFRSHURL, tailleMarker, FUFRSHCount);
-        FUFRSHCount += 1;
+      ServicesgenCount += 1;
+    }
+    ServicesgenLink.onclick = function (e) {
+      addCategoryOverlay(ServicesgenLink, 'Services généraux', ServicesgenLinkState, 'marker', ServicesgenURL, tailleMarker, ServicesgenCount);
+      if (ServicesgenCount == 0) {
+        createHTMLList('Services généraux', listeServicesgen, insertServicesgen, ServicesgenCount);
       }
-      if (categoryName == 'Formation UFR Langue') {
-        addCategoryOverlay(FUFRLLink, 'Formation UFR Langue', 'layer', 'marker', FUFRLURL, tailleMarker, FUFRLCount);
-        FUFRLCount += 1;
+      ServicesgenCount += 1;
+    }
+
+
+    if (categoryName == 'Services centraux') {
+      addCategoryOverlay(ServicescenLink, 'Services centraux', ServicescenLinkState, 'marker', ServicescenURL, tailleMarker, ServicescenCount);
+      if (ServicescenCount == 0) {
+        createHTMLList('Services centraux', listeServicescen, insertServicescen, ServicescenCount);
       }
-      if (categoryName == 'Formation UFR Sciences Sociales') {
-        addCategoryOverlay(FUFRSSLink, 'Formation UFR Sciences Sociales', 'layer', 'marker', FUFRSSURL, tailleMarker, FUFRSSCount);
-        FUFRSSCount += 1;
+      ServicescenCount += 1;
+    }
+    ServicescenLink.onclick = function (e) {
+      addCategoryOverlay(ServicescenLink, 'Services centraux', ServicescenLinkState, 'marker', ServicescenURL, tailleMarker, ServicescenCount);
+      if (ServicescenCount == 0) {
+        createHTMLList('Services centraux', listeServicescen, insertServicescen, ServicescenCount);
       }
-      if (categoryName == 'Formation UFR STAPS') {
-        addCategoryOverlay(FUFRSTAPSLink, 'Formation UFR STAPS', 'layer', 'marker', FUFRSTAPSURL, tailleMarker, FUFRSTAPSCount);
-        FUFRSTAPSCount += 1;
+      ServicescenCount += 1;
+    }
+    if (categoryName == 'Formation UFRL') {
+      addCategoryOverlay(FUFRLLink, 'Formation UFRL', FUFRLLinkState, 'marker', FUFRLURL, tailleMarker, FUFRLCount);
+      if (FUFRLCount == 0) {
+        createHTMLList('Formation UFRL', listeFUFRL, insertFUFRL, FUFRLCount);
       }
-      if (categoryName == 'Formation UFR ALC') {
-        addCategoryOverlay(FUFRALCLink, 'Formation UFR ALC', 'layer', 'marker', FUFRALCURL, tailleMarker, FUFRALCCount);
-        FUFRALCCount += 1;
+      FUFRLCount += 1;
+    }
+
+
+    //////////////////////////////////  Formation et recherche //////////////////////////////////////
+    FUFRLLink.onclick = function (e) {
+      addCategoryOverlay(FUFRLLink, 'Formation UFRL', FUFRLLinkState, 'marker', FUFRLURL, tailleMarker, FUFRLCount);
+      if (FUFRLCount == 0) {
+        createHTMLList('Formation UFRL', listeFUFRL, insertFUFRL, FUFRLCount);
       }
-      if (categoryName == 'Autres Formations') {
-        addCategoryOverlay(AutresFormationsLink, 'Autres Formations', 'layer', 'marker', AutresFormationsURL, tailleMarker, AutresFormationsCount);
-        AutresFormationsCount += 1;
+      FUFRLCount += 1;
+    }
+    if (categoryName ==  'Formation UFRSH') {
+      addCategoryOverlay(FUFRSHLink, 'Formation UFRSH', FUFRSHLinkState, 'marker', FUFRSHURL, tailleMarker, FUFRSHCount);
+      if (FUFRSHCount == 0) {
+        createHTMLList('Formation UFRSH', listeFUFRSH, insertFUFRSH, FUFRSHCount);
       }
-      if (categoryName == 'Bibliothèques') {
-        addCategoryOverlay(BibliothequesLink, 'Bibliothèques', 'layer', 'marker', BibliothequesURL, tailleMarker, BibliothequesCount);
-        BibliothequesCount += 1;
+      FUFRSHCount += 1;
+    }
+    FUFRSHLink.onclick = function (e) {
+      addCategoryOverlay(FUFRSHLink, 'Formation UFRSH', FUFRSHLinkState, 'marker', FUFRSHURL, tailleMarker, FUFRSHCount);
+      if (FUFRSHCount == 0) {
+        createHTMLList('Formation UFRSH', listeFUFRSH, insertFUFRSH, FUFRSHCount);
       }
-      if (categoryName == 'Cafétérias') { 
-        addCategoryOverlay(CafeteriasLink, 'Cafétérias', 'layer', 'marker', CafeteriasURL, tailleMarker, CafeteriasCount);
-        CafeteriasCount += 1;
+      FUFRSHCount += 1;
+    }
+    if (categoryName ==  'Formation UFRSS') {
+      addCategoryOverlay(FUFRSSLink, 'Formation UFRSS', FUFRSSLinkState, 'marker', FUFRSSURL, tailleMarker, FUFRSSCount);
+      if (FUFRSSCount == 0) {
+        createHTMLList('Formation UFRSS', listeFUFRSS, insertFUFRSS, FUFRSSCount);
       }
+      FUFRSSCount += 1;
+    }
+    FUFRSSLink.onclick = function (e) {
+      addCategoryOverlay(FUFRSSLink, 'Formation UFRSS', FUFRSSLinkState, 'marker', FUFRSSURL, tailleMarker, FUFRSSCount);
+      if (FUFRSSCount == 0) {
+        createHTMLList('Formation UFRSS', listeFUFRSS, insertFUFRSS, FUFRSSCount);
+      }
+      FUFRSSCount += 1;
+    }
+    if (categoryName ==  'Formation UFRSTAPS') {
+      addCategoryOverlay(FUFRSTAPSLink, 'Formation UFRSTAPS', FUFRSTAPSLinkState, 'marker', FUFRSTAPSURL, tailleMarker, FUFRSTAPSCount);
+      if (FUFRSTAPSCount == 0) {
+        createHTMLList('Formation UFRSTAPS', listeFUFRSTAPS, insertFUFRSTAPS, FUFRSTAPSCount);
+      }
+      FUFRSTAPSCount += 1;
+    }
+    FUFRSTAPSLink.onclick = function (e) {
+      addCategoryOverlay(FUFRSTAPSLink, 'Formation UFRSTAPS', FUFRSTAPSLinkState, 'marker', FUFRSTAPSURL, tailleMarker, FUFRSTAPSCount);
+      if (FUFRSTAPSCount == 0) {
+        createHTMLList('Formation UFRSTAPS', listeFUFRSTAPS, insertFUFRSTAPS, FUFRSTAPSCount);
+      }
+      FUFRSTAPSCount += 1;
+    }
+    if (categoryName ==  'Formation UFRALC') {
+      addCategoryOverlay(FUFRALCLink, 'Formation UFRALC', FUFRALCLinkState, 'marker', FUFRALCURL, tailleMarker, FUFRALCCount);
+      if (FUFRALCCount == 0) {
+        createHTMLList('Formation UFRALC', listeFUFRALC, insertFUFRALC, FUFRALCCount);
+      }
+      FUFRALCCount += 1;
+    }
+    FUFRALCLink.onclick = function (e) {
+      addCategoryOverlay(FUFRALCLink, 'Formation UFRALC', FUFRALCLinkState, 'marker', FUFRALCURL, tailleMarker, FUFRALCCount);
+      if (FUFRALCCount == 0) {
+        createHTMLList('Formation UFRALC', listeFUFRALC, insertFUFRALC, FUFRALCCount);
+      }
+      FUFRALCCount += 1;
+    }
+    if (categoryName ==  'Autres Formations') {
+      addCategoryOverlay(AutresFormationsLink, 'Autres Formations', AutresFormationsLinkState, 'marker', AutresFormationsURL, tailleMarker, AutresFormationsInfoPopup, AutresFormationsCount);
+      if (AutresFormationsCount == 0) {
+        createHTMLList('Autres Formations', AutresFormationsURL, insertAutresFormations, AutresFormationsCount);
+      }
+      AutresFormationsCount += 1;
+    }
+
+
+    AutresFormationsLink.onclick = function (e) {
+      addCategoryOverlay(AutresFormationsLink, 'Autres Formations', AutresFormationsLinkState, 'marker', AutresFormationsURL, tailleMarker, AutresFormationsCount);
+      if (AutresFormationsCount == 0) {
+        createHTMLList('Autres Formations', listeAutresFormations, insertAutresFormations, AutresFormationsCount);
+      }
+      AutresFormationsCount += 1;
+    }
+    if (categoryName ==  'Recherche UFRL') {
+      addCategoryOverlay(RUFRLLink, 'Recherche UFRL', RUFRLLinkState, 'marker', RUFRLURL, tailleMarker, RUFRLInfoPopup, RUFRLCount);
+      if (RUFRLCount == 0) {
+        createHTMLList('Recherche UFRL', listeRUFRL, insertRUFRL, RUFRLCount);
+      }
+      RUFRLCount += 1;
+    }
+    RUFRLLink.onclick = function (e) {
+      addCategoryOverlay(RUFRLLink, 'Recherche UFRL', RUFRLLinkState, 'marker', RUFRLURL, tailleMarker, RUFRLCount);
+      if (RUFRLCount == 0) {
+        createHTMLList('Recherche UFRL', listeRUFRL, insertRUFRL, RUFRLCount);
+      }
+      RUFRLCount += 1;
+    }
+    if (categoryName ==  'Recherche UFRSH') {
+      addCategoryOverlay(RUFRSHLink, 'Recherche UFRSH', RUFRSHLinkState, 'marker', RUFRSHURL, tailleMarker, RUFRSHCount);
+      if (RUFRSHCount == 0) {
+        createHTMLList('Recherche UFRSH', listeRUFRSH, insertRUFRSH, RUFRSHCount);
+      }
+      RUFRSHCount += 1;
+    }
+    RUFRSHLink.onclick = function (e) {
+      addCategoryOverlay(RUFRSHLink, 'Recherche UFRSH', RUFRSHLinkState, 'marker', RUFRSHURL, tailleMarker, RUFRSHCount);
+      if (RUFRSHCount == 0) {
+        createHTMLList('Recherche UFRSH', listeRUFRSH, insertRUFRSH, RUFRSHCount);
+      }
+      RUFRSHCount += 1;
+    }
+    if (categoryName ==  'Recherche UFRSS') {
+      addCategoryOverlay(RUFRSSLink, 'Recherche UFRSS', RUFRSSLinkState, 'marker', RUFRSSURL, tailleMarker, RUFRSSCount);
+      if (RUFRSSCount == 0) {
+        createHTMLList('Recherche UFRSS', listeRUFRSS, insertRUFRSS, RUFRSSCount);
+      }
+      RUFRSSCount += 1;
+    }
+    RUFRSSLink.onclick = function (e) {
+      addCategoryOverlay(RUFRSSLink, 'Recherche UFRSS', RUFRSSLinkState, 'marker', RUFRSSURL, tailleMarker, RUFRSSCount);
+      if (RUFRSSCount == 0) {
+        createHTMLList('Recherche UFRSS', listeRUFRSS, insertRUFRSS, RUFRSSCount);
+      }
+      RUFRSSCount += 1;
+    }
+    if (categoryName ==  'Recherche UFRSTAPS') {
+      addCategoryOverlay(RUFRSTAPSLink, 'Recherche UFRSTAPS', RUFRSTAPSLinkState, 'marker', RUFRSTAPSURL, tailleMarker, RUFRSTAPSCount);
+      if (RUFRSTAPSCount == 0) {
+        createHTMLList('Recherche UFRSTAPS', listeRUFRSTAPS, insertRUFRSTAPS, RUFRSTAPSCount);
+      }
+      RUFRSTAPSCount += 1;
+    }
+    RUFRSTAPSLink.onclick = function (e) {
+      addCategoryOverlay(RUFRSTAPSLink, 'Recherche UFRSTAPS', RUFRSTAPSLinkState, 'marker', RUFRSTAPSURL, tailleMarker, RUFRSTAPSCount);
+      if (RUFRSTAPSCount == 0) {
+        createHTMLList('Recherche UFRSTAPS', listeRUFRSTAPS, insertRUFRSTAPS, RUFRSTAPSCount);
+      }
+      RUFRSTAPSCount += 1;
+    }
+    if (categoryName ==  'Recherche UFRALC') {
+      addCategoryOverlay(RUFRALCLink, 'Recherche UFRALC', RUFRALCLinkState, 'marker', RUFRALCURL, tailleMarker, RUFRALCCount);
+      if (RUFRALCCount == 0) {
+        createHTMLList('Recherche UFRALC', listeRUFRALC, insertRUFRALC, RUFRALCCount);
+      }
+      RUFRALCCount += 1;
+    }
+    RUFRALCLink.onclick = function (e) {
+      addCategoryOverlay(RUFRALCLink, 'Recherche UFRALC', RUFRALCLinkState, 'marker', RUFRALCURL, tailleMarker, RUFRALCCount);
+      if (RUFRALCCount == 0) {
+        createHTMLList('Recherche UFRALC', listeRUFRALC, insertRUFRALC, RUFRALCCount);
+      }
+      RUFRALCCount += 1;
+    }
+
+
+  //////////////////////////////////  Bibliothèques et culture //////////////////////////////////////
+  if (categoryName ==  'Lieux culturels') {
+    addCategoryOverlay(lieuCulturelLink, 'Lieux culturels', 'list', 'marker', lieuCulturelURL, tailleMarker, lieuCulturelCount);
+    if (lieuCulturelCount == 0) {
+      createHTMLList('Lieux culturels', listelieuCulturel, insertLieuCulturel, lieuCulturelCount);
+    }
+    lieuCulturelCount += 1;
+  }
+  lieuCulturelLink.onclick = function (e) {
+    addCategoryOverlay(lieuCulturelLink, 'Lieux culturels', 'list', 'marker', lieuCulturelURL, tailleMarker, lieuCulturelCount);
+    if (lieuCulturelCount == 0) {
+      createHTMLList('Lieux culturels', listelieuCulturel, insertLieuCulturel, lieuCulturelCount);
+    }
+    lieuCulturelCount += 1;
+  }
+
+  if (categoryName ==  'Bibliothèques') {
+    addCategoryOverlay(bibliothequesLink, 'Bibliothèques', 'layer', 'marker', bibliothequesURL, tailleMarker, bibliothequesCount);
+    bibliothequesCount += 1;
+  }
+  bibliothequesLink.onclick = function (e) {
+    addCategoryOverlay(bibliothequesLink, 'Bibliothèques', 'layer', 'marker', bibliothequesURL, tailleMarker, bibliothequesCount);
+    bibliothequesCount += 1;
+  }
+  if (categoryName ==  'Oeuvre') {
+    addCategoryOverlay(oeuvreArtsLink, 'Oeuvre', 'layer', 'marker', oeuvreArtsURL, tailleMarker, oeuvreArtsCount);
+    oeuvreArtsCount += 1;
+  }
+  oeuvreArtsLink.onclick = function (e) {
+    addCategoryOverlay(oeuvreArtsLink, 'Oeuvre', 'layer', 'marker', oeuvreArtsURL, tailleMarker, oeuvreArtsCount);
+    oeuvreArtsCount += 1;
+  }
+
+  ////////////////////////////////// Restauration et logement //////////////////////////////////////
+  if (categoryName ==  'Résidence Universitaire') {
+    addCategoryOverlay(resUnivLink, 'Résidence Universitaire', 'layer', 'marker', resUnivURL, tailleMarker, resUnivCount);
+    resUnivCount += 1;
+  }
+  resUnivLink.onclick = function (e) {
+    addCategoryOverlay(resUnivLink, 'Résidence Universitaire', 'layer', 'marker', resUnivURL, tailleMarker, resUnivCount);
+    resUnivCount += 1;
+  }
+
+  if (categoryName ==  'Restaurant Universitaire') {
+    addCategoryOverlay(restoUnivLink, 'Restaurant Universitaire', 'layer', 'marker', restoUnivURL, tailleMarker, restoUnivCount);
+    restoUnivCount += 1;
+  }
+  restoUnivLink.onclick = function (e) {
+    addCategoryOverlay(restoUnivLink, 'Restaurant Universitaire', 'layer', 'marker', restoUnivURL, tailleMarker, restoUnivCount);
+    restoUnivCount += 1;
+  }
+
+  if (categoryName ==  'Cafétéria') {
+    addCategoryOverlay(cafeteriasLink, 'Cafétéria', 'layer', 'marker', cafeteriasURL, taillePetitMarker, cafeteriasCount);
+    cafeteriasCount += 1;
+  }
+  cafeteriasLink.onclick = function (e) {
+    addCategoryOverlay(cafeteriasLink, 'Cafétéria', 'layer', 'marker', cafeteriasURL, taillePetitMarker, cafeteriasCount);
+    cafeteriasCount += 1;
+  }
+
+  if (categoryName ==  'Micro-ondes') {
+    addCategoryOverlay(microOndesLink, 'Micro-ondes', 'layer', 'marker', microOndesURL, taillePetitMarker, microOndesCount);
+    microOndesCount += 1;
+  }
+  microOndesLink.onclick = function (e) {
+    addCategoryOverlay(microOndesLink, 'Micro-ondes', 'layer', 'marker', microOndesURL, taillePetitMarker, microOndesCount);
+    microOndesCount += 1;
+  }
+
+  //////////////////////////////////  Sport et santé //////////////////////////////////////
+  if (categoryName ==  'Equipement sportif') {
+    addCategoryOverlay(equipementSportifLink, 'Equipement sportif', 'layer', 'marker', equipementSportifURL, tailleMarker, equipementSportifCount);
+    equipementSportifCount += 1;
+  }
+  equipementSportifLink.onclick = function (e) {
+    addCategoryOverlay(equipementSportifLink, 'Equipement sportif', 'layer', 'marker', equipementSportifURL, tailleMarker, equipementSportifCount);
+    equipementSportifCount += 1;
+  }
+
+  if (categoryName ==  'Pôle santé et prévention') {
+    addCategoryOverlay(polesanteLink, 'Pôle santé et prévention', 'layer', 'marker', polesanteURL, tailleMarker, polesanteCount);
+    polesanteCount += 1;
+  }
+  polesanteLink.onclick = function (e) {
+    addCategoryOverlay(polesanteLink, 'Pôle santé et prévention', 'layer', 'marker', polesanteURL, tailleMarker, polesanteCount);
+    polesanteCount += 1;
+  }
+
+  if (categoryName ==  'Assistants de prévention') {
+    addCategoryOverlay(assistantpreventionLink, 'Assistants de prévention', 'layer', 'marker', assistantpreventionURL, tailleMarker, assistantpreventionCount);
+    assistantpreventionCount += 1;
+  }
+  assistantpreventionLink.onclick = function (e) {
+    addCategoryOverlay(assistantpreventionLink, 'Assistants de prévention', 'layer', 'marker', assistantpreventionURL, tailleMarker, assistantpreventionCount);
+    assistantpreventionCount += 1;
+  }
+  if (categoryName ==  'Ressources humaines') {
+    addCategoryOverlay(rhsanteLink, 'Ressources humaines', 'layer', 'marker', rhsanteURL, tailleMarker, rhCount);
+    rhsanteCount += 1;
+  }
+  rhsanteLink.onclick = function (e) {
+    addCategoryOverlay(rhsanteLink, 'Ressources humaines', 'layer', 'marker', rhsanteURL, tailleMarker, rhsanteCount);
+    rhsanteCount += 1;
+  }
+
+  //////////////////////////////////  Vie associative ///////////////////////////////////////
+
+
+  associationsfilieresLink.onclick = function (e) {
+    addCategoryOverlay(associationsfilieresLink, 'Associations de filières', 'layer', 'marker', associationsfilieresURL, taillePetitMarker, associationsfilieresCount);
+    associationsfilieresCount += 1;
+  }
+  associationsmasterLink.onclick = function (e) {
+    addCategoryOverlay(associationsmasterLink, 'Associations de Masters et Doctorats', 'layer', 'marker', associationsmasterURL, taillePetitMarker, associationsmasterCount);
+    associationsmasterCount += 1;
+  }
+  associationsbriochinesLink.onclick = function (e) {
+    addCategoryOverlay(associationsbriochinesLink, 'Associations briochines', 'layer', 'marker', associationsbriochinesURL, taillePetitMarker, associationsbriochinesCount);
+    associationsbriochinesCount += 1;
+    for (var i = 0; i < Layers.length; i++) {
+      if (Layers[i] = 'Associations briochines') {
+        map.setMaxBounds(mazierBounds);
+        map.jumpTo({
+          center: [-2.7410000, 48.513033],
+          zoom: 16.5,
+          pitch: 0,
+          speed: 0.6
+        });
+        zoomMazier.classList.add('active');
+        zoomVillejean.classList.remove('active');
+        zoomLaHarpe.classList.remove('active');
+      }
+    }
+  }
+  associationscasLink.onclick = function (e) {
+    addCategoryOverlay(associationscasLink, 'Associations culturelles, artistiques et sportives', 'layer', 'marker', associationscasURL, taillePetitMarker, associationscasCount);
+    associationscasCount += 1;
+  }
+  associationssolidariteLink.onclick = function (e) {
+    addCategoryOverlay(associationssolidariteLink, 'Associations de solidarité et de sensibilisation', 'layer', 'marker', associationssolidariteURL, taillePetitMarker, associationssolidariteCount);
+    associationssolidariteCount += 1;
+  }
+  associationsLink.onclick = function (e) {
+    addCategoryOverlay(associationsLink, 'Autres', 'layer', 'marker', associationsURL, taillePetitMarker, associationsCount);
+    associationsCount += 1;
+  }
+
+  //////////////////////////////////  Divers ///////////////////////////////////////
+
+  // copieurLink.onclick = function (e) {
+  //   addCategoryOverlay(copieurLink, 'Copieur', 'layer', 'marker', copieursURL, tailleMarker, copieurCount);
+  //   copieurCount += 1;
+  // }
+  // espaceDetenteLink.onclick = function (e) {
+  //   addCategoryOverlay(espaceDetenteLink, 'Espace détente', 'layer', 'marker', espaceDetenteURL, tailleMarker, espaceDetenteCount);
+  //   espaceDetenteCount += 1;
+  // }
+
+  //////////////////////////////////  Mobilité et accessibilité ///////////////////////////////////////
+
+  ascenseurLink.onclick = function (e) {
+    addCategoryOverlay(ascenseurLink, 'Ascenseur', 'layer', 'point', ascenseurColor, ascenseurIconSize, ascenseurCount);
+    ascenseurCount += 1;
+  }
+  parkingLink.onclick = function (e) {
+    addCategoryOverlay(parkingLink, 'Parking', 'layer', 'picto', parkingURL, taillePicto, parkingCount);
+    parkingCount += 1;
+    addCategoryOverlay(parkingLink, 'Parking PMR', 'layer', 'picto', parkingPMRURL, taillePicto, parkingPMRCount);
+    parkingPMRCount += 1;
+  }
+
+
+  parkingVeloLink.onclick = function (e) {
+    addCategoryOverlay(parkingVeloLink, 'Parking vélo', 'layer', 'point', parkingVeloColor, parkingVeloIconSize, parkingVeloCount);
+    parkingVeloCount += 1;
+  }
+  lineairePMRLink.onclick = function (e) {
+    addCategoryOverlay(lineairePMRLink, 'Cheminements accessibles', 'layer', 'line', lineairePMRColor, tailleLine, lineairePMRCount);
+    lineairePMRCount += 1;
+    addCategoryOverlay(lineairePMRLink, 'Accès PMR', 'layer', 'point', accesPMRColor, accesPMRIconSize, accesPMRCount);
+    accesPMRCount += 1;
+  }
+
+  metroLink.onclick = function (e) {
+    addCategoryOverlay(metroLink, 'Cheminements Métro', 'layer', 'line', lineaireMetroColor, lineaireMetroIconSize, lineaireMetroCount);
+    lineaireMetroCount += 1;
+    addCategoryOverlay(metroLink, 'Métro', 'layer', 'picto', metroURL, taillePicto, metroCount);
+    metroCount += 1;
+  }
+  velostarLink.onclick = function (e) {
+    addCategoryOverlay(velostarLink, 'Station Vélostar', 'layer', 'point', velostarColor, taillePoint, velostarCount);
+    velostarCount += 1;
+    setInterval(addRealTimeVelostar(), 1000);
+  }
+  busLineLink.onclick = function (e) {
+    addCategoryOverlay(busLineLink, 'Cheminements Bus', 'layer', 'line', busLineColor, tailleLine, busLineCount);
+    busLineCount += 1;
+    addCategoryOverlay(busLineLink, 'Bus', 'layer', 'picto', busURL, taillePicto, busCount);
+    busCount += 1;
+    addRealTimeBus();
+  }
+
+
+// Couches en temps réel ?????????? //
 
 
     }
   });
 }
 
+// pour activer la catégorie sélectionnée lors du click sur le menu de gauche
+// Ajouter un gestionnaire d'événements à chaque lien de catégorie
+categoryLinks.forEach(function(link) {
+  link.addEventListener('click', function(event) {
+    event.preventDefault(); // Empêcher le comportement par défaut du lien
 
+    /** Récupérer le nom de la catégorie du lien cliqué */
+    const categoryName = link.textContent.trim(); 
+    /** Récupérer le nom du campus du lien */
+    const selectedCampus = getCampusFromURL();
+    /** Récupérer l'objet */
+    const selectedObjet = getObjetFromURL();
+
+    // Mettre à jour la catégorie sélectionnée
+    selectedCategory = categoryName;
+
+    // Retirer la classe "active" de tous les liens
+    categoryLinks.forEach(function(link) {
+      link.classList.remove('active');
+    });
+
+    // Ajouter la classe "active" au lien cliqué
+    link.classList.add('active');
+
+    // Activer la catégorie sélectionnée
+    activateCategory(categoryName);
+
+    // Mettre à jour l'URL et afficher la nouvelle URL dans la console
+    const updatedURL = createLinkAndUpdateURL(selectedCampus, selectedCategory, selectedObjet);
+    console.log(updatedURL);
+  });
+});
 
 // Lorsque la page est chargée, récupérez le nom de la catégorie dans l'URL et activez la case à cocher correspondante
 document.addEventListener('DOMContentLoaded', function() {
@@ -483,29 +797,29 @@ document.addEventListener('DOMContentLoaded', function() {
 
   ////////////////////////////////// URL pour les OBJETS  /////////////////////////////
 
-//   function createLinkAndUpdateURL(objet) {
-//     let url = window.location.href;
-//     // Mettre à jour l'URL sans recharger la page
-//     url += `objet=${encodeURIComponent(objet)}`; 
-//     history.pushState({ objet: objet }, objet, url);
-//     return url;
-//   }
+  // function createLinkAndUpdateURL(objet) {
+  //   let url = window.location.href;
+  //   // Mettre à jour l'URL sans recharger la page
+  //   url += `objet=${encodeURIComponent(objet)}`; 
+  //   history.pushState({ objet: objet }, objet, url);
+  //   return url;
+  // }
  
 
-//   function createLinkAndUpdateURL(objet) {
-//     const urlParams = new URLSearchParams(window.location.search); // Récupérer les paramètres de l'URL
-//     urlParams.set('objet', objet); // Ajouter le paramètre de l'objet à l'URL
-//     const newUrl = `${window.location.pathname}?${urlParams.toString()}`; // Créer une nouvelle URL avec les paramètres mis à jour
-//     history.pushState({ objet: objet }, objet, newUrl); // Mettre à jour l'URL sans recharger la page
-//     return newUrl;
-//   }
+  // function createLinkAndUpdateURL(objet) {
+  //   const urlParams = new URLSearchParams(window.location.search); // Récupérer les paramètres de l'URL
+  //   urlParams.set('objet', objet); // Ajouter le paramètre de l'objet à l'URL
+  //   const newUrl = `${window.location.pathname}?${urlParams.toString()}`; // Créer une nouvelle URL avec les paramètres mis à jour
+  //   history.pushState({ objet: objet }, objet, newUrl); // Mettre à jour l'URL sans recharger la page
+  //   return newUrl;
+  // }
   
 
-// /////////////// page vers URL //////////////////////
-// //// cf la fonction getPopup pour les épingles à clicker ////
+/////////////// page vers URL //////////////////////
+//// cf la fonction getPopup pour les épingles à clicker ////
 
-// //// via le bouton de recherche //// 
-// // Sélectionner le bouton de recherche
+//// via le bouton de recherche //// 
+// Sélectionner le bouton de recherche
 // const searchButton = document.querySelector('#searchButton');
 
 // // Ajouter un gestionnaire d'événements au bouton de recherche
@@ -521,99 +835,94 @@ document.addEventListener('DOMContentLoaded', function() {
 // });
 
 
-// ////////////// fin de page vers URL ////////////////
-// ////////////// URL vers page //////////////////////
+////////////// fin de page vers URL //////////////////////
+////////////// URL vers page //////////////////////
 
-//   // Fonction pour obtenir le nom de l'objet à partir de l'URL
-//   function getObjetFromURL() {
-//     const urlParams = new URLSearchParams(window.location.search); // Récupérer les paramètres de l'URL
-//     console.log(urlParams.get('objet'));
-//     return urlParams.get('objet'); // Récupérer la valeur du paramètre de l'objet
-//   }
+  /**
+   * Fonction pour obtenir le nom de l'objet à partir de l'URL
+   * @returns {string} Nom de l'objet
+   */
+  function getObjetFromURL() {
+    const urlParams = new URLSearchParams(window.location.search); // Récupérer les paramètres de l'URL
+    console.log(urlParams.get('objet'));
+    return urlParams.get('objet'); // Récupérer la valeur du paramètre de l'objet
+  }
 
-//   document.addEventListener('click', function() {
-//     console.log('objet:', getObjetFromURL());
-//   });
+  document.addEventListener('click', function() {
+    console.log('objet:', getObjetFromURL());
+  });
 
-// // Fonction pour afficher la popup correspondant à un objet et effectuer un zoom sur la popup
-// function afficherPopupObjet(objetName) {
-//   // Récupérer les caractéristiques de l'objet à partir des données POIBrut
-//   var features = POIBrut.features.filter(feature => feature.properties.Nom === objetName);
+/**
+ * Fonction pour afficher la popup correspondant à un objet et effectuer un zoom sur la popup
+ * @param {*} objetName 
+ */
+function afficherPopupObjet(objetName) {
+
+  // modification car mis POI pour avoir 1 fichier de données
+  POIBrut = finalGeoJSON;
+  POI = POIBrut.features;
+
+  // Récupérer les caractéristiques de l'objet à partir des données POIBrut
+  var features = POI.filter(function(feature) {
+    return POI.Nom !== null && POI.Nom === objetName;
+  });
+
+  console.log("Noms des caractéristiques :", POI.map(feature => feature.properties.Nom));
+
   
-//   // Vérifier si des caractéristiques ont été trouvées pour l'objet
-//   if (features.length > 0) {
-//     var feature = features[0]; // Prendre la première caractéristique trouvée
-//     getPopupContent(feature); // Récupérer le contenu de la popup
-//     var coordinates = feature.geometry.coordinates; // Coordonnées de l'objet
+  // Vérifier si des caractéristiques ont été trouvées pour l'objet
+  if (features.length > 0) {
+    var feature = features[0]; // Prendre la première caractéristique trouvée
+    getPopupContent(feature); // Récupérer le contenu de la popup
+    var coordinates = feature.geometry.coordinates; // Coordonnées de l'objet
 
-//     // Afficher la popup
-//     popup = new maplibregl.Popup({
-//       offset: [0, -40], // Offset de la popup
-//       closeButton: false // Bouton de fermeture de la popup
-//     })
-//     .setLngLat(coordinates) // Définir les coordonnées de la popup
-//     .setHTML('<h1>' + popupTitle + '</h1>' + popupContent) // Contenu HTML de la popup
-//     .addTo(map); // Ajouter la popup à la carte
+    // Afficher la popup
+    popup = new maplibregl.Popup({
+      offset: [0, -40], // Offset de la popup
+      closeButton: false // Bouton de fermeture de la popup
+    })
+    .setLngLat(coordinates) // Définir les coordonnées de la popup
+    .setHTML('<h1>' + popupTitle + '</h1>' + popupContent) // Contenu HTML de la popup
+    .addTo(map); // Ajouter la popup à la carte
 
-//     // Définir les limites de la carte en fonction du campus
-//     if (feature.properties.Campus === 'Mazier') {
-//       map.setMaxBounds(mazierBounds); // Définir les limites de la carte pour le campus de Mazier  
-//     } else {
-//       map.setMaxBounds(rennesBounds); // Définir les limites de la carte pour les autres campus
-//     }
+    // Définir les limites de la carte en fonction du campus
+    if (feature.properties.Campus === 'Mazier') {
+      map.setMaxBounds(mazierBounds); // Définir les limites de la carte pour le campus de Mazier  
+    } else {
+      map.setMaxBounds(rennesBounds); // Définir les limites de la carte pour les autres campus
+    }
 
-//     // Obtenir les dimensions de la carte
-//     var width = map.getCanvas().clientWidth;
-//     var height = map.getCanvas().clientHeight;
+    // Obtenir les dimensions de la carte
+    var width = map.getCanvas().clientWidth;
+    var height = map.getCanvas().clientHeight;
 
-//     // Convertir les coordonnées en pixels
-//     var point = map.project(coordinates);
+    // Convertir les coordonnées en pixels
+    var point = map.project(coordinates);
 
-//     // Effectuer un zoom sur la popup
-//     map.flyTo({
-//       center: map.unproject([point.x, point.y]), // Coordonnées du centre de la carte (non-décalé)
-//       zoom: 15.75, // Niveau de zoom souhaité
-//       essential: false // Cette animation est essentielle, elle ne peut pas être désactivée par l'utilisateur
-//     });
-
-
-//     // Ajouter une épingle à la carte pour l'objet
-//     addPointOverlay(objetName, [1, 13, 0.1, 25, 1.5]); // ajuste les paramètres de taille de l'icône
-//   } else {
-//     console.log("Aucune caractéristique trouvée pour l'objet:", objetName);
-//   }
-// }
+    // Effectuer un zoom sur la popup
+    map.flyTo({
+      center: map.unproject([point.x, point.y]), // Coordonnées du centre de la carte (non-décalé)
+      zoom: 15.75, // Niveau de zoom souhaité
+      essential: false // Cette animation est essentielle, elle ne peut pas être désactivée par l'utilisateur
+    });
 
 
-// // Lorsque la page se charge, récupérez le nom de l'objet dans l'URL et affichez la popup correspondante
-// document.addEventListener('DOMContentLoaded', function() {
-//   const objetName = getObjetFromURL();
-//   if (objetName) {
-//     afficherPopupObjet(objetName);
-//   }
-// });
+    // Ajouter une épingle à la carte pour l'objet
+    addPointOverlay(objetName, [1, 13, 0.1, 25, 1.5]); // ajuste les paramètres de taille de l'icône
+  } else {
+    console.log("Aucune caractéristique trouvée pour l'objet:", objetName);
+  }
+}
 
 
-
-
+// Lorsque la page se charge, récupérez le nom de l'objet dans l'URL et affichez la popup correspondante
+document.addEventListener('DOMContentLoaded', function() {
+  const objetName = getObjetFromURL();
+  if (objetName) {
+    afficherPopupObjet(objetName);
+  }
+});
 /////////////////////////////////// fin URL pour les OBJETS ///////////////////////////////
-
-
-
-
-
-
-  ////////////////test partage coordonnées //////////////////////////
-
-
-
-
-
-
-
-
-  // IDEE : 
-    // faire une selection suivant le type d'élément / création d'une constante 
 
   ///////////////////////////////////////  Initialisation du fond de carte //////////////////////////////////
 
@@ -2315,8 +2624,10 @@ var popupContent = [];
   
         // création du lien pour les objets lorsqu'on clique sur l'épingle 
         const objetName = popupTitle.trim(); // Récupérer le nom de l'objet à partir du titre de la popup
+        const campus = getCampusFromURL(); // Récupérer le campus à partir de l'URL
+        const selectedCategory = getCategoryFromURL(); // Récupérer la catégorie à partir de l'URL
         // const objetId = feature.properties.id; // Récupérer l'id de l'objet
-        createLinkAndUpdateURL(objetName); // Appeler la fonction pour changer l'objet et l'URL
+        createLinkAndUpdateURL(campus, selectedCategory, objetName); // Appeler la fonction pour changer l'objet et l'URL
 
   
     });
@@ -2497,12 +2808,20 @@ const finalGeoJSON = {
   "features": []
 };
 
-Promise.all(geojsons).then(allGeoJsons => { //à l'intérieur de cette fonction se passe le regroupement des geojsons
+// Promise.all(geojsons).then(allGeoJsons => { //à l'intérieur de cette fonction se passe le regroupement des geojsons
 
-allGeoJsons.forEach(oneGeoJSON => {
-    finalGeoJSON.features.concat(oneGeoJSON.features);
-  });
+// allGeoJsons.forEach(oneGeoJSON => {
+//     finalGeoJSON.features.concat(oneGeoJSON.features);
+//   });
   
+Promise.all(geojsons).then(allGeoJsons => {
+  allGeoJsons.forEach(oneGeoJSON => {
+    finalGeoJSON.features = finalGeoJSON.features.concat(oneGeoJSON);
+  });
+
+  console.log("Caractéristiques finales :", finalGeoJSON.features);
+
+
 //Appeler la fonction qui gère les données fusionnées
   finalGeoJSON.features = allGeoJsons // recup de l'objet avec ts les geojsons
  var mergedFeatures = finalGeoJSON.features.reduce((acc, val) => acc.concat(val), []);
@@ -2561,458 +2880,7 @@ allGeoJsons.forEach(oneGeoJSON => {
         'line-width': {'base': 1.2, 'stops': [[13, 0.5], [22, 3]]}
       }
     });
-
-
-
-//////////////////////////////////   OVERLAYS //////////////////////////////////////
-
-//////////////////////////////////  Groupe Amphis et salles spécifiques //////////////////////////////////////
-
-    if (overlayPoint) {
-      getSearchedItem(overlayPoint);
-    }
-
-    if (overlay == 'Amphithéâtre') {
-      addCategoryOverlay(amphitheatresLink, 'Amphithéâtre', 'layer', 'marker', amphiURL, tailleMarker, amphiCount);
-      amphiCount += 1;
-    }
-    amphitheatresLink.onclick = function (e) {
-      addCategoryOverlay(amphitheatresLink, 'Amphithéâtre', 'layer', 'marker', amphiURL, tailleMarker, amphiCount);
-      amphiCount += 1;
-    }
-
-    if (overlay == 'Salle informatique') {
-      addCategoryOverlay(sallesInfoLink, 'Salle informatique', 'layer', 'marker', sallesInfoURL, tailleMarker, sallesInfoCount);
-      sallesInfoCount += 1;
-    }
-    sallesInfoLink.onclick = function (e) {
-      addCategoryOverlay(sallesInfoLink, 'Salle informatique', 'layer', 'marker', sallesInfoURL, tailleMarker, sallesInfoCount);
-      sallesInfoCount += 1;
-    }
-
-    if (overlay == 'Salles spécifiques') {
-      addCategoryOverlay(sallesSpecifiquesLink, 'Salles spécifiques', sallesSpeLinkState, 'marker', sallesSpeURL, tailleMarker, sallesSpeCount);
-      if (sallesSpeCount == 0) {
-        createHTMLList('Salles spécifiques', listeSallesSpecifiques, insertSallesSpecifiques, sallesSpeCount);
-      }
-      sallesSpeCount += 1;
-    }
-    sallesSpecifiquesLink.onclick = function (e) {
-      addCategoryOverlay(sallesSpecifiquesLink, 'Salles spécifiques', sallesSpeLinkState, 'marker', sallesSpeURL, tailleMarker, sallesSpeCount);
-      if (sallesSpeCount == 0) {
-        createHTMLList('Salles spécifiques', listeSallesSpecifiques, insertSallesSpecifiques, sallesSpeCount);
-      }
-      sallesSpeCount += 1;
-    }
-
-//////////////////////////////////  Structures et services //////////////////////////////////////
-
-    if (overlay == 'Services communs') {
-      addCategoryOverlay(ServicescomLink, 'Services communs', ServicescomLinkState, 'marker', ServicescomURL, tailleMarker, ServicescomCount);
-      if (ServicescomCount == 0) {
-        createHTMLList('Services communs', listeServicescom, insertServicescom, ServicescomCount);
-      }
-      ServicescomCount += 1;
-    }
-    ServicescomLink.onclick = function (e) {
-      addCategoryOverlay(ServicescomLink, 'Services communs', ServicescomLinkState, 'marker', ServicescomURL, tailleMarker, ServicescomCount);
-      if (ServicescomCount == 0) {
-        createHTMLList('Services communs', listeServicescom, insertServicescom, ServicescomCount);
-      }
-      ServicescomCount += 1;
-    }
-
-    if (overlay == 'Services généraux') {
-      addCategoryOverlay(ServicesgenLink, 'Services généraux', ServicesgenLinkState, 'marker', ServicesgenURL, tailleMarker, ServicesgenCount);
-      if (ServicesgenCount == 0) {
-        createHTMLList('Services généraux', listeServicesgen, insertServicesgen, ServicesgenCount);
-      }
-      ServicesgenCount += 1;
-    }
-    ServicesgenLink.onclick = function (e) {
-      addCategoryOverlay(ServicesgenLink, 'Services généraux', ServicesgenLinkState, 'marker', ServicesgenURL, tailleMarker, ServicesgenCount);
-      if (ServicesgenCount == 0) {
-        createHTMLList('Services généraux', listeServicesgen, insertServicesgen, ServicesgenCount);
-      }
-      ServicesgenCount += 1;
-    }
-
-
-    if (overlay == 'Services centraux') {
-      addCategoryOverlay(ServicescenLink, 'Services centraux', ServicescenLinkState, 'marker', ServicescenURL, tailleMarker, ServicescenCount);
-      if (ServicescenCount == 0) {
-        createHTMLList('Services centraux', listeServicescen, insertServicescen, ServicescenCount);
-      }
-      ServicescenCount += 1;
-    }
-    ServicescenLink.onclick = function (e) {
-      addCategoryOverlay(ServicescenLink, 'Services centraux', ServicescenLinkState, 'marker', ServicescenURL, tailleMarker, ServicescenCount);
-      if (ServicescenCount == 0) {
-        createHTMLList('Services centraux', listeServicescen, insertServicescen, ServicescenCount);
-      }
-      ServicescenCount += 1;
-    }
-    if (overlay == 'Formation UFRL') {
-      addCategoryOverlay(FUFRLLink, 'Formation UFRL', FUFRLLinkState, 'marker', FUFRLURL, tailleMarker, FUFRLCount);
-      if (FUFRLCount == 0) {
-        createHTMLList('Formation UFRL', listeFUFRL, insertFUFRL, FUFRLCount);
-      }
-      FUFRLCount += 1;
-    }
-    //////////////////////////////////  Formation et recherche //////////////////////////////////////
-    FUFRLLink.onclick = function (e) {
-      addCategoryOverlay(FUFRLLink, 'Formation UFRL', FUFRLLinkState, 'marker', FUFRLURL, tailleMarker, FUFRLCount);
-      if (FUFRLCount == 0) {
-        createHTMLList('Formation UFRL', listeFUFRL, insertFUFRL, FUFRLCount);
-      }
-      FUFRLCount += 1;
-    }
-    if (overlay == 'Formation UFRSH') {
-      addCategoryOverlay(FUFRSHLink, 'Formation UFRSH', FUFRSHLinkState, 'marker', FUFRSHURL, tailleMarker, FUFRSHCount);
-      if (FUFRSHCount == 0) {
-        createHTMLList('Formation UFRSH', listeFUFRSH, insertFUFRSH, FUFRSHCount);
-      }
-      FUFRSHCount += 1;
-    }
-    FUFRSHLink.onclick = function (e) {
-      addCategoryOverlay(FUFRSHLink, 'Formation UFRSH', FUFRSHLinkState, 'marker', FUFRSHURL, tailleMarker, FUFRSHCount);
-      if (FUFRSHCount == 0) {
-        createHTMLList('Formation UFRSH', listeFUFRSH, insertFUFRSH, FUFRSHCount);
-      }
-      FUFRSHCount += 1;
-    }
-    if (overlay == 'Formation UFRSS') {
-      addCategoryOverlay(FUFRSSLink, 'Formation UFRSS', FUFRSSLinkState, 'marker', FUFRSSURL, tailleMarker, FUFRSSCount);
-      if (FUFRSSCount == 0) {
-        createHTMLList('Formation UFRSS', listeFUFRSS, insertFUFRSS, FUFRSSCount);
-      }
-      FUFRSSCount += 1;
-    }
-    FUFRSSLink.onclick = function (e) {
-      addCategoryOverlay(FUFRSSLink, 'Formation UFRSS', FUFRSSLinkState, 'marker', FUFRSSURL, tailleMarker, FUFRSSCount);
-      if (FUFRSSCount == 0) {
-        createHTMLList('Formation UFRSS', listeFUFRSS, insertFUFRSS, FUFRSSCount);
-      }
-      FUFRSSCount += 1;
-    }
-    if (overlay == 'Formation UFRSTAPS') {
-      addCategoryOverlay(FUFRSTAPSLink, 'Formation UFRSTAPS', FUFRSTAPSLinkState, 'marker', FUFRSTAPSURL, tailleMarker, FUFRSTAPSCount);
-      if (FUFRSTAPSCount == 0) {
-        createHTMLList('Formation UFRSTAPS', listeFUFRSTAPS, insertFUFRSTAPS, FUFRSTAPSCount);
-      }
-      FUFRSTAPSCount += 1;
-    }
-    FUFRSTAPSLink.onclick = function (e) {
-      addCategoryOverlay(FUFRSTAPSLink, 'Formation UFRSTAPS', FUFRSTAPSLinkState, 'marker', FUFRSTAPSURL, tailleMarker, FUFRSTAPSCount);
-      if (FUFRSTAPSCount == 0) {
-        createHTMLList('Formation UFRSTAPS', listeFUFRSTAPS, insertFUFRSTAPS, FUFRSTAPSCount);
-      }
-      FUFRSTAPSCount += 1;
-    }
-    if (overlay == 'Formation UFRALC') {
-      addCategoryOverlay(FUFRALCLink, 'Formation UFRALC', FUFRALCLinkState, 'marker', FUFRALCURL, tailleMarker, FUFRALCCount);
-      if (FUFRALCCount == 0) {
-        createHTMLList('Formation UFRALC', listeFUFRALC, insertFUFRALC, FUFRALCCount);
-      }
-      FUFRALCCount += 1;
-    }
-    FUFRALCLink.onclick = function (e) {
-      addCategoryOverlay(FUFRALCLink, 'Formation UFRALC', FUFRALCLinkState, 'marker', FUFRALCURL, tailleMarker, FUFRALCCount);
-      if (FUFRALCCount == 0) {
-        createHTMLList('Formation UFRALC', listeFUFRALC, insertFUFRALC, FUFRALCCount);
-      }
-      FUFRALCCount += 1;
-    }
-    if (overlay == 'Autres Formations') {
-      addCategoryOverlay(AutresFormationsLink, 'Autres Formations', AutresFormationsLinkState, 'marker', AutresFormationsURL, tailleMarker, AutresFormationsInfoPopup, AutresFormationsCount);
-      if (AutresFormationsCount == 0) {
-        createHTMLList('Autres Formations', AutresFormationsURL, insertAutresFormations, AutresFormationsCount);
-      }
-      AutresFormationsCount += 1;
-    }
-
-
-    AutresFormationsLink.onclick = function (e) {
-      addCategoryOverlay(AutresFormationsLink, 'Autres Formations', AutresFormationsLinkState, 'marker', AutresFormationsURL, tailleMarker, AutresFormationsCount);
-      if (AutresFormationsCount == 0) {
-        createHTMLList('Autres Formations', listeAutresFormations, insertAutresFormations, AutresFormationsCount);
-      }
-      AutresFormationsCount += 1;
-    }
-    if (overlay == 'Recherche UFRL') {
-      addCategoryOverlay(RUFRLLink, 'Recherche UFRL', RUFRLLinkState, 'marker', RUFRLURL, tailleMarker, RUFRLInfoPopup, RUFRLCount);
-      if (RUFRLCount == 0) {
-        createHTMLList('Recherche UFRL', listeRUFRL, insertRUFRL, RUFRLCount);
-      }
-      RUFRLCount += 1;
-    }
-    RUFRLLink.onclick = function (e) {
-      addCategoryOverlay(RUFRLLink, 'Recherche UFRL', RUFRLLinkState, 'marker', RUFRLURL, tailleMarker, RUFRLCount);
-      if (RUFRLCount == 0) {
-        createHTMLList('Recherche UFRL', listeRUFRL, insertRUFRL, RUFRLCount);
-      }
-      RUFRLCount += 1;
-    }
-    if (overlay == 'Recherche UFRSH') {
-      addCategoryOverlay(RUFRSHLink, 'Recherche UFRSH', RUFRSHLinkState, 'marker', RUFRSHURL, tailleMarker, RUFRSHCount);
-      if (RUFRSHCount == 0) {
-        createHTMLList('Recherche UFRSH', listeRUFRSH, insertRUFRSH, RUFRSHCount);
-      }
-      RUFRSHCount += 1;
-    }
-    RUFRSHLink.onclick = function (e) {
-      addCategoryOverlay(RUFRSHLink, 'Recherche UFRSH', RUFRSHLinkState, 'marker', RUFRSHURL, tailleMarker, RUFRSHCount);
-      if (RUFRSHCount == 0) {
-        createHTMLList('Recherche UFRSH', listeRUFRSH, insertRUFRSH, RUFRSHCount);
-      }
-      RUFRSHCount += 1;
-    }
-    if (overlay == 'Recherche UFRSS') {
-      addCategoryOverlay(RUFRSSLink, 'Recherche UFRSS', RUFRSSLinkState, 'marker', RUFRSSURL, tailleMarker, RUFRSSCount);
-      if (RUFRSSCount == 0) {
-        createHTMLList('Recherche UFRSS', listeRUFRSS, insertRUFRSS, RUFRSSCount);
-      }
-      RUFRSSCount += 1;
-    }
-    RUFRSSLink.onclick = function (e) {
-      addCategoryOverlay(RUFRSSLink, 'Recherche UFRSS', RUFRSSLinkState, 'marker', RUFRSSURL, tailleMarker, RUFRSSCount);
-      if (RUFRSSCount == 0) {
-        createHTMLList('Recherche UFRSS', listeRUFRSS, insertRUFRSS, RUFRSSCount);
-      }
-      RUFRSSCount += 1;
-    }
-    if (overlay == 'Recherche UFRSTAPS') {
-      addCategoryOverlay(RUFRSTAPSLink, 'Recherche UFRSTAPS', RUFRSTAPSLinkState, 'marker', RUFRSTAPSURL, tailleMarker, RUFRSTAPSCount);
-      if (RUFRSTAPSCount == 0) {
-        createHTMLList('Recherche UFRSTAPS', listeRUFRSTAPS, insertRUFRSTAPS, RUFRSTAPSCount);
-      }
-      RUFRSTAPSCount += 1;
-    }
-    RUFRSTAPSLink.onclick = function (e) {
-      addCategoryOverlay(RUFRSTAPSLink, 'Recherche UFRSTAPS', RUFRSTAPSLinkState, 'marker', RUFRSTAPSURL, tailleMarker, RUFRSTAPSCount);
-      if (RUFRSTAPSCount == 0) {
-        createHTMLList('Recherche UFRSTAPS', listeRUFRSTAPS, insertRUFRSTAPS, RUFRSTAPSCount);
-      }
-      RUFRSTAPSCount += 1;
-    }
-    if (overlay == 'Recherche UFRALC') {
-      addCategoryOverlay(RUFRALCLink, 'Recherche UFRALC', RUFRALCLinkState, 'marker', RUFRALCURL, tailleMarker, RUFRALCCount);
-      if (RUFRALCCount == 0) {
-        createHTMLList('Recherche UFRALC', listeRUFRALC, insertRUFRALC, RUFRALCCount);
-      }
-      RUFRALCCount += 1;
-    }
-    RUFRALCLink.onclick = function (e) {
-      addCategoryOverlay(RUFRALCLink, 'Recherche UFRALC', RUFRALCLinkState, 'marker', RUFRALCURL, tailleMarker, RUFRALCCount);
-      if (RUFRALCCount == 0) {
-        createHTMLList('Recherche UFRALC', listeRUFRALC, insertRUFRALC, RUFRALCCount);
-      }
-      RUFRALCCount += 1;
-    }
-
-//////////////////////////////////  Bibliothèques et culture //////////////////////////////////////
-    if (overlay == 'Lieux culturels') {
-      addCategoryOverlay(lieuCulturelLink, 'Lieux culturels', 'list', 'marker', lieuCulturelURL, tailleMarker, lieuCulturelCount);
-      if (lieuCulturelCount == 0) {
-        createHTMLList('Lieux culturels', listelieuCulturel, insertLieuCulturel, lieuCulturelCount);
-      }
-      lieuCulturelCount += 1;
-    }
-    lieuCulturelLink.onclick = function (e) {
-      addCategoryOverlay(lieuCulturelLink, 'Lieux culturels', 'list', 'marker', lieuCulturelURL, tailleMarker, lieuCulturelCount);
-      if (lieuCulturelCount == 0) {
-        createHTMLList('Lieux culturels', listelieuCulturel, insertLieuCulturel, lieuCulturelCount);
-      }
-      lieuCulturelCount += 1;
-    }
-
-    if (overlay == 'Bibliothèques') {
-      addCategoryOverlay(bibliothequesLink, 'Bibliothèques', 'layer', 'marker', bibliothequesURL, tailleMarker, bibliothequesCount);
-      bibliothequesCount += 1;
-    }
-    bibliothequesLink.onclick = function (e) {
-      addCategoryOverlay(bibliothequesLink, 'Bibliothèques', 'layer', 'marker', bibliothequesURL, tailleMarker, bibliothequesCount);
-      bibliothequesCount += 1;
-    }
-    if (overlay == 'Oeuvre') {
-      addCategoryOverlay(oeuvreArtsLink, 'Oeuvre', 'layer', 'marker', oeuvreArtsURL, tailleMarker, oeuvreArtsCount);
-      oeuvreArtsCount += 1;
-    }
-    oeuvreArtsLink.onclick = function (e) {
-      addCategoryOverlay(oeuvreArtsLink, 'Oeuvre', 'layer', 'marker', oeuvreArtsURL, tailleMarker, oeuvreArtsCount);
-      oeuvreArtsCount += 1;
-    }
-
-////////////////////////////////// Restauration et logement //////////////////////////////////////
-    if (overlay == 'Résidence Universitaire') {
-      addCategoryOverlay(resUnivLink, 'Résidence Universitaire', 'layer', 'marker', resUnivURL, tailleMarker, resUnivCount);
-      resUnivCount += 1;
-    }
-    resUnivLink.onclick = function (e) {
-      addCategoryOverlay(resUnivLink, 'Résidence Universitaire', 'layer', 'marker', resUnivURL, tailleMarker, resUnivCount);
-      resUnivCount += 1;
-    }
-
-    if (overlay == 'Restaurant Universitaire') {
-      addCategoryOverlay(restoUnivLink, 'Restaurant Universitaire', 'layer', 'marker', restoUnivURL, tailleMarker, restoUnivCount);
-      restoUnivCount += 1;
-    }
-    restoUnivLink.onclick = function (e) {
-      addCategoryOverlay(restoUnivLink, 'Restaurant Universitaire', 'layer', 'marker', restoUnivURL, tailleMarker, restoUnivCount);
-      restoUnivCount += 1;
-    }
-
-    if (overlay == 'Cafétéria') {
-      addCategoryOverlay(cafeteriasLink, 'Cafétéria', 'layer', 'marker', cafeteriasURL, taillePetitMarker, cafeteriasCount);
-      cafeteriasCount += 1;
-    }
-    cafeteriasLink.onclick = function (e) {
-      addCategoryOverlay(cafeteriasLink, 'Cafétéria', 'layer', 'marker', cafeteriasURL, taillePetitMarker, cafeteriasCount);
-      cafeteriasCount += 1;
-    }
-
-    if (overlay == 'Micro-ondes') {
-      addCategoryOverlay(microOndesLink, 'Micro-ondes', 'layer', 'marker', microOndesURL, taillePetitMarker, microOndesCount);
-      microOndesCount += 1;
-    }
-    microOndesLink.onclick = function (e) {
-      addCategoryOverlay(microOndesLink, 'Micro-ondes', 'layer', 'marker', microOndesURL, taillePetitMarker, microOndesCount);
-      microOndesCount += 1;
-    }
-
-//////////////////////////////////  Sport et santé //////////////////////////////////////
-    if (overlay == 'Equipement sportif') {
-      addCategoryOverlay(equipementSportifLink, 'Equipement sportif', 'layer', 'marker', equipementSportifURL, tailleMarker, equipementSportifCount);
-      equipementSportifCount += 1;
-    }
-    equipementSportifLink.onclick = function (e) {
-      addCategoryOverlay(equipementSportifLink, 'Equipement sportif', 'layer', 'marker', equipementSportifURL, tailleMarker, equipementSportifCount);
-      equipementSportifCount += 1;
-    }
-
-    if (overlay == 'Pôle santé et prévention') {
-      addCategoryOverlay(polesanteLink, 'Pôle santé et prévention', 'layer', 'marker', polesanteURL, tailleMarker, polesanteCount);
-      polesanteCount += 1;
-    }
-    polesanteLink.onclick = function (e) {
-      addCategoryOverlay(polesanteLink, 'Pôle santé et prévention', 'layer', 'marker', polesanteURL, tailleMarker, polesanteCount);
-      polesanteCount += 1;
-    }
-
-    if (overlay == 'Assistants de prévention') {
-      addCategoryOverlay(assistantpreventionLink, 'Assistants de prévention', 'layer', 'marker', assistantpreventionURL, tailleMarker, assistantpreventionCount);
-      assistantpreventionCount += 1;
-    }
-    assistantpreventionLink.onclick = function (e) {
-      addCategoryOverlay(assistantpreventionLink, 'Assistants de prévention', 'layer', 'marker', assistantpreventionURL, tailleMarker, assistantpreventionCount);
-      assistantpreventionCount += 1;
-    }
-    if (overlay == 'Ressources humaines') {
-      addCategoryOverlay(rhsanteLink, 'Ressources humaines', 'layer', 'marker', rhsanteURL, tailleMarker, rhCount);
-      rhsanteCount += 1;
-    }
-    rhsanteLink.onclick = function (e) {
-      addCategoryOverlay(rhsanteLink, 'Ressources humaines', 'layer', 'marker', rhsanteURL, tailleMarker, rhsanteCount);
-      rhsanteCount += 1;
-    }
-
-//////////////////////////////////  Vie associative ///////////////////////////////////////
-
-
-    associationsfilieresLink.onclick = function (e) {
-      addCategoryOverlay(associationsfilieresLink, 'Associations de filières', 'layer', 'marker', associationsfilieresURL, taillePetitMarker, associationsfilieresCount);
-      associationsfilieresCount += 1;
-    }
-    associationsmasterLink.onclick = function (e) {
-      addCategoryOverlay(associationsmasterLink, 'Associations de Masters et Doctorats', 'layer', 'marker', associationsmasterURL, taillePetitMarker, associationsmasterCount);
-      associationsmasterCount += 1;
-    }
-    associationsbriochinesLink.onclick = function (e) {
-      addCategoryOverlay(associationsbriochinesLink, 'Associations briochines', 'layer', 'marker', associationsbriochinesURL, taillePetitMarker, associationsbriochinesCount);
-      associationsbriochinesCount += 1;
-      for (var i = 0; i < Layers.length; i++) {
-        if (Layers[i] = 'Associations briochines') {
-          map.setMaxBounds(mazierBounds);
-          map.jumpTo({
-            center: [-2.7410000, 48.513033],
-            zoom: 16.5,
-            pitch: 0,
-            speed: 0.6
-          });
-          zoomMazier.classList.add('active');
-          zoomVillejean.classList.remove('active');
-          zoomLaHarpe.classList.remove('active');
-        }
-      }
-    }
-    associationscasLink.onclick = function (e) {
-      addCategoryOverlay(associationscasLink, 'Associations culturelles, artistiques et sportives', 'layer', 'marker', associationscasURL, taillePetitMarker, associationscasCount);
-      associationscasCount += 1;
-    }
-    associationssolidariteLink.onclick = function (e) {
-      addCategoryOverlay(associationssolidariteLink, 'Associations de solidarité et de sensibilisation', 'layer', 'marker', associationssolidariteURL, taillePetitMarker, associationssolidariteCount);
-      associationssolidariteCount += 1;
-    }
-    associationsLink.onclick = function (e) {
-      addCategoryOverlay(associationsLink, 'Autres', 'layer', 'marker', associationsURL, taillePetitMarker, associationsCount);
-      associationsCount += 1;
-    }
-
-//////////////////////////////////  Divers ///////////////////////////////////////
-
-    copieurLink.onclick = function (e) {
-      addCategoryOverlay(copieurLink, 'Copieur', 'layer', 'marker', copieursURL, tailleMarker, copieurCount);
-      copieurCount += 1;
-    }
-    espaceDetenteLink.onclick = function (e) {
-      addCategoryOverlay(espaceDetenteLink, 'Espace détente', 'layer', 'marker', espaceDetenteURL, tailleMarker, espaceDetenteCount);
-      espaceDetenteCount += 1;
-    }
-
-//////////////////////////////////  Mobilité et accessibilité ///////////////////////////////////////
-
-    ascenseurLink.onclick = function (e) {
-      addCategoryOverlay(ascenseurLink, 'Ascenseur', 'layer', 'point', ascenseurColor, ascenseurIconSize, ascenseurCount);
-      ascenseurCount += 1;
-    }
-    parkingLink.onclick = function (e) {
-      addCategoryOverlay(parkingLink, 'Parking', 'layer', 'picto', parkingURL, taillePicto, parkingCount);
-      parkingCount += 1;
-      addCategoryOverlay(parkingLink, 'Parking PMR', 'layer', 'picto', parkingPMRURL, taillePicto, parkingPMRCount);
-      parkingPMRCount += 1;
-    }
-
-
-    parkingVeloLink.onclick = function (e) {
-      addCategoryOverlay(parkingVeloLink, 'Parking vélo', 'layer', 'point', parkingVeloColor, parkingVeloIconSize, parkingVeloCount);
-      parkingVeloCount += 1;
-    }
-    lineairePMRLink.onclick = function (e) {
-      addCategoryOverlay(lineairePMRLink, 'Cheminements accessibles', 'layer', 'line', lineairePMRColor, tailleLine, lineairePMRCount);
-      lineairePMRCount += 1;
-      addCategoryOverlay(lineairePMRLink, 'Accès PMR', 'layer', 'point', accesPMRColor, accesPMRIconSize, accesPMRCount);
-      accesPMRCount += 1;
-    }
-
-    metroLink.onclick = function (e) {
-      addCategoryOverlay(metroLink, 'Cheminements Métro', 'layer', 'line', lineaireMetroColor, lineaireMetroIconSize, lineaireMetroCount);
-      lineaireMetroCount += 1;
-      addCategoryOverlay(metroLink, 'Métro', 'layer', 'picto', metroURL, taillePicto, metroCount);
-      metroCount += 1;
-    }
-    velostarLink.onclick = function (e) {
-      addCategoryOverlay(velostarLink, 'Station Vélostar', 'layer', 'point', velostarColor, taillePoint, velostarCount);
-      velostarCount += 1;
-      setInterval(addRealTimeVelostar(), 1000);
-    }
-    busLink.onclick = function (e) {
-      addCategoryOverlay(busLink, 'Cheminements Bus', 'layer', 'line', busLineColor, tailleLine, busLineCount);
-      busLineCount += 1;
-      addCategoryOverlay(busLink, 'Bus', 'layer', 'picto', busURL, taillePicto, busCount);
-      busCount += 1;
-      addRealTimeBus();
-    }
-  });
+});
 
 //////////////////////////////////// couches temps réel //////////////////////////////////////////////
 // Velostar
@@ -3313,6 +3181,8 @@ allGeoJsons.forEach(oneGeoJSON => {
   console.error(e);
 }); // fin de la fonction aggrégeant les geojsons. Je la fait se fermer un peu après la partie
 //concernant les couches car cela désactive la barre de recherche sinon
+
+
   ////////// définition de la fonction getSearchPopup //////////
   function getSearchPopup() {
     var popupTitle = searchItem.properties.Nom;
@@ -3610,31 +3480,36 @@ allGeoJsons.forEach(oneGeoJSON => {
     attributionContainer.appendChild(attributionLink3);
     attributionContainer.appendChild(attributionLink4);
   }
-// ajout actions barre de recherche
-  // var searchButton = document.getElementById('searchButton'); // appelé plus haut pour créer un lien quand on click sur la recherche 
-  searchButton.addEventListener('click', function (e) {
-    if (searchBarCrossPresence == null) {
-      searchBarCrossPresence = 'yes';
-      $(searchButton).addClass('off');
-      getSearchedItem();
-    }
-    else {
-        Layers = Layers.filter(item => item != searchLayerId);
-        console.log(searchLayerId);
-        map.removeLayer(searchLayerId);
-        searchPopup.remove();
-        searchBarCrossPresence = null;
-        $("#searchfield").val("");
-        $(searchButton).removeClass('off');
-    }
-  });
 
 
-  var searchfield = document.getElementById('searchfield');
-  searchButton.addEventListener('keypress', function (e) {
-    if (e.keyCode == 13) {
-      getSearchedItem();
-    }
-  });
+  // actuellement pas de barre de recherche // 
+
+
+// // ajout actions barre de recherche
+//   // var searchButton = document.getElementById('searchButton'); // appelé plus haut pour créer un lien quand on click sur la recherche 
+//   searchButton.addEventListener('click', function (e) {
+//     if (searchBarCrossPresence == null) {
+//       searchBarCrossPresence = 'yes';
+//       $(searchButton).addClass('off');
+//       getSearchedItem();
+//     }
+//     else {
+//         Layers = Layers.filter(item => item != searchLayerId);
+//         console.log(searchLayerId);
+//         map.removeLayer(searchLayerId);
+//         searchPopup.remove();
+//         searchBarCrossPresence = null;
+//         $("#searchfield").val("");
+//         $(searchButton).removeClass('off');
+//     }
+//   });
+
+
+//   var searchfield = document.getElementById('searchfield');
+//   searchButton.addEventListener('keypress', function (e) {
+//     if (e.keyCode == 13) {
+//       getSearchedItem();
+//     }
+//   });
 
 
