@@ -594,7 +594,7 @@ color: green;
 }
 
 /* Styles pour le bouton de recherche avec l'ID searchButton */
-/* Styles pour le bouton de recherche avec l'ID searchButton */
+
 #searchButton.btn-primary {
   background-color: #073763; /* Couleur de fond */
   color: #fff; /* Couleur du texte */
@@ -606,6 +606,12 @@ color: green;
   background-size: 20px 20px; /* Taille de l'image de fond */
   margin-left: 10px; /* Marge à gauche pour décaler le bouton vers la droite */
 }
+
+/* Styles pour le bouton de recherche avec l'ID searchButton et la classe search-active */
+#searchButton.btn-primary.search-active {
+  background-image: url('/css/icons/cross_blanc.svg'); /* Image de fond */
+}
+
 
 
 /*...bouton de recherche survolé */

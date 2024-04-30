@@ -3028,30 +3028,31 @@ allGeoJsons.forEach(oneGeoJSON => {
     attributionContainer.appendChild(attributionLink4);
   }
 // ajout actions barre de recherche
-  var searchButton = document.getElementById('searchButton');
-  searchButton.addEventListener('click', function (e) {
-    if (searchBarCrossPresence == null) {
-      searchBarCrossPresence = 'yes';
-      $(searchButton).addClass('off');
-      getSearchedItem();
-    }
-    else {
-        Layers = Layers.filter(item => item != searchLayerId);
-        console.log(searchLayerId);
-        map.removeLayer(searchLayerId);
-        searchPopup.remove();
-        searchBarCrossPresence = null;
-        $("#search-bar").val("");
-        $(searchButton).removeClass('off');
-    }
-  });
+var searchButton = document.getElementById('searchButton');
+var searchBarCrossPresence = null;
 
+searchButton.addEventListener('click', function (e) {
+  if (searchBarCrossPresence == null) {
+    searchBarCrossPresence = 'yes';
+    searchButton.classList.add('search-active'); // Ajouter la classe pour l'icône de la croix
+    getSearchedItem();
+  } else {
+    Layers = Layers.filter(item => item != searchLayerId);
+    console.log(searchLayerId);
+    map.removeLayer(searchLayerId);
+    searchPopup.remove();
+    searchBarCrossPresence = null;
+    $("#search-bar").val("");
+    searchButton.classList.remove('search-active'); // Supprimer la classe pour l'icône de la croix
+  }
+});
 
-  var searchbar = document.getElementById('search-bar');
-  searchButton.addEventListener('keypress', function (e) {
-    if (e.keyCode == 13) {
-      getSearchedItem();
-    }
-  });
+var searchbar = document.getElementById('search-bar');
+searchButton.addEventListener('keypress', function (e) {
+  if (e.keyCode == 13) {
+    getSearchedItem();
+  }
+});
+
 
 
