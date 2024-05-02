@@ -646,14 +646,14 @@ function activateCategory(categoryName) {
     addCategoryOverlay(assistantpreventionLink, 'Assistants de prévention', 'layer', 'marker', assistantpreventionURL, tailleMarker, assistantpreventionCount);
     assistantpreventionCount += 1;
   }
-  if (categoryName ==  'Ressources humaines') {
-    addCategoryOverlay(rhsanteLink, 'Ressources humaines', 'layer', 'marker', rhsanteURL, tailleMarker, rhCount);
-    rhsanteCount += 1;
-  }
-  rhsanteLink.onclick = function (e) {
-    addCategoryOverlay(rhsanteLink, 'Ressources humaines', 'layer', 'marker', rhsanteURL, tailleMarker, rhsanteCount);
-    rhsanteCount += 1;
-  }
+  // if (categoryName ==  'Ressources humaines') {
+  //   addCategoryOverlay(rhsanteLink, 'Ressources humaines', 'layer', 'marker', rhsanteURL, tailleMarker, rhCount);
+  //   rhsanteCount += 1;
+  // }
+  // rhsanteLink.onclick = function (e) {
+  //   addCategoryOverlay(rhsanteLink, 'Ressources humaines', 'layer', 'marker', rhsanteURL, tailleMarker, rhsanteCount);
+  //   rhsanteCount += 1;
+  // }
 
   //////////////////////////////////  Vie associative ///////////////////////////////////////
 
