@@ -2674,271 +2674,9 @@ Promise.all(geojsons).then(allGeoJsons => { //à l'intérieur de cette fonction 
     });
 });
 
-//////////////////////////////////// couches temps réel //////////////////////////////////////////////
-// Velostar
-  var geojsonVelos = null;
-  var previousDataVelos = {times: [], stations: []};
-  var prevInfo = null;
-  var velostarTRCount = 0;
-  var nomLayer = null;
-  var velostarLink = document.getElementById('Station Vélostar');
 
-////////// définition de la fonction addRealTimeVelostar //////////
-  function addRealTimeVelostar() {
-    velostarTRCount += 1;
-    if (velostarTRCount === 1) {
-      updateData();
 
-      function updateData() {
-        //Appel de l'API pour les vélos
-        $.ajax({
-          //URL de l'API
-          url: "https://data.explore.star.fr/api/records/1.0/search/?dataset=vls-stations-etat-tr&facet=nom&facet=etat&facet=nombreemplacementsactuels&facet=nombreemplacementsdisponibles&facet=nombrevelosdisponibles&format=geojson&rows=150",
 
-          //Type de données
-          dataType: "jsonp", //type de données attendu en réponse à la requête - utilisé pour les appels cross-domain
-          crossDomain: true, //la requête peut être exécutée depuis un domaine différent de celui de la page actuelle
-
-          //Méthode appelée si le téléchargement a fonctionné
-          success: function (geojson) {
-//                    console.log("Données téléchargées");
-            geojsonVelos = geojson; //stockage des données reçues dans geojsonVelos
-            saveBikeData();
-            if (nomLayer === null) {
-              showBikeData();
-            } else {
-              var visibility = map.getLayoutProperty(nomLayer, 'visibility');
-              if (visibility === 'visible') {
-                showBikeData();
-              } else {
-//                            console.log('données masquées')
-              }
-            }
-            ;
-            setTimeout(updateData, 60 * 1000);
-          },
-
-          //Méthode appelée lorsque le téléchargement a échoué
-          error: function () {
-            alert("Erreur lors du téléchargement des vélos !");
-          }
-        });
-      }
-      ;
-
-      function saveBikeData() {
-        //On change la structure des données pour simplifier l'utilisation
-        var stations = {};
-        var prevStationData = null;
-
-        // Pour chaque station de vélos dans les données récupérée
-        geojsonVelos.features.forEach(f => { 
-          stations[f.properties.nom] = f.properties;  // Stocke les propriétés de chaque station
-
-          //On compare avec le nombre de vélos précédent
-          if (previousDataVelos.stations.length > 0) {
-            // Calcule la différence de vélos disponibles par rapport aux données précédentes
-            f.properties.diff = f.properties.nombrevelosdisponibles - previousDataVelos.stations[previousDataVelos.stations.length - 1][f.properties.nom].nombrevelosdisponibles;
-          } else {
-            //Si aucune donnée précédente n'est disponible, initialise la différence à 0
-            f.properties.diff = 0;
-          }
-
-          //On met à jour l'affichage des infos si besoin
-          if (prevInfo && prevInfo === f.properties.nom) {
-            prevStationData = f;
-          }
-        });
-
-        // Ajoute le timestamp actuel et les données de stations au tableau des temps des données précédentes
-        previousDataVelos.times.push(Date.now());
-        previousDataVelos.stations.push(stations);
-        // Supprime les couches obsolètes de la liste des couches
-        Layers = Layers.filter(item => item != "bikes" + (previousDataVelos.times.length - 1));
-      }
-      ;
-
-      function showBikeData() {
-        //On supprime les données précédentes
-        if (previousDataVelos.times.length > 1) {
-          map.removeLayer("bikes" + (previousDataVelos.times.length - 1));
-        }
-
-        nomLayer = "bikes" + previousDataVelos.times.length; //On créé une nouvelle couche de données
-        Layers.push(nomLayer); //On l'ajoute à la liste Layers
-
-        map.addLayer({ //et on l'ajoute au canva map
-          id: nomLayer,
-          type: "circle",
-          source: {
-            type: "geojson",
-            data: geojsonVelos
-          },
-          filter: ["has", "diff"],
-          paint: {
-            "circle-radius": {'base': 1.5, 'stops': [[13, 5], [22, 60]]},
-            "circle-color": "green"
-          }
-        });
-      }
-      ;
-
-    } else { 
-      //ci-après : si la couche était visible, alors devient invisible et inversement.
-      var clickedLayer = this.textContent;
-      var visibility = map.getLayoutProperty(nomLayer, 'visibility');
-      if (visibility === 'visible') {
-//        	console.log("hey")
-        map.setLayoutProperty(nomLayer, 'visibility', 'none'); 
-        Layers = Layers.filter(item => item != nomLayer); // si la couche passe en invisible, la retire de Layers,
-      } else {
-        map.setLayoutProperty(nomLayer, 'visibility', 'visible');
-        Layers.push(nomLayer); // si la couche passe en visible l'ajoute à Layers
-      }
-    }
-    ;
-
-    map.on('click', function (e) {
-      var features = map.queryRenderedFeatures(e.point, {
-        layers: [nomLayer]
-      });
-      if (!features.length) {
-        return;
-      }
-      var feature = features[0];
-      popup = new maplibregl.Popup({
-        offset: [0, -15],
-        closeButton: false,
-      })
-              .setLngLat(feature.geometry.coordinates)
-              .setHTML('<h1> Station vélostar : ' + feature.properties.nom + '</h1><p>Nombre de vélos disponibles : ' + feature.properties.nombrevelosdisponibles + '<br>Nombre d\'emplacements disponibles : ' + feature.properties.nombreemplacementsdisponibles + '</p>')
-              .addTo(map);
-    });
-
-    map.on('mousemove', function (e) {
-      var features = map.queryRenderedFeatures(e.point, {layers: Layers});
-      map.getCanvas().style.cursor = (features.length) ? 'pointer' : '';
-    });
-  }
-////////// fin de la définition de la fonction addRealTimeVelostar //////////
-
-// Couche des BUS
-  var geojsonBus = null;
-  var previousDataBus = {times: [], stations: []};
-  var prevInfo = null;
-  var busTRCount = 0
-  var nomLayerBus = null
-  var busLink = document.getElementById('Bus');
-////////// définition de la fonction addRealTimeBus //////////
-  function addRealTimeBus() {
-    busTRCount += 1;
-    if (busTRCount === 1) {
-      updateBusData();
-      function updateBusData() {
-        //Appel de l'API pour les vélos
-        $.ajax({
-          //URL de l'API
-          url: "https://data.explore.star.fr/api/records/1.0/search/?dataset=tco-bus-vehicules-position-tr&facet=numerobus&facet=etat&facet=nomcourtligne&facet=sens&facet=destination&facet=ecartsecondes&format=geojson&rows=500",
-
-          //Type de données
-          dataType: "jsonp",
-          crossDomain: true,
-
-          //Méthode appelée lorsque le téléchargement a fonctionné
-          success: function (geojson) {
-//                    console.log("Données téléchargées");
-            geojsonBus = geojson;
-            saveBusData();
-            if (nomLayerBus === null) {
-              showBusData()
-            } else {
-              var visibility = map.getLayoutProperty(nomLayerBus, 'visibility');
-              if (visibility === 'visible') {
-                showBusData()
-              } else {
-//                            console.log('données masquées')
-              }
-            }
-            ;
-            setTimeout(updateBusData, 60 * 1000);
-          },
-
-          //Méthode appelée lorsque le téléchargement a échoué
-          error: function () {
-            alert("Erreur lors du téléchargement des bus !");
-          }
-        });
-      }
-      ;
-      function saveBusData() {
-        //On change la structure des données pour simplifier l'utilisation
-        var stations = {};
-        var prevStationData = null;
-
-        previousDataBus.times.push(Date.now());
-        previousDataBus.stations.push(stations);
-        Layers = Layers.filter(item => item != "bus" + (previousDataBus.times.length - 1));
-      }
-      function showBusData() {
-        //On supprime les données précédentes
-        if (previousDataBus.times.length > 1) {
-          map.removeLayer("bus" + (previousDataBus.times.length - 1));
-        }
-
-        //On créé un nouveau calque de données
-        nomLayerBus = "busTR" + previousDataBus.times.length;
-        Layers.push(nomLayerBus);
-        map.addLayer({
-          id: nomLayerBus,
-          type: "circle",
-          source: {
-            type: "geojson",
-            data: geojsonBus
-          },
-          filter: ['==', 'etat', 'En ligne'],
-          paint: {
-            "circle-radius": {'base': 1.7, 'stops': [[13, 5], [22, 60]]},
-            "circle-color": "#0066ff"
-          }
-        });
-      }
-      busCount += 1;
-    } else {
-      var clickedLayer = this.textContent;
-
-      var visibility = map.getLayoutProperty(nomLayerBus, 'visibility');
-      if (visibility === 'visible') {
-        map.setLayoutProperty(nomLayerBus, 'visibility', 'none');
-        Layers = Layers.filter(item => item != nomLayerBus);
-      } else {
-        map.setLayoutProperty(nomLayerBus, 'visibility', 'visible');
-        Layers.push(nomLayerBus);
-      }
-    }
-    ;
-
-    map.on('click', function (e) {
-      var features = map.queryRenderedFeatures(e.point, {
-        layers: [nomLayerBus]
-      });
-      if (!features.length) {
-        return;
-      }
-      var feature = features[0];
-      popup = new maplibregl.Popup({
-        offset: [0, -15],
-        closeButton: false,
-      })
-              .setLngLat(feature.geometry.coordinates)
-              .setHTML('<h1> Bus du réseau STAR </h1><p>Ligne : ' + feature.properties.nomcourtligne + '<br>A destination de : ' + feature.properties.destination + '</p>')
-              .addTo(map);
-    });
-    map.on('mousemove', function (e) {
-      var features = map.queryRenderedFeatures(e.point, {layers: Layers});
-      map.getCanvas().style.cursor = (features.length) ? 'pointer' : '';
-    });
-  }
-////////// fin de la définition de la fonction addRealTimeBus //////////
 
 //////////////////////////////////  Barre de recherche //////////////////////////////////////
 
@@ -2974,6 +2712,271 @@ Promise.all(geojsons).then(allGeoJsons => { //à l'intérieur de cette fonction 
 }); // fin de la fonction aggrégeant les geojsons. Je la fait se fermer un peu après la partie
 //concernant les couches car cela désactive la barre de recherche sinon
 
+//////////////////////////////////// couches temps réel //////////////////////////////////////////////
+// Velostar
+var geojsonVelos = null;
+var previousDataVelos = {times: [], stations: []};
+var prevInfo = null;
+var velostarTRCount = 0;
+var nomLayer = null;
+var velostarLink = document.getElementById('Station Vélostar');
+
+////////// définition de la fonction addRealTimeVelostar //////////
+function addRealTimeVelostar() {
+  velostarTRCount += 1;
+  if (velostarTRCount === 1) {
+    updateData();
+
+    function updateData() {
+      //Appel de l'API pour les vélos
+      $.ajax({
+        //URL de l'API
+        url: "https://data.explore.star.fr/api/records/1.0/search/?dataset=vls-stations-etat-tr&facet=nom&facet=etat&facet=nombreemplacementsactuels&facet=nombreemplacementsdisponibles&facet=nombrevelosdisponibles&format=geojson&rows=150",
+
+        //Type de données
+        dataType: "jsonp", //type de données attendu en réponse à la requête - utilisé pour les appels cross-domain
+        crossDomain: true, //la requête peut être exécutée depuis un domaine différent de celui de la page actuelle
+
+        //Méthode appelée si le téléchargement a fonctionné
+        success: function (geojson) {
+//                    console.log("Données téléchargées");
+          geojsonVelos = geojson; //stockage des données reçues dans geojsonVelos
+          saveBikeData();
+          if (nomLayer === null) {
+            showBikeData();
+          } else {
+            var visibility = map.getLayoutProperty(nomLayer, 'visibility');
+            if (visibility === 'visible') {
+              showBikeData();
+            } else {
+//                            console.log('données masquées')
+            }
+          }
+          ;
+          setTimeout(updateData, 60 * 1000);
+        },
+
+        //Méthode appelée lorsque le téléchargement a échoué
+        error: function () {
+          alert("Erreur lors du téléchargement des vélos !");
+        }
+      });
+    }
+    ;
+
+    function saveBikeData() {
+      //On change la structure des données pour simplifier l'utilisation
+      var stations = {};
+      var prevStationData = null;
+
+      // Pour chaque station de vélos dans les données récupérée
+      geojsonVelos.features.forEach(f => { 
+        stations[f.properties.nom] = f.properties;  // Stocke les propriétés de chaque station
+
+        //On compare avec le nombre de vélos précédent
+        if (previousDataVelos.stations.length > 0) {
+          // Calcule la différence de vélos disponibles par rapport aux données précédentes
+          f.properties.diff = f.properties.nombrevelosdisponibles - previousDataVelos.stations[previousDataVelos.stations.length - 1][f.properties.nom].nombrevelosdisponibles;
+        } else {
+          //Si aucune donnée précédente n'est disponible, initialise la différence à 0
+          f.properties.diff = 0;
+        }
+
+        //On met à jour l'affichage des infos si besoin
+        if (prevInfo && prevInfo === f.properties.nom) {
+          prevStationData = f;
+        }
+      });
+
+      // Ajoute le timestamp actuel et les données de stations au tableau des temps des données précédentes
+      previousDataVelos.times.push(Date.now());
+      previousDataVelos.stations.push(stations);
+      // Supprime les couches obsolètes de la liste des couches
+      Layers = Layers.filter(item => item != "bikes" + (previousDataVelos.times.length - 1));
+    }
+    ;
+
+    function showBikeData() {
+      //On supprime les données précédentes
+      if (previousDataVelos.times.length > 1) {
+        map.removeLayer("bikes" + (previousDataVelos.times.length - 1));
+      }
+
+      nomLayer = "bikes" + previousDataVelos.times.length; //On créé une nouvelle couche de données
+      Layers.push(nomLayer); //On l'ajoute à la liste Layers
+
+      map.addLayer({ //et on l'ajoute au canva map
+        id: nomLayer,
+        type: "circle",
+        source: {
+          type: "geojson",
+          data: geojsonVelos
+        },
+        filter: ["has", "diff"],
+        paint: {
+          "circle-radius": {'base': 1.5, 'stops': [[13, 5], [22, 60]]},
+          "circle-color": "green"
+        }
+      });
+    }
+    ;
+
+  } else { 
+    //ci-après : si la couche était visible, alors devient invisible et inversement.
+    var clickedLayer = this.textContent;
+    var visibility = map.getLayoutProperty(nomLayer, 'visibility');
+    if (visibility === 'visible') {
+//        	console.log("hey")
+      map.setLayoutProperty(nomLayer, 'visibility', 'none'); 
+      Layers = Layers.filter(item => item != nomLayer); // si la couche passe en invisible, la retire de Layers,
+    } else {
+      map.setLayoutProperty(nomLayer, 'visibility', 'visible');
+      Layers.push(nomLayer); // si la couche passe en visible l'ajoute à Layers
+    }
+  }
+  ;
+
+  map.on('click', function (e) {
+    var features = map.queryRenderedFeatures(e.point, {
+      layers: [nomLayer]
+    });
+    if (!features.length) {
+      return;
+    }
+    var feature = features[0];
+    popup = new maplibregl.Popup({
+      offset: [0, -15],
+      closeButton: false,
+    })
+            .setLngLat(feature.geometry.coordinates)
+            .setHTML('<h1> Station vélostar : ' + feature.properties.nom + '</h1><p>Nombre de vélos disponibles : ' + feature.properties.nombrevelosdisponibles + '<br>Nombre d\'emplacements disponibles : ' + feature.properties.nombreemplacementsdisponibles + '</p>')
+            .addTo(map);
+  });
+
+  map.on('mousemove', function (e) {
+    var features = map.queryRenderedFeatures(e.point, {layers: Layers});
+    map.getCanvas().style.cursor = (features.length) ? 'pointer' : '';
+  });
+}
+////////// fin de la définition de la fonction addRealTimeVelostar //////////
+
+// Couche des BUS
+var geojsonBus = null;
+var previousDataBus = {times: [], stations: []};
+var prevInfo = null;
+var busTRCount = 0
+var nomLayerBus = null
+var busLink = document.getElementById('Bus');
+////////// définition de la fonction addRealTimeBus //////////
+function addRealTimeBus() {
+  busTRCount += 1;
+  if (busTRCount === 1) {
+    updateBusData();
+    function updateBusData() {
+      //Appel de l'API pour les vélos
+      $.ajax({
+        //URL de l'API
+        url: "https://data.explore.star.fr/api/records/1.0/search/?dataset=tco-bus-vehicules-position-tr&facet=numerobus&facet=etat&facet=nomcourtligne&facet=sens&facet=destination&facet=ecartsecondes&format=geojson&rows=500",
+
+        //Type de données
+        dataType: "jsonp",
+        crossDomain: true,
+
+        //Méthode appelée lorsque le téléchargement a fonctionné
+        success: function (geojson) {
+//                    console.log("Données téléchargées");
+          geojsonBus = geojson;
+          saveBusData();
+          if (nomLayerBus === null) {
+            showBusData()
+          } else {
+            var visibility = map.getLayoutProperty(nomLayerBus, 'visibility');
+            if (visibility === 'visible') {
+              showBusData()
+            } else {
+//                            console.log('données masquées')
+            }
+          }
+          ;
+          setTimeout(updateBusData, 60 * 1000);
+        },
+
+        //Méthode appelée lorsque le téléchargement a échoué
+        error: function () {
+          alert("Erreur lors du téléchargement des bus !");
+        }
+      });
+    }
+    ;
+    function saveBusData() {
+      //On change la structure des données pour simplifier l'utilisation
+      var stations = {};
+      var prevStationData = null;
+
+      previousDataBus.times.push(Date.now());
+      previousDataBus.stations.push(stations);
+      Layers = Layers.filter(item => item != "bus" + (previousDataBus.times.length - 1));
+    }
+    function showBusData() {
+      //On supprime les données précédentes
+      if (previousDataBus.times.length > 1) {
+        map.removeLayer("bus" + (previousDataBus.times.length - 1));
+      }
+
+      //On créé un nouveau calque de données
+      nomLayerBus = "busTR" + previousDataBus.times.length;
+      Layers.push(nomLayerBus);
+      map.addLayer({
+        id: nomLayerBus,
+        type: "circle",
+        source: {
+          type: "geojson",
+          data: geojsonBus
+        },
+        filter: ['==', 'etat', 'En ligne'],
+        paint: {
+          "circle-radius": {'base': 1.7, 'stops': [[13, 5], [22, 60]]},
+          "circle-color": "#0066ff"
+        }
+      });
+    }
+    busCount += 1;
+  } else {
+    var clickedLayer = this.textContent;
+
+    var visibility = map.getLayoutProperty(nomLayerBus, 'visibility');
+    if (visibility === 'visible') {
+      map.setLayoutProperty(nomLayerBus, 'visibility', 'none');
+      Layers = Layers.filter(item => item != nomLayerBus);
+    } else {
+      map.setLayoutProperty(nomLayerBus, 'visibility', 'visible');
+      Layers.push(nomLayerBus);
+    }
+  }
+  ;
+
+  map.on('click', function (e) {
+    var features = map.queryRenderedFeatures(e.point, {
+      layers: [nomLayerBus]
+    });
+    if (!features.length) {
+      return;
+    }
+    var feature = features[0];
+    popup = new maplibregl.Popup({
+      offset: [0, -15],
+      closeButton: false,
+    })
+            .setLngLat(feature.geometry.coordinates)
+            .setHTML('<h1> Bus du réseau STAR </h1><p>Ligne : ' + feature.properties.nomcourtligne + '<br>A destination de : ' + feature.properties.destination + '</p>')
+            .addTo(map);
+  });
+  map.on('mousemove', function (e) {
+    var features = map.queryRenderedFeatures(e.point, {layers: Layers});
+    map.getCanvas().style.cursor = (features.length) ? 'pointer' : '';
+  });
+}
+////////// fin de la définition de la fonction addRealTimeBus //////////
 
   ////////// définition de la fonction getSearchPopup //////////
   function getSearchPopup() {
