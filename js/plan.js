@@ -716,10 +716,15 @@ function activateCategory(categoryName) {
     addCategoryOverlay(parkingVeloLink, 'Parking vélo', 'layer', 'point', parkingVeloColor, parkingVeloIconSize, parkingVeloCount);
     parkingVeloCount += 1;
   }
+
   lineairePMRLink.onclick = function (e) {
     addCategoryOverlay(lineairePMRLink, 'Cheminements accessibles', 'layer', 'line', lineairePMRColor, tailleLine, lineairePMRCount);
     lineairePMRCount += 1;
-    addCategoryOverlay(lineairePMRLink, 'Accès PMR', 'layer', 'point', accesPMRColor, accesPMRIconSize, accesPMRCount);
+    console.log(lineairePMRCount) 
+  }
+
+  accesPMRLink.onclick = function (e) {
+    addCategoryOverlay(accesPMRLink, 'Accès PMR', 'layer', 'point', accesPMRColor, accesPMRIconSize, accesPMRCount);
     accesPMRCount += 1;
   }
 
@@ -1099,11 +1104,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Lineaire PMR
   var lineairePMRCount = 0; // initialisation du compteur de clics
-  var lineairePMRLink = document.getElementById("Cheminements accessibles");
+  var lineairePMRLink = document.getElementById('Cheminements accessibles');
   var lineairePMRColor = '#8D7F5F';
   var lineairePMRType = 'line';
 
   // Accès PMR
+  var accesPMRLink = document.getElementById('Accès PMR');
   var accesPMRCount = 0; // initialisation du compteur de clics
   var accesPMRColor = '#8D7F5F';
   var accesPMRIconSize = [1.5, 13, 2, 22, 60];
