@@ -361,6 +361,16 @@ function activateCategory(categoryName) {
       ServicescenCount += 1;
     }
 
+    if (categoryName == 'wc') {
+      addCategoryOverlay(toilettesLink, 'wc', 'layer', 'marker', toilettesURL, tailleMarker, toilettesCount);
+      toilettesCount += 1;
+    }
+    toilettesLink.onclick = function (e) {
+      addCategoryOverlay(toilettesLink, 'wc', 'layer', 'marker', toilettesURL, tailleMarker, toilettesCount);
+      toilettesCount += 1;
+    }
+    
+
     
     //////////////////////////////////  Formation et recherche //////////////////////////////////////
     if (categoryName == 'Formation UFRL') {
@@ -985,7 +995,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Toilettes
   var toilettesCount = 0; // initialisation du compteur de clics
-  var toilettesLink = document.getElementById('Toilettes');
+  var toilettesLink = document.getElementById('wc');
   var toilettesURL = '../css/icons/layers_icons/wc_marker.png';
 
   // Copieurs
