@@ -72,9 +72,6 @@ function executeClearSubMenu() { // Définit une fonction nommée 'executeClearS
   });
 }
 
-
-
-
  //définition d'une fonction permettant l'extraction d'une valeur d'un paramètre d'URL (avec expression régulière)
 
   function getQueryStringValue(key) {
@@ -887,358 +884,306 @@ function executeClearSubMenu() { // Définit une fonction nommée 'executeClearS
   }
 
 ////////// Fonction ajoutant une liste de picto de manière permanente sur le fond de carte ////////// 
-  function addPictoFondDeCarte() {
-    //picto fond de carte
-    //Picto permanent Bibliothèque
-    map.loadImage("../css/icons/iconfond/biblio.png").then(response => {
-      const image = response.data;
-      if (!map.hasImage("biblio")) {
-        map.addImage('biblio', image);
-      }
-      map.addLayer({
-        "id": "biblio" + pictoCount,
-        "type": "symbol",
-        "source": {
-          "type": "geojson",
-          "data": "../data/fondcarte/biblio.geojson?v="+version
-        },
-        "layout": {
-          "visibility": 'visible',
-          "icon-image": "biblio",
-          "icon-size": 0.90
-        },
-        minzoom: 15.5,
-      });
-    });
 
-    //Picto permanent Caféteria
-    map.loadImage("../css/icons/iconfond/cafe.png").then(response => {
-      const image = response.data;
-      if (!map.hasImage("cafe")) {
-        map.addImage('cafe', image);
-      }
-      map.addLayer({
-        "id": "cafeteria" + pictoCount,
-        "type": "symbol",
-        "source": {
-          "type": "geojson",
-          "data": "../data/fondcarte/cafeteria.geojson?v="+version
-        },
-        "layout": {
-          "visibility": 'visible',
-          "icon-image": "cafe",
-          "icon-size": 0.80
-        },
-        minzoom: 16.5,
-      });
-    });
+function addPictoFondDeCarte() {
+	
+  // Charger les données GeoJSON des éléments remarquables
+  fetch("../data/fondcarte/elements_remarquables/elements_remarquables.geojson?v=" + version)
+    .then(response => response.json())
+    .then(data => {
+      data.features.forEach(feature => {
+        const iconName = feature.properties.icon;
+        const size = feature.properties.size;
+        const iconImage = `../css/icons/iconfond/elements_remarquables/${iconName}.png`;
 
+        // Charger et ajouter l'image de l'icône à la carte si elle n'existe pas déjà
+        if (!map.hasImage(iconName)) {
+          map.loadImage(iconImage).then(response => {
+            const image = response.data;
+            map.addImage(iconName, image);
+          });
+        }
 
-    //Picto permanent Restaurant U
-    map.loadImage("../css/icons/iconfond/resto.png").then(response => {
-      const image = response.data;
-
-      if (!map.hasImage("resto")) {
-        map.addImage('resto', image);
-      }
-      map.addLayer({
-        "id": "ru" + pictoCount,
-        "type": "symbol",
-        "source": {
-          "type": "geojson",
-          "data": "../data/fondcarte/ru.geojson?v="+version
-        },
-        "layout": {
-          "visibility": 'visible',
-          "icon-image": "resto",
-          "icon-size": 0.80
-        },
-        minzoom: 15.5,
-      });
-    });
-
-    //Picto permanent Parking
-    map.loadImage("../css/icons/iconfond/parking.png").then(response => {
-      const image = response.data;
-
-      if (!map.hasImage("parking")) {
-        map.addImage('parking', image);
-      }
-      map.addLayer({
-        "id": "parking" + pictoCount,
-        "type": "symbol",
-        "source": {
-          "type": "geojson",
-          "data": "../data/fondcarte/parking.geojson?v="+version
-        },
-        "layout": {
-          "visibility": 'visible',
-          "icon-image": "parking",
-          "icon-size": 0.50
-        },
-        minzoom: 15,
-      });
-    });
-
-    //Picto permanent Metro
-   map.loadImage("../css/icons/iconfond/metro.png").then(response => {
-      const image = response.data;
-      if (!map.hasImage("metro")) {
-        map.addImage('metro', image);
-      }
-      map.addLayer({
-        "id": "metro" + pictoCount,
-        "type": "symbol",
-        "source": {
-          "type": "geojson",
-          "data": "../data/fondcarte/metro.geojson?v="+version
-        },
-        "layout": {
-          "visibility": 'visible',
-          "icon-image": "metro",
-          "icon-size": 0.80
-        },
-        minzoom: 15,
-      });
-    });
-
-    //Picto permanent Pôle Sante
-    map.loadImage("../css/icons/iconfond/sante.png").then(response => {
-      const image = response.data;
-
-      if (!map.hasImage("sante")) {
-        map.addImage('sante', image);
-      }
-      map.addLayer({
-        "id": "polesante" + pictoCount,
-        "type": "symbol",
-        "source": {
-          "type": "geojson",
-          "data": "../data/fondcarte/polesante.geojson?v="+version
-        },
-        "layout": {
-          "visibility": 'visible',
-          "icon-image": "sante",
-          "icon-size": 0.80
-        },
-        minzoom: 17,
-      });
-    });
-
-    //Picto permanent Piscine
-   map.loadImage("../css/icons/iconfond/piscine.png").then(response => {
-      const image = response.data;
-      if (!map.hasImage("piscine")) {
-        map.addImage('piscine', image);
-      }
-      map.addLayer({
-        "id": "piscine" + pictoCount,
-        "type": "symbol",
-        "source": {
-          "type": "geojson",
-          "data": "../data/fondcarte/piscine.geojson?v="+version
-        },
-        "layout": {
-          "visibility": 'visible',
-          "icon-image": "piscine",
-          "icon-size": 1.00
-        },
-        minzoom: 15,
-      });
-    });
-
-    //Picto permanent Bus
-   map.loadImage("../css/icons/iconfond/bus.png").then(response => {
-      const image = response.data;
-      if (!map.hasImage("bus")) {
-        map.addImage('bus', image);
-      }
-      map.addLayer({
-        "id": "bus" + pictoCount,
-        "type": "symbol",
-        "source": {
-          "type": "geojson",
-          "data": "../data/fondcarte/bus.geojson?v="+version
-        },
-        "layout": {
-          "visibility": 'visible',
-          "icon-image": "bus",
-          "icon-size": 0.60
-        },
-        minzoom: 16,
-      });
-    });
-
-        //Picto permanent 2_P
-    map.loadImage("../css/icons/iconfond/2_P.png").then(response => {
-      const image = response.data;
-      if (!map.hasImage("2_P")) {
-        map.addImage('2_P', image);
-      }
-      map.addLayer({
-        "id": "2_P" + pictoCount,
-        "type": "symbol",
-        "source": {
-          "type": "geojson",
-          "data": "../data/fondcarte/2_P.geojson?v="+version
-        },
-        "layout": {
-          "visibility": 'visible',
-          "icon-image": "2_P",
-          "icon-size": 0.30,
-          "icon-allow-overlap" : true
-        },
-        minzoom: 15,
-      });
-    });
-        //Picto permanent Arbre_bat_T
-        map.loadImage("../css/icons/iconfond/Arbre_bat_T.png").then(response => {
-          const image = response.data;
-          if (!map.hasImage("Arbre_bat_T")) {
-            map.addImage('Arbre_bat_T', image);
-          }
+        // Ajouter la couche à la carte
           map.addLayer({
-            "id": "Arbre_bat_T" + pictoCount,
+            "id": iconName + pictoCount,
             "type": "symbol",
             "source": {
               "type": "geojson",
-              "data": "../data/fondcarte/Arbre_bat_T.geojson?v="+version
-            },
+              "data": {
+                "type": "FeatureCollection",
+                "features": [feature]
+              }
+           },
             "layout": {
               "visibility": 'visible',
-              "icon-image": "Arbre_bat_T",
-              "icon-size": 0.50,
-              "icon-allow-overlap" : true
+              "icon-image": iconName,
+              "icon-size": size,
+              "icon-allow-overlap": true
             },
-            minzoom: 15,
-          });
+          minzoom: 15.5,
+         });
         });
+    });
+  
+  // Charger les données GeoJSON des lettres des bâtiments
+  fetch("../data/fondcarte/lettre_batiment.geojson?v=" + version)
+    .then(response => response.json())
+    .then(data => {
+      data.features.forEach(feature => {
+        const iconName = feature.properties.icon;
+        const iconImage = `../css/icons/iconfond/lettre_batiment/${iconName}.png`;
 
-        //Picto permanent Design_BU
-        map.loadImage("../css/icons/iconfond/Design_BU.png").then(response => {
-          const image = response.data;
-          if (!map.hasImage("Design_BU")) {
-            map.addImage('Design_BU', image);
-          }
+        // Charger et ajouter l'image de l'icône à la carte si elle n'existe pas déjà
+        if (!map.hasImage(iconName)) {
+          map.loadImage(iconImage).then(response => {
+            const image = response.data;
+            map.addImage(iconName, image);
+          });
+        }
+
+        // Ajouter la couche à la carte
           map.addLayer({
-            "id": "Design_BU" + pictoCount,
+            "id": iconName + pictoCount,
             "type": "symbol",
             "source": {
               "type": "geojson",
-              "data": "../data/fondcarte/Design_BU.geojson?v="+version
+              "data": {
+                "type": "FeatureCollection",
+                "features": [feature]
+              }
             },
             "layout": {
               "visibility": 'visible',
-              "icon-image": "Design_BU",
-              "icon-size": 0.30,
-              "icon-allow-overlap" : true
+              "icon-image": iconName,
+              "icon-allow-overlap": true
             },
-            minzoom: 15,
-          });
-        });
+          minzoom: 15.5,
+         });
+      });
+    });
 
-        //Picto permanent escalier_arc_en_ciel
-        map.loadImage("../css/icons/iconfond/escalier_arc_en_ciel.png").then(response => {
-          const image = response.data;
-          if (!map.hasImage("escalier_arc_en_ciel")) {
-            map.addImage('escalier_arc_en_ciel', image);
-          }
-          map.addLayer({
-            "id": "escalier_arc_en_ciel" + pictoCount,
-            "type": "symbol",
-            "source": {
-              "type": "geojson",
-              "data": "../data/fondcarte/escalier_arc_en_ciel.geojson?v="+version
-            },
-            "layout": {
-              "visibility": 'visible',
-              "icon-image": "escalier_arc_en_ciel",
-              "icon-size": 0.40,
-              "icon-allow-overlap" : true
-            },
-            minzoom: 15,
-          });
-        });
+  // Picto permanent Caféteria
+  map.loadImage("../css/icons/iconfond/cafe.png").then(response => {
+    const image = response.data;
+    if (!map.hasImage("cafe")) {
+      map.addImage('cafe', image);
+    }
+    map.addLayer({
+      "id": "cafeteria" + pictoCount,
+      "type": "symbol",
+      "source": {
+        "type": "geojson",
+        "data": "../data/fondcarte/cafeteria.geojson?v="+version
+      },
+      "layout": {
+        "visibility": 'visible',
+        "icon-image": "cafe",
+        "icon-size": 0.80
+      },
+      minzoom: 16.5,
+    });
+  });
 
-        //Picto permanent Jardin
-        map.loadImage("../css/icons/iconfond/Jardin.png").then(response => {
-          const image = response.data;
-          if (!map.hasImage("Jardin")) {
-            map.addImage('Jardin', image);
-          }
-          map.addLayer({
-            "id": "Jardin" + pictoCount,
-            "type": "symbol",
-            "source": {
-              "type": "geojson",
-              "data": "../data/fondcarte/Jardin.geojson?v="+version
-            },
-            "layout": {
-              "visibility": 'visible',
-              "icon-image": "Jardin",
-              "icon-size": 0.40
-            },
-            minzoom: 15,
-          });
-        });
+  // Ajouter d'autres pictogrammes permanents de la même manière que ci-dessus pour les autres catégories (bibliothèque, restaurant universitaire, parking, etc.)
+  // Picto permanent Bibliothèque
+  map.loadImage("../css/icons/iconfond/biblio.png").then(response => {
+    const image = response.data;
+    if (!map.hasImage("biblio")) {
+      map.addImage('biblio', image);
+    }
+    map.addLayer({
+      "id": "biblio" + pictoCount,
+      "type": "symbol",
+      "source": {
+        "type": "geojson",
+        "data": "../data/fondcarte/biblio.geojson?v="+version
+      },
+      "layout": {
+        "visibility": 'visible',
+        "icon-image": "biblio",
+        "icon-size": 0.80
+      },
+      minzoom: 15.5,
+    });
+  });
 
-        //Picto permanent Pin_parasol
-        map.loadImage("../css/icons/iconfond/Pin_parasol.png").then(response => {
-          const image = response.data;
-          if (!map.hasImage("Pin_parasol")) {
-            map.addImage('Pin_parasol', image);
-          }
-          map.addLayer({
-            "id": "Pin_parasol" + pictoCount,
-            "type": "symbol",
-            "source": {
-              "type": "geojson",
-              "data": "../data/fondcarte/Pin_parasol.geojson?v="+version
-            },
-            "layout": {
-              "visibility": 'visible',
-              "icon-image": "Pin_parasol",
-              "icon-size": 0.40
-            },
-            minzoom: 15,
-          });
-        });
+  // Picto permanent Restaurant U
+  map.loadImage("../css/icons/iconfond/resto.png").then(response => {
+    const image = response.data;
+    if (!map.hasImage("resto")) {
+      map.addImage('resto', image);
+    }
+    map.addLayer({
+      "id": "ru" + pictoCount,
+      "type": "symbol",
+      "source": {
+        "type": "geojson",
+        "data": "../data/fondcarte/ru.geojson?v="+version
+      },
+      "layout": {
+        "visibility": 'visible',
+        "icon-image": "resto",
+        "icon-size": 0.80
+      },
+      minzoom: 15.5,
+    });
+  });
 
+  // Picto permanent Parking
+  map.loadImage("../css/icons/iconfond/parking.png").then(response => {
+    const image = response.data;
+    if (!map.hasImage("parking")) {
+      map.addImage('parking', image);
+    }
+    map.addLayer({
+      "id": "parking" + pictoCount,
+      "type": "symbol",
+      "source": {
+        "type": "geojson",
+        "data": "../data/fondcarte/parking.geojson?v="+version
+      },
+      "layout": {
+        "visibility": 'visible',
+        "icon-image": "parking",
+        "icon-size": 0.50
+      },
+      minzoom: 15,
+    });
+  });
 
-        //Picto permanent Sequoia_passage_BU
-        map.loadImage("../css/icons/iconfond/Sequoia_passage_BU.png").then(response => {
-          const image = response.data;
-          if (!map.hasImage("Sequoia_passage_BU")) {
-            map.addImage('Sequoia_passage_BU', image);
-          }
-          map.addLayer({
-            "id": "Sequoia_passage_BU" + pictoCount,
-            "type": "symbol",
-            "source": {
-              "type": "geojson",
-              "data": "../data/fondcarte/Sequoia_passage_BU.geojson?v="+version
-            },
-            "layout": {
-              "visibility": 'visible',
-              "icon-image": "Sequoia_passage_BU",
-              "icon-size": 0.40,
-              "icon-allow-overlap" : true
-            },
-            minzoom: 15,
-          });
-        });
+  // Picto permanent Metro
+  map.loadImage("../css/icons/iconfond/metro.png").then(response => {
+    const image = response.data;
+    if (!map.hasImage("metro")) {
+      map.addImage('metro', image);
+    }
+    map.addLayer({
+      "id": "metro" + pictoCount,
+      "type": "symbol",
+      "source": {
+        "type": "geojson",
+        "data": "../data/fondcarte/metro.geojson?v="+version
+      },
+      "layout": {
+        "visibility": 'visible',
+        "icon-image": "metro",
+        "icon-size": 0.80
+      },
+      minzoom: 15,
+    });
+  });
 
+  // Picto permanent Pôle Santé
+  map.loadImage("../css/icons/iconfond/sante.png").then(response => {
+    const image = response.data;
+    if (!map.hasImage("sante")) {
+      map.addImage('sante', image);
+    }
+    map.addLayer({
+      "id": "polesante" + pictoCount,
+      "type": "symbol",
+      "source": {
+        "type": "geojson",
+        "data": "../data/fondcarte/polesante.geojson?v="+version
+      },
+      "layout": {
+        "visibility": 'visible',
+        "icon-image": "sante",
+        "icon-size": 0.80
+      },
+      minzoom: 17,
+    });
+  });
 
+  // Picto permanent Piscine
+  map.loadImage("../css/icons/iconfond/piscine.png").then(response => {
+    const image = response.data;
+    if (!map.hasImage("piscine")) {
+      map.addImage('piscine', image);
+    }
+    map.addLayer({
+      "id": "piscine" + pictoCount,
+      "type": "symbol",
+      "source": {
+        "type": "geojson",
+        "data": "../data/fondcarte/piscine.geojson?v="+version
+      },
+      "layout": {
+        "visibility": 'visible',
+        "icon-image": "piscine",
+        "icon-size": 1.00
+      },
+      minzoom: 15,
+    });
+  });
 
+  // Picto permanent Bus
+  map.loadImage("../css/icons/iconfond/bus.png").then(response => {
+    const image = response.data;
+    if (!map.hasImage("bus")) {
+      map.addImage('bus', image);
+    }
+    map.addLayer({
+      "id": "bus" + pictoCount,
+      "type": "symbol",
+      "source": {
+        "type": "geojson",
+        "data": "../data/fondcarte/bus.geojson?v="+version
+      },
+      "layout": {
+        "visibility": 'visible',
+        "icon-image": "bus",
+        "icon-size": 0.60
+      },
+      minzoom: 16,
+    });
+  });
+}
 
-
-
-
-
-
-
-  }
 ////////// fin de la definition de la fonction addPictoFondDecarte() //////////
+
+////////// Fonction ajoutant un point (de type épingle) ////////// 
+  function addPointOverlay(name, iconSize) {
+
+    var iconURL = '../css/icons/layers_icons/recherche.png'
+    var markerOffset = [-15, -20];
+    if (iconSize.toString() === '1,13,0.1,25,1.5') {
+      markerOffset = [-30, -50];
+    } else if (iconSize.toString() === '1,13,0.05,25,1') {
+      markerOffset = [-40, -50]
+    }
+
+    map.loadImage(iconURL).then(response => {
+      const image = response.data;
+      map.addImage(name + 'image', image);
+      map.addLayer({
+        "id": name,
+        "type": "symbol",
+        "source": {
+          "type": "geojson",
+          "data": POIBrut
+        },
+        "filter": ['==', 'Nom', name],
+        "layout": {
+          "icon-image": name + 'image',
+          "icon-size": {'base': iconSize[0], 'stops': [[iconSize[1], iconSize[2]], [iconSize[3], iconSize[4]]]},
+          "icon-allow-overlap": true,
+          "icon-offset": {stops: [
+              [13, [0, markerOffset[0]]],
+              [22, [0, markerOffset[1]]]
+            ]}
+        },
+
+      });
+    });
+
+    Layers.push(name);
+    var couche = name;
+    var type = 'marker';
+  }
+////////// fin de la définition de la fonction addPointOverlay() //////////
+
 
 ////////// Fonction ajoutant un point (de type épingle) ////////// 
   function addPointOverlay(name, iconSize) {
