@@ -1456,10 +1456,6 @@ document.addEventListener('DOMContentLoaded', function() {
       paint: {
         "text-color": "#000000", // Couleur du texte
         "text-opacity": 1, // Opacité du texte
-        "text-halo-color": "#000000", // Couleur du halo du texte
-        "text-halo-width": 0.05, // Largeur du halo du texte
-
-
       },
       
       minzoom: 14,
