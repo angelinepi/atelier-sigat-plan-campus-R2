@@ -388,6 +388,15 @@ function activateCategory(categoryName) {
       addCategoryOverlay(espaceDetenteLink, 'Espace détente', 'layer', 'marker', espaceDetenteURL, tailleMarker, espaceDetenteCount);
       espaceDetenteCount += 1;
     }
+
+    // if (categoryName ==  'Equipement sportif') {
+    //   addCategoryOverlay(equipementSportifLink, 'Equipement sportif', 'layer', 'marker', equipementSportifURL, tailleMarker, equipementSportifCount);
+    //   equipementSportifCount += 1;
+    // }
+    equipementSportifLink.onclick = function (e) {
+      addCategoryOverlay(equipementSportifLink, 'Equipement sportif', 'layer', 'marker', equipementSportifURL, tailleMarker, equipementSportifCount);
+      equipementSportifCount += 1;
+    }
     
     //////////////////////////////////  Formation et recherche //////////////////////////////////////
     if (categoryName == 'Formation UFRL') {
@@ -619,14 +628,6 @@ function activateCategory(categoryName) {
 
 
   //////////////////////////////////  Sport et santé //////////////////////////////////////
-  if (categoryName ==  'Equipement sportif') {
-    addCategoryOverlay(equipementSportifLink, 'Equipement sportif', 'layer', 'marker', equipementSportifURL, tailleMarker, equipementSportifCount);
-    equipementSportifCount += 1;
-  }
-  equipementSportifLink.onclick = function (e) {
-    addCategoryOverlay(equipementSportifLink, 'Equipement sportif', 'layer', 'marker', equipementSportifURL, tailleMarker, equipementSportifCount);
-    equipementSportifCount += 1;
-  }
 
   if (categoryName ==  'Pôle santé et prévention') {
     addCategoryOverlay(polesanteLink, 'Pôle santé et prévention', 'layer', 'marker', polesanteURL, tailleMarker, polesanteCount);
