@@ -315,13 +315,13 @@ function activateCategory(categoryName) {
       
       //////////////////////////////////  Structures et services //////////////////////////////////////
 
-    if (categoryName == 'Services communs') {
-      addCategoryOverlay(ServicescomLink, 'Services communs', ServicescomLinkState, 'marker', ServicescomURL, tailleMarker, ServicescomCount);
-      if (ServicescomCount == 0) {
-        createHTMLList('Services communs', listeServicescom, insertServicescom, ServicescomCount);
-      }
-      ServicescomCount += 1;
-    }
+    // if (categoryName == 'Services communs') {
+    //   addCategoryOverlay(ServicescomLink, 'Services communs', ServicescomLinkState, 'marker', ServicescomURL, tailleMarker, ServicescomCount);
+    //   if (ServicescomCount == 0) {
+    //     createHTMLList('Services communs', listeServicescom, insertServicescom, ServicescomCount);
+    //   }
+    //   ServicescomCount += 1;
+    // }
     ServicescomLink.onclick = function (e) {
       addCategoryOverlay(ServicescomLink, 'Services communs', ServicescomLinkState, 'marker', ServicescomURL, tailleMarker, ServicescomCount);
       if (ServicescomCount == 0) {
@@ -330,13 +330,13 @@ function activateCategory(categoryName) {
       ServicescomCount += 1;
     }
 
-    if (categoryName == 'Services généraux') {
-      addCategoryOverlay(ServicesgenLink, 'Services généraux', ServicesgenLinkState, 'marker', ServicesgenURL, tailleMarker, ServicesgenCount);
-      if (ServicesgenCount == 0) {
-        createHTMLList('Services généraux', listeServicesgen, insertServicesgen, ServicesgenCount);
-      }
-      ServicesgenCount += 1;
-    }
+    // if (categoryName == 'Services généraux') {
+    //   addCategoryOverlay(ServicesgenLink, 'Services généraux', ServicesgenLinkState, 'marker', ServicesgenURL, tailleMarker, ServicesgenCount);
+    //   if (ServicesgenCount == 0) {
+    //     createHTMLList('Services généraux', listeServicesgen, insertServicesgen, ServicesgenCount);
+    //   }
+    //   ServicesgenCount += 1;
+    // }
     ServicesgenLink.onclick = function (e) {
       addCategoryOverlay(ServicesgenLink, 'Services généraux', ServicesgenLinkState, 'marker', ServicesgenURL, tailleMarker, ServicesgenCount);
       if (ServicesgenCount == 0) {
@@ -346,13 +346,13 @@ function activateCategory(categoryName) {
     }
 
 
-    if (categoryName == 'Services centraux') {
-      addCategoryOverlay(ServicescenLink, 'Services centraux', ServicescenLinkState, 'marker', ServicescenURL, tailleMarker, ServicescenCount);
-      if (ServicescenCount == 0) {
-        createHTMLList('Services centraux', listeServicescen, insertServicescen, ServicescenCount);
-      }
-      ServicescenCount += 1;
-    }
+    // if (categoryName == 'Services centraux') {
+    //   addCategoryOverlay(ServicescenLink, 'Services centraux', ServicescenLinkState, 'marker', ServicescenURL, tailleMarker, ServicescenCount);
+    //   if (ServicescenCount == 0) {
+    //     createHTMLList('Services centraux', listeServicescen, insertServicescen, ServicescenCount);
+    //   }
+    //   ServicescenCount += 1;
+    // }
     ServicescenLink.onclick = function (e) {
       addCategoryOverlay(ServicescenLink, 'Services centraux', ServicescenLinkState, 'marker', ServicescenURL, tailleMarker, ServicescenCount);
       if (ServicescenCount == 0) {
@@ -361,10 +361,10 @@ function activateCategory(categoryName) {
       ServicescenCount += 1;
     }
 
-    if (categoryName == 'wc') {
-      addCategoryOverlay(toilettesLink, 'wc', 'layer', 'marker', toilettesURL, tailleMarker, toilettesCount);
-      toilettesCount += 1;
-    }
+    // if (categoryName == 'wc') {
+    //   addCategoryOverlay(toilettesLink, 'wc', 'layer', 'marker', toilettesURL, tailleMarker, toilettesCount);
+    //   toilettesCount += 1;
+    // } 
     toilettesLink.onclick = function (e) {
       addCategoryOverlay(toilettesLink, 'wc', 'layer', 'marker', toilettesURL, tailleMarker, toilettesCount);
       toilettesCount += 1;
@@ -375,6 +375,14 @@ function activateCategory(categoryName) {
       copieurCount += 1;
     }
 
+    // if (categoryName ==  'Micro-ondes') {
+    //   addCategoryOverlay(microOndesLink, 'Micro-ondes', 'layer', 'marker', microOndesURL, taillePetitMarker, microOndesCount);
+    //   microOndesCount += 1;
+    // }
+    microOndesLink.onclick = function (e) {
+      addCategoryOverlay(microOndesLink, 'Micro-ondes', 'layer', 'marker', microOndesURL, taillePetitMarker, microOndesCount);
+      microOndesCount += 1;
+    }
     
     //////////////////////////////////  Formation et recherche //////////////////////////////////////
     if (categoryName == 'Formation UFRL') {
@@ -603,14 +611,7 @@ function activateCategory(categoryName) {
     cafeteriasCount += 1;
   }
 
-  if (categoryName ==  'Micro-ondes') {
-    addCategoryOverlay(microOndesLink, 'Micro-ondes', 'layer', 'marker', microOndesURL, taillePetitMarker, microOndesCount);
-    microOndesCount += 1;
-  }
-  microOndesLink.onclick = function (e) {
-    addCategoryOverlay(microOndesLink, 'Micro-ondes', 'layer', 'marker', microOndesURL, taillePetitMarker, microOndesCount);
-    microOndesCount += 1;
-  }
+
 
   //////////////////////////////////  Sport et santé //////////////////////////////////////
   if (categoryName ==  'Equipement sportif') {
