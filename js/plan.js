@@ -1105,13 +1105,13 @@ document.addEventListener('DOMContentLoaded', function() {
   // Lineaire PMR
   var lineairePMRCount = 0; // initialisation du compteur de clics
   var lineairePMRLink = document.getElementById('Cheminements accessibles');
-  var lineairePMRColor = '#8D7F5F';
+  var lineairePMRColor = '#000000';
   var lineairePMRType = 'line';
 
   // Accès PMR
   var accesPMRLink = document.getElementById('Accès PMR');
   var accesPMRCount = 0; // initialisation du compteur de clics
-  var accesPMRColor = '#8D7F5F';
+  var accesPMRColor = '#000000';
   var accesPMRIconSize = [1.5, 13, 2, 22, 60];
 
   // Lineaire Metro
