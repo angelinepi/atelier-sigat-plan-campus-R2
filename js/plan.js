@@ -370,6 +370,10 @@ function activateCategory(categoryName) {
       toilettesCount += 1;
     }
     
+    copieurLink.onclick = function (e) {
+      addCategoryOverlay(copieurLink, 'Copieur', 'layer', 'marker', copieursURL, tailleMarker, copieurCount);
+      copieurCount += 1;
+    }
 
     
     //////////////////////////////////  Formation et recherche //////////////////////////////////////
@@ -688,10 +692,7 @@ function activateCategory(categoryName) {
 
   //////////////////////////////////  Divers ///////////////////////////////////////
 
-  // copieurLink.onclick = function (e) {
-  //   addCategoryOverlay(copieurLink, 'Copieur', 'layer', 'marker', copieursURL, tailleMarker, copieurCount);
-  //   copieurCount += 1;
-  // }
+
   // espaceDetenteLink.onclick = function (e) {
   //   addCategoryOverlay(espaceDetenteLink, 'Espace détente', 'layer', 'marker', espaceDetenteURL, tailleMarker, espaceDetenteCount);
   //   espaceDetenteCount += 1;
