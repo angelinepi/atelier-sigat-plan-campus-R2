@@ -2547,7 +2547,7 @@ const geojsons = [
   getGeoJSON("../data/filtre/amphi.geojson"),
   getGeoJSON("../data/filtre/arret_bus_pts.geojson"),
   getGeoJSON("../data/filtre/arret_metro_pts.geojson"),
-  getGeoJSON("../data/filtre/ascenceur.geojson"),
+  getGeoJSON("../data/filtre/ascenseur.geojson"),
   getGeoJSON("../data/filtre/asso_art_spor.geojson"),
   getGeoJSON("../data/filtre/asso_filiere.geojson"),
   getGeoJSON("../data/filtre/asso_mstr_doc.geojson"),
