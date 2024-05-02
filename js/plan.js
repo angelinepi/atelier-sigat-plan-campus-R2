@@ -17,46 +17,63 @@ clearBtn.addEventListener("click", function() {
 });
 
 
-function executeClearSubMenu() {
-    $('ul.nav li:not(.sidebar-search,.sidebar-remove-filters), ul.nav li:not(.sidebar-search,.sidebar-remove-filters) a ').each(function (i) {
-        if ($(this).attr('id')) {
-            var removelayer = $(this).attr('id');
-            if (map.getLayer(removelayer)) {
-                var visibility = map.getLayoutProperty(removelayer, 'visibility');
-                if (visibility != "none") {
-                    if (Layers.includes(removelayer)) {
-                        var element = $("[id='" + removelayer + "']");
-                        if (!element.next('ul').hasClass("in"))
-                            element.next('ul').addClass("in");
-                        if (listLayers.includes(element.get(0))) {
-                            var index = $.inArray(element.get(0), listLayers);
-                            if (index > -1) {
-                                listLayers.splice(index, 1);
-                            }
-                        }
-                        element.trigger("click");
-                        if (element.next('ul').hasClass("in"))
-                            element.next('ul').removeClass("in");
-                        if (element.parent().hasClass("active"))
-                            element.parent().removeClass("active");
-                    }
-                }
-            }
-        }
-    });
+function executeClearSubMenu() { // Définit une fonction nommée 'executeClearSubMenu'
+  // Sélectionne tous les éléments 'li' et 'a' dans 'ul.nav' qui n'ont pas les classes 'sidebar-search' ou 'sidebar-remove-filters'
+  $('ul.nav li:not(.sidebar-search,.sidebar-remove-filters), ul.nav li:not(.sidebar-search,.sidebar-remove-filters) a ').each(function (i) {
+      // Vérifie si l'élément courant a un attribut 'id'
+      if ($(this).attr('id')) {
+          var removelayer = $(this).attr('id'); // Récupère l'attribut 'id' de l'élément courant
+          // Vérifie si une couche avec l'id 'removelayer' existe dans la carte
+          if (map.getLayer(removelayer)) {
+              var visibility = map.getLayoutProperty(removelayer, 'visibility'); // Récupère la propriété 'visibility' de la couche
+              // Si la couche n'est pas masquée
+              if (visibility != "none") {
+                  if (Layers.includes(removelayer)) { // Vérifie si 'removelayer' est dans le tableau 'Layers'
+                      var element = $("[id='" + removelayer + "']"); // Récupère l'élément avec l'id 'removelayer'
+                      // Vérifie si l'élément suivant de 'element' n'a pas la classe 'in' et l'ajoute si c'est le cas
+                      if (!element.next('ul').hasClass("in"))
+                          element.next('ul').addClass("in");
+                      // Vérifie si 'element' est dans le tableau 'listLayers'
+                      if (listLayers.includes(element.get(0))) {
+                          var index = $.inArray(element.get(0), listLayers); // Récupère l'index de 'element' dans 'listLayers'
+                          // Supprime 'element' de 'listLayers'
+                          if (index > -1) {
+                              listLayers.splice(index, 1);
+                          }
+                      }
 
-    $('ul.nav li.active a.active').each(function (i) {
-        if ($(this).hasClass("active"))
-            $(this).removeClass("active");
-    });
-    $('ul.nav li.active:not(.sidebar-search,.sidebar-remove-filters), ul.nav li.active:not(.sidebar-search,.sidebar-remove-filters) ul.in ').each(function (i) {
-        if ($(this).hasClass("active"))
-            $(this).removeClass("active");
-        if ($(this).hasClass("in"))
-            $(this).removeClass("in");
-    });
+                      // Déclenche un événement 'click' sur 'element'
+                      element.trigger("click");
+
+                      // Supprime la classe 'in' de l'élément suivant de 'element' s'il l'a
+                      if (element.next('ul').hasClass("in"))
+                          element.next('ul').removeClass("in");
+
+                      // Supprime la classe 'active' du parent de 'element' s'il l'a
+                      if (element.parent().hasClass("active"))
+                          element.parent().removeClass("active");
+                  }
+              }
+          }
+      }
+  });
+
+  // Sélectionne tous les éléments 'a' actifs dans 'ul.nav li.active'
+  $('ul.nav li.active a.active').each(function (i) {
+      // Supprime la classe 'active' de l'élément courant s'il l'a
+      if ($(this).hasClass("active"))
+          $(this).removeClass("active");
+  });
+
+  // Sélectionne tous les éléments 'li' et 'ul' actifs dans 'ul.nav li.active' qui n'ont pas les classes 'sidebar-search' ou 'sidebar-remove-filters'
+  $('ul.nav li.active:not(.sidebar-search,.sidebar-remove-filters), ul.nav li.active:not(.sidebar-search,.sidebar-remove-filters) ul.in ').each(function (i) {
+      // Supprime les classes 'active' et 'in' de l'élément courant s'il les a
+      if ($(this).hasClass("active"))
+          $(this).removeClass("active");
+      if ($(this).hasClass("in"))
+          $(this).removeClass("in");
+  });
 }
-
 
  //définition d'une fonction permettant l'extraction d'une valeur d'un paramètre d'URL (avec expression régulière)
 
@@ -1336,7 +1353,7 @@ document.addEventListener('DOMContentLoaded', function() {
       map.removeLayer(bati3DId);
       map.removeLayer(bati3DHId);
       map.removeLayer(etiqBati3DId);
-      console.log('bati3DId');
+      //console.log('bati3DId');
     }
     ;
     pictoCount += 1;
@@ -1383,15 +1400,13 @@ document.addEventListener('DOMContentLoaded', function() {
         if (e.features[0].properties.Nom != "null"&& e.features[0].properties.Nom != null && e.features[0].properties.Nom != "") {
           popupTitle = e.features[0].properties.Nom;
           // console.log(popupTitle);
-          //console.log(popupTitle);
         }
         if (e.features[0].properties.Photo != "null" && e.features[0].properties.Photo != null && e.features[0].properties.Photo != "") {
           popupContent += '<img src = \'' + e.features[0].properties.Photo + '?v=' + version + '\'/>'
           // console.log(popupContent); // verification du lien de l'image
-
+        }
         if (e.features[0].properties.Info != "null" && e.features[0].properties.Info != null && e.features[0].properties.Info != "") {
           popupContent += '<p>' + e.features[0].properties.Info + '<p>';
-          
         }
         if (popupBati != null && popupBati != "null" && popupBati != "") {
           popupBati.remove();
@@ -1412,7 +1427,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       }
 
-    }});
+    });
 
     //Reset la coloration du polygone batiment quand la souris quitte la couche.
     map.on("mouseleave", bati2DHId, function () {
@@ -1441,8 +1456,8 @@ document.addEventListener('DOMContentLoaded', function() {
       paint: {
         "text-color": "#000000", // Couleur du texte
         "text-opacity": 1, // Opacité du texte
-        "text-halo-color": "#FFFFFF", // Couleur du halo du texte
-        "text-halo-width": 1, // Largeur du halo du texte
+        "text-halo-color": "#000000", // Couleur du halo du texte
+        "text-halo-width": 0.05, // Largeur du halo du texte
 
 
       },
@@ -1471,12 +1486,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 ////////// Variable switchPOI //////////
-var switchPOI = function (value) {
-  value = value.split("!").join("'");
-  salleRecherchee = null;
-  salleRX = null;
-  salleRY = null;
-  var htmlPOI = document.getElementById(value);
+  var switchPOI = function (value) {
+    value = value.split("!").join("'");
+    salleRecherchee = null;
+    salleRX = null;
+    salleRY = null;
+    var htmlPOI = document.getElementById(value);
 
     // var htmlPOIParent = htmlPOI.parentNode;
 
@@ -1494,15 +1509,14 @@ var switchPOI = function (value) {
      fleche.style.position = 'absolute';
      htmlPOIParent.insertBefore(fleche, htmlPOI);*/
 
-
-  if (document.getElementsByClassName('leaf active')) {
-    var previousActiveLeaves = document.getElementsByClassName('leaf active');
-    for (let i = 0; i < previousActiveLeaves.length; i++) {
-      previousActiveLeaves[i].classList.remove('active');
+    if (document.getElementsByClassName('leaf active')) {
+      var previousActiveLeaves = document.getElementsByClassName('leaf active');
+      for (let i = 0; i < previousActiveLeaves.length; i++) {
+        previousActiveLeaves[i].classList.remove('active');
+      }
     }
-  }
 
-    htmlPOI.classList.add('active');
+  htmlPOI.classList.add('active');
     if (popup) {
       popup.remove();
     }
@@ -2413,14 +2427,14 @@ var popupContent = [];
       var features = map.queryRenderedFeatures(e.point, {
         layers: [couche]
       });
-  
+
       if (!features.length) {
         return;
       }
       var feature = features[0];
-  
+
       getPopupContent(feature);
-  
+
       if (type == 'marker') {
         popup = new maplibregl.Popup({
           offset: [0, -40],
@@ -2444,6 +2458,7 @@ var popupContent = [];
         const objetName = popupTitle.trim(); // Récupérer le nom de l'objet à partir du titre de la popup
         const campus = getCampusFromURL(); // Récupérer le campus à partir de l'URL
         const selectedCategory = getCategoryFromURL(); // Récupérer la catégorie à partir de l'URL
+        
         // const objetId = feature.properties.id; // Récupérer l'id de l'objet
         createLinkAndUpdateURL(campus, selectedCategory, objetName); // Appeler la fonction pour changer l'objet et l'URL
 
