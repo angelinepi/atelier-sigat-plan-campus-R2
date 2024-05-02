@@ -84,7 +84,7 @@ function executeClearSubMenu() {
    * @param selectedCategory Nom de la catégorie
    * @returns {string} URL de recherche
    */
-function createLinkAndUpdateURL(selectedCampus, selectedCategory, selectedObjet) {
+function createLinkAndUpdateURL(selectedCampus, selectedCategory) {
   let url = window.location.pathname; 
 
   // Ajouter le campus à l'URL
@@ -1477,6 +1477,23 @@ var switchPOI = function (value) {
   salleRX = null;
   salleRY = null;
   var htmlPOI = document.getElementById(value);
+
+    // var htmlPOIParent = htmlPOI.parentNode;
+
+    /* if (document.getElementById('fleche')) {
+     var previousFleche =  document.getElementById('fleche');
+     previousFleche.nextSibling.classList;remov('active');
+     document.getElementById('fleche').remove();
+
+     }
+
+     var fleche = document.createElement('img');
+     /*fleche.setAttribute('src', '../css/icons/fleche.png');
+     fleche.setAttribute('id', 'fleche');
+     fleche.style.width = '20px';
+     fleche.style.position = 'absolute';
+     htmlPOIParent.insertBefore(fleche, htmlPOI);*/
+
 
   if (document.getElementsByClassName('leaf active')) {
     var previousActiveLeaves = document.getElementsByClassName('leaf active');
@@ -3275,30 +3292,31 @@ Promise.all(geojsons).then(allGeoJsons => { //à l'intérieur de cette fonction 
     attributionContainer.appendChild(attributionLink4);
   }
 // ajout actions barre de recherche
-  // var searchButton = document.getElementById('searchButton');
-  searchButton.addEventListener('click', function (e) {
-    if (searchBarCrossPresence == null) {
-      searchBarCrossPresence = 'yes';
-      $(searchButton).addClass('off');
-      getSearchedItem();
-    }
-    else {
-        Layers = Layers.filter(item => item != searchLayerId);
-        console.log(searchLayerId);
-        map.removeLayer(searchLayerId);
-        searchPopup.remove();
-        searchBarCrossPresence = null;
-        $("#search-bar").val("");
-        $(searchButton).removeClass('off');
-    }
-  });
+var searchButton = document.getElementById('searchButton');
+var searchBarCrossPresence = null;
 
+searchButton.addEventListener('click', function (e) {
+  if (searchBarCrossPresence == null) {
+    searchBarCrossPresence = 'yes';
+    searchButton.classList.add('search-active'); // Ajouter la classe pour l'icône de la croix
+    getSearchedItem();
+  } else {
+    Layers = Layers.filter(item => item != searchLayerId);
+    console.log(searchLayerId);
+    map.removeLayer(searchLayerId);
+    searchPopup.remove();
+    searchBarCrossPresence = null;
+    $("#search-bar").val("");
+    searchButton.classList.remove('search-active'); // Supprimer la classe pour l'icône de la croix
+  }
+});
 
-  var searchbar = document.getElementById('search-bar');
-  searchButton.addEventListener('keypress', function (e) {
-    if (e.keyCode == 13) {
-      getSearchedItem();
-    }
-  });
+var searchbar = document.getElementById('search-bar');
+searchButton.addEventListener('keypress', function (e) {
+  if (e.keyCode == 13) {
+    getSearchedItem();
+  }
+});
+
 
 
