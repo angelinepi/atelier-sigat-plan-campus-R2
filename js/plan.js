@@ -666,24 +666,24 @@ function activateCategory(categoryName) {
     addCategoryOverlay(associationsmasterLink, 'Associations de Masters et Doctorats', 'layer', 'marker', associationsmasterURL, taillePetitMarker, associationsmasterCount);
     associationsmasterCount += 1;
   }
-  associationsbriochinesLink.onclick = function (e) {
-    addCategoryOverlay(associationsbriochinesLink, 'Associations briochines', 'layer', 'marker', associationsbriochinesURL, taillePetitMarker, associationsbriochinesCount);
-    associationsbriochinesCount += 1;
-    for (var i = 0; i < Layers.length; i++) {
-      if (Layers[i] = 'Associations briochines') {
-        map.setMaxBounds(mazierBounds);
-        map.jumpTo({
-          center: [-2.7410000, 48.513033],
-          zoom: 16.5,
-          pitch: 0,
-          speed: 0.6
-        });
-        zoomMazier.classList.add('active');
-        zoomVillejean.classList.remove('active');
-        zoomLaHarpe.classList.remove('active');
-      }
-    }
-  }
+  // associationsbriochinesLink.onclick = function (e) {
+  //   addCategoryOverlay(associationsbriochinesLink, 'Associations briochines', 'layer', 'marker', associationsbriochinesURL, taillePetitMarker, associationsbriochinesCount);
+  //   associationsbriochinesCount += 1;
+  //   for (var i = 0; i < Layers.length; i++) {
+  //     if (Layers[i] = 'Associations briochines') {
+  //       map.setMaxBounds(mazierBounds);
+  //       map.jumpTo({
+  //         center: [-2.7410000, 48.513033],
+  //         zoom: 16.5,
+  //         pitch: 0,
+  //         speed: 0.6
+  //       });
+  //       zoomMazier.classList.add('active');
+  //       zoomVillejean.classList.remove('active');
+  //       zoomLaHarpe.classList.remove('active');
+  //     }
+  //   }
+  // }
   associationscasLink.onclick = function (e) {
     addCategoryOverlay(associationscasLink, 'Associations culturelles, artistiques et sportives', 'layer', 'marker', associationscasURL, taillePetitMarker, associationscasCount);
     associationscasCount += 1;
@@ -692,10 +692,10 @@ function activateCategory(categoryName) {
     addCategoryOverlay(associationssolidariteLink, 'Associations de solidarité et de sensibilisation', 'layer', 'marker', associationssolidariteURL, taillePetitMarker, associationssolidariteCount);
     associationssolidariteCount += 1;
   }
-  associationsLink.onclick = function (e) {
-    addCategoryOverlay(associationsLink, 'Autres', 'layer', 'marker', associationsURL, taillePetitMarker, associationsCount);
-    associationsCount += 1;
-  }
+  // associationsLink.onclick = function (e) {
+  //   addCategoryOverlay(associationsLink, 'Autres', 'layer', 'marker', associationsURL, taillePetitMarker, associationsCount);
+  //   associationsCount += 1;
+  // }
 
 
   //////////////////////////////////  Mobilité et accessibilité ///////////////////////////////////////
@@ -1039,10 +1039,10 @@ document.addEventListener('DOMContentLoaded', function() {
   var associationsmasterLink = document.getElementById('Associations de Masters et Doctorats');
   var associationsmasterURL = '../css/icons/layers_icons/association_marker2.png';
 
-  // Associations briochines
-  var associationsbriochinesCount = 0; // initialisation du compteur de clics
-  var associationsbriochinesLink = document.getElementById('Associations briochines');
-  var associationsbriochinesURL = '../css/icons/layers_icons/association_marker3.png';
+  // // Associations briochines
+  // var associationsbriochinesCount = 0; // initialisation du compteur de clics
+  // var associationsbriochinesLink = document.getElementById('Associations briochines');
+  // var associationsbriochinesURL = '../css/icons/layers_icons/association_marker3.png';
 
   // Associations culturelles, artistiques et sportives
   var associationscasCount = 0; // initialisation du compteur de clics
@@ -1054,10 +1054,10 @@ document.addEventListener('DOMContentLoaded', function() {
   var associationssolidariteLink = document.getElementById('Associations de solidarité et de sensibilisation');
   var associationssolidariteURL = '../css/icons/layers_icons/association_marker5.png';
 
-  // Associations autres
-  var associationsCount = 0; // initialisation du compteur de clics
-  var associationsLink = document.getElementById('Autres');
-  var associationsURL = '../css/icons/layers_icons/association_marker6.png';
+  // // Associations autres
+  // var associationsCount = 0; // initialisation du compteur de clics
+  // var associationsLink = document.getElementById('Autres');
+  // var associationsURL = '../css/icons/layers_icons/association_marker6.png';
 
   // Ascenseur
   var ascenseurCount = 0; // initialisation du compteur de clics
