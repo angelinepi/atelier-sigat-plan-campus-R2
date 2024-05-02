@@ -72,9 +72,6 @@ function executeClearSubMenu() { // Définit une fonction nommée 'executeClearS
   });
 }
 
-
-
-
  //définition d'une fonction permettant l'extraction d'une valeur d'un paramètre d'URL (avec expression régulière)
 
   function getQueryStringValue(key) {
@@ -889,6 +886,7 @@ function executeClearSubMenu() { // Définit une fonction nommée 'executeClearS
 ////////// Fonction ajoutant une liste de picto de manière permanente sur le fond de carte ////////// 
 
 function addPictoFondDeCarte() {
+	
   // Charger les données GeoJSON des éléments remarquables
   fetch("../data/fondcarte/elements_remarquables/elements_remarquables.geojson?v=" + version)
     .then(response => response.json())
@@ -907,25 +905,25 @@ function addPictoFondDeCarte() {
         }
 
         // Ajouter la couche à la carte
-        map.addLayer({
-          "id": iconName + pictoCount,
-          "type": "symbol",
-          "source": {
-            "type": "geojson",
-            "data": {
-              "type": "FeatureCollection",
-              "features": [feature]
-            }
-          },
-          "layout": {
-            "visibility": 'visible',
-            "icon-image": iconName,
-            "icon-size": size,
-            "icon-allow-overlap": true
-          },
+          map.addLayer({
+            "id": iconName + pictoCount,
+            "type": "symbol",
+            "source": {
+              "type": "geojson",
+              "data": {
+                "type": "FeatureCollection",
+                "features": [feature]
+              }
+           },
+            "layout": {
+              "visibility": 'visible',
+              "icon-image": iconName,
+              "icon-size": size,
+              "icon-allow-overlap": true
+            },
           minzoom: 15.5,
+         });
         });
-      });
     });
   
   // Charger les données GeoJSON des lettres des bâtiments
@@ -945,23 +943,23 @@ function addPictoFondDeCarte() {
         }
 
         // Ajouter la couche à la carte
-        map.addLayer({
-          "id": iconName + pictoCount,
-          "type": "symbol",
-          "source": {
-            "type": "geojson",
-            "data": {
-              "type": "FeatureCollection",
-              "features": [feature]
-            }
-          },
-          "layout": {
-            "visibility": 'visible',
-            "icon-image": iconName,
-            "icon-allow-overlap": true
-          },
+          map.addLayer({
+            "id": iconName + pictoCount,
+            "type": "symbol",
+            "source": {
+              "type": "geojson",
+              "data": {
+                "type": "FeatureCollection",
+                "features": [feature]
+              }
+            },
+            "layout": {
+              "visibility": 'visible',
+              "icon-image": iconName,
+              "icon-allow-overlap": true
+            },
           minzoom: 15.5,
-        });
+         });
       });
     });
 
