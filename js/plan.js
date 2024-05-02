@@ -313,7 +313,7 @@ function activateCategory(categoryName) {
         sallesSpeCount += 1;
       }
       
-      //////////////////////////////////  Structures et services //////////////////////////////////////
+      //////////////////////////////////  equipement et services //////////////////////////////////////
 
     // if (categoryName == 'Services communs') {
     //   addCategoryOverlay(ServicescomLink, 'Services communs', ServicescomLinkState, 'marker', ServicescomURL, tailleMarker, ServicescomCount);
@@ -382,6 +382,11 @@ function activateCategory(categoryName) {
     microOndesLink.onclick = function (e) {
       addCategoryOverlay(microOndesLink, 'Micro-ondes', 'layer', 'marker', microOndesURL, taillePetitMarker, microOndesCount);
       microOndesCount += 1;
+    }
+
+    espaceDetenteLink.onclick = function (e) {
+      addCategoryOverlay(espaceDetenteLink, 'Espace détente', 'layer', 'marker', espaceDetenteURL, tailleMarker, espaceDetenteCount);
+      espaceDetenteCount += 1;
     }
     
     //////////////////////////////////  Formation et recherche //////////////////////////////////////
@@ -691,13 +696,6 @@ function activateCategory(categoryName) {
     associationsCount += 1;
   }
 
-  //////////////////////////////////  Divers ///////////////////////////////////////
-
-
-  // espaceDetenteLink.onclick = function (e) {
-  //   addCategoryOverlay(espaceDetenteLink, 'Espace détente', 'layer', 'marker', espaceDetenteURL, tailleMarker, espaceDetenteCount);
-  //   espaceDetenteCount += 1;
-  // }
 
   //////////////////////////////////  Mobilité et accessibilité ///////////////////////////////////////
 
