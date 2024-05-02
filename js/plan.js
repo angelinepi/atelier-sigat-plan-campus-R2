@@ -1281,7 +1281,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }, Layers[0]);
 
 
-    map.on("mousemove", bati3DId, function (e) {
+    map.on("click", bati3DId, function (e) {
       map.setFilter(bati3DHId, ["==", "Id", e.features[0].properties.Id]);
       var popupTitle = '';
       popupContent = '';
@@ -1316,7 +1316,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     //Reset la coloration du polygone batiment quand la souris quitte la couche
-    map.on("mouseleave", bati3DHId, function () {
+    map.on("click", bati3DHId, function () {
       map.setFilter(bati3DHId, ["==", "Id", ""]);
       popupBati.remove();
     });
@@ -1392,7 +1392,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }, Layers[0]);
 
     //interactivité
-    map.on("mousemove", bati2DId, function (e) {
+    map.on("click", bati2DId, function (e) {
       map.setFilter(bati2DHId, ["==", "Id", e.features[0].properties.Id]);
       var popupTitle = '';
       popupContent = '';
@@ -1430,7 +1430,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     //Reset la coloration du polygone batiment quand la souris quitte la couche.
-    map.on("mouseleave", bati2DHId, function () {
+    map.on("click", bati2DHId, function () {
       map.setFilter(bati2DHId, ["==", "Id", ""]);
       popupBati.remove();
     });
