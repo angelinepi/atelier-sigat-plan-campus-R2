@@ -6,45 +6,72 @@ clearBtn.addEventListener("click", function() {
     executeClearSubMenu(); // Deuxième exécution
 });
 
-function executeClearSubMenu() {
-    $('ul.nav li:not(.sidebar-search,.sidebar-remove-filters), ul.nav li:not(.sidebar-search,.sidebar-remove-filters) a ').each(function (i) {
-        if ($(this).attr('id')) {
-            var removelayer = $(this).attr('id');
-            if (map.getLayer(removelayer)) {
-                var visibility = map.getLayoutProperty(removelayer, 'visibility');
-                if (visibility != "none") {
-                    if (Layers.includes(removelayer)) {
-                        var element = $("[id='" + removelayer + "']");
-                        if (!element.next('ul').hasClass("in"))
-                            element.next('ul').addClass("in");
-                        if (listLayers.includes(element.get(0))) {
-                            var index = $.inArray(element.get(0), listLayers);
-                            if (index > -1) {
-                                listLayers.splice(index, 1);
-                            }
-                        }
-                        element.trigger("click");
-                        if (element.next('ul').hasClass("in"))
-                            element.next('ul').removeClass("in");
-                        if (element.parent().hasClass("active"))
-                            element.parent().removeClass("active");
-                    }
-                }
-            }
-        }
-    });
+function executeClearSubMenu() { // Définit une fonction nommée 'executeClearSubMenu'
 
-    $('ul.nav li.active a.active').each(function (i) {
-        if ($(this).hasClass("active"))
-            $(this).removeClass("active");
-    });
-    $('ul.nav li.active:not(.sidebar-search,.sidebar-remove-filters), ul.nav li.active:not(.sidebar-search,.sidebar-remove-filters) ul.in ').each(function (i) {
-        if ($(this).hasClass("active"))
-            $(this).removeClass("active");
-        if ($(this).hasClass("in"))
-            $(this).removeClass("in");
-    });
+  // Sélectionne tous les éléments 'li' et 'a' dans 'ul.nav' qui n'ont pas les classes 'sidebar-search' ou 'sidebar-remove-filters'
+  $('ul.nav li:not(.sidebar-search,.sidebar-remove-filters), ul.nav li:not(.sidebar-search,.sidebar-remove-filters) a ').each(function (i) {
+
+      // Vérifie si l'élément courant a un attribut 'id'
+      if ($(this).attr('id')) {
+          var removelayer = $(this).attr('id'); // Récupère l'attribut 'id' de l'élément courant
+
+          // Vérifie si une couche avec l'id 'removelayer' existe dans la carte
+          if (map.getLayer(removelayer)) {
+              var visibility = map.getLayoutProperty(removelayer, 'visibility'); // Récupère la propriété 'visibility' de la couche
+
+              // Si la couche n'est pas masquée
+              if (visibility != "none") {
+                  if (Layers.includes(removelayer)) { // Vérifie si 'removelayer' est dans le tableau 'Layers'
+
+                      var element = $("[id='" + removelayer + "']"); // Récupère l'élément avec l'id 'removelayer'
+
+                      // Vérifie si l'élément suivant de 'element' n'a pas la classe 'in' et l'ajoute si c'est le cas
+                      if (!element.next('ul').hasClass("in"))
+                          element.next('ul').addClass("in");
+
+                      // Vérifie si 'element' est dans le tableau 'listLayers'
+                      if (listLayers.includes(element.get(0))) {
+                          var index = $.inArray(element.get(0), listLayers); // Récupère l'index de 'element' dans 'listLayers'
+
+                          // Supprime 'element' de 'listLayers'
+                          if (index > -1) {
+                              listLayers.splice(index, 1);
+                          }
+                      }
+
+                      // Déclenche un événement 'click' sur 'element'
+                      element.trigger("click");
+
+                      // Supprime la classe 'in' de l'élément suivant de 'element' s'il l'a
+                      if (element.next('ul').hasClass("in"))
+                          element.next('ul').removeClass("in");
+
+                      // Supprime la classe 'active' du parent de 'element' s'il l'a
+                      if (element.parent().hasClass("active"))
+                          element.parent().removeClass("active");
+                  }
+              }
+          }
+      }
+  });
+
+  // Sélectionne tous les éléments 'a' actifs dans 'ul.nav li.active'
+  $('ul.nav li.active a.active').each(function (i) {
+      // Supprime la classe 'active' de l'élément courant s'il l'a
+      if ($(this).hasClass("active"))
+          $(this).removeClass("active");
+  });
+
+  // Sélectionne tous les éléments 'li' et 'ul' actifs dans 'ul.nav li.active' qui n'ont pas les classes 'sidebar-search' ou 'sidebar-remove-filters'
+  $('ul.nav li.active:not(.sidebar-search,.sidebar-remove-filters), ul.nav li.active:not(.sidebar-search,.sidebar-remove-filters) ul.in ').each(function (i) {
+      // Supprime les classes 'active' et 'in' de l'élément courant s'il les a
+      if ($(this).hasClass("active"))
+          $(this).removeClass("active");
+      if ($(this).hasClass("in"))
+          $(this).removeClass("in");
+  });
 }
+
 
 
 
@@ -566,7 +593,7 @@ function executeClearSubMenu() {
       type: "fill-extrusion",
       source: "bati3D",
       paint: {
-        'fill-extrusion-color': '#6A8CC8',
+        'fill-extrusion-color': '#647BA1',
         'fill-extrusion-height': {
           'type': 'identity',
           'property': 'hauteur'
@@ -585,7 +612,7 @@ function executeClearSubMenu() {
       source: "bati3D",
       filter: ["==", "Nom", ""],
       paint: {
-        'fill-extrusion-color': '#6A8CC8',
+        'fill-extrusion-color': '#647BA1',
         'fill-extrusion-height': {
           'type': 'identity',
           'property': 'hauteur'
@@ -691,8 +718,8 @@ function executeClearSubMenu() {
       type: "fill",
       source: "bati2D",
       paint: {
-        'fill-color': '#6A8CC8',
-        'fill-opacity': 0.8
+        'fill-color': '#647BA1',
+        // 'fill-opacity': 0.8
       }
     }, Layers[0]);
 
@@ -702,8 +729,8 @@ function executeClearSubMenu() {
       source: "bati2D",
       filter: ["==", "Id", ""],
       paint: {
-        'fill-color': '#6A8CC8',
-        'fill-opacity': 0.5
+        'fill-color': '#647BA1',
+        // 'fill-opacity': 0.5
       }
     }, Layers[0]);
 
