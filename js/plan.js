@@ -593,7 +593,7 @@ function executeClearSubMenu() { // Définit une fonction nommée 'executeClearS
       type: "fill-extrusion",
       source: "bati3D",
       paint: {
-        'fill-extrusion-color': '#6A8CC8',
+        'fill-extrusion-color': '#647BA1',
         'fill-extrusion-height': {
           'type': 'identity',
           'property': 'hauteur'
@@ -612,7 +612,7 @@ function executeClearSubMenu() { // Définit une fonction nommée 'executeClearS
       source: "bati3D",
       filter: ["==", "Nom", ""],
       paint: {
-        'fill-extrusion-color': '#6A8CC8',
+        'fill-extrusion-color': '#647BA1',
         'fill-extrusion-height': {
           'type': 'identity',
           'property': 'hauteur'
@@ -718,8 +718,8 @@ function executeClearSubMenu() { // Définit une fonction nommée 'executeClearS
       type: "fill",
       source: "bati2D",
       paint: {
-        'fill-color': '#6A8CC8',
-        'fill-opacity': 0.8
+        'fill-color': '#647BA1',
+        // 'fill-opacity': 0.8
       }
     }, Layers[0]);
 
@@ -729,8 +729,8 @@ function executeClearSubMenu() { // Définit une fonction nommée 'executeClearS
       source: "bati2D",
       filter: ["==", "Id", ""],
       paint: {
-        'fill-color': '#6A8CC8',
-        'fill-opacity': 0.5
+        'fill-color': '#647BA1',
+        // 'fill-opacity': 0.5
       }
     }, Layers[0]);
 
