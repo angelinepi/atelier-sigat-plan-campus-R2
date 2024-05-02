@@ -688,6 +688,7 @@ function activateCategory(categoryName) {
     addCategoryOverlay(associationscasLink, 'Associations culturelles, artistiques et sportives', 'layer', 'marker', associationscasURL, taillePetitMarker, associationscasCount);
     associationscasCount += 1;
   }
+
   associationssolidariteLink.onclick = function (e) {
     addCategoryOverlay(associationssolidariteLink, 'Associations de solidarité et de sensibilisation', 'layer', 'marker', associationssolidariteURL, taillePetitMarker, associationssolidariteCount);
     associationssolidariteCount += 1;
@@ -722,6 +723,16 @@ function activateCategory(categoryName) {
     lineairePMRCount += 1;
     console.log(lineairePMRCount) 
   }
+
+  entree_campusLink.onclick = function (e) {
+    addCategoryOverlay(entree_campusLink, 'Entrée campus', 'layer', 'picto', entree_campusURL, taillePicto, entree_campusCount);
+    entree_campusCount += 1;
+    }
+
+  entree_batimentLink.onclick = function (e) {
+    addCategoryOverlay(entree_batimentLink, 'Entrée batiment', 'layer', 'picto', entree_batimentURL, taillePicto, entree_batimentCount);
+    entree_batimentCount += 1;
+    }
 
   accesPMRLink.onclick = function (e) {
     addCategoryOverlay(accesPMRLink, 'Accès PMR', 'layer', 'point', accesPMRColor, accesPMRIconSize, accesPMRCount);
@@ -1085,6 +1096,15 @@ document.addEventListener('DOMContentLoaded', function() {
   var parkingVeloColor = 'purple';
   var parkingVeloIconSize = [1.5, 13, 2, 22, 60];
 
+   // Entrée campus
+   var entree_campusLink = document.getElementById('Entrée campus');
+   var entree_campusCount = 0; // initialisation du compteur de clics
+   var entree_campusURL = '../css/icons/layers_icons/entrée_campus_2.png';
+
+   // Entrée batiment
+   var entree_batimentLink = document.getElementById('Entrée batiment');
+   var entree_batimentCount = 0; // initialisation du compteur de clics
+   var entree_batimentURL = '../css/icons/layers_icons/entrée_campus_2.png';
 
   // Couche Pole santé et prévention
 
