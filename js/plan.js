@@ -101,13 +101,14 @@ function executeClearSubMenu() { // Définit une fonction nommée 'executeClearS
 
 ///////////////////// LIENS PROFONDS //////////////////////
 
-  /**
+ /**
    * Créer un lien vers le site Plan des Campus Université de Rennes 
    * @param selectedCampus Nom du campus
    * @param selectedCategory Nom de la catégorie
+   * @param selectedObjet Nom de l'objet/élément 
    * @returns {string} URL de recherche
    */
-function createLinkAndUpdateURL(selectedCampus, selectedCategory) {
+ function createLinkAndUpdateURL(selectedCampus, selectedCategory, selectedObjet) {
   let url = window.location.pathname; 
 
   // Ajouter le campus à l'URL
@@ -117,8 +118,13 @@ function createLinkAndUpdateURL(selectedCampus, selectedCategory) {
   if (selectedCategory !== null && selectedCategory !== undefined) {
     url += `&category=${encodeURI(selectedCategory)}`;
   }
-
-  history.pushState({ campus: selectedCampus, category: selectedCategory}, campus, url); 
+  
+  // Vérifier si objet n'est pas null ou undefined avant de l'ajouter à l'URL
+  if (selectedObjet !== null && selectedObjet !== undefined) {
+    url += `&objet=${encodeURI(selectedObjet)}`;
+  }
+    
+  history.pushState({ campus: selectedCampus, category: selectedCategory, objet: selectedObjet }, campus, url); 
   return url;
 }
 
@@ -136,7 +142,8 @@ campusButtons.forEach(function(button) {
     const selectedCampus = event.target.textContent.trim(); 
     /** Récupérer la catégorie sélectionnée à partir de l'URL */
     const selectedCategory = getCategoryFromURL(); // 
-    createLinkAndUpdateURL(selectedCampus, selectedCategory); 
+    const selectedObjet = getObjetFromURL();
+    createLinkAndUpdateURL(selectedCampus, selectedCategory,selectedObjet); 
   });
 });
 
@@ -144,15 +151,16 @@ campusButtons.forEach(function(button) {
 document.addEventListener('DOMContentLoaded', function() {
   const urlParams = new URLSearchParams(window.location.search);
   const selectedCategory = getCategoryFromURL();
+  const selectedObjet = getObjetFromURL();
 
   if (!urlParams.has('campus')) {
     const selectedCampus = 'Villejean';
 
     // Mettre à jour l'URL avec le paramètre 'campus'
     urlParams.set('campus', selectedCampus);
-    history.pushState({ campus: selectedCampus, category: selectedCategory}, '', window.location.pathname + '?' + urlParams.toString());
+    history.pushState({ campus: selectedCampus, category: selectedCategory, objet : selectedObjet}, '', window.location.pathname + '?' + urlParams.toString());
 
-    createLinkAndUpdateURL(selectedCampus, selectedCategory);
+    createLinkAndUpdateURL(selectedCampus, selectedCategory, selectedObjet);
   }
 });
 
@@ -235,6 +243,8 @@ categoryLinks.forEach(function(link) {
     const categoryName = link.id
     /** Récupérer le nom du campus du lien */
     const selectedCampus = getCampusFromURL();
+    
+    const selectedObjet = getObjetFromURL();
 
     // Mettre à jour la catégorie sélectionnée
     selectedCategory = categoryName;
@@ -251,7 +261,7 @@ categoryLinks.forEach(function(link) {
     activateCategory(categoryName);
 
     // Mettre à jour l'URL et afficher la nouvelle URL dans la console
-    const updatedURL = createLinkAndUpdateURL(selectedCampus, selectedCategory);
+    const updatedURL = createLinkAndUpdateURL(selectedCampus, selectedCategory,selectedObjet);
     console.log(updatedURL);
   });
 });
@@ -778,7 +788,227 @@ document.addEventListener('DOMContentLoaded', function() {
 
 /////////////////////////////////// fin code pour changer de catégories /////////////////////////////
 
+////////////////////////////////// URL pour les OBJETS  /////////////////////////////
+// //// via le bouton de recherche //// 
+// // Sélectionner le bouton de recherche
+const searchButton = document.querySelector('#searchButton');
 
+ 
+// Ajouter un gestionnaire d'événements au bouton de recherche
+searchButton.addEventListener('click', function() {
+  // Récupérer la valeur de la recherche à partir du champ de saisie
+  const campusButton = document.querySelector('#campus .btn-primary.active');
+let activeButtonName = '';
+campusButtons.forEach(function(button) {
+  if (button.classList.contains('active')) {
+    activeButtonName = button.textContent.trim();
+  }
+});
+  const selectedCampus = activeButtonName
+  const selectedCategory = getCategoryFromURL();
+  const selectedObjet = document.querySelector('#search-bar').value.trim();
+  // Vérifier si la valeur de la recherche n'est pas vide
+  if (selectedObjet !== '') {
+    // Créer un lien et mettre à jour l'URL en fonction de la valeur de la recherche
+    createLinkAndUpdateURL(selectedCampus, selectedCategory,selectedObjet);
+  }
+});
+
+////////////// URL vers page //////////////////////
+
+  /**
+   * Fonction pour obtenir le nom de l'objet à partir de l'URL
+   * @returns {string} Nom de l'objet
+   */
+  function getObjetFromURL() {
+    const urlParams = new URLSearchParams(window.location.search); // Récupérer les paramètres de l'URL
+    console.log(urlParams.get('objet'));
+    return urlParams.get('objet'); // Récupérer la valeur du paramètre de l'objet
+  }
+
+  // document.addEventListener('click', function() {
+  //   console.log('objet:', getObjetFromURL());
+  // });
+
+  /**
+ * Fonction pour afficher la popup correspondant à un objet et effectuer un zoom sur la popup
+ * @param {*} objetName 
+ */
+// avec le nouvel appel des données 
+function afficherPopupObjet(selectedObjet) {
+  //Définition des variables avant le fonction promise
+  var fproperties = [];
+  var POI = [];
+  var searchBarCrossPresence = null;
+  var searchValue = null;
+  var searchLayerId = 'SearchResult';
+  var searchLayerCount = 0;
+  var searchPopup = null;
+  var searchItem = [];
+  var searchX = null;
+  var searchY = null;
+  
+  
+  // nouvel appel grâce à la fonction d'AP
+  const getGeoJSON = (nomFichier) => fetch(nomFichier).then(res => res.json()).then(res => res.features);
+  
+  const geojsons = [
+  getGeoJSON("../data/filtre/acces_PMR.geojson"),
+  getGeoJSON("../data/filtre/amphi.geojson"),
+  getGeoJSON("../data/filtre/arret_bus_pts.geojson"),
+  getGeoJSON("../data/filtre/arret_metro_pts.geojson"),
+  getGeoJSON("../data/filtre/ascenseur.geojson"),
+  getGeoJSON("../data/filtre/asso_art_spor.geojson"),
+  getGeoJSON("../data/filtre/asso_filiere.geojson"),
+  getGeoJSON("../data/filtre/asso_mstr_doc.geojson"),
+  getGeoJSON("../data/filtre/asso_solidarite.geojson"),
+  getGeoJSON("../data/filtre/biblio.geojson"),
+  getGeoJSON("../data/filtre/cafet_distrib.geojson"),
+  getGeoJSON("../data/filtre/copieur.geojson"),
+  getGeoJSON("../data/filtre/entree_bat.geojson"), 
+  getGeoJSON("../data/filtre/entree_campus.geojson"),
+  getGeoJSON("../data/filtre/eqpmt_sportif.geojson"),
+  getGeoJSON("../data/filtre/esp_detente.geojson"),
+  getGeoJSON("../data/filtre/labo.geojson"),
+  getGeoJSON("../data/filtre/lieu_cultu.geojson"),
+  getGeoJSON("../data/filtre/micro_ondes.geojson"),
+  getGeoJSON("../data/filtre/oeuvres.geojson"),
+  getGeoJSON("../data/filtre/parking_velo.geojson"),
+  getGeoJSON("../data/filtre/parking_voiture.geojson"),
+  getGeoJSON("../data/filtre/resid_univ.geojson"),
+  getGeoJSON("../data/filtre/ru.geojson"),
+  getGeoJSON("../data/filtre/salle_e0.geojson"),
+  getGeoJSON("../data/filtre/salle_e1.geojson"),
+  getGeoJSON("../data/filtre/salle_e2.geojson"),
+  getGeoJSON("../data/filtre/salle_e3.geojson"),
+  getGeoJSON("../data/filtre/salle_e4.geojson"),
+  getGeoJSON("../data/filtre/salle_e5.geojson"),
+  getGeoJSON("../data/filtre/salle_e6.geojson"),
+  getGeoJSON("../data/filtre/salle_e7.geojson"),
+  getGeoJSON("../data/filtre/salle_info.geojson"),
+  getGeoJSON("../data/filtre/salle_spe.geojson"),
+  getGeoJSON("../data/filtre/sante.geojson"),
+  getGeoJSON("../data/filtre/scol.geojson"),
+  getGeoJSON("../data/filtre/services.geojson"),
+  getGeoJSON("../data/filtre/station_velostar.geojson"),
+  getGeoJSON("../data/filtre/wc.geojson"),
+  getGeoJSON("../data/fondcarte/lettre_batiment.geojson")
+  ];
+  
+  const finalGeoJSON = {
+  "type": "FeatureCollection",
+  "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}}, //système de coordonnées
+  "features": []
+  };  
+  
+  Promise.all(geojsons).then(allGeoJsons => { //à l'intérieur de cette fonction se passe le regroupement des geojsons
+  
+  allGeoJsons.forEach(oneGeoJSON => {
+      finalGeoJSON.features.concat(oneGeoJSON.features);
+      
+    });
+
+  //Appeler la fonction qui gère les données fusionnées
+    finalGeoJSON.features = allGeoJsons // recup de l'objet avec ts les geojsons
+   var mergedFeatures = finalGeoJSON.features.reduce((acc, val) => acc.concat(val), []);
+    finalGeoJSON.features = mergedFeatures // transformation de l'objet pour correspondre à l'ancien fichier points.geojson
+    
+    POIBrut = finalGeoJSON // affectation de cette objet dans l'objet appelé par les couches dans le reste du code
+    
+    POI = POIBrut.features;
+      
+  
+  fproperties = finalGeoJSON.features.map(function (el) {
+    return el.properties;})
+    
+      // Récupérer les caractéristiques de l'objet à partir des données POIBrut
+      var features = POIBrut.features.filter(feature => feature.properties.Nom === selectedObjet);
+  
+    console.log("Caractéristiques trouvées pour l'objet:", features);
+    console.log('poibrut 1',POIBrut)
+  
+    // var features = POIBrut.features.filter(feature => feature.properties.Nom === objetName);  
+    
+    // Vérifier si des caractéristiques ont été trouvées pour l'objet
+    if (features.length > 0) {
+      console.log("ca fonctionne presque");
+      var feature = features[0]; // Prendre la première caractéristique trouvée
+      console.log("feature", feature);
+      getPopupContent(feature); // Récupérer le contenu de la popup
+
+
+      // var coordinates = feature.geometry.coordinates[0];
+      var coordinates = feature.geometry.coordinates[0]; 
+      //  popup.setLngLat(coordinates);
+
+      
+// console.log(coordinates);
+// popup.setLngLat(feature.geometry.coordinates);
+
+      // var coordinates = feature.geometry.coordinates; // Coordonnées de l'objet
+      console.log("coordinates", coordinates);
+
+
+
+    // Créez une nouvelle instance de Popup si elle n'est pas déjà définie
+    if (!popup) {
+      popup = new maplibregl.Popup({
+          offset: [0, -40], // Offset de la popup
+          closeButton: false // Bouton de fermeture de la popup
+      });
+  }
+
+  // Définir les coordonnées de la popup
+  popup.setLngLat(coordinates);
+
+
+
+      // Afficher la popup
+      popup = new maplibregl.Popup({
+        offset: [0, -40], // Offset de la popup
+        closeButton: false // Bouton de fermeture de la popup
+      })
+      .setLngLat(coordinates) // Définir les coordonnées de la popup
+      .setHTML('<h1>' + popupTitle + '</h1>' + popupContent) // Contenu HTML de la popup
+      .addTo(map); // Ajouter la popup à la carte
+  
+      // Définir les limites de la carte en fonction du campus
+      if (feature.properties.Campus === 'Mazier') {
+        map.setMaxBounds(mazierBounds); // Définir les limites de la carte pour le campus de Mazier  
+      } else {
+        map.setMaxBounds(rennesBounds); // Définir les limites de la carte pour les autres campus
+      }
+  
+      // Obtenir les dimensions de la carte
+      var width = map.getCanvas().clientWidth;
+      var height = map.getCanvas().clientHeight;
+  
+      // Convertir les coordonnées en pixels
+      var point = map.project(coordinates);
+  
+      // Effectuer un zoom sur la popup
+      map.flyTo({
+        center: map.unproject([point.x, point.y]), // Coordonnées du centre de la carte (non-décalé)
+        zoom: 15.75, // Niveau de zoom souhaité
+        essential: false // Cette animation est essentielle, elle ne peut pas être désactivée par l'utilisateur
+      });
+  
+      // Ajouter une épingle à la carte pour l'objet
+      addPointOverlay(selectedObjet, [1, 13, 0.1, 25, 1.5]); // ajuste les paramètres de taille de l'icône
+  
+    } else {
+      console.log("Aucune caractéristique trouvée pour l'objet:", selectedObjet);
+    }
+  });
+  }
+
+   // Lorsque la page se charge, récupérez le nom de l'objet dans l'URL et affichez la popup correspondante
+   document.addEventListener('DOMContentLoaded', function() {
+    const selectedObjet = getObjetFromURL();
+    if (selectedObjet) {
+      afficherPopupObjet(selectedObjet);
+    }
+  });
   ///////////////////////////////////////  Initialisation du fond de carte //////////////////////////////////
 
   // Adapter le zoom, et la largeur / placement des raccourcis spatiaux en fonction de l'écran
@@ -2442,12 +2672,12 @@ var popupContent = [];
       }
   
         // création du lien pour les objets lorsqu'on clique sur l'épingle 
-        const objetName = popupTitle.trim(); // Récupérer le nom de l'objet à partir du titre de la popup
-        const campus = getCampusFromURL(); // Récupérer le campus à partir de l'URL
+        const selectedObjet = popupTitle.trim(); // Récupérer le nom de l'objet à partir du titre de la popup
+        const selectedCampus = getCampusFromURL(); // Récupérer le campus à partir de l'URL
         const selectedCategory = getCategoryFromURL(); // Récupérer la catégorie à partir de l'URL
         
         // const objetId = feature.properties.id; // Récupérer l'id de l'objet
-        createLinkAndUpdateURL(campus, selectedCategory, objetName); // Appeler la fonction pour changer l'objet et l'URL
+        createLinkAndUpdateURL(selectedCampus, selectedCategory, selectedObjet); // Appeler la fonction pour changer l'objet et l'URL
 
   
     });
@@ -3297,7 +3527,7 @@ function addRealTimeBus() {
     attributionContainer.appendChild(attributionLink4);
   }
 // ajout actions barre de recherche
-var searchButton = document.getElementById('searchButton');
+//var searchButton = document.getElementById('searchButton');
 var searchBarCrossPresence = null;
 
 searchButton.addEventListener('click', function (e) {
