@@ -748,7 +748,8 @@ function activateCategory(categoryName) {
   velostarLink.onclick = function (e) {
     addCategoryOverlay(velostarLink, 'Station Vélostar', 'layer', 'point', velostarColor, taillePoint, velostarCount);
     velostarCount += 1;
-    setInterval(addRealTimeVelostar(), 1000);
+    addRealTimeVelostar();
+    console.log(velostarCount)
   }
   busLineLink.onclick = function (e) {
     addCategoryOverlay(busLineLink, 'Cheminements Bus', 'layer', 'line', busLineColor, tailleLine, busLineCount);
@@ -2739,7 +2740,7 @@ var previousDataVelos = {times: [], stations: []};
 var prevInfo = null;
 var velostarTRCount = 0;
 var nomLayer = null;
-var velostarLink = document.getElementById('Station Vélostar');
+// var velostarLink = document.getElementById('Station Vélostar'); //déjà créé plus haut
 
 ////////// définition de la fonction addRealTimeVelostar //////////
 function addRealTimeVelostar() {
@@ -2886,7 +2887,7 @@ var previousDataBus = {times: [], stations: []};
 var prevInfo = null;
 var busTRCount = 0
 var nomLayerBus = null
-var busLink = document.getElementById('Bus');
+// var busLink = document.getElementById('Bus'); // déjà appelé plus haut
 ////////// définition de la fonction addRealTimeBus //////////
 function addRealTimeBus() {
   busTRCount += 1;
