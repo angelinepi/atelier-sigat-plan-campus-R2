@@ -276,8 +276,8 @@ function getCategoryFromURL() {
 function activateCategory(categoryName) {
   const categoryLinks = document.querySelectorAll('.sidebar #side-menu a.case');
   categoryLinks.forEach(function(link) {
-    if (link.id === categoryName) { // Vérifier si le nom de la catégorie correspond au nom de la catégorie du lien
-      link.classList.add('active');
+    // if (link.id === categoryName) { // Vérifier si le nom de la catégorie correspond au nom de la catégorie du lien
+      // link.classList.add('active');
       console.log('Catégorie activée :', categoryName);
 
 //////////////////////////////////  Groupe Amphis et salles spécifiques //////////////////////////////////////
@@ -763,9 +763,9 @@ function activateCategory(categoryName) {
 // Couches en temps réel ?????????? //
 
 
-    }
-  });
-}
+}) 
+  };
+// }
 
 
 // Lorsque la page est chargée, récupérez le nom de la catégorie dans l'URL et activez la case à cocher correspondante
