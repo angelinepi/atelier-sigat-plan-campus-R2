@@ -561,12 +561,13 @@ color: green;
 /* Styles pour le conteneur de la barre de recherche */
 .search-bar {
   display: flex; /* Affichage flex pour aligner les éléments côte à côte */
+  flex-direction: row-reverse;
   align-items: center; /* Centrer verticalement les éléments */
 }
 
 /* Styles pour l'entrée de recherche */
 #search-bar {
-  min-width: 500px;
+  max-width: 500px;
   border: none; /* Pas de bordure */
   border-radius: 15px; /* Rayon de bordure */
   box-shadow: none; /* Pas d'ombre */
@@ -602,7 +603,7 @@ color: green;
   background-position: 50% 50%; /* Position de l'image de fond */
   background-repeat: no-repeat; /* Pas de répétition de l'image de fond */
   background-size: 20px 20px; /* Taille de l'image de fond */
-  margin-left: 310px; /* Marge à gauche pour décaler le bouton vers la droite */
+  margin-right: 10px;
 }
 
 /* Styles pour le bouton de recherche avec l'ID searchButton et la classe search-active */
@@ -989,12 +990,12 @@ button.navbar-toggle {
 
 @media (max-width: 1010px){
   #search-bar{
-    min-width: 300px;
+    max-width: 250px;
     margin-left: -65px;
   }
   #searchButton.btn-primary {
     position: relative;
-    right: 260px;
+    right: 60px;
   }
   .header-main h1{
     position: relative;
