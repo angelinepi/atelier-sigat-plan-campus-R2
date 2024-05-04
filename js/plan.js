@@ -312,26 +312,35 @@ function activateCategory(categoryName) {
       sallesInfoLink.onclick = function (e) {
         addCategoryOverlay(sallesInfoLink, 'Salle informatique', 'layer', 'marker', sallesInfoURL, tailleMarker, sallesInfoCount);
         sallesInfoCount += 1;
+        if (sallesInfoCount > 1000) {
+          alert("Refonte du plan interactif 2024 par Pauline Besnard, Alexandre Blin, Paul Bourcier, Saïd Khatir, Yanis Lepesant et Angéline Pinilo")
+        };
       }
 
       if (categoryName == 'Salles spécifiques') {
-        addCategoryOverlay(sallesSpecifiquesLink, 'Salles spécifiques', 'layer', 'marker', sallesSpeURL, tailleMarker, sallesSpeCount);
+        addCategoryOverlay(sallesSpecifiquesLink, 'Salles spécifiques', sallesSpeLinkState, 'marker', sallesSpeURL, tailleMarker, sallesSpeCount);
         sallesSpeCount += 1;
+        if (sallesSpeCount == 0) {
+          createHTMLList('Salles spécifiques', listesallesSpe, insertSallesSpecifiques, sallesSpeCount);
+        }
       }
       sallesSpecifiquesLink.onclick = function (e) {
-        addCategoryOverlay(sallesSpecifiquesLink, 'Salles spécifiques', 'layer', 'marker', sallesSpeURL, tailleMarker, sallesSpeCount);
+        addCategoryOverlay(sallesSpecifiquesLink, 'Salles spécifiques', sallesSpeLinkState, 'marker', sallesSpeURL, tailleMarker, sallesSpeCount);
+        if (sallesSpeCount == 0) {
+          createHTMLList('Salles spécifiques', listesallesSpe, insertSallesSpecifiques, sallesSpeCount);
+        }
         sallesSpeCount += 1;
       }
       
       //////////////////////////////////  equipement et services //////////////////////////////////////
 
-    // if (categoryName == 'Services communs') {
-    //   addCategoryOverlay(ServicescomLink, 'Services communs', ServicescomLinkState, 'marker', ServicescomURL, tailleMarker, ServicescomCount);
-    //   if (ServicescomCount == 0) {
-    //     createHTMLList('Services communs', listeServicescom, insertServicescom, ServicescomCount);
-    //   }
-    //   ServicescomCount += 1;
-    // }
+    if (categoryName == 'Services communs') {
+      addCategoryOverlay(ServicescomLink, 'Services communs', ServicescomLinkState, 'marker', ServicescomURL, tailleMarker, ServicescomCount);
+      if (ServicescomCount == 0) {
+        createHTMLList('Services communs', listeServicescom, insertServicescom, ServicescomCount);
+      }
+      ServicescomCount += 1;
+    }
     ServicescomLink.onclick = function (e) {
       addCategoryOverlay(ServicescomLink, 'Services communs', ServicescomLinkState, 'marker', ServicescomURL, tailleMarker, ServicescomCount);
       if (ServicescomCount == 0) {
@@ -340,13 +349,13 @@ function activateCategory(categoryName) {
       ServicescomCount += 1;
     }
 
-    // if (categoryName == 'Services généraux') {
-    //   addCategoryOverlay(ServicesgenLink, 'Services généraux', ServicesgenLinkState, 'marker', ServicesgenURL, tailleMarker, ServicesgenCount);
-    //   if (ServicesgenCount == 0) {
-    //     createHTMLList('Services généraux', listeServicesgen, insertServicesgen, ServicesgenCount);
-    //   }
-    //   ServicesgenCount += 1;
-    // }
+    if (categoryName == 'Services généraux') {
+      addCategoryOverlay(ServicesgenLink, 'Services généraux', ServicesgenLinkState, 'marker', ServicesgenURL, tailleMarker, ServicesgenCount);
+      if (ServicesgenCount == 0) {
+        createHTMLList('Services généraux', listeServicesgen, insertServicesgen, ServicesgenCount);
+      }
+      ServicesgenCount += 1;
+    }
     ServicesgenLink.onclick = function (e) {
       addCategoryOverlay(ServicesgenLink, 'Services généraux', ServicesgenLinkState, 'marker', ServicesgenURL, tailleMarker, ServicesgenCount);
       if (ServicesgenCount == 0) {
@@ -356,13 +365,13 @@ function activateCategory(categoryName) {
     }
 
 
-    // if (categoryName == 'Services centraux') {
-    //   addCategoryOverlay(ServicescenLink, 'Services centraux', ServicescenLinkState, 'marker', ServicescenURL, tailleMarker, ServicescenCount);
-    //   if (ServicescenCount == 0) {
-    //     createHTMLList('Services centraux', listeServicescen, insertServicescen, ServicescenCount);
-    //   }
-    //   ServicescenCount += 1;
-    // }
+    if (categoryName == 'Services centraux') {
+      addCategoryOverlay(ServicescenLink, 'Services centraux', ServicescenLinkState, 'marker', ServicescenURL, tailleMarker, ServicescenCount);
+      if (ServicescenCount == 0) {
+        createHTMLList('Services centraux', listeServicescen, insertServicescen, ServicescenCount);
+      }
+      ServicescenCount += 1;
+    }
     ServicescenLink.onclick = function (e) {
       addCategoryOverlay(ServicescenLink, 'Services centraux', ServicescenLinkState, 'marker', ServicescenURL, tailleMarker, ServicescenCount);
       if (ServicescenCount == 0) {
@@ -371,10 +380,10 @@ function activateCategory(categoryName) {
       ServicescenCount += 1;
     }
 
-    // if (categoryName == 'wc') {
-    //   addCategoryOverlay(toilettesLink, 'wc', 'layer', 'marker', toilettesURL, tailleMarker, toilettesCount);
-    //   toilettesCount += 1;
-    // } 
+    if (categoryName == 'wc') {
+      addCategoryOverlay(toilettesLink, 'wc', 'layer', 'marker', toilettesURL, tailleMarker, toilettesCount);
+      toilettesCount += 1;
+    } 
     toilettesLink.onclick = function (e) {
       addCategoryOverlay(toilettesLink, 'wc', 'layer', 'marker', toilettesURL, tailleMarker, toilettesCount);
       toilettesCount += 1;
@@ -385,10 +394,10 @@ function activateCategory(categoryName) {
       copieurCount += 1;
     }
 
-    // if (categoryName ==  'Micro-ondes') {
-    //   addCategoryOverlay(microOndesLink, 'Micro-ondes', 'layer', 'marker', microOndesURL, taillePetitMarker, microOndesCount);
-    //   microOndesCount += 1;
-    // }
+    if (categoryName ==  'Micro-ondes') {
+      addCategoryOverlay(microOndesLink, 'Micro-ondes', 'layer', 'marker', microOndesURL, taillePetitMarker, microOndesCount);
+      microOndesCount += 1;
+    }
     microOndesLink.onclick = function (e) {
       addCategoryOverlay(microOndesLink, 'Micro-ondes', 'layer', 'marker', microOndesURL, taillePetitMarker, microOndesCount);
       microOndesCount += 1;
@@ -399,10 +408,10 @@ function activateCategory(categoryName) {
       espaceDetenteCount += 1;
     }
 
-    // if (categoryName ==  'Equipement sportif') {
-    //   addCategoryOverlay(equipementSportifLink, 'Equipement sportif', 'layer', 'marker', equipementSportifURL, tailleMarker, equipementSportifCount);
-    //   equipementSportifCount += 1;
-    // }
+    if (categoryName ==  'Equipement sportif') {
+      addCategoryOverlay(equipementSportifLink, 'Equipement sportif', 'layer', 'marker', equipementSportifURL, tailleMarker, equipementSportifCount);
+      equipementSportifCount += 1;
+    }
     equipementSportifLink.onclick = function (e) {
       addCategoryOverlay(equipementSportifLink, 'Equipement sportif', 'layer', 'marker', equipementSportifURL, tailleMarker, equipementSportifCount);
       equipementSportifCount += 1;
@@ -416,7 +425,6 @@ function activateCategory(categoryName) {
       }
       FUFRLCount += 1;
     }
-
     FUFRLLink.onclick = function (e) {
       addCategoryOverlay(FUFRLLink, 'Formation UFRL', FUFRLLinkState, 'marker', FUFRLURL, tailleMarker, FUFRLCount);
       if (FUFRLCount == 0) {
@@ -433,6 +441,7 @@ function activateCategory(categoryName) {
       }
       FUFRSHCount += 1;
     }
+
     FUFRSHLink.onclick = function (e) {
       addCategoryOverlay(FUFRSHLink, 'Formation UFRSH', FUFRSHLinkState, 'marker', FUFRSHURL, tailleMarker, FUFRSHCount);
       if (FUFRSHCount == 0) {
@@ -440,6 +449,7 @@ function activateCategory(categoryName) {
       }
       FUFRSHCount += 1;
     }
+
     if (categoryName ==  'Formation UFRSS') {
       addCategoryOverlay(FUFRSSLink, 'Formation UFRSS', FUFRSSLinkState, 'marker', FUFRSSURL, tailleMarker, FUFRSSCount);
       if (FUFRSSCount == 0) {
@@ -454,6 +464,7 @@ function activateCategory(categoryName) {
       }
       FUFRSSCount += 1;
     }
+
     if (categoryName ==  'Formation UFRSTAPS') {
       addCategoryOverlay(FUFRSTAPSLink, 'Formation UFRSTAPS', FUFRSTAPSLinkState, 'marker', FUFRSTAPSURL, tailleMarker, FUFRSTAPSCount);
       if (FUFRSTAPSCount == 0) {
@@ -468,6 +479,7 @@ function activateCategory(categoryName) {
       }
       FUFRSTAPSCount += 1;
     }
+
     if (categoryName ==  'Formation UFRALC') {
       addCategoryOverlay(FUFRALCLink, 'Formation UFRALC', FUFRALCLinkState, 'marker', FUFRALCURL, tailleMarker, FUFRALCCount);
       if (FUFRALCCount == 0) {
@@ -482,6 +494,7 @@ function activateCategory(categoryName) {
       }
       FUFRALCCount += 1;
     }
+
     if (categoryName ==  'Autres Formations') { 
       addCategoryOverlay(AutresFormationsLink, 'Autres Formations', AutresFormationsLinkState, 'marker', AutresFormationsURL, tailleMarker, AutresFormationsInfoPopup, AutresFormationsCount);
       if (AutresFormationsCount == 0) {
@@ -489,8 +502,6 @@ function activateCategory(categoryName) {
       }
       AutresFormationsCount += 1;
     }
-
-
     AutresFormationsLink.onclick = function (e) {
       addCategoryOverlay(AutresFormationsLink, 'Autres Formations', AutresFormationsLinkState, 'marker', AutresFormationsURL, tailleMarker, AutresFormationsCount);
       if (AutresFormationsCount == 0) {
@@ -667,53 +678,57 @@ function activateCategory(categoryName) {
 
   //////////////////////////////////  Vie associative ///////////////////////////////////////
 
-
+  if (categoryName ==  'Associations de filières') {
+    addCategoryOverlay(associationsfilieresLink, 'Associations de filières', 'layer', 'marker', associationsfilieresURL, taillePetitMarker, associationsfilieresCount);
+    associationsfilieresCount += 1;
+  }
   associationsfilieresLink.onclick = function (e) {
     addCategoryOverlay(associationsfilieresLink, 'Associations de filières', 'layer', 'marker', associationsfilieresURL, taillePetitMarker, associationsfilieresCount);
     associationsfilieresCount += 1;
+  }
+
+  if (categoryName ==  'Associations de Masters et Doctorats') {
+    addCategoryOverlay(associationsmasterLink, 'Associations de Masters et Doctorats', 'layer', 'marker', associationsmasterURL, taillePetitMarker, associationsmasterCount);
+    associationsmasterCount += 1;
   }
   associationsmasterLink.onclick = function (e) {
     addCategoryOverlay(associationsmasterLink, 'Associations de Masters et Doctorats', 'layer', 'marker', associationsmasterURL, taillePetitMarker, associationsmasterCount);
     associationsmasterCount += 1;
   }
-  // associationsbriochinesLink.onclick = function (e) {
-  //   addCategoryOverlay(associationsbriochinesLink, 'Associations briochines', 'layer', 'marker', associationsbriochinesURL, taillePetitMarker, associationsbriochinesCount);
-  //   associationsbriochinesCount += 1;
-  //   for (var i = 0; i < Layers.length; i++) {
-  //     if (Layers[i] = 'Associations briochines') {
-  //       map.setMaxBounds(mazierBounds);
-  //       map.jumpTo({
-  //         center: [-2.7410000, 48.513033],
-  //         zoom: 16.5,
-  //         pitch: 0,
-  //         speed: 0.6
-  //       });
-  //       zoomMazier.classList.add('active');
-  //       zoomVillejean.classList.remove('active');
-  //       zoomLaHarpe.classList.remove('active');
-  //     }
-  //   }
-  // }
+ 
+  if (categoryName ==  'Associations culturelles, artistiques et sportives') {
+    addCategoryOverlay(associationscasLink, 'Associations culturelles, artistiques et sportives', 'layer', 'marker', associationscasURL, taillePetitMarker, associationscasCount);
+    associationscasCount += 1;
+  }
   associationscasLink.onclick = function (e) {
     addCategoryOverlay(associationscasLink, 'Associations culturelles, artistiques et sportives', 'layer', 'marker', associationscasURL, taillePetitMarker, associationscasCount);
     associationscasCount += 1;
   }
 
+  if (categoryName ==  'Associations de solidarité et de sensibilisation') {
+    addCategoryOverlay(associationssolidariteLink, 'Associations de solidarité et de sensibilisation', 'layer', 'marker', associationssolidariteURL, taillePetitMarker, associationssolidariteCount);
+    associationssolidariteCount += 1;
+  }
   associationssolidariteLink.onclick = function (e) {
     addCategoryOverlay(associationssolidariteLink, 'Associations de solidarité et de sensibilisation', 'layer', 'marker', associationssolidariteURL, taillePetitMarker, associationssolidariteCount);
     associationssolidariteCount += 1;
   }
-  // associationsLink.onclick = function (e) {
-  //   addCategoryOverlay(associationsLink, 'Autres', 'layer', 'marker', associationsURL, taillePetitMarker, associationsCount);
-  //   associationsCount += 1;
-  // }
-
 
   //////////////////////////////////  Mobilité et accessibilité ///////////////////////////////////////
-
-  ascenseurLink.onclick = function (e) {
-    addCategoryOverlay(ascenseurLink, 'Ascenseur', 'layer', 'point', ascenseurColor, ascenseurIconSize, ascenseurCount);
+  if (categoryName ==  'Ascenseur') {
+    addCategoryOverlay(ascenseurLink, 'Ascenseur', 'layer', 'picto', ascenseurURL, tailleMarker, ascenseurCount);
     ascenseurCount += 1;
+  }
+  ascenseurLink.onclick = function (e) {
+    addCategoryOverlay(ascenseurLink, 'Ascenseur', 'layer', 'picto', ascenseurURL, taillePicto, ascenseurCount);
+    ascenseurCount += 1;
+  }
+
+  if (categoryName ==  'Parking') {
+    addCategoryOverlay(parkingLink, 'Parking', 'layer', 'picto', parkingURL, tailleMarker, parkingCount);
+    parkingCount += 1;
+    addCategoryOverlay(parkingLink, 'Parking PMR', 'layer', 'picto', parkingPMRURL, taillePicto, parkingPMRCount);
+    parkingPMRCount += 1;
   }
   parkingLink.onclick = function (e) {
     addCategoryOverlay(parkingLink, 'Parking', 'layer', 'picto', parkingURL, taillePicto, parkingCount);
@@ -722,28 +737,46 @@ function activateCategory(categoryName) {
     parkingPMRCount += 1;
   }
 
-
+  if (categoryName ==  'Parking vélo') {
+    addCategoryOverlay(parkingVeloLink, 'Parking vélo', 'layer', 'point', parkingVeloColor, parkingVeloIconSize, parkingVeloCount);
+    parkingVeloCount += 1;
+  }
   parkingVeloLink.onclick = function (e) {
     addCategoryOverlay(parkingVeloLink, 'Parking vélo', 'layer', 'point', parkingVeloColor, parkingVeloIconSize, parkingVeloCount);
     parkingVeloCount += 1;
   }
 
+  if (categoryName ==  'Cheminements accessibles') {
+    addCategoryOverlay(lineairePMRLink, 'Cheminements accessibles', 'layer', 'line', lineairePMRColor, tailleLine, lineairePMRCount);
+    lineairePMRCount += 1;
+  }
   lineairePMRLink.onclick = function (e) {
     addCategoryOverlay(lineairePMRLink, 'Cheminements accessibles', 'layer', 'line', lineairePMRColor, tailleLine, lineairePMRCount);
     lineairePMRCount += 1;
-    console.log(lineairePMRCount) 
   }
 
+  if (categoryName ==  'Entrée campus') {
+    addCategoryOverlay(entree_campusLink, 'Entrée campus', 'layer', 'picto', entree_campusURL,  taillePicto, entree_campusCount);
+    entree_campusCount += 1;
+  }
   entree_campusLink.onclick = function (e) {
     addCategoryOverlay(entree_campusLink, 'Entrée campus', 'layer', 'picto', entree_campusURL, taillePicto, entree_campusCount);
     entree_campusCount += 1;
     }
 
+  if (categoryName ==  'Entrée batiment') {
+    addCategoryOverlay(entree_batimentLink, 'Entrée batiment', 'layer', 'picto', entree_batimentURL,  taillePicto, entree_batimentCount);
+    entree_batimentCount += 1;
+  }  
   entree_batimentLink.onclick = function (e) {
     addCategoryOverlay(entree_batimentLink, 'Entrée batiment', 'layer', 'picto', entree_batimentURL, taillePicto, entree_batimentCount);
     entree_batimentCount += 1;
     }
 
+   if (categoryName ==  'Accès PMR') {
+    addCategoryOverlay(accesPMRLink, 'Accès PMR', 'layer', 'point', accesPMRColor, accesPMRIconSize, accesPMRCount);
+    accesPMRCount += 1;
+  }
   accesPMRLink.onclick = function (e) {
     addCategoryOverlay(accesPMRLink, 'Accès PMR', 'layer', 'point', accesPMRColor, accesPMRIconSize, accesPMRCount);
     accesPMRCount += 1;
@@ -768,10 +801,6 @@ function activateCategory(categoryName) {
     busCount += 1;
     addRealTimeBus();
   }
-
-
-// Couches en temps réel ?????????? //
-
 
 }) 
   };
@@ -1309,8 +1338,7 @@ function afficherPopupObjet(selectedObjet) {
   // Ascenseur
   var ascenseurCount = 0; // initialisation du compteur de clics
   var ascenseurLink = document.getElementById('Ascenseur');
-  var ascenseurColor = '#1da34a';
-  var ascenseurIconSize = [1.5, 13, 2, 22, 60];
+  var ascenseurURL = '../css/icons/layers_icons/ascenseur.png';
 
   // Parking
   var parkingCount = 0; // initialisation du compteur de clics
@@ -1356,13 +1384,13 @@ function afficherPopupObjet(selectedObjet) {
   // Lineaire PMR
   var lineairePMRCount = 0; // initialisation du compteur de clics
   var lineairePMRLink = document.getElementById('Cheminements accessibles');
-  var lineairePMRColor = '#000000';
+  var lineairePMRColor = '#2b2f37';
   var lineairePMRType = 'line';
 
   // Accès PMR
   var accesPMRLink = document.getElementById('Accès PMR');
   var accesPMRCount = 0; // initialisation du compteur de clics
-  var accesPMRColor = '#000000';
+  var accesPMRColor = '#2b2f37';
   var accesPMRIconSize = [1.5, 13, 2, 22, 60];
 
   // Lineaire Metro
@@ -1418,6 +1446,11 @@ function afficherPopupObjet(selectedObjet) {
   var FUFRLLinkState = null;
   setInterval(function () {
     FUFRLLinkState = FUFRLLink.nextElementSibling.className;
+  }, 500);
+
+  var FUFRALCLinkState = null;
+  setInterval(function () {
+    FUFRALCLinkState = FUFRALCLink.nextElementSibling.className;
   }, 500);
 
   var FUFRSHLinkState = null;
