@@ -566,6 +566,7 @@ color: green;
 
 /* Styles pour l'entrée de recherche */
 #search-bar {
+  max-width: 500px;
   border: none; /* Pas de bordure */
   border-radius: 15px; /* Rayon de bordure */
   box-shadow: none; /* Pas d'ombre */
@@ -601,7 +602,7 @@ color: green;
   background-position: 50% 50%; /* Position de l'image de fond */
   background-repeat: no-repeat; /* Pas de répétition de l'image de fond */
   background-size: 20px 20px; /* Taille de l'image de fond */
-  margin-left: 10px; /* Marge à gauche pour décaler le bouton vers la droite */
+  margin-left: -100px; /* Marge à gauche pour décaler le bouton vers la droite */
 }
 
 /* Styles pour le bouton de recherche avec l'ID searchButton et la classe search-active */
@@ -986,14 +987,14 @@ button.navbar-toggle {
 
 /* --- LES MEDIAS QUERY --- */
 
-@media (max-width: 1020px){
+@media (max-width: 1010px){
   #search-bar{
     max-width: 300px;
     margin-left: -65px;
   }
   #searchButton.btn-primary {
     position: relative;
-    right: 275px;
+    right: 265px;
   }
   .header-main h1{
     position: relative;
