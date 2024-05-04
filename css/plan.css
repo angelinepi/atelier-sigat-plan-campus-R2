@@ -568,6 +568,7 @@ color: green;
 /* Styles pour l'entrée de recherche */
 #search-bar {
   max-width: 500px;
+  min-width: 500px;
   border: none; /* Pas de bordure */
   border-radius: 15px; /* Rayon de bordure */
   box-shadow: none; /* Pas d'ombre */
@@ -990,7 +991,8 @@ button.navbar-toggle {
 
 @media (max-width: 1010px){
   #search-bar{
-    max-width: 250px;
+    max-width: 400px;
+    min-width: 400px;
     margin-left: -65px;
   }
   #searchButton.btn-primary {
@@ -1007,6 +1009,14 @@ button.navbar-toggle {
   }
   .btn-header{
     right: 15px;
+  }
+}
+
+@media (max-width: 850px) {
+  #search-bar{
+    max-width: 250px;
+    min-width: 250px;
+    margin-left: -65px;
   }
 }
 
