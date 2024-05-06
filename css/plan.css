@@ -219,7 +219,7 @@ h1.sitename {
     margin: 0; /* Marge */
     padding: 0; /* Rembourrage */
     z-index: 1; /* Indice de positionnement */
-    height: 80vh; /* Hauteur de 80% de la fenêtre */
+    height: 105vh; /* Hauteur de 80% de la fenêtre */
 }
 
 /* Styles pour les boutons dans maplibregl */
@@ -358,7 +358,7 @@ ul.nav-second-level > li{
 
 
 ul.nav-second-level > li > a{
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
   display: flex;
   font-family: Ubuntu;
@@ -468,10 +468,10 @@ color: green;
 
 /* --- LES BOUTONS --- */
 #clearSubMenuBtn{
-  margin-top: 10px;
+  /* margin-top: 10px; */
   margin-left: 20px;
-  width: 150px;
-  height: 60px;
+  /* width: 150px; */
+  height: 40px;
   font-size: 16px;
   font-weight: 700;
   border: 1px solid;
@@ -530,30 +530,38 @@ color: green;
 }
 
 /*--- BOUTON IMPRIMER LA CARTE ---*/
-/*--- BOUTON IMPRIMER LA CARTE ---*/
 .btn-header  {
   position: absolute;
-  top: 28%;
+  top: 20%;
   right: 30px;
   /* background-color: red;   */
   padding: 10px;
+
+}
+/* ne pas afficher le bouton sur un telephone/ecran réduit */
+@media (max-width: 800px) {
+  .btn-header {
+    display: none;
+  }
 }
 
 .btn-imprimer {
   background-image: url('/css/icons/printer.svg');
-  background-size: 30px 30px;
+  background-size: 30px 30px; /* Taille de l'image de fond */
+  background-position: 50% 50%; /* Position de l'image de fond */
   background-color: #073763;
   z-index: 1000;
-  padding: 6px 12px;
+  /* padding: 6px 12px;
   padding-top: 24px;
-  padding-right: 18px;
-  transition: background-color 0.3s ease;
-  border-radius: 5px;
+  padding-right: 18px;  */
+  /* transition: background-color 0.3s ease; */
+  border-radius: 15px;
+  background-repeat: no-repeat; /* Pas de répétition de l'image de fond */
+  height: 60px; /* Hauteur */
+  width: 60px; /* Largeur */
+  border :white;
   
 }
-
-
-
 
 
 
@@ -590,7 +598,7 @@ color: green;
   background-color: #fff; /* Couleur de fond */
   color: #073763; /* Couleur du texte */
   border-color: #073763; /* Couleur de la bordure */
-  border-radius: 5px; /* Rayon de bordure */
+  border-radius: 15px; /* Rayon de bordure */
 }
 
 /* Styles pour le bouton de recherche avec l'ID searchButton */
@@ -666,7 +674,6 @@ color: green;
   color: #fff; /* Couleur du texte */
   background-color: #073763; /* Couleur de fond */
   border: none; /* Pas de bordure */
-  border-radius: 0; /* Rayon de bordure */
 }
 
 /* Styles pour la flèche dans le menu latéral */
@@ -762,6 +769,12 @@ a.active {
   font-size: 18px; /* Taille de police */
   font-family: "Roboto"; /* Police de caractère */
   font-weight: 400; /* Poids de la police */
+}
+/* style hover du bouton filtre */
+
+button#clearSubMenuBtn:hover {
+  background-color: #073763;
+  color: white;
 }
 
 /* Styles pour les boutons radio */

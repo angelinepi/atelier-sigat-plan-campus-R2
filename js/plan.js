@@ -1911,6 +1911,8 @@ function addPictoFondDeCarte() {
         const iconName = feature.properties.icon;
         const iconImage = `../css/icons/iconfond/lettre_batiment/${iconName}.png`;
 
+  
+
         //Picto permanent escalier_arc_en_ciel
         if (!map.hasImage(iconName)) {
           map.loadImage(iconImage).then(response => {
@@ -2117,6 +2119,7 @@ function addPictoFondDeCarte() {
     });
   });
 }
+
 
 ////////// fin de la definition de la fonction addPictoFondDecarte() //////////
 
