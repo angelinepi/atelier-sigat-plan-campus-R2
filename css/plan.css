@@ -219,7 +219,7 @@ h1.sitename {
     margin: 0; /* Marge */
     padding: 0; /* Rembourrage */
     z-index: 1; /* Indice de positionnement */
-    height: 80vh; /* Hauteur de 80% de la fenêtre */
+    height: 105vh; /* Hauteur de 80% de la fenêtre */
 }
 
 /* Styles pour les boutons dans maplibregl */
@@ -358,7 +358,7 @@ ul.nav-second-level > li{
 
 
 ul.nav-second-level > li > a{
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
   display: flex;
   font-family: Ubuntu;
@@ -468,10 +468,10 @@ color: green;
 
 /* --- LES BOUTONS --- */
 #clearSubMenuBtn{
-  margin-top: 10px;
+  /* margin-top: 10px; */
   margin-left: 20px;
-  width: 150px;
-  height: 60px;
+  /* width: 150px; */
+  height: 40px;
   font-size: 16px;
   font-weight: 700;
   border: 1px solid;
@@ -530,30 +530,38 @@ color: green;
 }
 
 /*--- BOUTON IMPRIMER LA CARTE ---*/
-/*--- BOUTON IMPRIMER LA CARTE ---*/
 .btn-header  {
   position: absolute;
-  top: 28%;
-  right: 5%;
+  top: 20%;
+  right: 30px;
   /* background-color: red;   */
   padding: 10px;
+
+}
+/* ne pas afficher le bouton sur un telephone/ecran réduit */
+@media (max-width: 800px) {
+  .btn-header {
+    display: none;
+  }
 }
 
 .btn-imprimer {
   background-image: url('/css/icons/printer.svg');
-  background-size: 30px 30px;
+  background-size: 30px 30px; /* Taille de l'image de fond */
+  background-position: 50% 50%; /* Position de l'image de fond */
   background-color: #073763;
   z-index: 1000;
-  padding: 6px 12px;
+  /* padding: 6px 12px;
   padding-top: 24px;
-  padding-right: 18px;
-  transition: background-color 0.3s ease;
-  border-radius: 5px;
+  padding-right: 18px;  */
+  /* transition: background-color 0.3s ease; */
+  border-radius: 15px;
+  background-repeat: no-repeat; /* Pas de répétition de l'image de fond */
+  height: 60px; /* Hauteur */
+  width: 60px; /* Largeur */
+  border :white;
   
 }
-
-
-
 
 
 
@@ -561,12 +569,14 @@ color: green;
 /* Styles pour le conteneur de la barre de recherche */
 .search-bar {
   display: flex; /* Affichage flex pour aligner les éléments côte à côte */
+  flex-direction: row-reverse;
   align-items: center; /* Centrer verticalement les éléments */
-  flex-wrap: wrap; /* Autoriser le retour à la ligne */
 }
 
 /* Styles pour l'entrée de recherche */
 #search-bar {
+  max-width: 500px;
+  min-width: 500px;
   border: none; /* Pas de bordure */
   border-radius: 15px; /* Rayon de bordure */
   box-shadow: none; /* Pas d'ombre */
@@ -579,8 +589,6 @@ color: green;
   flex-grow: 1; /* L'entrée de recherche occupera tout l'espace disponible */
   margin-right: 10px; /* Marge à droite pour séparer la loupe */
   height: 60px; /* Hauteur de la searchbar (augmentée à 40px) */
-
-  min-width: 500px; /* Largeur minimale de la searchbar (augmentée à 300px) */
 } 
 
 
@@ -590,7 +598,7 @@ color: green;
   background-color: #fff; /* Couleur de fond */
   color: #073763; /* Couleur du texte */
   border-color: #073763; /* Couleur de la bordure */
-  border-radius: 5px; /* Rayon de bordure */
+  border-radius: 15px; /* Rayon de bordure */
 }
 
 /* Styles pour le bouton de recherche avec l'ID searchButton */
@@ -604,7 +612,7 @@ color: green;
   background-position: 50% 50%; /* Position de l'image de fond */
   background-repeat: no-repeat; /* Pas de répétition de l'image de fond */
   background-size: 20px 20px; /* Taille de l'image de fond */
-  margin-left: 10px; /* Marge à gauche pour décaler le bouton vers la droite */
+  margin-right: 10px;
 }
 
 /* Styles pour le bouton de recherche avec l'ID searchButton et la classe search-active */
@@ -666,7 +674,6 @@ color: green;
   color: #fff; /* Couleur du texte */
   background-color: #073763; /* Couleur de fond */
   border: none; /* Pas de bordure */
-  border-radius: 0; /* Rayon de bordure */
 }
 
 /* Styles pour la flèche dans le menu latéral */
@@ -762,6 +769,12 @@ a.active {
   font-size: 18px; /* Taille de police */
   font-family: "Roboto"; /* Police de caractère */
   font-weight: 400; /* Poids de la police */
+}
+/* style hover du bouton filtre */
+
+button#clearSubMenuBtn:hover {
+  background-color: #073763;
+  color: white;
 }
 
 /* Styles pour les boutons radio */
@@ -988,6 +1001,67 @@ button.navbar-toggle {
 }
 
 /* --- LES MEDIAS QUERY --- */
+
+@media (max-width: 1010px){
+  #search-bar{
+    max-width: 400px;
+    min-width: 400px;
+    margin-left: -65px;
+  }
+  #searchButton.btn-primary {
+    position: relative;
+    right: 60px;
+  }
+  .header-main h1{
+    position: relative;
+    left: -35px;
+    width: 150px;
+  }
+  .logo img{
+    margin-left: 0%;
+  }
+  .btn-header{
+    right: 15px;
+  }
+}
+
+@media (max-width: 850px) {
+  #search-bar{
+    max-width: 250px;
+    min-width: 250px;
+    margin-left: -65px;
+  }
+}
+
+@media (max-width: 800px) {
+  header, .color-head, .fond-head{
+    height: 210px;
+  }
+  .header-main{
+    position: relative;
+    width: 80%;
+    left: -70px;
+    flex-direction: column;
+    gap: 15px;
+    align-items: flex-start;
+  }
+  .logo img{
+    position: relative;
+    left: -30px;
+  }
+  .header-main h1{
+    position: relative;
+    left: 20px;
+  }
+  .btn-header{
+    position:absolute;
+    right: 5px;
+    top: 28px;
+  }
+
+}
+
+
 
 /* Affichage pour les écrans de petite taille */
 @media (max-width: 750px) {

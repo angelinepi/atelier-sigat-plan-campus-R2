@@ -101,13 +101,14 @@ function executeClearSubMenu() { // Définit une fonction nommée 'executeClearS
 
 ///////////////////// LIENS PROFONDS //////////////////////
 
-  /**
+ /**
    * Créer un lien vers le site Plan des Campus Université de Rennes 
    * @param selectedCampus Nom du campus
    * @param selectedCategory Nom de la catégorie
+   * @param selectedObjet Nom de l'objet/élément 
    * @returns {string} URL de recherche
    */
-function createLinkAndUpdateURL(selectedCampus, selectedCategory) {
+ function createLinkAndUpdateURL(selectedCampus, selectedCategory, selectedObjet) {
   let url = window.location.pathname; 
 
   // Ajouter le campus à l'URL
@@ -117,8 +118,13 @@ function createLinkAndUpdateURL(selectedCampus, selectedCategory) {
   if (selectedCategory !== null && selectedCategory !== undefined) {
     url += `&category=${encodeURI(selectedCategory)}`;
   }
-
-  history.pushState({ campus: selectedCampus, category: selectedCategory}, campus, url); 
+  
+  // Vérifier si objet n'est pas null ou undefined avant de l'ajouter à l'URL
+  if (selectedObjet !== null && selectedObjet !== undefined) {
+    url += `&objet=${encodeURI(selectedObjet)}`;
+  }
+    
+  history.pushState({ campus: selectedCampus, category: selectedCategory, objet: selectedObjet }, campus, url); 
   return url;
 }
 
@@ -136,7 +142,8 @@ campusButtons.forEach(function(button) {
     const selectedCampus = event.target.textContent.trim(); 
     /** Récupérer la catégorie sélectionnée à partir de l'URL */
     const selectedCategory = getCategoryFromURL(); // 
-    createLinkAndUpdateURL(selectedCampus, selectedCategory); 
+    const selectedObjet = getObjetFromURL();
+    createLinkAndUpdateURL(selectedCampus, selectedCategory,selectedObjet); 
   });
 });
 
@@ -144,15 +151,16 @@ campusButtons.forEach(function(button) {
 document.addEventListener('DOMContentLoaded', function() {
   const urlParams = new URLSearchParams(window.location.search);
   const selectedCategory = getCategoryFromURL();
+  const selectedObjet = getObjetFromURL();
 
   if (!urlParams.has('campus')) {
     const selectedCampus = 'Villejean';
 
     // Mettre à jour l'URL avec le paramètre 'campus'
     urlParams.set('campus', selectedCampus);
-    history.pushState({ campus: selectedCampus, category: selectedCategory}, '', window.location.pathname + '?' + urlParams.toString());
+    history.pushState({ campus: selectedCampus, category: selectedCategory, objet : selectedObjet}, '', window.location.pathname + '?' + urlParams.toString());
 
-    createLinkAndUpdateURL(selectedCampus, selectedCategory);
+    createLinkAndUpdateURL(selectedCampus, selectedCategory, selectedObjet);
   }
 });
 
@@ -235,6 +243,8 @@ categoryLinks.forEach(function(link) {
     const categoryName = link.id
     /** Récupérer le nom du campus du lien */
     const selectedCampus = getCampusFromURL();
+    
+    const selectedObjet = getObjetFromURL();
 
     // Mettre à jour la catégorie sélectionnée
     selectedCategory = categoryName;
@@ -251,7 +261,7 @@ categoryLinks.forEach(function(link) {
     activateCategory(categoryName);
 
     // Mettre à jour l'URL et afficher la nouvelle URL dans la console
-    const updatedURL = createLinkAndUpdateURL(selectedCampus, selectedCategory);
+    const updatedURL = createLinkAndUpdateURL(selectedCampus, selectedCategory,selectedObjet);
     console.log(updatedURL);
   });
 });
@@ -276,8 +286,8 @@ function getCategoryFromURL() {
 function activateCategory(categoryName) {
   const categoryLinks = document.querySelectorAll('.sidebar #side-menu a.case');
   categoryLinks.forEach(function(link) {
-    if (link.id === categoryName) { // Vérifier si le nom de la catégorie correspond au nom de la catégorie du lien
-      link.classList.add('active');
+    // if (link.id === categoryName) { // Vérifier si le nom de la catégorie correspond au nom de la catégorie du lien
+      // link.classList.add('active');
       console.log('Catégorie activée :', categoryName);
 
 //////////////////////////////////  Groupe Amphis et salles spécifiques //////////////////////////////////////
@@ -302,18 +312,27 @@ function activateCategory(categoryName) {
       sallesInfoLink.onclick = function (e) {
         addCategoryOverlay(sallesInfoLink, 'Salle informatique', 'layer', 'marker', sallesInfoURL, tailleMarker, sallesInfoCount);
         sallesInfoCount += 1;
+        if (sallesInfoCount > 1000) {
+          alert("Refonte du plan interactif 2024 par Pauline Besnard, Alexandre Blin, Paul Bourcier, Saïd Khatir, Yanis Lepesant et Angéline Pinilo")
+        };
       }
 
       if (categoryName == 'Salles spécifiques') {
-        addCategoryOverlay(sallesSpecifiquesLink, 'Salles spécifiques', 'layer', 'marker', sallesSpeURL, tailleMarker, sallesSpeCount);
+        addCategoryOverlay(sallesSpecifiquesLink, 'Salles spécifiques', sallesSpeLinkState, 'marker', sallesSpeURL, tailleMarker, sallesSpeCount);
         sallesSpeCount += 1;
+        if (sallesSpeCount == 0) {
+          createHTMLList('Salles spécifiques', listesallesSpe, insertSallesSpecifiques, sallesSpeCount);
+        }
       }
       sallesSpecifiquesLink.onclick = function (e) {
-        addCategoryOverlay(sallesSpecifiquesLink, 'Salles spécifiques', 'layer', 'marker', sallesSpeURL, tailleMarker, sallesSpeCount);
+        addCategoryOverlay(sallesSpecifiquesLink, 'Salles spécifiques', sallesSpeLinkState, 'marker', sallesSpeURL, tailleMarker, sallesSpeCount);
+        if (sallesSpeCount == 0) {
+          createHTMLList('Salles spécifiques', listesallesSpe, insertSallesSpecifiques, sallesSpeCount);
+        }
         sallesSpeCount += 1;
       }
       
-      //////////////////////////////////  Structures et services //////////////////////////////////////
+      //////////////////////////////////  equipement et services //////////////////////////////////////
 
     if (categoryName == 'Services communs') {
       addCategoryOverlay(ServicescomLink, 'Services communs', ServicescomLinkState, 'marker', ServicescomURL, tailleMarker, ServicescomCount);
@@ -361,6 +380,42 @@ function activateCategory(categoryName) {
       ServicescenCount += 1;
     }
 
+    if (categoryName == 'wc') {
+      addCategoryOverlay(toilettesLink, 'wc', 'layer', 'marker', toilettesURL, tailleMarker, toilettesCount);
+      toilettesCount += 1;
+    } 
+    toilettesLink.onclick = function (e) {
+      addCategoryOverlay(toilettesLink, 'wc', 'layer', 'marker', toilettesURL, tailleMarker, toilettesCount);
+      toilettesCount += 1;
+    }
+    
+    copieurLink.onclick = function (e) {
+      addCategoryOverlay(copieurLink, 'Copieur', 'layer', 'marker', copieursURL, tailleMarker, copieurCount);
+      copieurCount += 1;
+    }
+
+    if (categoryName ==  'Micro-ondes') {
+      addCategoryOverlay(microOndesLink, 'Micro-ondes', 'layer', 'marker', microOndesURL, taillePetitMarker, microOndesCount);
+      microOndesCount += 1;
+    }
+    microOndesLink.onclick = function (e) {
+      addCategoryOverlay(microOndesLink, 'Micro-ondes', 'layer', 'marker', microOndesURL, taillePetitMarker, microOndesCount);
+      microOndesCount += 1;
+    }
+
+    espaceDetenteLink.onclick = function (e) {
+      addCategoryOverlay(espaceDetenteLink, 'Espace détente', 'layer', 'marker', espaceDetenteURL, tailleMarker, espaceDetenteCount);
+      espaceDetenteCount += 1;
+    }
+
+    if (categoryName ==  'Equipement sportif') {
+      addCategoryOverlay(equipementSportifLink, 'Equipement sportif', 'layer', 'marker', equipementSportifURL, tailleMarker, equipementSportifCount);
+      equipementSportifCount += 1;
+    }
+    equipementSportifLink.onclick = function (e) {
+      addCategoryOverlay(equipementSportifLink, 'Equipement sportif', 'layer', 'marker', equipementSportifURL, tailleMarker, equipementSportifCount);
+      equipementSportifCount += 1;
+    }
     
     //////////////////////////////////  Formation et recherche //////////////////////////////////////
     if (categoryName == 'Formation UFRL') {
@@ -370,7 +425,6 @@ function activateCategory(categoryName) {
       }
       FUFRLCount += 1;
     }
-
     FUFRLLink.onclick = function (e) {
       addCategoryOverlay(FUFRLLink, 'Formation UFRL', FUFRLLinkState, 'marker', FUFRLURL, tailleMarker, FUFRLCount);
       if (FUFRLCount == 0) {
@@ -387,6 +441,7 @@ function activateCategory(categoryName) {
       }
       FUFRSHCount += 1;
     }
+
     FUFRSHLink.onclick = function (e) {
       addCategoryOverlay(FUFRSHLink, 'Formation UFRSH', FUFRSHLinkState, 'marker', FUFRSHURL, tailleMarker, FUFRSHCount);
       if (FUFRSHCount == 0) {
@@ -394,6 +449,7 @@ function activateCategory(categoryName) {
       }
       FUFRSHCount += 1;
     }
+
     if (categoryName ==  'Formation UFRSS') {
       addCategoryOverlay(FUFRSSLink, 'Formation UFRSS', FUFRSSLinkState, 'marker', FUFRSSURL, tailleMarker, FUFRSSCount);
       if (FUFRSSCount == 0) {
@@ -408,6 +464,7 @@ function activateCategory(categoryName) {
       }
       FUFRSSCount += 1;
     }
+
     if (categoryName ==  'Formation UFRSTAPS') {
       addCategoryOverlay(FUFRSTAPSLink, 'Formation UFRSTAPS', FUFRSTAPSLinkState, 'marker', FUFRSTAPSURL, tailleMarker, FUFRSTAPSCount);
       if (FUFRSTAPSCount == 0) {
@@ -422,6 +479,7 @@ function activateCategory(categoryName) {
       }
       FUFRSTAPSCount += 1;
     }
+
     if (categoryName ==  'Formation UFRALC') {
       addCategoryOverlay(FUFRALCLink, 'Formation UFRALC', FUFRALCLinkState, 'marker', FUFRALCURL, tailleMarker, FUFRALCCount);
       if (FUFRALCCount == 0) {
@@ -436,6 +494,7 @@ function activateCategory(categoryName) {
       }
       FUFRALCCount += 1;
     }
+
     if (categoryName ==  'Autres Formations') { 
       addCategoryOverlay(AutresFormationsLink, 'Autres Formations', AutresFormationsLinkState, 'marker', AutresFormationsURL, tailleMarker, AutresFormationsInfoPopup, AutresFormationsCount);
       if (AutresFormationsCount == 0) {
@@ -443,8 +502,6 @@ function activateCategory(categoryName) {
       }
       AutresFormationsCount += 1;
     }
-
-
     AutresFormationsLink.onclick = function (e) {
       addCategoryOverlay(AutresFormationsLink, 'Autres Formations', AutresFormationsLinkState, 'marker', AutresFormationsURL, tailleMarker, AutresFormationsCount);
       if (AutresFormationsCount == 0) {
@@ -589,24 +646,9 @@ function activateCategory(categoryName) {
     cafeteriasCount += 1;
   }
 
-  if (categoryName ==  'Micro-ondes') {
-    addCategoryOverlay(microOndesLink, 'Micro-ondes', 'layer', 'marker', microOndesURL, taillePetitMarker, microOndesCount);
-    microOndesCount += 1;
-  }
-  microOndesLink.onclick = function (e) {
-    addCategoryOverlay(microOndesLink, 'Micro-ondes', 'layer', 'marker', microOndesURL, taillePetitMarker, microOndesCount);
-    microOndesCount += 1;
-  }
+
 
   //////////////////////////////////  Sport et santé //////////////////////////////////////
-  if (categoryName ==  'Equipement sportif') {
-    addCategoryOverlay(equipementSportifLink, 'Equipement sportif', 'layer', 'marker', equipementSportifURL, tailleMarker, equipementSportifCount);
-    equipementSportifCount += 1;
-  }
-  equipementSportifLink.onclick = function (e) {
-    addCategoryOverlay(equipementSportifLink, 'Equipement sportif', 'layer', 'marker', equipementSportifURL, tailleMarker, equipementSportifCount);
-    equipementSportifCount += 1;
-  }
 
   if (categoryName ==  'Pôle santé et prévention') {
     addCategoryOverlay(polesanteLink, 'Pôle santé et prévention', 'layer', 'marker', polesanteURL, tailleMarker, polesanteCount);
@@ -625,73 +667,68 @@ function activateCategory(categoryName) {
     addCategoryOverlay(assistantpreventionLink, 'Assistants de prévention', 'layer', 'marker', assistantpreventionURL, tailleMarker, assistantpreventionCount);
     assistantpreventionCount += 1;
   }
-  if (categoryName ==  'Ressources humaines') {
-    addCategoryOverlay(rhsanteLink, 'Ressources humaines', 'layer', 'marker', rhsanteURL, tailleMarker, rhCount);
-    rhsanteCount += 1;
-  }
-  rhsanteLink.onclick = function (e) {
-    addCategoryOverlay(rhsanteLink, 'Ressources humaines', 'layer', 'marker', rhsanteURL, tailleMarker, rhsanteCount);
-    rhsanteCount += 1;
-  }
+  // if (categoryName ==  'Ressources humaines') {
+  //   addCategoryOverlay(rhsanteLink, 'Ressources humaines', 'layer', 'marker', rhsanteURL, tailleMarker, rhCount);
+  //   rhsanteCount += 1;
+  // }
+  // rhsanteLink.onclick = function (e) {
+  //   addCategoryOverlay(rhsanteLink, 'Ressources humaines', 'layer', 'marker', rhsanteURL, tailleMarker, rhsanteCount);
+  //   rhsanteCount += 1;
+  // }
 
   //////////////////////////////////  Vie associative ///////////////////////////////////////
 
-
+  if (categoryName ==  'Associations de filières') {
+    addCategoryOverlay(associationsfilieresLink, 'Associations de filières', 'layer', 'marker', associationsfilieresURL, taillePetitMarker, associationsfilieresCount);
+    associationsfilieresCount += 1;
+  }
   associationsfilieresLink.onclick = function (e) {
     addCategoryOverlay(associationsfilieresLink, 'Associations de filières', 'layer', 'marker', associationsfilieresURL, taillePetitMarker, associationsfilieresCount);
     associationsfilieresCount += 1;
+  }
+
+  if (categoryName ==  'Associations de Masters et Doctorats') {
+    addCategoryOverlay(associationsmasterLink, 'Associations de Masters et Doctorats', 'layer', 'marker', associationsmasterURL, taillePetitMarker, associationsmasterCount);
+    associationsmasterCount += 1;
   }
   associationsmasterLink.onclick = function (e) {
     addCategoryOverlay(associationsmasterLink, 'Associations de Masters et Doctorats', 'layer', 'marker', associationsmasterURL, taillePetitMarker, associationsmasterCount);
     associationsmasterCount += 1;
   }
-  associationsbriochinesLink.onclick = function (e) {
-    addCategoryOverlay(associationsbriochinesLink, 'Associations briochines', 'layer', 'marker', associationsbriochinesURL, taillePetitMarker, associationsbriochinesCount);
-    associationsbriochinesCount += 1;
-    for (var i = 0; i < Layers.length; i++) {
-      if (Layers[i] = 'Associations briochines') {
-        map.setMaxBounds(mazierBounds);
-        map.jumpTo({
-          center: [-2.7410000, 48.513033],
-          zoom: 16.5,
-          pitch: 0,
-          speed: 0.6
-        });
-        zoomMazier.classList.add('active');
-        zoomVillejean.classList.remove('active');
-        zoomLaHarpe.classList.remove('active');
-      }
-    }
+ 
+  if (categoryName ==  'Associations culturelles, artistiques et sportives') {
+    addCategoryOverlay(associationscasLink, 'Associations culturelles, artistiques et sportives', 'layer', 'marker', associationscasURL, taillePetitMarker, associationscasCount);
+    associationscasCount += 1;
   }
   associationscasLink.onclick = function (e) {
     addCategoryOverlay(associationscasLink, 'Associations culturelles, artistiques et sportives', 'layer', 'marker', associationscasURL, taillePetitMarker, associationscasCount);
     associationscasCount += 1;
   }
+
+  if (categoryName ==  'Associations de solidarité et de sensibilisation') {
+    addCategoryOverlay(associationssolidariteLink, 'Associations de solidarité et de sensibilisation', 'layer', 'marker', associationssolidariteURL, taillePetitMarker, associationssolidariteCount);
+    associationssolidariteCount += 1;
+  }
   associationssolidariteLink.onclick = function (e) {
     addCategoryOverlay(associationssolidariteLink, 'Associations de solidarité et de sensibilisation', 'layer', 'marker', associationssolidariteURL, taillePetitMarker, associationssolidariteCount);
     associationssolidariteCount += 1;
   }
-  associationsLink.onclick = function (e) {
-    addCategoryOverlay(associationsLink, 'Autres', 'layer', 'marker', associationsURL, taillePetitMarker, associationsCount);
-    associationsCount += 1;
-  }
-
-  //////////////////////////////////  Divers ///////////////////////////////////////
-
-  // copieurLink.onclick = function (e) {
-  //   addCategoryOverlay(copieurLink, 'Copieur', 'layer', 'marker', copieursURL, tailleMarker, copieurCount);
-  //   copieurCount += 1;
-  // }
-  // espaceDetenteLink.onclick = function (e) {
-  //   addCategoryOverlay(espaceDetenteLink, 'Espace détente', 'layer', 'marker', espaceDetenteURL, tailleMarker, espaceDetenteCount);
-  //   espaceDetenteCount += 1;
-  // }
 
   //////////////////////////////////  Mobilité et accessibilité ///////////////////////////////////////
-
-  ascenseurLink.onclick = function (e) {
-    addCategoryOverlay(ascenseurLink, 'Ascenseur', 'layer', 'point', ascenseurColor, ascenseurIconSize, ascenseurCount);
+  if (categoryName ==  'Ascenseur') {
+    addCategoryOverlay(ascenseurLink, 'Ascenseur', 'layer', 'picto', ascenseurURL, tailleMarker, ascenseurCount);
     ascenseurCount += 1;
+  }
+  ascenseurLink.onclick = function (e) {
+    addCategoryOverlay(ascenseurLink, 'Ascenseur', 'layer', 'picto', ascenseurURL, taillePicto, ascenseurCount);
+    ascenseurCount += 1;
+  }
+
+  if (categoryName ==  'Parking') {
+    addCategoryOverlay(parkingLink, 'Parking', 'layer', 'picto', parkingURL, tailleMarker, parkingCount);
+    parkingCount += 1;
+    addCategoryOverlay(parkingLink, 'Parking PMR', 'layer', 'picto', parkingPMRURL, taillePicto, parkingPMRCount);
+    parkingPMRCount += 1;
   }
   parkingLink.onclick = function (e) {
     addCategoryOverlay(parkingLink, 'Parking', 'layer', 'picto', parkingURL, taillePicto, parkingCount);
@@ -700,15 +737,48 @@ function activateCategory(categoryName) {
     parkingPMRCount += 1;
   }
 
-
+  if (categoryName ==  'Parking vélo') {
+    addCategoryOverlay(parkingVeloLink, 'Parking vélo', 'layer', 'point', parkingVeloColor, parkingVeloIconSize, parkingVeloCount);
+    parkingVeloCount += 1;
+  }
   parkingVeloLink.onclick = function (e) {
     addCategoryOverlay(parkingVeloLink, 'Parking vélo', 'layer', 'point', parkingVeloColor, parkingVeloIconSize, parkingVeloCount);
     parkingVeloCount += 1;
   }
+
+  if (categoryName ==  'Cheminements accessibles') {
+    addCategoryOverlay(lineairePMRLink, 'Cheminements accessibles', 'layer', 'line', lineairePMRColor, tailleLine, lineairePMRCount);
+    lineairePMRCount += 1;
+  }
   lineairePMRLink.onclick = function (e) {
     addCategoryOverlay(lineairePMRLink, 'Cheminements accessibles', 'layer', 'line', lineairePMRColor, tailleLine, lineairePMRCount);
     lineairePMRCount += 1;
-    addCategoryOverlay(lineairePMRLink, 'Accès PMR', 'layer', 'point', accesPMRColor, accesPMRIconSize, accesPMRCount);
+  }
+
+  if (categoryName ==  'Entrée campus') {
+    addCategoryOverlay(entree_campusLink, 'Entrée campus', 'layer', 'picto', entree_campusURL,  taillePicto, entree_campusCount);
+    entree_campusCount += 1;
+  }
+  entree_campusLink.onclick = function (e) {
+    addCategoryOverlay(entree_campusLink, 'Entrée campus', 'layer', 'picto', entree_campusURL, taillePicto, entree_campusCount);
+    entree_campusCount += 1;
+    }
+
+  if (categoryName ==  'Entrée batiment') {
+    addCategoryOverlay(entree_batimentLink, 'Entrée batiment', 'layer', 'picto', entree_batimentURL,  taillePicto, entree_batimentCount);
+    entree_batimentCount += 1;
+  }  
+  entree_batimentLink.onclick = function (e) {
+    addCategoryOverlay(entree_batimentLink, 'Entrée batiment', 'layer', 'picto', entree_batimentURL, taillePicto, entree_batimentCount);
+    entree_batimentCount += 1;
+    }
+
+   if (categoryName ==  'Accès PMR') {
+    addCategoryOverlay(accesPMRLink, 'Accès PMR', 'layer', 'point', accesPMRColor, accesPMRIconSize, accesPMRCount);
+    accesPMRCount += 1;
+  }
+  accesPMRLink.onclick = function (e) {
+    addCategoryOverlay(accesPMRLink, 'Accès PMR', 'layer', 'point', accesPMRColor, accesPMRIconSize, accesPMRCount);
     accesPMRCount += 1;
   }
 
@@ -721,7 +791,8 @@ function activateCategory(categoryName) {
   velostarLink.onclick = function (e) {
     addCategoryOverlay(velostarLink, 'Station Vélostar', 'layer', 'point', velostarColor, taillePoint, velostarCount);
     velostarCount += 1;
-    setInterval(addRealTimeVelostar(), 1000);
+    addRealTimeVelostar();
+    console.log(velostarCount)
   }
   busLineLink.onclick = function (e) {
     addCategoryOverlay(busLineLink, 'Cheminements Bus', 'layer', 'line', busLineColor, tailleLine, busLineCount);
@@ -731,13 +802,9 @@ function activateCategory(categoryName) {
     addRealTimeBus();
   }
 
-
-// Couches en temps réel ?????????? //
-
-
-    }
-  });
-}
+}) 
+  };
+// }
 
 
 // Lorsque la page est chargée, récupérez le nom de la catégorie dans l'URL et activez la case à cocher correspondante
@@ -750,7 +817,227 @@ document.addEventListener('DOMContentLoaded', function() {
 
 /////////////////////////////////// fin code pour changer de catégories /////////////////////////////
 
+////////////////////////////////// URL pour les OBJETS  /////////////////////////////
+// //// via le bouton de recherche //// 
+// // Sélectionner le bouton de recherche
+const searchButton = document.querySelector('#searchButton');
 
+ 
+// Ajouter un gestionnaire d'événements au bouton de recherche
+searchButton.addEventListener('click', function() {
+  // Récupérer la valeur de la recherche à partir du champ de saisie
+  const campusButton = document.querySelector('#campus .btn-primary.active');
+let activeButtonName = '';
+campusButtons.forEach(function(button) {
+  if (button.classList.contains('active')) {
+    activeButtonName = button.textContent.trim();
+  }
+});
+  const selectedCampus = activeButtonName
+  const selectedCategory = getCategoryFromURL();
+  const selectedObjet = document.querySelector('#search-bar').value.trim();
+  // Vérifier si la valeur de la recherche n'est pas vide
+  if (selectedObjet !== '') {
+    // Créer un lien et mettre à jour l'URL en fonction de la valeur de la recherche
+    createLinkAndUpdateURL(selectedCampus, selectedCategory,selectedObjet);
+  }
+});
+
+////////////// URL vers page //////////////////////
+
+  /**
+   * Fonction pour obtenir le nom de l'objet à partir de l'URL
+   * @returns {string} Nom de l'objet
+   */
+  function getObjetFromURL() {
+    const urlParams = new URLSearchParams(window.location.search); // Récupérer les paramètres de l'URL
+    console.log(urlParams.get('objet'));
+    return urlParams.get('objet'); // Récupérer la valeur du paramètre de l'objet
+  }
+
+  // document.addEventListener('click', function() {
+  //   console.log('objet:', getObjetFromURL());
+  // });
+
+  /**
+ * Fonction pour afficher la popup correspondant à un objet et effectuer un zoom sur la popup
+ * @param {*} objetName 
+ */
+// avec le nouvel appel des données 
+function afficherPopupObjet(selectedObjet) {
+  //Définition des variables avant le fonction promise
+  var fproperties = [];
+  var POI = [];
+  var searchBarCrossPresence = null;
+  var searchValue = null;
+  var searchLayerId = 'SearchResult';
+  var searchLayerCount = 0;
+  var searchPopup = null;
+  var searchItem = [];
+  var searchX = null;
+  var searchY = null;
+  
+  
+  // nouvel appel grâce à la fonction d'AP
+  const getGeoJSON = (nomFichier) => fetch(nomFichier).then(res => res.json()).then(res => res.features);
+  
+  const geojsons = [
+  getGeoJSON("../data/filtre/acces_PMR.geojson"),
+  getGeoJSON("../data/filtre/amphi.geojson"),
+  getGeoJSON("../data/filtre/arret_bus_pts.geojson"),
+  getGeoJSON("../data/filtre/arret_metro_pts.geojson"),
+  getGeoJSON("../data/filtre/ascenseur.geojson"),
+  getGeoJSON("../data/filtre/asso_art_spor.geojson"),
+  getGeoJSON("../data/filtre/asso_filiere.geojson"),
+  getGeoJSON("../data/filtre/asso_mstr_doc.geojson"),
+  getGeoJSON("../data/filtre/asso_solidarite.geojson"),
+  getGeoJSON("../data/filtre/biblio.geojson"),
+  getGeoJSON("../data/filtre/cafet_distrib.geojson"),
+  getGeoJSON("../data/filtre/copieur.geojson"),
+  getGeoJSON("../data/filtre/entree_bat.geojson"), 
+  getGeoJSON("../data/filtre/entree_campus.geojson"),
+  getGeoJSON("../data/filtre/eqpmt_sportif.geojson"),
+  getGeoJSON("../data/filtre/esp_detente.geojson"),
+  getGeoJSON("../data/filtre/labo.geojson"),
+  getGeoJSON("../data/filtre/lieu_cultu.geojson"),
+  getGeoJSON("../data/filtre/micro_ondes.geojson"),
+  getGeoJSON("../data/filtre/oeuvres.geojson"),
+  getGeoJSON("../data/filtre/parking_velo.geojson"),
+  getGeoJSON("../data/filtre/parking_voiture.geojson"),
+  getGeoJSON("../data/filtre/resid_univ.geojson"),
+  getGeoJSON("../data/filtre/ru.geojson"),
+  getGeoJSON("../data/filtre/salle_e0.geojson"),
+  getGeoJSON("../data/filtre/salle_e1.geojson"),
+  getGeoJSON("../data/filtre/salle_e2.geojson"),
+  getGeoJSON("../data/filtre/salle_e3.geojson"),
+  getGeoJSON("../data/filtre/salle_e4.geojson"),
+  getGeoJSON("../data/filtre/salle_e5.geojson"),
+  getGeoJSON("../data/filtre/salle_e6.geojson"),
+  getGeoJSON("../data/filtre/salle_e7.geojson"),
+  getGeoJSON("../data/filtre/salle_info.geojson"),
+  getGeoJSON("../data/filtre/salle_spe.geojson"),
+  getGeoJSON("../data/filtre/sante.geojson"),
+  getGeoJSON("../data/filtre/scol.geojson"),
+  getGeoJSON("../data/filtre/services.geojson"),
+  getGeoJSON("../data/filtre/station_velostar.geojson"),
+  getGeoJSON("../data/filtre/wc.geojson"),
+  getGeoJSON("../data/fondcarte/lettre_batiment.geojson")
+  ];
+  
+  const finalGeoJSON = {
+  "type": "FeatureCollection",
+  "crs": {"type": "name", "properties": {"name": "urn:ogc:def:crs:OGC:1.3:CRS84"}}, //système de coordonnées
+  "features": []
+  };  
+  
+  Promise.all(geojsons).then(allGeoJsons => { //à l'intérieur de cette fonction se passe le regroupement des geojsons
+  
+  allGeoJsons.forEach(oneGeoJSON => {
+      finalGeoJSON.features.concat(oneGeoJSON.features);
+      
+    });
+
+  //Appeler la fonction qui gère les données fusionnées
+    finalGeoJSON.features = allGeoJsons // recup de l'objet avec ts les geojsons
+   var mergedFeatures = finalGeoJSON.features.reduce((acc, val) => acc.concat(val), []);
+    finalGeoJSON.features = mergedFeatures // transformation de l'objet pour correspondre à l'ancien fichier points.geojson
+    
+    POIBrut = finalGeoJSON // affectation de cette objet dans l'objet appelé par les couches dans le reste du code
+    
+    POI = POIBrut.features;
+      
+  
+  fproperties = finalGeoJSON.features.map(function (el) {
+    return el.properties;})
+    
+      // Récupérer les caractéristiques de l'objet à partir des données POIBrut
+      var features = POIBrut.features.filter(feature => feature.properties.Nom === selectedObjet);
+  
+    console.log("Caractéristiques trouvées pour l'objet:", features);
+    console.log('poibrut 1',POIBrut)
+  
+    // var features = POIBrut.features.filter(feature => feature.properties.Nom === objetName);  
+    
+    // Vérifier si des caractéristiques ont été trouvées pour l'objet
+    if (features.length > 0) {
+      console.log("ca fonctionne presque");
+      var feature = features[0]; // Prendre la première caractéristique trouvée
+      console.log("feature", feature);
+      getPopupContent(feature); // Récupérer le contenu de la popup
+
+
+      // var coordinates = feature.geometry.coordinates[0];
+      var coordinates = feature.geometry.coordinates[0]; 
+      //  popup.setLngLat(coordinates);
+
+      
+// console.log(coordinates);
+// popup.setLngLat(feature.geometry.coordinates);
+
+      // var coordinates = feature.geometry.coordinates; // Coordonnées de l'objet
+      console.log("coordinates", coordinates);
+
+
+
+    // Créez une nouvelle instance de Popup si elle n'est pas déjà définie
+    if (!popup) {
+      popup = new maplibregl.Popup({
+          offset: [0, -40], // Offset de la popup
+          closeButton: false // Bouton de fermeture de la popup
+      });
+  }
+
+  // Définir les coordonnées de la popup
+  popup.setLngLat(coordinates);
+
+
+
+      // Afficher la popup
+      popup = new maplibregl.Popup({
+        offset: [0, -40], // Offset de la popup
+        closeButton: false // Bouton de fermeture de la popup
+      })
+      .setLngLat(coordinates) // Définir les coordonnées de la popup
+      .setHTML('<h1>' + popupTitle + '</h1>' + popupContent) // Contenu HTML de la popup
+      .addTo(map); // Ajouter la popup à la carte
+  
+      // Définir les limites de la carte en fonction du campus
+      if (feature.properties.Campus === 'Mazier') {
+        map.setMaxBounds(mazierBounds); // Définir les limites de la carte pour le campus de Mazier  
+      } else {
+        map.setMaxBounds(rennesBounds); // Définir les limites de la carte pour les autres campus
+      }
+  
+      // Obtenir les dimensions de la carte
+      var width = map.getCanvas().clientWidth;
+      var height = map.getCanvas().clientHeight;
+  
+      // Convertir les coordonnées en pixels
+      var point = map.project(coordinates);
+  
+      // Effectuer un zoom sur la popup
+      map.flyTo({
+        center: map.unproject([point.x, point.y]), // Coordonnées du centre de la carte (non-décalé)
+        zoom: 15.75, // Niveau de zoom souhaité
+        essential: false // Cette animation est essentielle, elle ne peut pas être désactivée par l'utilisateur
+      });
+  
+      // Ajouter une épingle à la carte pour l'objet
+      addPointOverlay(selectedObjet, [1, 13, 0.1, 25, 1.5]); // ajuste les paramètres de taille de l'icône
+  
+    } else {
+      console.log("Aucune caractéristique trouvée pour l'objet:", selectedObjet);
+    }
+  });
+  }
+
+   // Lorsque la page se charge, récupérez le nom de l'objet dans l'URL et affichez la popup correspondante
+   document.addEventListener('DOMContentLoaded', function() {
+    const selectedObjet = getObjetFromURL();
+    if (selectedObjet) {
+      afficherPopupObjet(selectedObjet);
+    }
+  });
   ///////////////////////////////////////  Initialisation du fond de carte //////////////////////////////////
 
   // Adapter le zoom, et la largeur / placement des raccourcis spatiaux en fonction de l'écran
@@ -985,7 +1272,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Toilettes
   var toilettesCount = 0; // initialisation du compteur de clics
-  var toilettesLink = document.getElementById('Toilettes');
+  var toilettesLink = document.getElementById('wc');
   var toilettesURL = '../css/icons/layers_icons/wc_marker.png';
 
   // Copieurs
@@ -1028,10 +1315,10 @@ document.addEventListener('DOMContentLoaded', function() {
   var associationsmasterLink = document.getElementById('Associations de Masters et Doctorats');
   var associationsmasterURL = '../css/icons/layers_icons/association_marker2.png';
 
-  // Associations briochines
-  var associationsbriochinesCount = 0; // initialisation du compteur de clics
-  var associationsbriochinesLink = document.getElementById('Associations briochines');
-  var associationsbriochinesURL = '../css/icons/layers_icons/association_marker3.png';
+  // // Associations briochines
+  // var associationsbriochinesCount = 0; // initialisation du compteur de clics
+  // var associationsbriochinesLink = document.getElementById('Associations briochines');
+  // var associationsbriochinesURL = '../css/icons/layers_icons/association_marker3.png';
 
   // Associations culturelles, artistiques et sportives
   var associationscasCount = 0; // initialisation du compteur de clics
@@ -1043,16 +1330,15 @@ document.addEventListener('DOMContentLoaded', function() {
   var associationssolidariteLink = document.getElementById('Associations de solidarité et de sensibilisation');
   var associationssolidariteURL = '../css/icons/layers_icons/association_marker5.png';
 
-  // Associations autres
-  var associationsCount = 0; // initialisation du compteur de clics
-  var associationsLink = document.getElementById('Autres');
-  var associationsURL = '../css/icons/layers_icons/association_marker6.png';
+  // // Associations autres
+  // var associationsCount = 0; // initialisation du compteur de clics
+  // var associationsLink = document.getElementById('Autres');
+  // var associationsURL = '../css/icons/layers_icons/association_marker6.png';
 
   // Ascenseur
   var ascenseurCount = 0; // initialisation du compteur de clics
   var ascenseurLink = document.getElementById('Ascenseur');
-  var ascenseurColor = '#1da34a';
-  var ascenseurIconSize = [1.5, 13, 2, 22, 60];
+  var ascenseurURL = '../css/icons/layers_icons/ascenseur.png';
 
   // Parking
   var parkingCount = 0; // initialisation du compteur de clics
@@ -1069,6 +1355,15 @@ document.addEventListener('DOMContentLoaded', function() {
   var parkingVeloColor = 'purple';
   var parkingVeloIconSize = [1.5, 13, 2, 22, 60];
 
+   // Entrée campus
+   var entree_campusLink = document.getElementById('Entrée campus');
+   var entree_campusCount = 0; // initialisation du compteur de clics
+   var entree_campusURL = '../css/icons/layers_icons/entrée_campus_2.png';
+
+   // Entrée batiment
+   var entree_batimentLink = document.getElementById('Entrée batiment');
+   var entree_batimentCount = 0; // initialisation du compteur de clics
+   var entree_batimentURL = '../css/icons/layers_icons/entrée_campus_2.png';
 
   // Couche Pole santé et prévention
 
@@ -1088,13 +1383,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Lineaire PMR
   var lineairePMRCount = 0; // initialisation du compteur de clics
-  var lineairePMRLink = document.getElementById("Cheminements accessibles");
-  var lineairePMRColor = '#8D7F5F';
+  var lineairePMRLink = document.getElementById('Cheminements accessibles');
+  var lineairePMRColor = '#2b2f37';
   var lineairePMRType = 'line';
 
   // Accès PMR
+  var accesPMRLink = document.getElementById('Accès PMR');
   var accesPMRCount = 0; // initialisation du compteur de clics
-  var accesPMRColor = '#8D7F5F';
+  var accesPMRColor = '#2b2f37';
   var accesPMRIconSize = [1.5, 13, 2, 22, 60];
 
   // Lineaire Metro
@@ -1150,6 +1446,11 @@ document.addEventListener('DOMContentLoaded', function() {
   var FUFRLLinkState = null;
   setInterval(function () {
     FUFRLLinkState = FUFRLLink.nextElementSibling.className;
+  }, 500);
+
+  var FUFRALCLinkState = null;
+  setInterval(function () {
+    FUFRALCLinkState = FUFRALCLink.nextElementSibling.className;
   }, 500);
 
   var FUFRSHLinkState = null;
@@ -1610,6 +1911,8 @@ function addPictoFondDeCarte() {
         const iconName = feature.properties.icon;
         const iconImage = `../css/icons/iconfond/lettre_batiment/${iconName}.png`;
 
+  
+
         //Picto permanent escalier_arc_en_ciel
         if (!map.hasImage(iconName)) {
           map.loadImage(iconImage).then(response => {
@@ -1816,6 +2119,7 @@ function addPictoFondDeCarte() {
     });
   });
 }
+
 
 ////////// fin de la definition de la fonction addPictoFondDecarte() //////////
 
@@ -2404,12 +2708,12 @@ var popupContent = [];
       }
   
         // création du lien pour les objets lorsqu'on clique sur l'épingle 
-        const objetName = popupTitle.trim(); // Récupérer le nom de l'objet à partir du titre de la popup
-        const campus = getCampusFromURL(); // Récupérer le campus à partir de l'URL
+        const selectedObjet = popupTitle.trim(); // Récupérer le nom de l'objet à partir du titre de la popup
+        const selectedCampus = getCampusFromURL(); // Récupérer le campus à partir de l'URL
         const selectedCategory = getCategoryFromURL(); // Récupérer la catégorie à partir de l'URL
         
         // const objetId = feature.properties.id; // Récupérer l'id de l'objet
-        createLinkAndUpdateURL(campus, selectedCategory, objetName); // Appeler la fonction pour changer l'objet et l'URL
+        createLinkAndUpdateURL(selectedCampus, selectedCategory, selectedObjet); // Appeler la fonction pour changer l'objet et l'URL
 
   
     });
@@ -2547,7 +2851,7 @@ const geojsons = [
   getGeoJSON("../data/filtre/amphi.geojson"),
   getGeoJSON("../data/filtre/arret_bus_pts.geojson"),
   getGeoJSON("../data/filtre/arret_metro_pts.geojson"),
-  getGeoJSON("../data/filtre/ascenceur.geojson"),
+  getGeoJSON("../data/filtre/ascenseur.geojson"),
   getGeoJSON("../data/filtre/asso_art_spor.geojson"),
   getGeoJSON("../data/filtre/asso_filiere.geojson"),
   getGeoJSON("../data/filtre/asso_mstr_doc.geojson"),
@@ -2657,271 +2961,9 @@ Promise.all(geojsons).then(allGeoJsons => { //à l'intérieur de cette fonction 
     });
 });
 
-//////////////////////////////////// couches temps réel //////////////////////////////////////////////
-// Velostar
-  var geojsonVelos = null;
-  var previousDataVelos = {times: [], stations: []};
-  var prevInfo = null;
-  var velostarTRCount = 0;
-  var nomLayer = null;
-  var velostarLink = document.getElementById('Station Vélostar');
 
-////////// définition de la fonction addRealTimeVelostar //////////
-  function addRealTimeVelostar() {
-    velostarTRCount += 1;
-    if (velostarTRCount === 1) {
-      updateData();
 
-      function updateData() {
-        //Appel de l'API pour les vélos
-        $.ajax({
-          //URL de l'API
-          url: "https://data.explore.star.fr/api/records/1.0/search/?dataset=vls-stations-etat-tr&facet=nom&facet=etat&facet=nombreemplacementsactuels&facet=nombreemplacementsdisponibles&facet=nombrevelosdisponibles&format=geojson&rows=150",
 
-          //Type de données
-          dataType: "jsonp", //type de données attendu en réponse à la requête - utilisé pour les appels cross-domain
-          crossDomain: true, //la requête peut être exécutée depuis un domaine différent de celui de la page actuelle
-
-          //Méthode appelée si le téléchargement a fonctionné
-          success: function (geojson) {
-//                    console.log("Données téléchargées");
-            geojsonVelos = geojson; //stockage des données reçues dans geojsonVelos
-            saveBikeData();
-            if (nomLayer === null) {
-              showBikeData();
-            } else {
-              var visibility = map.getLayoutProperty(nomLayer, 'visibility');
-              if (visibility === 'visible') {
-                showBikeData();
-              } else {
-//                            console.log('données masquées')
-              }
-            }
-            ;
-            setTimeout(updateData, 60 * 1000);
-          },
-
-          //Méthode appelée lorsque le téléchargement a échoué
-          error: function () {
-            alert("Erreur lors du téléchargement des vélos !");
-          }
-        });
-      }
-      ;
-
-      function saveBikeData() {
-        //On change la structure des données pour simplifier l'utilisation
-        var stations = {};
-        var prevStationData = null;
-
-        // Pour chaque station de vélos dans les données récupérée
-        geojsonVelos.features.forEach(f => { 
-          stations[f.properties.nom] = f.properties;  // Stocke les propriétés de chaque station
-
-          //On compare avec le nombre de vélos précédent
-          if (previousDataVelos.stations.length > 0) {
-            // Calcule la différence de vélos disponibles par rapport aux données précédentes
-            f.properties.diff = f.properties.nombrevelosdisponibles - previousDataVelos.stations[previousDataVelos.stations.length - 1][f.properties.nom].nombrevelosdisponibles;
-          } else {
-            //Si aucune donnée précédente n'est disponible, initialise la différence à 0
-            f.properties.diff = 0;
-          }
-
-          //On met à jour l'affichage des infos si besoin
-          if (prevInfo && prevInfo === f.properties.nom) {
-            prevStationData = f;
-          }
-        });
-
-        // Ajoute le timestamp actuel et les données de stations au tableau des temps des données précédentes
-        previousDataVelos.times.push(Date.now());
-        previousDataVelos.stations.push(stations);
-        // Supprime les couches obsolètes de la liste des couches
-        Layers = Layers.filter(item => item != "bikes" + (previousDataVelos.times.length - 1));
-      }
-      ;
-
-      function showBikeData() {
-        //On supprime les données précédentes
-        if (previousDataVelos.times.length > 1) {
-          map.removeLayer("bikes" + (previousDataVelos.times.length - 1));
-        }
-
-        nomLayer = "bikes" + previousDataVelos.times.length; //On créé une nouvelle couche de données
-        Layers.push(nomLayer); //On l'ajoute à la liste Layers
-
-        map.addLayer({ //et on l'ajoute au canva map
-          id: nomLayer,
-          type: "circle",
-          source: {
-            type: "geojson",
-            data: geojsonVelos
-          },
-          filter: ["has", "diff"],
-          paint: {
-            "circle-radius": {'base': 1.5, 'stops': [[13, 5], [22, 60]]},
-            "circle-color": "green"
-          }
-        });
-      }
-      ;
-
-    } else { 
-      //ci-après : si la couche était visible, alors devient invisible et inversement.
-      var clickedLayer = this.textContent;
-      var visibility = map.getLayoutProperty(nomLayer, 'visibility');
-      if (visibility === 'visible') {
-//        	console.log("hey")
-        map.setLayoutProperty(nomLayer, 'visibility', 'none'); 
-        Layers = Layers.filter(item => item != nomLayer); // si la couche passe en invisible, la retire de Layers,
-      } else {
-        map.setLayoutProperty(nomLayer, 'visibility', 'visible');
-        Layers.push(nomLayer); // si la couche passe en visible l'ajoute à Layers
-      }
-    }
-    ;
-
-    map.on('click', function (e) {
-      var features = map.queryRenderedFeatures(e.point, {
-        layers: [nomLayer]
-      });
-      if (!features.length) {
-        return;
-      }
-      var feature = features[0];
-      popup = new maplibregl.Popup({
-        offset: [0, -15],
-        closeButton: false,
-      })
-              .setLngLat(feature.geometry.coordinates)
-              .setHTML('<h1> Station vélostar : ' + feature.properties.nom + '</h1><p>Nombre de vélos disponibles : ' + feature.properties.nombrevelosdisponibles + '<br>Nombre d\'emplacements disponibles : ' + feature.properties.nombreemplacementsdisponibles + '</p>')
-              .addTo(map);
-    });
-
-    map.on('mousemove', function (e) {
-      var features = map.queryRenderedFeatures(e.point, {layers: Layers});
-      map.getCanvas().style.cursor = (features.length) ? 'pointer' : '';
-    });
-  }
-////////// fin de la définition de la fonction addRealTimeVelostar //////////
-
-// Couche des BUS
-  var geojsonBus = null;
-  var previousDataBus = {times: [], stations: []};
-  var prevInfo = null;
-  var busTRCount = 0
-  var nomLayerBus = null
-  var busLink = document.getElementById('Bus');
-////////// définition de la fonction addRealTimeBus //////////
-  function addRealTimeBus() {
-    busTRCount += 1;
-    if (busTRCount === 1) {
-      updateBusData();
-      function updateBusData() {
-        //Appel de l'API pour les vélos
-        $.ajax({
-          //URL de l'API
-          url: "https://data.explore.star.fr/api/records/1.0/search/?dataset=tco-bus-vehicules-position-tr&facet=numerobus&facet=etat&facet=nomcourtligne&facet=sens&facet=destination&facet=ecartsecondes&format=geojson&rows=500",
-
-          //Type de données
-          dataType: "jsonp",
-          crossDomain: true,
-
-          //Méthode appelée lorsque le téléchargement a fonctionné
-          success: function (geojson) {
-//                    console.log("Données téléchargées");
-            geojsonBus = geojson;
-            saveBusData();
-            if (nomLayerBus === null) {
-              showBusData()
-            } else {
-              var visibility = map.getLayoutProperty(nomLayerBus, 'visibility');
-              if (visibility === 'visible') {
-                showBusData()
-              } else {
-//                            console.log('données masquées')
-              }
-            }
-            ;
-            setTimeout(updateBusData, 60 * 1000);
-          },
-
-          //Méthode appelée lorsque le téléchargement a échoué
-          error: function () {
-            alert("Erreur lors du téléchargement des bus !");
-          }
-        });
-      }
-      ;
-      function saveBusData() {
-        //On change la structure des données pour simplifier l'utilisation
-        var stations = {};
-        var prevStationData = null;
-
-        previousDataBus.times.push(Date.now());
-        previousDataBus.stations.push(stations);
-        Layers = Layers.filter(item => item != "bus" + (previousDataBus.times.length - 1));
-      }
-      function showBusData() {
-        //On supprime les données précédentes
-        if (previousDataBus.times.length > 1) {
-          map.removeLayer("bus" + (previousDataBus.times.length - 1));
-        }
-
-        //On créé un nouveau calque de données
-        nomLayerBus = "busTR" + previousDataBus.times.length;
-        Layers.push(nomLayerBus);
-        map.addLayer({
-          id: nomLayerBus,
-          type: "circle",
-          source: {
-            type: "geojson",
-            data: geojsonBus
-          },
-          filter: ['==', 'etat', 'En ligne'],
-          paint: {
-            "circle-radius": {'base': 1.7, 'stops': [[13, 5], [22, 60]]},
-            "circle-color": "#0066ff"
-          }
-        });
-      }
-      busCount += 1;
-    } else {
-      var clickedLayer = this.textContent;
-
-      var visibility = map.getLayoutProperty(nomLayerBus, 'visibility');
-      if (visibility === 'visible') {
-        map.setLayoutProperty(nomLayerBus, 'visibility', 'none');
-        Layers = Layers.filter(item => item != nomLayerBus);
-      } else {
-        map.setLayoutProperty(nomLayerBus, 'visibility', 'visible');
-        Layers.push(nomLayerBus);
-      }
-    }
-    ;
-
-    map.on('click', function (e) {
-      var features = map.queryRenderedFeatures(e.point, {
-        layers: [nomLayerBus]
-      });
-      if (!features.length) {
-        return;
-      }
-      var feature = features[0];
-      popup = new maplibregl.Popup({
-        offset: [0, -15],
-        closeButton: false,
-      })
-              .setLngLat(feature.geometry.coordinates)
-              .setHTML('<h1> Bus du réseau STAR </h1><p>Ligne : ' + feature.properties.nomcourtligne + '<br>A destination de : ' + feature.properties.destination + '</p>')
-              .addTo(map);
-    });
-    map.on('mousemove', function (e) {
-      var features = map.queryRenderedFeatures(e.point, {layers: Layers});
-      map.getCanvas().style.cursor = (features.length) ? 'pointer' : '';
-    });
-  }
-////////// fin de la définition de la fonction addRealTimeBus //////////
 
 //////////////////////////////////  Barre de recherche //////////////////////////////////////
 
@@ -2957,6 +2999,271 @@ Promise.all(geojsons).then(allGeoJsons => { //à l'intérieur de cette fonction 
 }); // fin de la fonction aggrégeant les geojsons. Je la fait se fermer un peu après la partie
 //concernant les couches car cela désactive la barre de recherche sinon
 
+//////////////////////////////////// couches temps réel //////////////////////////////////////////////
+// Velostar
+var geojsonVelos = null;
+var previousDataVelos = {times: [], stations: []};
+var prevInfo = null;
+var velostarTRCount = 0;
+var nomLayer = null;
+// var velostarLink = document.getElementById('Station Vélostar'); //déjà créé plus haut
+
+////////// définition de la fonction addRealTimeVelostar //////////
+function addRealTimeVelostar() {
+  velostarTRCount += 1;
+  if (velostarTRCount === 1) {
+    updateData();
+
+    function updateData() {
+      //Appel de l'API pour les vélos
+      $.ajax({
+        //URL de l'API
+        url: "https://data.explore.star.fr/api/records/1.0/search/?dataset=vls-stations-etat-tr&facet=nom&facet=etat&facet=nombreemplacementsactuels&facet=nombreemplacementsdisponibles&facet=nombrevelosdisponibles&format=geojson&rows=150",
+
+        //Type de données
+        dataType: "jsonp", //type de données attendu en réponse à la requête - utilisé pour les appels cross-domain
+        crossDomain: true, //la requête peut être exécutée depuis un domaine différent de celui de la page actuelle
+
+        //Méthode appelée si le téléchargement a fonctionné
+        success: function (geojson) {
+//                    console.log("Données téléchargées");
+          geojsonVelos = geojson; //stockage des données reçues dans geojsonVelos
+          saveBikeData();
+          if (nomLayer === null) {
+            showBikeData();
+          } else {
+            var visibility = map.getLayoutProperty(nomLayer, 'visibility');
+            if (visibility === 'visible') {
+              showBikeData();
+            } else {
+//                            console.log('données masquées')
+            }
+          }
+          ;
+          setTimeout(updateData, 60 * 1000);
+        },
+
+        //Méthode appelée lorsque le téléchargement a échoué
+        error: function () {
+          alert("Erreur lors du téléchargement des vélos !");
+        }
+      });
+    }
+    ;
+
+    function saveBikeData() {
+      //On change la structure des données pour simplifier l'utilisation
+      var stations = {};
+      var prevStationData = null;
+
+      // Pour chaque station de vélos dans les données récupérée
+      geojsonVelos.features.forEach(f => { 
+        stations[f.properties.nom] = f.properties;  // Stocke les propriétés de chaque station
+
+        //On compare avec le nombre de vélos précédent
+        if (previousDataVelos.stations.length > 0) {
+          // Calcule la différence de vélos disponibles par rapport aux données précédentes
+          f.properties.diff = f.properties.nombrevelosdisponibles - previousDataVelos.stations[previousDataVelos.stations.length - 1][f.properties.nom].nombrevelosdisponibles;
+        } else {
+          //Si aucune donnée précédente n'est disponible, initialise la différence à 0
+          f.properties.diff = 0;
+        }
+
+        //On met à jour l'affichage des infos si besoin
+        if (prevInfo && prevInfo === f.properties.nom) {
+          prevStationData = f;
+        }
+      });
+
+      // Ajoute le timestamp actuel et les données de stations au tableau des temps des données précédentes
+      previousDataVelos.times.push(Date.now());
+      previousDataVelos.stations.push(stations);
+      // Supprime les couches obsolètes de la liste des couches
+      Layers = Layers.filter(item => item != "bikes" + (previousDataVelos.times.length - 1));
+    }
+    ;
+
+    function showBikeData() {
+      //On supprime les données précédentes
+      if (previousDataVelos.times.length > 1) {
+        map.removeLayer("bikes" + (previousDataVelos.times.length - 1));
+      }
+
+      nomLayer = "bikes" + previousDataVelos.times.length; //On créé une nouvelle couche de données
+      Layers.push(nomLayer); //On l'ajoute à la liste Layers
+
+      map.addLayer({ //et on l'ajoute au canva map
+        id: nomLayer,
+        type: "circle",
+        source: {
+          type: "geojson",
+          data: geojsonVelos
+        },
+        filter: ["has", "diff"],
+        paint: {
+          "circle-radius": {'base': 1.5, 'stops': [[13, 5], [22, 60]]},
+          "circle-color": "green"
+        }
+      });
+    }
+    ;
+
+  } else { 
+    //ci-après : si la couche était visible, alors devient invisible et inversement.
+    var clickedLayer = this.textContent;
+    var visibility = map.getLayoutProperty(nomLayer, 'visibility');
+    if (visibility === 'visible') {
+//        	console.log("hey")
+      map.setLayoutProperty(nomLayer, 'visibility', 'none'); 
+      Layers = Layers.filter(item => item != nomLayer); // si la couche passe en invisible, la retire de Layers,
+    } else {
+      map.setLayoutProperty(nomLayer, 'visibility', 'visible');
+      Layers.push(nomLayer); // si la couche passe en visible l'ajoute à Layers
+    }
+  }
+  ;
+
+  map.on('click', function (e) {
+    var features = map.queryRenderedFeatures(e.point, {
+      layers: [nomLayer]
+    });
+    if (!features.length) {
+      return;
+    }
+    var feature = features[0];
+    popup = new maplibregl.Popup({
+      offset: [0, -15],
+      closeButton: false,
+    })
+            .setLngLat(feature.geometry.coordinates)
+            .setHTML('<h1> Station vélostar : ' + feature.properties.nom + '</h1><p>Nombre de vélos disponibles : ' + feature.properties.nombrevelosdisponibles + '<br>Nombre d\'emplacements disponibles : ' + feature.properties.nombreemplacementsdisponibles + '</p>')
+            .addTo(map);
+  });
+
+  map.on('mousemove', function (e) {
+    var features = map.queryRenderedFeatures(e.point, {layers: Layers});
+    map.getCanvas().style.cursor = (features.length) ? 'pointer' : '';
+  });
+}
+////////// fin de la définition de la fonction addRealTimeVelostar //////////
+
+// Couche des BUS
+var geojsonBus = null;
+var previousDataBus = {times: [], stations: []};
+var prevInfo = null;
+var busTRCount = 0
+var nomLayerBus = null
+// var busLink = document.getElementById('Bus'); // déjà appelé plus haut
+////////// définition de la fonction addRealTimeBus //////////
+function addRealTimeBus() {
+  busTRCount += 1;
+  if (busTRCount === 1) {
+    updateBusData();
+    function updateBusData() {
+      //Appel de l'API pour les vélos
+      $.ajax({
+        //URL de l'API
+        url: "https://data.explore.star.fr/api/records/1.0/search/?dataset=tco-bus-vehicules-position-tr&facet=numerobus&facet=etat&facet=nomcourtligne&facet=sens&facet=destination&facet=ecartsecondes&format=geojson&rows=500",
+
+        //Type de données
+        dataType: "jsonp",
+        crossDomain: true,
+
+        //Méthode appelée lorsque le téléchargement a fonctionné
+        success: function (geojson) {
+//                    console.log("Données téléchargées");
+          geojsonBus = geojson;
+          saveBusData();
+          if (nomLayerBus === null) {
+            showBusData()
+          } else {
+            var visibility = map.getLayoutProperty(nomLayerBus, 'visibility');
+            if (visibility === 'visible') {
+              showBusData()
+            } else {
+//                            console.log('données masquées')
+            }
+          }
+          ;
+          setTimeout(updateBusData, 60 * 1000);
+        },
+
+        //Méthode appelée lorsque le téléchargement a échoué
+        error: function () {
+          alert("Erreur lors du téléchargement des bus !");
+        }
+      });
+    }
+    ;
+    function saveBusData() {
+      //On change la structure des données pour simplifier l'utilisation
+      var stations = {};
+      var prevStationData = null;
+
+      previousDataBus.times.push(Date.now());
+      previousDataBus.stations.push(stations);
+      Layers = Layers.filter(item => item != "bus" + (previousDataBus.times.length - 1));
+    }
+    function showBusData() {
+      //On supprime les données précédentes
+      if (previousDataBus.times.length > 1) {
+        map.removeLayer("bus" + (previousDataBus.times.length - 1));
+      }
+
+      //On créé un nouveau calque de données
+      nomLayerBus = "busTR" + previousDataBus.times.length;
+      Layers.push(nomLayerBus);
+      map.addLayer({
+        id: nomLayerBus,
+        type: "circle",
+        source: {
+          type: "geojson",
+          data: geojsonBus
+        },
+        filter: ['==', 'etat', 'En ligne'],
+        paint: {
+          "circle-radius": {'base': 1.7, 'stops': [[13, 5], [22, 60]]},
+          "circle-color": "#0066ff"
+        }
+      });
+    }
+    busCount += 1;
+  } else {
+    var clickedLayer = this.textContent;
+
+    var visibility = map.getLayoutProperty(nomLayerBus, 'visibility');
+    if (visibility === 'visible') {
+      map.setLayoutProperty(nomLayerBus, 'visibility', 'none');
+      Layers = Layers.filter(item => item != nomLayerBus);
+    } else {
+      map.setLayoutProperty(nomLayerBus, 'visibility', 'visible');
+      Layers.push(nomLayerBus);
+    }
+  }
+  ;
+
+  map.on('click', function (e) {
+    var features = map.queryRenderedFeatures(e.point, {
+      layers: [nomLayerBus]
+    });
+    if (!features.length) {
+      return;
+    }
+    var feature = features[0];
+    popup = new maplibregl.Popup({
+      offset: [0, -15],
+      closeButton: false,
+    })
+            .setLngLat(feature.geometry.coordinates)
+            .setHTML('<h1> Bus du réseau STAR </h1><p>Ligne : ' + feature.properties.nomcourtligne + '<br>A destination de : ' + feature.properties.destination + '</p>')
+            .addTo(map);
+  });
+  map.on('mousemove', function (e) {
+    var features = map.queryRenderedFeatures(e.point, {layers: Layers});
+    map.getCanvas().style.cursor = (features.length) ? 'pointer' : '';
+  });
+}
+////////// fin de la définition de la fonction addRealTimeBus //////////
 
   ////////// définition de la fonction getSearchPopup //////////
   function getSearchPopup() {
@@ -3256,7 +3563,7 @@ Promise.all(geojsons).then(allGeoJsons => { //à l'intérieur de cette fonction 
     attributionContainer.appendChild(attributionLink4);
   }
 // ajout actions barre de recherche
-var searchButton = document.getElementById('searchButton');
+//var searchButton = document.getElementById('searchButton');
 var searchBarCrossPresence = null;
 
 searchButton.addEventListener('click', function (e) {
